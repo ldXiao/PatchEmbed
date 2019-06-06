@@ -14,7 +14,7 @@ download_project(
 # libigl
 option(LIBIGL_USE_STATIC_LIBRARY "Use libigl as static library" OFF)
 option(LIBIGL_WITH_ANTTWEAKBAR       "Use AntTweakBar"    OFF)
-option(LIBIGL_WITH_CGAL              "Use CGAL"           OFF)
+option(LIBIGL_WITH_CGAL              "Use CGAL"           ON)
 option(LIBIGL_WITH_COMISO            "Use CoMiso"         OFF)
 option(LIBIGL_WITH_CORK              "Use Cork"           OFF)
 option(LIBIGL_WITH_EMBREE            "Use Embree"         OFF)
@@ -41,5 +41,15 @@ add_executable(${PROJECT_NAME}_bin ${SRCFILES}
         src/hard_soft_nrosy.cpp
         src/hard_soft_nrosy.h
         src/map_UV_vector_field.cpp
-        src/map_UV_vector_field.h)
-target_link_libraries(${PROJECT_NAME}_bin igl::core igl::opengl_glfw igl::opengl_glfw_imgui)
+        src/map_UV_vector_field.h
+        src/CutMesh.cpp
+        src/CutMesh.h)
+target_link_libraries(${PROJECT_NAME}_bin igl::core  igl::cgal igl::opengl_glfw igl::opengl_glfw_imgui)
+add_executable(cuttest_bin src/main2.cpp)
+target_link_libraries(cuttest_bin igl::core igl::cgal igl::opengl igl::opengl_glfw)
+add_executable(cutmeshtest_bin
+        src/CutMeshTest.cpp
+        src/CutMesh.h
+        src/CutMesh.cpp
+        )
+target_link_libraries(cutmeshtest_bin igl::core igl::cgal igl::opengl igl::opengl_glfw)
