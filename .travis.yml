@@ -21,11 +21,11 @@ matrix:
             - g++-4.8
             - cmake
             - cmake-data
-#   - os: osx
-#     compiler: clang
-#     script:
-#       - git clone --recursive https://github.com/libigl/libigl.git ../libigl
-#       - mkdir build
-#       - cd build
-#       - cmake ../
-#       - make -j2
+   - os: osx
+     compiler: clang
+     script:
+       - git clone --recursive https://github.com/libigl/libigl.git ../libigl
+       - mkdir build
+       - cd build
+       - cmake ../
+       - make -j2
