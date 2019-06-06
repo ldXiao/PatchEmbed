@@ -1,4 +1,4 @@
-# Install script for directory: /Users/vector_cat/gits/gm-assignment-4-ldXiao/external/libigl/external/glfw
+# Install script for directory: /Users/vector_cat/gits/OTMapping/external/libigl/external/glfw
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -34,7 +34,7 @@ endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for each subdirectory.
-  include("/Users/vector_cat/gits/gm-assignment-4-ldXiao/cmake-build-debug/glfw/src/cmake_install.cmake")
+  include("/Users/vector_cat/gits/OTMapping/cmake-build-debug/glfw/src/cmake_install.cmake")
 
 endif()
 

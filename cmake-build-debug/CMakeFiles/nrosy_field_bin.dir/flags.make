@@ -6,5 +6,5 @@ CXX_FLAGS =  -fPIC -g   -std=gnu++11
 
 CXX_DEFINES = 
 
-CXX_INCLUDES = -I/Users/vector_cat/gits/gm-assignment-4-ldXiao/external/libigl/external/glad/include -I/Users/vector_cat/gits/gm-assignment-4-ldXiao/external/libigl/external/glfw/include -I/Users/vector_cat/gits/gm-assignment-4-ldXiao/external/libigl/external/libigl-imgui/. -I/Users/vector_cat/gits/gm-assignment-4-ldXiao/external/libigl/external/libigl-imgui/.. -I/Users/vector_cat/gits/gm-assignment-4-ldXiao/external/libigl/external/libigl-imgui/../imgui/examples -isystem /Users/vector_cat/gits/gm-assignment-4-ldXiao/external/libigl/cmake/../include -isystem /Users/vector_cat/gits/gm-assignment-4-ldXiao/external/libigl/cmake/../external/eigen 
+CXX_INCLUDES = -I/Users/vector_cat/gits/OTMapping/external/libigl/external/glad/include -I/Users/vector_cat/gits/OTMapping/external/libigl/external/glfw/include -I/Users/vector_cat/gits/OTMapping/external/libigl/external/libigl-imgui/. -I/Users/vector_cat/gits/OTMapping/external/libigl/external/libigl-imgui/.. -I/Users/vector_cat/gits/OTMapping/external/libigl/external/libigl-imgui/../imgui/examples -isystem /Users/vector_cat/gits/OTMapping/external/libigl/cmake/../include -isystem /Users/vector_cat/gits/OTMapping/external/libigl/cmake/../external/eigen 
 

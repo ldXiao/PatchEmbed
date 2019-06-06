@@ -265,8 +265,8 @@ CMakeFiles/nrosy_field_bin.dir/src/hard_soft_nrosy.cpp.o
  ../external/libigl/cmake/../external/eigen/Eigen/src/plugins/CommonCwiseUnaryOps.h
  ../external/libigl/cmake/../external/eigen/Eigen/src/plugins/MatrixCwiseBinaryOps.h
  ../external/libigl/cmake/../external/eigen/Eigen/src/plugins/MatrixCwiseUnaryOps.h
- /Users/vector_cat/gits/gm-assignment-4-ldXiao/src/hard_soft_nrosy.cpp
- /Users/vector_cat/gits/gm-assignment-4-ldXiao/src/hard_soft_nrosy.h
+ /Users/vector_cat/gits/OTMapping/src/hard_soft_nrosy.cpp
+ /Users/vector_cat/gits/OTMapping/src/hard_soft_nrosy.h
 CMakeFiles/nrosy_field_bin.dir/src/main.cpp.o
  ../external/libigl/cmake/../external/eigen/Eigen/Cholesky
  ../external/libigl/cmake/../external/eigen/Eigen/Core
@@ -765,9 +765,9 @@ CMakeFiles/nrosy_field_bin.dir/src/main.cpp.o
  ../external/libigl/external/libigl-imgui/../imgui/imconfig.h
  ../external/libigl/external/libigl-imgui/../imgui/imgui.h
  ../external/libigl/external/libigl-imgui/./imgui_fonts_droid_sans.h
- /Users/vector_cat/gits/gm-assignment-4-ldXiao/src/hard_soft_nrosy.h
- /Users/vector_cat/gits/gm-assignment-4-ldXiao/src/main.cpp
- /Users/vector_cat/gits/gm-assignment-4-ldXiao/src/scalar_from_vector.h
+ /Users/vector_cat/gits/OTMapping/src/hard_soft_nrosy.h
+ /Users/vector_cat/gits/OTMapping/src/main.cpp
+ /Users/vector_cat/gits/OTMapping/src/scalar_from_vector.h
 CMakeFiles/nrosy_field_bin.dir/src/map_UV_vector_field.cpp.o
  ../external/libigl/cmake/../external/eigen/Eigen/Cholesky
  ../external/libigl/cmake/../external/eigen/Eigen/Core
@@ -973,8 +973,8 @@ CMakeFiles/nrosy_field_bin.dir/src/map_UV_vector_field.cpp.o
  ../external/libigl/cmake/../include/igl/igl_inline.h
  ../external/libigl/cmake/../include/igl/local_basis.cpp
  ../external/libigl/cmake/../include/igl/local_basis.h
- /Users/vector_cat/gits/gm-assignment-4-ldXiao/src/map_UV_vector_field.cpp
- /Users/vector_cat/gits/gm-assignment-4-ldXiao/src/map_UV_vector_field.h
+ /Users/vector_cat/gits/OTMapping/src/map_UV_vector_field.cpp
+ /Users/vector_cat/gits/OTMapping/src/map_UV_vector_field.h
 CMakeFiles/nrosy_field_bin.dir/src/scalar_from_vector.cpp.o
  ../external/libigl/cmake/../external/eigen/Eigen/Cholesky
  ../external/libigl/cmake/../external/eigen/Eigen/Core
@@ -1270,5 +1270,5 @@ CMakeFiles/nrosy_field_bin.dir/src/scalar_from_vector.cpp.o
  ../external/libigl/cmake/../include/igl/squared_edge_lengths.h
  ../external/libigl/cmake/../include/igl/volume.cpp
  ../external/libigl/cmake/../include/igl/volume.h
- /Users/vector_cat/gits/gm-assignment-4-ldXiao/src/scalar_from_vector.cpp
- /Users/vector_cat/gits/gm-assignment-4-ldXiao/src/scalar_from_vector.h
+ /Users/vector_cat/gits/OTMapping/src/scalar_from_vector.cpp
+ /Users/vector_cat/gits/OTMapping/src/scalar_from_vector.h

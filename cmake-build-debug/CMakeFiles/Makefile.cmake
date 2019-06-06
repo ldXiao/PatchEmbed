@@ -88,7 +88,7 @@ set(CMAKE_MAKEFILE_PRODUCTS
 
 # Dependency information for all targets:
 set(CMAKE_DEPEND_INFO_FILES
-  "CMakeFiles/nrosy_field_bin.dir/DependInfo.cmake"
+  "CMakeFiles/otmapping_bin.dir/DependInfo.cmake"
   "glad/CMakeFiles/glad.dir/DependInfo.cmake"
   "glfw/src/CMakeFiles/glfw.dir/DependInfo.cmake"
   "imgui/CMakeFiles/imgui.dir/DependInfo.cmake"

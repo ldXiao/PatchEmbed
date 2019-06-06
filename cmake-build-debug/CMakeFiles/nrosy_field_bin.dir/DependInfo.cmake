@@ -4,10 +4,10 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_CXX
-  "/Users/vector_cat/gits/gm-assignment-4-ldXiao/src/hard_soft_nrosy.cpp" "/Users/vector_cat/gits/gm-assignment-4-ldXiao/cmake-build-debug/CMakeFiles/nrosy_field_bin.dir/src/hard_soft_nrosy.cpp.o"
-  "/Users/vector_cat/gits/gm-assignment-4-ldXiao/src/main.cpp" "/Users/vector_cat/gits/gm-assignment-4-ldXiao/cmake-build-debug/CMakeFiles/nrosy_field_bin.dir/src/main.cpp.o"
-  "/Users/vector_cat/gits/gm-assignment-4-ldXiao/src/map_UV_vector_field.cpp" "/Users/vector_cat/gits/gm-assignment-4-ldXiao/cmake-build-debug/CMakeFiles/nrosy_field_bin.dir/src/map_UV_vector_field.cpp.o"
-  "/Users/vector_cat/gits/gm-assignment-4-ldXiao/src/scalar_from_vector.cpp" "/Users/vector_cat/gits/gm-assignment-4-ldXiao/cmake-build-debug/CMakeFiles/nrosy_field_bin.dir/src/scalar_from_vector.cpp.o"
+  "/Users/vector_cat/gits/OTMapping/src/hard_soft_nrosy.cpp" "/Users/vector_cat/gits/OTMapping/cmake-build-debug/CMakeFiles/nrosy_field_bin.dir/src/hard_soft_nrosy.cpp.o"
+  "/Users/vector_cat/gits/OTMapping/src/main.cpp" "/Users/vector_cat/gits/OTMapping/cmake-build-debug/CMakeFiles/nrosy_field_bin.dir/src/main.cpp.o"
+  "/Users/vector_cat/gits/OTMapping/src/map_UV_vector_field.cpp" "/Users/vector_cat/gits/OTMapping/cmake-build-debug/CMakeFiles/nrosy_field_bin.dir/src/map_UV_vector_field.cpp.o"
+  "/Users/vector_cat/gits/OTMapping/src/scalar_from_vector.cpp" "/Users/vector_cat/gits/OTMapping/cmake-build-debug/CMakeFiles/nrosy_field_bin.dir/src/scalar_from_vector.cpp.o"
   )
 set(CMAKE_CXX_COMPILER_ID "AppleClang")
 
@@ -25,9 +25,9 @@ set(CMAKE_CXX_TARGET_INCLUDE_PATH
 
 # Targets to which this target links.
 set(CMAKE_TARGET_LINKED_INFO_FILES
-  "/Users/vector_cat/gits/gm-assignment-4-ldXiao/cmake-build-debug/imgui/CMakeFiles/imgui.dir/DependInfo.cmake"
-  "/Users/vector_cat/gits/gm-assignment-4-ldXiao/cmake-build-debug/glfw/src/CMakeFiles/glfw.dir/DependInfo.cmake"
-  "/Users/vector_cat/gits/gm-assignment-4-ldXiao/cmake-build-debug/glad/CMakeFiles/glad.dir/DependInfo.cmake"
+  "/Users/vector_cat/gits/OTMapping/cmake-build-debug/imgui/CMakeFiles/imgui.dir/DependInfo.cmake"
+  "/Users/vector_cat/gits/OTMapping/cmake-build-debug/glfw/src/CMakeFiles/glfw.dir/DependInfo.cmake"
+  "/Users/vector_cat/gits/OTMapping/cmake-build-debug/glad/CMakeFiles/glad.dir/DependInfo.cmake"
   )
 
 # Fortran module output directory.

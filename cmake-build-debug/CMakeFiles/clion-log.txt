@@ -1,8 +1,8 @@
-/Applications/CLion.app/Contents/bin/cmake/mac/bin/cmake -DCMAKE_BUILD_TYPE=Debug -G "CodeBlocks - Unix Makefiles" /Users/vector_cat/gits/gm-assignment-4-ldXiao
+/Applications/CLion.app/Contents/bin/cmake/mac/bin/cmake -DCMAKE_BUILD_TYPE=Debug -G "CodeBlocks - Unix Makefiles" /Users/vector_cat/gits/OTMapping
 -- Downloading/updating libigl
 -- Configuring done
 -- Generating done
--- Build files have been written to: /Users/vector_cat/gits/gm-assignment-4-ldXiao/external/.cache/libigl
+-- Build files have been written to: /Users/vector_cat/gits/OTMapping/external/.cache/libigl
 Scanning dependencies of target libigl-download
 [ 11%] Performing update step for 'libigl-download'
 [ 22%] No configure step for 'libigl-download'
@@ -30,4 +30,4 @@ CMake Deprecation Warning at external/libigl/external/glfw/CMakeLists.txt:10 (cm
 -- Creating target: igl::opengl_glfw_imgui (igl_opengl_glfw_imgui)
 -- Configuring done
 -- Generating done
--- Build files have been written to: /Users/vector_cat/gits/gm-assignment-4-ldXiao/cmake-build-debug
+-- Build files have been written to: /Users/vector_cat/gits/OTMapping/cmake-build-debug

@@ -6,5 +6,5 @@ C_FLAGS =  -fPIC -g
 
 C_DEFINES = 
 
-C_INCLUDES = -I/Users/vector_cat/gits/gm-assignment-4-ldXiao/external/libigl/external/glad/include 
+C_INCLUDES = -I/Users/vector_cat/gits/OTMapping/external/libigl/external/glad/include 
 

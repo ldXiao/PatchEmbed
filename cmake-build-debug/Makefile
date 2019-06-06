@@ -48,13 +48,25 @@ RM = /Applications/CLion.app/Contents/bin/cmake/mac/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /Users/vector_cat/gits/gm-assignment-4-ldXiao
+CMAKE_SOURCE_DIR = /Users/vector_cat/gits/OTMapping
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /Users/vector_cat/gits/gm-assignment-4-ldXiao/cmake-build-debug
+CMAKE_BINARY_DIR = /Users/vector_cat/gits/OTMapping/cmake-build-debug
 
 #=============================================================================
 # Targets provided globally by CMake.
+
+# Special rule for the target install/local
+install/local: preinstall
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Installing only the local directory..."
+	/Applications/CLion.app/Contents/bin/cmake/mac/bin/cmake -DCMAKE_INSTALL_LOCAL_ONLY=1 -P cmake_install.cmake
+.PHONY : install/local
+
+# Special rule for the target install/local
+install/local/fast: preinstall/fast
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Installing only the local directory..."
+	/Applications/CLion.app/Contents/bin/cmake/mac/bin/cmake -DCMAKE_INSTALL_LOCAL_ONLY=1 -P cmake_install.cmake
+.PHONY : install/local/fast
 
 # Special rule for the target install
 install: preinstall
@@ -77,18 +89,6 @@ list_install_components:
 list_install_components/fast: list_install_components
 
 .PHONY : list_install_components/fast
-
-# Special rule for the target install/local
-install/local: preinstall
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Installing only the local directory..."
-	/Applications/CLion.app/Contents/bin/cmake/mac/bin/cmake -DCMAKE_INSTALL_LOCAL_ONLY=1 -P cmake_install.cmake
-.PHONY : install/local
-
-# Special rule for the target install/local
-install/local/fast: preinstall/fast
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Installing only the local directory..."
-	/Applications/CLion.app/Contents/bin/cmake/mac/bin/cmake -DCMAKE_INSTALL_LOCAL_ONLY=1 -P cmake_install.cmake
-.PHONY : install/local/fast
 
 # Special rule for the target rebuild_cache
 rebuild_cache:
@@ -126,9 +126,9 @@ edit_cache/fast: edit_cache
 
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /Users/vector_cat/gits/gm-assignment-4-ldXiao/cmake-build-debug/CMakeFiles /Users/vector_cat/gits/gm-assignment-4-ldXiao/cmake-build-debug/CMakeFiles/progress.marks
+	$(CMAKE_COMMAND) -E cmake_progress_start /Users/vector_cat/gits/OTMapping/cmake-build-debug/CMakeFiles /Users/vector_cat/gits/OTMapping/cmake-build-debug/CMakeFiles/progress.marks
 	$(MAKE) -f CMakeFiles/Makefile2 all
-	$(CMAKE_COMMAND) -E cmake_progress_start /Users/vector_cat/gits/gm-assignment-4-ldXiao/cmake-build-debug/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /Users/vector_cat/gits/OTMapping/cmake-build-debug/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
@@ -157,17 +157,17 @@ depend:
 .PHONY : depend
 
 #=============================================================================
-# Target rules for targets named nrosy_field_bin
+# Target rules for targets named otmapping_bin
 
 # Build rule for target.
-nrosy_field_bin: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 nrosy_field_bin
-.PHONY : nrosy_field_bin
+otmapping_bin: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 otmapping_bin
+.PHONY : otmapping_bin
 
 # fast build rule for target.
-nrosy_field_bin/fast:
-	$(MAKE) -f CMakeFiles/nrosy_field_bin.dir/build.make CMakeFiles/nrosy_field_bin.dir/build
-.PHONY : nrosy_field_bin/fast
+otmapping_bin/fast:
+	$(MAKE) -f CMakeFiles/otmapping_bin.dir/build.make CMakeFiles/otmapping_bin.dir/build
+.PHONY : otmapping_bin/fast
 
 #=============================================================================
 # Target rules for targets named glad
@@ -214,7 +214,7 @@ src/hard_soft_nrosy.o: src/hard_soft_nrosy.cpp.o
 
 # target to build an object file
 src/hard_soft_nrosy.cpp.o:
-	$(MAKE) -f CMakeFiles/nrosy_field_bin.dir/build.make CMakeFiles/nrosy_field_bin.dir/src/hard_soft_nrosy.cpp.o
+	$(MAKE) -f CMakeFiles/otmapping_bin.dir/build.make CMakeFiles/otmapping_bin.dir/src/hard_soft_nrosy.cpp.o
 .PHONY : src/hard_soft_nrosy.cpp.o
 
 src/hard_soft_nrosy.i: src/hard_soft_nrosy.cpp.i
@@ -223,7 +223,7 @@ src/hard_soft_nrosy.i: src/hard_soft_nrosy.cpp.i
 
 # target to preprocess a source file
 src/hard_soft_nrosy.cpp.i:
-	$(MAKE) -f CMakeFiles/nrosy_field_bin.dir/build.make CMakeFiles/nrosy_field_bin.dir/src/hard_soft_nrosy.cpp.i
+	$(MAKE) -f CMakeFiles/otmapping_bin.dir/build.make CMakeFiles/otmapping_bin.dir/src/hard_soft_nrosy.cpp.i
 .PHONY : src/hard_soft_nrosy.cpp.i
 
 src/hard_soft_nrosy.s: src/hard_soft_nrosy.cpp.s
@@ -232,7 +232,7 @@ src/hard_soft_nrosy.s: src/hard_soft_nrosy.cpp.s
 
 # target to generate assembly for a file
 src/hard_soft_nrosy.cpp.s:
-	$(MAKE) -f CMakeFiles/nrosy_field_bin.dir/build.make CMakeFiles/nrosy_field_bin.dir/src/hard_soft_nrosy.cpp.s
+	$(MAKE) -f CMakeFiles/otmapping_bin.dir/build.make CMakeFiles/otmapping_bin.dir/src/hard_soft_nrosy.cpp.s
 .PHONY : src/hard_soft_nrosy.cpp.s
 
 src/main.o: src/main.cpp.o
@@ -241,7 +241,7 @@ src/main.o: src/main.cpp.o
 
 # target to build an object file
 src/main.cpp.o:
-	$(MAKE) -f CMakeFiles/nrosy_field_bin.dir/build.make CMakeFiles/nrosy_field_bin.dir/src/main.cpp.o
+	$(MAKE) -f CMakeFiles/otmapping_bin.dir/build.make CMakeFiles/otmapping_bin.dir/src/main.cpp.o
 .PHONY : src/main.cpp.o
 
 src/main.i: src/main.cpp.i
@@ -250,7 +250,7 @@ src/main.i: src/main.cpp.i
 
 # target to preprocess a source file
 src/main.cpp.i:
-	$(MAKE) -f CMakeFiles/nrosy_field_bin.dir/build.make CMakeFiles/nrosy_field_bin.dir/src/main.cpp.i
+	$(MAKE) -f CMakeFiles/otmapping_bin.dir/build.make CMakeFiles/otmapping_bin.dir/src/main.cpp.i
 .PHONY : src/main.cpp.i
 
 src/main.s: src/main.cpp.s
@@ -259,7 +259,7 @@ src/main.s: src/main.cpp.s
 
 # target to generate assembly for a file
 src/main.cpp.s:
-	$(MAKE) -f CMakeFiles/nrosy_field_bin.dir/build.make CMakeFiles/nrosy_field_bin.dir/src/main.cpp.s
+	$(MAKE) -f CMakeFiles/otmapping_bin.dir/build.make CMakeFiles/otmapping_bin.dir/src/main.cpp.s
 .PHONY : src/main.cpp.s
 
 src/map_UV_vector_field.o: src/map_UV_vector_field.cpp.o
@@ -268,7 +268,7 @@ src/map_UV_vector_field.o: src/map_UV_vector_field.cpp.o
 
 # target to build an object file
 src/map_UV_vector_field.cpp.o:
-	$(MAKE) -f CMakeFiles/nrosy_field_bin.dir/build.make CMakeFiles/nrosy_field_bin.dir/src/map_UV_vector_field.cpp.o
+	$(MAKE) -f CMakeFiles/otmapping_bin.dir/build.make CMakeFiles/otmapping_bin.dir/src/map_UV_vector_field.cpp.o
 .PHONY : src/map_UV_vector_field.cpp.o
 
 src/map_UV_vector_field.i: src/map_UV_vector_field.cpp.i
@@ -277,7 +277,7 @@ src/map_UV_vector_field.i: src/map_UV_vector_field.cpp.i
 
 # target to preprocess a source file
 src/map_UV_vector_field.cpp.i:
-	$(MAKE) -f CMakeFiles/nrosy_field_bin.dir/build.make CMakeFiles/nrosy_field_bin.dir/src/map_UV_vector_field.cpp.i
+	$(MAKE) -f CMakeFiles/otmapping_bin.dir/build.make CMakeFiles/otmapping_bin.dir/src/map_UV_vector_field.cpp.i
 .PHONY : src/map_UV_vector_field.cpp.i
 
 src/map_UV_vector_field.s: src/map_UV_vector_field.cpp.s
@@ -286,7 +286,7 @@ src/map_UV_vector_field.s: src/map_UV_vector_field.cpp.s
 
 # target to generate assembly for a file
 src/map_UV_vector_field.cpp.s:
-	$(MAKE) -f CMakeFiles/nrosy_field_bin.dir/build.make CMakeFiles/nrosy_field_bin.dir/src/map_UV_vector_field.cpp.s
+	$(MAKE) -f CMakeFiles/otmapping_bin.dir/build.make CMakeFiles/otmapping_bin.dir/src/map_UV_vector_field.cpp.s
 .PHONY : src/map_UV_vector_field.cpp.s
 
 src/scalar_from_vector.o: src/scalar_from_vector.cpp.o
@@ -295,7 +295,7 @@ src/scalar_from_vector.o: src/scalar_from_vector.cpp.o
 
 # target to build an object file
 src/scalar_from_vector.cpp.o:
-	$(MAKE) -f CMakeFiles/nrosy_field_bin.dir/build.make CMakeFiles/nrosy_field_bin.dir/src/scalar_from_vector.cpp.o
+	$(MAKE) -f CMakeFiles/otmapping_bin.dir/build.make CMakeFiles/otmapping_bin.dir/src/scalar_from_vector.cpp.o
 .PHONY : src/scalar_from_vector.cpp.o
 
 src/scalar_from_vector.i: src/scalar_from_vector.cpp.i
@@ -304,7 +304,7 @@ src/scalar_from_vector.i: src/scalar_from_vector.cpp.i
 
 # target to preprocess a source file
 src/scalar_from_vector.cpp.i:
-	$(MAKE) -f CMakeFiles/nrosy_field_bin.dir/build.make CMakeFiles/nrosy_field_bin.dir/src/scalar_from_vector.cpp.i
+	$(MAKE) -f CMakeFiles/otmapping_bin.dir/build.make CMakeFiles/otmapping_bin.dir/src/scalar_from_vector.cpp.i
 .PHONY : src/scalar_from_vector.cpp.i
 
 src/scalar_from_vector.s: src/scalar_from_vector.cpp.s
@@ -313,7 +313,7 @@ src/scalar_from_vector.s: src/scalar_from_vector.cpp.s
 
 # target to generate assembly for a file
 src/scalar_from_vector.cpp.s:
-	$(MAKE) -f CMakeFiles/nrosy_field_bin.dir/build.make CMakeFiles/nrosy_field_bin.dir/src/scalar_from_vector.cpp.s
+	$(MAKE) -f CMakeFiles/otmapping_bin.dir/build.make CMakeFiles/otmapping_bin.dir/src/scalar_from_vector.cpp.s
 .PHONY : src/scalar_from_vector.cpp.s
 
 # Help Target
@@ -322,12 +322,12 @@ help:
 	@echo "... all (the default if no target is provided)"
 	@echo "... clean"
 	@echo "... depend"
+	@echo "... install/local"
 	@echo "... install"
 	@echo "... list_install_components"
-	@echo "... install/local"
-	@echo "... nrosy_field_bin"
 	@echo "... rebuild_cache"
 	@echo "... install/strip"
+	@echo "... otmapping_bin"
 	@echo "... edit_cache"
 	@echo "... glad"
 	@echo "... glfw"

@@ -6,5 +6,5 @@ CXX_FLAGS =  -fPIC -g
 
 CXX_DEFINES = 
 
-CXX_INCLUDES = -I/Users/vector_cat/gits/gm-assignment-4-ldXiao/external/libigl/external/libigl-imgui/../imgui -I/Users/vector_cat/gits/gm-assignment-4-ldXiao/external/libigl/external/libigl-imgui/. -I/Users/vector_cat/gits/gm-assignment-4-ldXiao/external/libigl/external/libigl-imgui/.. -I/Users/vector_cat/gits/gm-assignment-4-ldXiao/external/libigl/external/libigl-imgui/../imgui/examples -I/Users/vector_cat/gits/gm-assignment-4-ldXiao/external/libigl/external/glad/include -I/Users/vector_cat/gits/gm-assignment-4-ldXiao/external/libigl/external/glfw/include 
+CXX_INCLUDES = -I/Users/vector_cat/gits/OTMapping/external/libigl/external/libigl-imgui/../imgui -I/Users/vector_cat/gits/OTMapping/external/libigl/external/libigl-imgui/. -I/Users/vector_cat/gits/OTMapping/external/libigl/external/libigl-imgui/.. -I/Users/vector_cat/gits/OTMapping/external/libigl/external/libigl-imgui/../imgui/examples -I/Users/vector_cat/gits/OTMapping/external/libigl/external/glad/include -I/Users/vector_cat/gits/OTMapping/external/libigl/external/glfw/include 
 

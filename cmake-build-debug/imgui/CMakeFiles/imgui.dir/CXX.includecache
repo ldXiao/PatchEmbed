@@ -122,27 +122,27 @@ stdint.h
 imgui_user.h
 ../external/libigl/external/libigl-imgui/../imgui/imgui_user.h
 
-/Users/vector_cat/gits/gm-assignment-4-ldXiao/external/libigl/external/imgui/examples/imgui_impl_glfw.cpp
+/Users/vector_cat/gits/OTMapping/external/libigl/external/imgui/examples/imgui_impl_glfw.cpp
 imgui.h
-/Users/vector_cat/gits/gm-assignment-4-ldXiao/external/libigl/external/imgui/examples/imgui.h
+/Users/vector_cat/gits/OTMapping/external/libigl/external/imgui/examples/imgui.h
 imgui_impl_glfw.h
-/Users/vector_cat/gits/gm-assignment-4-ldXiao/external/libigl/external/imgui/examples/imgui_impl_glfw.h
+/Users/vector_cat/gits/OTMapping/external/libigl/external/imgui/examples/imgui_impl_glfw.h
 GLFW/glfw3.h
 -
 GLFW/glfw3native.h
 -
 
-/Users/vector_cat/gits/gm-assignment-4-ldXiao/external/libigl/external/imgui/examples/imgui_impl_glfw.h
+/Users/vector_cat/gits/OTMapping/external/libigl/external/imgui/examples/imgui_impl_glfw.h
 
-/Users/vector_cat/gits/gm-assignment-4-ldXiao/external/libigl/external/imgui/imconfig.h
+/Users/vector_cat/gits/OTMapping/external/libigl/external/imgui/imconfig.h
 
-/Users/vector_cat/gits/gm-assignment-4-ldXiao/external/libigl/external/imgui/imgui.cpp
+/Users/vector_cat/gits/OTMapping/external/libigl/external/imgui/imgui.cpp
 stb_image.h
 -
 imgui.h
-/Users/vector_cat/gits/gm-assignment-4-ldXiao/external/libigl/external/imgui/imgui.h
+/Users/vector_cat/gits/OTMapping/external/libigl/external/imgui/imgui.h
 imgui_internal.h
-/Users/vector_cat/gits/gm-assignment-4-ldXiao/external/libigl/external/imgui/imgui_internal.h
+/Users/vector_cat/gits/OTMapping/external/libigl/external/imgui/imgui_internal.h
 ctype.h
 -
 stdio.h
@@ -152,7 +152,7 @@ stddef.h
 stdint.h
 -
 stb_textedit.h
-/Users/vector_cat/gits/gm-assignment-4-ldXiao/external/libigl/external/imgui/stb_textedit.h
+/Users/vector_cat/gits/OTMapping/external/libigl/external/imgui/stb_textedit.h
 Windows.h
 -
 windows.h
@@ -160,11 +160,11 @@ windows.h
 imm.h
 -
 imgui_user.inl
-/Users/vector_cat/gits/gm-assignment-4-ldXiao/external/libigl/external/imgui/imgui_user.inl
+/Users/vector_cat/gits/OTMapping/external/libigl/external/imgui/imgui_user.inl
 
-/Users/vector_cat/gits/gm-assignment-4-ldXiao/external/libigl/external/imgui/imgui.h
+/Users/vector_cat/gits/OTMapping/external/libigl/external/imgui/imgui.h
 imconfig.h
-/Users/vector_cat/gits/gm-assignment-4-ldXiao/external/libigl/external/imgui/imconfig.h
+/Users/vector_cat/gits/OTMapping/external/libigl/external/imgui/imconfig.h
 float.h
 -
 stdarg.h
@@ -178,11 +178,11 @@ assert.h
 stdint.h
 -
 imgui_user.h
-/Users/vector_cat/gits/gm-assignment-4-ldXiao/external/libigl/external/imgui/imgui_user.h
+/Users/vector_cat/gits/OTMapping/external/libigl/external/imgui/imgui_user.h
 
-/Users/vector_cat/gits/gm-assignment-4-ldXiao/external/libigl/external/imgui/imgui_demo.cpp
+/Users/vector_cat/gits/OTMapping/external/libigl/external/imgui/imgui_demo.cpp
 imgui.h
-/Users/vector_cat/gits/gm-assignment-4-ldXiao/external/libigl/external/imgui/imgui.h
+/Users/vector_cat/gits/OTMapping/external/libigl/external/imgui/imgui.h
 ctype.h
 -
 limits.h
@@ -198,11 +198,11 @@ stddef.h
 stdint.h
 -
 
-/Users/vector_cat/gits/gm-assignment-4-ldXiao/external/libigl/external/imgui/imgui_draw.cpp
+/Users/vector_cat/gits/OTMapping/external/libigl/external/imgui/imgui_draw.cpp
 imgui.h
-/Users/vector_cat/gits/gm-assignment-4-ldXiao/external/libigl/external/imgui/imgui.h
+/Users/vector_cat/gits/OTMapping/external/libigl/external/imgui/imgui.h
 imgui_internal.h
-/Users/vector_cat/gits/gm-assignment-4-ldXiao/external/libigl/external/imgui/imgui_internal.h
+/Users/vector_cat/gits/OTMapping/external/libigl/external/imgui/imgui_internal.h
 stdio.h
 -
 alloca.h
@@ -212,11 +212,11 @@ malloc.h
 stdlib.h
 -
 stb_rect_pack.h
-/Users/vector_cat/gits/gm-assignment-4-ldXiao/external/libigl/external/imgui/stb_rect_pack.h
+/Users/vector_cat/gits/OTMapping/external/libigl/external/imgui/stb_rect_pack.h
 stb_truetype.h
-/Users/vector_cat/gits/gm-assignment-4-ldXiao/external/libigl/external/imgui/stb_truetype.h
+/Users/vector_cat/gits/OTMapping/external/libigl/external/imgui/stb_truetype.h
 
-/Users/vector_cat/gits/gm-assignment-4-ldXiao/external/libigl/external/imgui/imgui_internal.h
+/Users/vector_cat/gits/OTMapping/external/libigl/external/imgui/imgui_internal.h
 stdio.h
 -
 stdlib.h
@@ -226,25 +226,25 @@ math.h
 limits.h
 -
 stb_textedit.h
-/Users/vector_cat/gits/gm-assignment-4-ldXiao/external/libigl/external/imgui/stb_textedit.h
+/Users/vector_cat/gits/OTMapping/external/libigl/external/imgui/stb_textedit.h
 
-/Users/vector_cat/gits/gm-assignment-4-ldXiao/external/libigl/external/imgui/stb_rect_pack.h
+/Users/vector_cat/gits/OTMapping/external/libigl/external/imgui/stb_rect_pack.h
 stdlib.h
 -
 assert.h
 -
 
-/Users/vector_cat/gits/gm-assignment-4-ldXiao/external/libigl/external/imgui/stb_textedit.h
+/Users/vector_cat/gits/OTMapping/external/libigl/external/imgui/stb_textedit.h
 string.h
 -
 
-/Users/vector_cat/gits/gm-assignment-4-ldXiao/external/libigl/external/imgui/stb_truetype.h
+/Users/vector_cat/gits/OTMapping/external/libigl/external/imgui/stb_truetype.h
 stb_truetype.h
-/Users/vector_cat/gits/gm-assignment-4-ldXiao/external/libigl/external/imgui/stb_truetype.h
+/Users/vector_cat/gits/OTMapping/external/libigl/external/imgui/stb_truetype.h
 stdio.h
 -
 stb_truetype.h
-/Users/vector_cat/gits/gm-assignment-4-ldXiao/external/libigl/external/imgui/stb_truetype.h
+/Users/vector_cat/gits/OTMapping/external/libigl/external/imgui/stb_truetype.h
 math.h
 -
 math.h
@@ -264,11 +264,11 @@ string.h
 string.h
 -
 
-/Users/vector_cat/gits/gm-assignment-4-ldXiao/external/libigl/external/libigl-imgui/imgui_impl_opengl3.cpp
+/Users/vector_cat/gits/OTMapping/external/libigl/external/libigl-imgui/imgui_impl_opengl3.cpp
 imgui.h
-/Users/vector_cat/gits/gm-assignment-4-ldXiao/external/libigl/external/libigl-imgui/imgui.h
+/Users/vector_cat/gits/OTMapping/external/libigl/external/libigl-imgui/imgui.h
 imgui_impl_opengl3.h
-/Users/vector_cat/gits/gm-assignment-4-ldXiao/external/libigl/external/libigl-imgui/imgui_impl_opengl3.h
+/Users/vector_cat/gits/OTMapping/external/libigl/external/libigl-imgui/imgui_impl_opengl3.h
 stdio.h
 -
 stddef.h

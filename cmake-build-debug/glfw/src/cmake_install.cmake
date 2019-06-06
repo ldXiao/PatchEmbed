@@ -1,4 +1,4 @@
-# Install script for directory: /Users/vector_cat/gits/gm-assignment-4-ldXiao/external/libigl/external/glfw/src
+# Install script for directory: /Users/vector_cat/gits/OTMapping/external/libigl/external/glfw/src
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)

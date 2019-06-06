@@ -7,8 +7,8 @@
 #include <igl/avg_edge_length.h>
 #include <igl/barycenter.h>
 #include <igl/local_basis.h>
-#include <igl/readOFF.h>
-//#include <igl/readOBJ.h>
+//#include <igl/readOFF.h>
+#include <igl/readOBJ.h>
 #include <igl/readDMAT.h>
 #include <igl/writeDMAT.h>
 #include <igl/opengl/glfw/imgui/ImGuiMenu.h>
@@ -283,213 +283,6 @@ bool key_down(igl::opengl::glfw::Viewer &viewer, unsigned char key, int modifier
             }
 
         }
-
-        if(key == '4') {
-            if(find_boundary(F, bnd)){
-                Eigen::MatrixXd bnd_uv;
-                igl::map_vertices_to_circle(V,bnd,bnd_uv);
-                igl::harmonic(V,F,bnd,bnd_uv,1,V_uv);
-
-//                std::cout << V_uv<< endl;
-                V_uv *= uv_scale;
-                V_uv_edit =V_uv;
-                if(!show_uv) {
-                    viewer.data().clear();
-                    viewer.data().set_mesh(V, F);
-                    viewer.data().set_texture(texture_I, texture_I, texture_I);
-                    Eigen::MatrixXd C;
-                    igl::jet(V_uv.col(0), true, C);
-                    viewer.data().set_colors(C);
-                    viewer.data().set_uv(V_uv);
-                    viewer.core.align_camera_center(V,F);
-                    viewer.data().show_texture = true;
-                }
-                else{
-                    viewer.data().clear();
-                    viewer.data().set_mesh(V_uv, F);
-                    viewer.data().set_texture(texture_I, texture_I, texture_I);
-                    Eigen::MatrixXd C;
-                    igl::jet(V_uv.col(0), true, C);
-                    viewer.data().set_colors(C);
-                    viewer.core.align_camera_center(V_uv,F);
-                    viewer.data().show_texture = true;
-                }
-            }
-        }
-
-        if(key == '5') {
-            if (find_boundary(F, bnd)) {
-                Eigen::VectorXi bnd_head(2, 1);
-                bnd_head(0) = bnd(0);
-                bnd_head(1) = bnd(round(bnd.size() / 2));
-                MatrixXd bnc_uv(2, 2);
-                bnc_uv << 0, 0, 1, 0;
-                igl::lscm(V, F, bnd_head, bnc_uv, V_uv);
-
-                // Scale the uv
-                V_uv *= uv_scale;
-                V_uv_edit =V_uv;
-                if (!show_uv) {
-                    viewer.data().clear();
-                    viewer.data().set_mesh(V, F);
-                    viewer.data().set_texture(texture_I, texture_I, texture_I);
-                    Eigen::MatrixXd C;
-                    igl::jet(V_uv.col(0), true, C);
-                    viewer.data().set_colors(C);
-                    viewer.data().set_uv(V_uv);
-                    viewer.core.align_camera_center(V,F);
-                    viewer.data().show_texture = true;
-                }
-                else{
-                    viewer.data().clear();
-                    viewer.data().set_mesh(V_uv,F);
-                    viewer.data().set_texture(texture_I, texture_I, texture_I);
-                    Eigen::MatrixXd C;
-                    igl::jet(V_uv.col(0), true, C);
-                    viewer.data().set_colors(C);
-                    viewer.core.align_camera_center(V_uv,F);
-                    viewer.data().show_texture = true;
-                }
-
-            }
-        }
-
-        if(key == '6') {
-            if (V_uv.rows()!= V.rows()){
-                std::cerr << "initiliaze first" << endl;
-            }
-            // calculate the gradient of V value on uv mesh
-            Eigen::VectorXd v(V_uv.rows());
-            for(int i =0 ; i < v.rows(); ++i){
-                v(i) = V_uv(i,1);
-            }
-            if(!show_uv) {
-                viewer.data().clear();
-                viewer.data().set_mesh(V, F);
-                viewer.data().set_texture(texture_I, texture_I, texture_I);
-                Eigen::MatrixXd C;
-                igl::jet(V_uv.col(0), true, C);
-                viewer.data().set_colors(C);
-                viewer.data().set_uv(V_uv);
-                viewer.core.align_camera_center(V,F);
-
-                Eigen::MatrixXd G_v = gradient_scalar(V, F, v);
-                G_v.rowwise().normalize();
-                Eigen::MatrixXd BC;
-                igl::barycenter(V, F, BC);
-                const RowVector3d red(1, 0, 0);
-                double avg = igl::avg_edge_length(V, F);
-                viewer.data().add_edges(BC, BC + G_v * (avg / 2), red);
-            }
-            else{
-                viewer.data().clear();
-                viewer.data().set_mesh(V_uv, F);
-                viewer.data().set_texture(texture_I, texture_I, texture_I);
-                Eigen::MatrixXd C;
-                igl::jet(V_uv.col(0), true, C);
-                viewer.data().set_colors(C);
-                viewer.core.align_camera_center(V_uv,F);
-
-                Eigen::MatrixXd V_uv3d(V_uv.rows(), 3);
-                for(int i =0; i< V_uv.rows(); ++i){
-                    V_uv3d(i,0) = V_uv(i,0);
-                    V_uv3d(i,1) = V_uv(i,1);
-                    V_uv3d(i,2) = 0;
-                }
-
-                Eigen::MatrixXd G_v = gradient_scalar(V_uv3d, F, v);
-                G_v.rowwise().normalize();
-                Eigen::MatrixXd BC;
-                igl::barycenter(V_uv3d, F, BC);
-                const RowVector3d red(1, 0, 0);
-                double avg = igl::avg_edge_length(V_uv3d, F);
-                viewer.data().add_edges(BC, BC + G_v * (avg / 2), red);
-            }
-
-
-        }
-
-        if(key == '7') {
-            // read the editd scalar from file
-            Eigen::MatrixXd s;
-            igl::readDMAT(file_body+".dmat", s);
-//            cout<< s<< endl;
-            // calculate the gradient
-            V_uv_edit = V_uv;
-
-            // replace v in uv mesh by s
-            for(int i=0; i< V_uv.rows(); ++i){
-                V_uv_edit(i, 1) = s(i,0) * uv_scale;
-            }
-            viewer.data().clear();
-            viewer.data().set_mesh(V, F);
-            viewer.data().set_texture(texture_I, texture_I, texture_I);
-            Eigen::MatrixXd C;
-            igl::jet(V_uv.col(1), true, C);
-            viewer.data().set_colors(C);
-            viewer.data().set_uv(V_uv_edit);
-            Eigen::MatrixXd Gs = gradient_scalar(V, F, s);
-            Gs.rowwise().normalize();
-            Eigen::MatrixXd BC;
-            igl::barycenter(V, F, BC);
-            const RowVector3d red(1, 0, 0);
-            double avg = igl::avg_edge_length(V, F);
-            viewer.data().add_edges(BC, BC + Gs * (avg / 2), red);
-            viewer.core.align_camera_center(V,F);
-            viewer.data().show_texture = true;
-        }
-
-        if(key == '8') {
-            if(V_uv_edit.rows()>0 and V_uv.rows()>0){
-                viewer.data().clear();
-                viewer.data().set_mesh(V, F);
-                std::vector<int> flip_idx = detect_flip(V_uv, V_uv_edit, F);
-                save_flips(file_body+".filps", flip_idx);
-                MatrixXd C = MatrixXd::Constant(F.rows(), 3, 1);
-                for (unsigned i = 0; i < flip_idx.size(); ++i) {
-                    C.row(flip_idx[i]) << 1, 0, 0;
-                    std::cout << flip_idx[i] << endl;
-                }
-
-
-                viewer.data().set_texture(texture_I, texture_I, texture_I);
-                viewer.data().set_uv(V_uv_edit);
-                viewer.data().set_colors(C);
-
-                viewer.core.align_camera_center(V,F);
-                viewer.data().show_texture = true;
-            }
-            else{
-                std::cerr <<"V_uv_edit,V_uv not initalized"<<endl;
-            }
-
-
-        }
-
-
-
-    }
-
-    if (key == '[' || key == ']') {
-        if (selected >= b.size() || selected < 0)
-            return false;
-
-        int i = b(selected);
-        Vector3d v = bc.row(selected);
-
-        double x = B1.row(i) * v;
-        double y = B2.row(i) * v;
-        double norm = sqrt(x * x + y * y);
-        double angle = atan2(y, x);
-
-        angle += key == '[' ? -M_PI / 16 : M_PI / 16;
-
-        double xj = cos(angle) * norm;
-        double yj = sin(angle) * norm;
-
-        bc.row(selected) = xj * B1.row(i) + yj * B2.row(i);
-        MatrixXd R = Hard_nrosy(V, F, TT, b, bc, N);
-        plot_mesh_nrosy(viewer, V, F, N, R, b);
     }
 
     if (key == 'Q' || key == 'W') {
@@ -501,19 +294,6 @@ bool key_down(igl::opengl::glfw::Viewer &viewer, unsigned char key, int modifier
         MatrixXd R = Hard_nrosy(V, F, TT, b, bc, N);
         plot_mesh_nrosy(viewer, V, F, N, R, b);
     }
-
-    if (key == 'E') {
-        if (selected >= b.size() || selected < 0)
-            return false;
-
-        b(selected) = b(b.rows() - 1);
-        b.conservativeResize(b.size() - 1);
-        bc.row(selected) = bc.row(bc.rows() - 1);
-        bc.conservativeResize(b.size() - 1, bc.cols());
-        MatrixXd R = Hard_nrosy(V, F, TT, b, bc, N);
-        plot_mesh_nrosy(viewer, V, F, N, R, b);
-    }
-
     return false;
 }
 
@@ -664,7 +444,7 @@ int main(int argc, char *argv[]) {
     using namespace std;
     using namespace Eigen;
     if (argc != 2) {
-        cout << "Usage ex2_bin mesh.off" << endl;
+        cout << "Usage ex2_bin mesh.obj" << endl;
         exit(0);
     }
 
@@ -677,7 +457,7 @@ int main(int argc, char *argv[]) {
 
     N = 1;
     // Load a mesh in OBJ format
-    igl::readOFF(argv[1], V, F);
+    igl::readOBJ(argv[1], V, F);
     line_texture();
     // Triangle-triangle adjacency
     igl::triangle_triangle_adjacency(F, TT, TTi);

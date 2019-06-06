@@ -6,7 +6,7 @@ C_FLAGS =  -fPIC -g -fPIC   -Wall
 
 C_DEFINES = -D_GLFW_USE_CONFIG_H
 
-C_INCLUDES = -I/Users/vector_cat/gits/gm-assignment-4-ldXiao/external/libigl/external/glfw/include -I/Users/vector_cat/gits/gm-assignment-4-ldXiao/external/libigl/external/glfw/src -I/Users/vector_cat/gits/gm-assignment-4-ldXiao/cmake-build-debug/glfw/src 
+C_INCLUDES = -I/Users/vector_cat/gits/OTMapping/external/libigl/external/glfw/include -I/Users/vector_cat/gits/OTMapping/external/libigl/external/glfw/src -I/Users/vector_cat/gits/OTMapping/cmake-build-debug/glfw/src 
 
 # Custom flags: glfw/src/CMakeFiles/glfw.dir/context.c.o_FLAGS = -Wdeclaration-after-statement
 

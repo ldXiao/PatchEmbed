@@ -61,7 +61,7 @@ add_library(igl::common INTERFACE IMPORTED)
 
 set_target_properties(igl::common PROPERTIES
   INTERFACE_COMPILE_FEATURES "cxx_std_11"
-  INTERFACE_INCLUDE_DIRECTORIES "/Users/vector_cat/gits/gm-assignment-4-ldXiao/external/libigl/cmake/../include;/Users/vector_cat/gits/gm-assignment-4-ldXiao/external/libigl/cmake/../external/eigen"
+  INTERFACE_INCLUDE_DIRECTORIES "/Users/vector_cat/gits/OTMapping/external/libigl/cmake/../include;/Users/vector_cat/gits/OTMapping/external/libigl/cmake/../external/eigen"
 )
 
 # This file does not depend on other imported targets which have

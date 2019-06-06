@@ -43,10 +43,10 @@ RM = /Applications/CLion.app/Contents/bin/cmake/mac/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /Users/vector_cat/gits/gm-assignment-4-ldXiao
+CMAKE_SOURCE_DIR = /Users/vector_cat/gits/OTMapping
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /Users/vector_cat/gits/gm-assignment-4-ldXiao/cmake-build-debug
+CMAKE_BINARY_DIR = /Users/vector_cat/gits/OTMapping/cmake-build-debug
 
 # Include any dependencies generated for this target.
 include CMakeFiles/nrosy_field_bin.dir/depend.make
@@ -59,55 +59,55 @@ include CMakeFiles/nrosy_field_bin.dir/flags.make
 
 CMakeFiles/nrosy_field_bin.dir/src/hard_soft_nrosy.cpp.o: CMakeFiles/nrosy_field_bin.dir/flags.make
 CMakeFiles/nrosy_field_bin.dir/src/hard_soft_nrosy.cpp.o: ../src/hard_soft_nrosy.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/vector_cat/gits/gm-assignment-4-ldXiao/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/nrosy_field_bin.dir/src/hard_soft_nrosy.cpp.o"
-	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/nrosy_field_bin.dir/src/hard_soft_nrosy.cpp.o -c /Users/vector_cat/gits/gm-assignment-4-ldXiao/src/hard_soft_nrosy.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/vector_cat/gits/OTMapping/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/nrosy_field_bin.dir/src/hard_soft_nrosy.cpp.o"
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/nrosy_field_bin.dir/src/hard_soft_nrosy.cpp.o -c /Users/vector_cat/gits/OTMapping/src/hard_soft_nrosy.cpp
 
 CMakeFiles/nrosy_field_bin.dir/src/hard_soft_nrosy.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/nrosy_field_bin.dir/src/hard_soft_nrosy.cpp.i"
-	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/vector_cat/gits/gm-assignment-4-ldXiao/src/hard_soft_nrosy.cpp > CMakeFiles/nrosy_field_bin.dir/src/hard_soft_nrosy.cpp.i
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/vector_cat/gits/OTMapping/src/hard_soft_nrosy.cpp > CMakeFiles/nrosy_field_bin.dir/src/hard_soft_nrosy.cpp.i
 
 CMakeFiles/nrosy_field_bin.dir/src/hard_soft_nrosy.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/nrosy_field_bin.dir/src/hard_soft_nrosy.cpp.s"
-	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/vector_cat/gits/gm-assignment-4-ldXiao/src/hard_soft_nrosy.cpp -o CMakeFiles/nrosy_field_bin.dir/src/hard_soft_nrosy.cpp.s
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/vector_cat/gits/OTMapping/src/hard_soft_nrosy.cpp -o CMakeFiles/nrosy_field_bin.dir/src/hard_soft_nrosy.cpp.s
 
 CMakeFiles/nrosy_field_bin.dir/src/main.cpp.o: CMakeFiles/nrosy_field_bin.dir/flags.make
 CMakeFiles/nrosy_field_bin.dir/src/main.cpp.o: ../src/main.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/vector_cat/gits/gm-assignment-4-ldXiao/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/nrosy_field_bin.dir/src/main.cpp.o"
-	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/nrosy_field_bin.dir/src/main.cpp.o -c /Users/vector_cat/gits/gm-assignment-4-ldXiao/src/main.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/vector_cat/gits/OTMapping/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/nrosy_field_bin.dir/src/main.cpp.o"
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/nrosy_field_bin.dir/src/main.cpp.o -c /Users/vector_cat/gits/OTMapping/src/main.cpp
 
 CMakeFiles/nrosy_field_bin.dir/src/main.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/nrosy_field_bin.dir/src/main.cpp.i"
-	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/vector_cat/gits/gm-assignment-4-ldXiao/src/main.cpp > CMakeFiles/nrosy_field_bin.dir/src/main.cpp.i
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/vector_cat/gits/OTMapping/src/main.cpp > CMakeFiles/nrosy_field_bin.dir/src/main.cpp.i
 
 CMakeFiles/nrosy_field_bin.dir/src/main.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/nrosy_field_bin.dir/src/main.cpp.s"
-	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/vector_cat/gits/gm-assignment-4-ldXiao/src/main.cpp -o CMakeFiles/nrosy_field_bin.dir/src/main.cpp.s
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/vector_cat/gits/OTMapping/src/main.cpp -o CMakeFiles/nrosy_field_bin.dir/src/main.cpp.s
 
 CMakeFiles/nrosy_field_bin.dir/src/map_UV_vector_field.cpp.o: CMakeFiles/nrosy_field_bin.dir/flags.make
 CMakeFiles/nrosy_field_bin.dir/src/map_UV_vector_field.cpp.o: ../src/map_UV_vector_field.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/vector_cat/gits/gm-assignment-4-ldXiao/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/nrosy_field_bin.dir/src/map_UV_vector_field.cpp.o"
-	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/nrosy_field_bin.dir/src/map_UV_vector_field.cpp.o -c /Users/vector_cat/gits/gm-assignment-4-ldXiao/src/map_UV_vector_field.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/vector_cat/gits/OTMapping/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/nrosy_field_bin.dir/src/map_UV_vector_field.cpp.o"
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/nrosy_field_bin.dir/src/map_UV_vector_field.cpp.o -c /Users/vector_cat/gits/OTMapping/src/map_UV_vector_field.cpp
 
 CMakeFiles/nrosy_field_bin.dir/src/map_UV_vector_field.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/nrosy_field_bin.dir/src/map_UV_vector_field.cpp.i"
-	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/vector_cat/gits/gm-assignment-4-ldXiao/src/map_UV_vector_field.cpp > CMakeFiles/nrosy_field_bin.dir/src/map_UV_vector_field.cpp.i
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/vector_cat/gits/OTMapping/src/map_UV_vector_field.cpp > CMakeFiles/nrosy_field_bin.dir/src/map_UV_vector_field.cpp.i
 
 CMakeFiles/nrosy_field_bin.dir/src/map_UV_vector_field.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/nrosy_field_bin.dir/src/map_UV_vector_field.cpp.s"
-	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/vector_cat/gits/gm-assignment-4-ldXiao/src/map_UV_vector_field.cpp -o CMakeFiles/nrosy_field_bin.dir/src/map_UV_vector_field.cpp.s
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/vector_cat/gits/OTMapping/src/map_UV_vector_field.cpp -o CMakeFiles/nrosy_field_bin.dir/src/map_UV_vector_field.cpp.s
 
 CMakeFiles/nrosy_field_bin.dir/src/scalar_from_vector.cpp.o: CMakeFiles/nrosy_field_bin.dir/flags.make
 CMakeFiles/nrosy_field_bin.dir/src/scalar_from_vector.cpp.o: ../src/scalar_from_vector.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/vector_cat/gits/gm-assignment-4-ldXiao/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/nrosy_field_bin.dir/src/scalar_from_vector.cpp.o"
-	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/nrosy_field_bin.dir/src/scalar_from_vector.cpp.o -c /Users/vector_cat/gits/gm-assignment-4-ldXiao/src/scalar_from_vector.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/vector_cat/gits/OTMapping/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/nrosy_field_bin.dir/src/scalar_from_vector.cpp.o"
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/nrosy_field_bin.dir/src/scalar_from_vector.cpp.o -c /Users/vector_cat/gits/OTMapping/src/scalar_from_vector.cpp
 
 CMakeFiles/nrosy_field_bin.dir/src/scalar_from_vector.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/nrosy_field_bin.dir/src/scalar_from_vector.cpp.i"
-	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/vector_cat/gits/gm-assignment-4-ldXiao/src/scalar_from_vector.cpp > CMakeFiles/nrosy_field_bin.dir/src/scalar_from_vector.cpp.i
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/vector_cat/gits/OTMapping/src/scalar_from_vector.cpp > CMakeFiles/nrosy_field_bin.dir/src/scalar_from_vector.cpp.i
 
 CMakeFiles/nrosy_field_bin.dir/src/scalar_from_vector.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/nrosy_field_bin.dir/src/scalar_from_vector.cpp.s"
-	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/vector_cat/gits/gm-assignment-4-ldXiao/src/scalar_from_vector.cpp -o CMakeFiles/nrosy_field_bin.dir/src/scalar_from_vector.cpp.s
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/vector_cat/gits/OTMapping/src/scalar_from_vector.cpp -o CMakeFiles/nrosy_field_bin.dir/src/scalar_from_vector.cpp.s
 
 # Object files for target nrosy_field_bin
 nrosy_field_bin_OBJECTS = \
@@ -128,7 +128,7 @@ nrosy_field_bin: imgui/libimgui.a
 nrosy_field_bin: glfw/src/libglfw3.a
 nrosy_field_bin: glad/libglad.a
 nrosy_field_bin: CMakeFiles/nrosy_field_bin.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/Users/vector_cat/gits/gm-assignment-4-ldXiao/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Linking CXX executable nrosy_field_bin"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/Users/vector_cat/gits/OTMapping/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Linking CXX executable nrosy_field_bin"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/nrosy_field_bin.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.
@@ -141,6 +141,6 @@ CMakeFiles/nrosy_field_bin.dir/clean:
 .PHONY : CMakeFiles/nrosy_field_bin.dir/clean
 
 CMakeFiles/nrosy_field_bin.dir/depend:
-	cd /Users/vector_cat/gits/gm-assignment-4-ldXiao/cmake-build-debug && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /Users/vector_cat/gits/gm-assignment-4-ldXiao /Users/vector_cat/gits/gm-assignment-4-ldXiao /Users/vector_cat/gits/gm-assignment-4-ldXiao/cmake-build-debug /Users/vector_cat/gits/gm-assignment-4-ldXiao/cmake-build-debug /Users/vector_cat/gits/gm-assignment-4-ldXiao/cmake-build-debug/CMakeFiles/nrosy_field_bin.dir/DependInfo.cmake --color=$(COLOR)
+	cd /Users/vector_cat/gits/OTMapping/cmake-build-debug && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /Users/vector_cat/gits/OTMapping /Users/vector_cat/gits/OTMapping /Users/vector_cat/gits/OTMapping/cmake-build-debug /Users/vector_cat/gits/OTMapping/cmake-build-debug /Users/vector_cat/gits/OTMapping/cmake-build-debug/CMakeFiles/nrosy_field_bin.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : CMakeFiles/nrosy_field_bin.dir/depend
 

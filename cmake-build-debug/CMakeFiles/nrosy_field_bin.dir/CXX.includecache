@@ -3590,11 +3590,25 @@ imgui_user.h
 
 ../external/libigl/external/libigl-imgui/./imgui_fonts_droid_sans.h
 
-/Users/vector_cat/gits/gm-assignment-4-ldXiao/src/hard_soft_nrosy.h
+/Users/vector_cat/gits/OTMapping/src/hard_soft_nrosy.cpp
+hard_soft_nrosy.h
+/Users/vector_cat/gits/OTMapping/src/hard_soft_nrosy.h
+Eigen/Geometry
+-
+Eigen/Sparse
+-
+Eigen/SparseCholesky
+-
+Eigen/Eigenvalues
+-
+iostream
+-
+
+/Users/vector_cat/gits/OTMapping/src/hard_soft_nrosy.h
 Eigen/Core
 -
 
-/Users/vector_cat/gits/gm-assignment-4-ldXiao/src/main.cpp
+/Users/vector_cat/gits/OTMapping/src/main.cpp
 igl/avg_edge_length.h
 -
 igl/barycenter.h
@@ -3622,9 +3636,9 @@ igl/grad.h
 fstream
 -
 hard_soft_nrosy.h
-/Users/vector_cat/gits/gm-assignment-4-ldXiao/src/hard_soft_nrosy.h
+/Users/vector_cat/gits/OTMapping/src/hard_soft_nrosy.h
 scalar_from_vector.h
-/Users/vector_cat/gits/gm-assignment-4-ldXiao/src/scalar_from_vector.h
+/Users/vector_cat/gits/OTMapping/src/scalar_from_vector.h
 igl/boundary_loop.h
 -
 igl/harmonic.h
@@ -3638,9 +3652,9 @@ igl/readOFF.h
 igl/opengl/glfw/Viewer.h
 -
 
-/Users/vector_cat/gits/gm-assignment-4-ldXiao/src/map_UV_vector_field.cpp
+/Users/vector_cat/gits/OTMapping/src/map_UV_vector_field.cpp
 map_UV_vector_field.h
-/Users/vector_cat/gits/gm-assignment-4-ldXiao/src/map_UV_vector_field.h
+/Users/vector_cat/gits/OTMapping/src/map_UV_vector_field.h
 Eigen/Core
 -
 igl/local_basis.h
@@ -3648,13 +3662,13 @@ igl/local_basis.h
 iostream
 -
 
-/Users/vector_cat/gits/gm-assignment-4-ldXiao/src/map_UV_vector_field.h
+/Users/vector_cat/gits/OTMapping/src/map_UV_vector_field.h
 Eigen/Core
 -
 
-/Users/vector_cat/gits/gm-assignment-4-ldXiao/src/scalar_from_vector.cpp
+/Users/vector_cat/gits/OTMapping/src/scalar_from_vector.cpp
 scalar_from_vector.h
-/Users/vector_cat/gits/gm-assignment-4-ldXiao/src/scalar_from_vector.h
+/Users/vector_cat/gits/OTMapping/src/scalar_from_vector.h
 Eigen/Geometry
 -
 Eigen/Sparse
@@ -3674,7 +3688,7 @@ igl/jet.h
 iostream
 -
 
-/Users/vector_cat/gits/gm-assignment-4-ldXiao/src/scalar_from_vector.h
+/Users/vector_cat/gits/OTMapping/src/scalar_from_vector.h
 Eigen/Core
 -
 
