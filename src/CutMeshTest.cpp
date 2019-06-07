@@ -4,6 +4,7 @@
 #include "CutMesh.h"
 #include <igl/readOBJ.h>
 #include <igl/opengl/glfw/Viewer.h>
+#include <math.h>
 // Mesh
 Eigen::MatrixXd V;
 Eigen::MatrixXi F;
@@ -17,10 +18,13 @@ int main(int argc, char *argv[]){
         cout << "Usage cutmeshtest_bin mesh.obj" << endl;
         exit(0);
     }
-    std::cout << "hello shit" << std::endl;
+    std::cout << "holy shit" << std::endl;
     // Load a mesh in OBJ format
     igl::readOBJ(argv[1], V, F);
     igl::opengl::glfw::Viewer viewer;
-    viewer.data().set_mesh(V, F);
+    CutMesh CM;
+    auto func = [](Eigen::Vector3d x)->double{return std::sin(x[0]+x[1]+x[2]);};
+    CM.set_initial(V, F, 1000, func);
+    CM.plot_CutMesh(viewer,"aha");
     viewer.launch();
 }

@@ -10,15 +10,16 @@
 #include <igl/opengl/glfw/Viewer.h>
 #include <Eigen/StdVector>
 #include <vector>
+#include <functional>
 class CutMesh {
 public:
     Eigen::MatrixXd Vertices;
     Eigen::MatrixXi Faces;
 
-    Eigen::MatrixXd sampleInitial;
-    Eigen::MatrixXd samplePost;
-    Eigen::VectorXd sample_vals;
-    int samples_nums;
+    Eigen::MatrixXd SampleInitial;
+    Eigen::MatrixXd SamplePost;
+    Eigen::VectorXd SampleVals;
+    int SampleNum;
 
     std::vector<std::unique_ptr<Eigen::MatrixXd> >  ComponentsVertices;
     std::vector<std::unique_ptr<Eigen::MatrixXi> > ComponentsFaces;
@@ -28,9 +29,10 @@ public:
     Eigen::MatrixXd TransportPlan;
     Eigen::VectorXd u;
     Eigen::VectorXd v;
-    void SetInitial(const int, Eigen::MatrixXd, Eigen::MatrixXi);
-    void CutWith(Eigen::Matrix3d p0,Eigen::Matrix3d n0, Eigen::Matrix3d p1, Eigen::Matrix3d n1);
-    void PlotCutMesh(igl::opengl::glfw::Viewer &viewer, std::string options);
+    void plot_CutMesh(igl::opengl::glfw::Viewer &viewer, std::string options);
+    void set_initial(const Eigen::MatrixXd &, const Eigen::MatrixXi &, const int,  std::function<double(Eigen::Vector3d) >);
+    void cut_with(Eigen::Matrix3d p0,Eigen::Matrix3d n0, Eigen::Matrix3d p1, Eigen::Matrix3d n1);
+
 
 private:
     Eigen::MatrixXd _sample0;
