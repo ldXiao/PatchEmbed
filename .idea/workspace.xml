@@ -2,40 +2,40 @@
 <project version="4">
   <component name="CMakeRunConfigurationManager" shouldGenerate="true" shouldDeleteObsolete="true" buildAllGenerated="true">
     <generated>
+      <config projectName="otmapping" targetName="ExperimentalBuild" />
       <config projectName="otmapping" targetName="Experimental" />
       <config projectName="otmapping" targetName="ExperimentalMemCheck" />
-      <config projectName="otmapping" targetName="imgui" />
-      <config projectName="otmapping" targetName="ExperimentalCoverage" />
-      <config projectName="otmapping" targetName="ExperimentalUpdate" />
-      <config projectName="otmapping" targetName="NightlyUpdate" />
-      <config projectName="otmapping" targetName="otmapping_bin" />
-      <config projectName="otmapping" targetName="NightlyStart" />
-      <config projectName="otmapping" targetName="ContinuousTest" />
-      <config projectName="otmapping" targetName="NightlyMemoryCheck" />
-      <config projectName="otmapping" targetName="ContinuousConfigure" />
-      <config projectName="otmapping" targetName="Continuous" />
-      <config projectName="otmapping" targetName="NightlyCoverage" />
-      <config projectName="otmapping" targetName="ContinuousSubmit" />
       <config projectName="otmapping" targetName="ContinuousStart" />
-      <config projectName="otmapping" targetName="ExperimentalConfigure" />
       <config projectName="otmapping" targetName="NightlyMemCheck" />
-      <config projectName="otmapping" targetName="ExperimentalBuild" />
-      <config projectName="otmapping" targetName="ExperimentalTest" />
-      <config projectName="otmapping" targetName="ContinuousMemCheck" />
-      <config projectName="otmapping" targetName="ContinuousUpdate" />
-      <config projectName="otmapping" targetName="glfw" />
+      <config projectName="otmapping" targetName="ExperimentalUpdate" />
+      <config projectName="otmapping" targetName="otmapping_bin" />
+      <config projectName="otmapping" targetName="glad" />
+      <config projectName="otmapping" targetName="ContinuousTest" />
       <config projectName="otmapping" targetName="cuttest_bin" />
       <config projectName="otmapping" targetName="NightlyConfigure" />
+      <config projectName="otmapping" targetName="ExperimentalTest" />
+      <config projectName="otmapping" targetName="imgui" />
+      <config projectName="otmapping" targetName="ExperimentalCoverage" />
       <config projectName="otmapping" targetName="NightlyBuild" />
+      <config projectName="otmapping" targetName="NightlyCoverage" />
+      <config projectName="otmapping" targetName="Continuous" />
       <config projectName="otmapping" targetName="ExperimentalStart" />
+      <config projectName="otmapping" targetName="glfw" />
+      <config projectName="otmapping" targetName="NightlyMemoryCheck" />
+      <config projectName="otmapping" targetName="ContinuousCoverage" />
+      <config projectName="otmapping" targetName="ContinuousBuild" />
+      <config projectName="otmapping" targetName="ExperimentalSubmit" />
+      <config projectName="otmapping" targetName="ContinuousUpdate" />
       <config projectName="otmapping" targetName="cutmeshtest_bin" />
+      <config projectName="otmapping" targetName="ContinuousMemCheck" />
+      <config projectName="otmapping" targetName="NightlyTest" />
+      <config projectName="otmapping" targetName="NightlyUpdate" />
+      <config projectName="otmapping" targetName="ExperimentalConfigure" />
       <config projectName="otmapping" targetName="Nightly" />
       <config projectName="otmapping" targetName="NightlySubmit" />
-      <config projectName="otmapping" targetName="glad" />
-      <config projectName="otmapping" targetName="ContinuousBuild" />
-      <config projectName="otmapping" targetName="ContinuousCoverage" />
-      <config projectName="otmapping" targetName="ExperimentalSubmit" />
-      <config projectName="otmapping" targetName="NightlyTest" />
+      <config projectName="otmapping" targetName="NightlyStart" />
+      <config projectName="otmapping" targetName="ContinuousConfigure" />
+      <config projectName="otmapping" targetName="ContinuousSubmit" />
     </generated>
   </component>
   <component name="CMakeSettings">
@@ -45,6 +45,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="295248be-c225-463f-a6b6-c526a188320c" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/CutMesh.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/CutMesh.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/CutMesh.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/CutMesh.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/CutMeshTest.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/CutMeshTest.cpp" afterDir="false" />
@@ -61,34 +62,39 @@
     <session id="985261744">
       <usages-collector id="statistics.lifecycle.project">
         <counts>
-          <entry key="project.open.time.1" value="1" />
-          <entry key="project.opened" value="1" />
+          <entry key="project.closed" value="1" />
+          <entry key="project.open.time.1" value="2" />
+          <entry key="project.open.time.11" value="1" />
+          <entry key="project.opened" value="3" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
         <counts>
           <entry key="Core" value="1" />
-          <entry key="cpp" value="16" />
+          <entry key="cpp" value="21" />
           <entry key="gitignore" value="1" />
-          <entry key="h" value="13" />
+          <entry key="h" value="26" />
+          <entry key="map" value="1" />
+          <entry key="memory" value="1" />
           <entry key="obj" value="2" />
           <entry key="txt" value="4" />
-          <entry key="yml" value="1" />
+          <entry key="utility" value="1" />
+          <entry key="yml" value="2" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.open">
         <counts>
           <entry key="CMakeLists.txt" value="4" />
-          <entry key="ObjectiveC" value="30" />
+          <entry key="ObjectiveC" value="51" />
           <entry key="PLAIN_TEXT" value="3" />
-          <entry key="YAML" value="1" />
+          <entry key="YAML" value="2" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
-          <entry key="cpp" value="2483" />
+          <entry key="cpp" value="5928" />
           <entry key="gitignore" value="2" />
-          <entry key="h" value="1946" />
+          <entry key="h" value="2687" />
           <entry key="obj" value="34" />
           <entry key="txt" value="190" />
         </counts>
@@ -96,19 +102,19 @@
       <usages-collector id="statistics.file.types.edit">
         <counts>
           <entry key="CMakeLists.txt" value="190" />
-          <entry key="ObjectiveC" value="4429" />
+          <entry key="ObjectiveC" value="8615" />
           <entry key="PLAIN_TEXT" value="36" />
         </counts>
       </usages-collector>
     </session>
   </component>
   <component name="FileEditorManager">
-    <leaf>
-      <file pinned="false" current-in-tab="true">
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/CutMesh.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="201">
-              <caret line="26" column="55" selection-start-line="26" selection-start-column="55" selection-end-line="26" selection-end-column="55" />
+            <state relative-caret-position="1436">
+              <caret line="106" column="2" lean-forward="true" selection-start-line="106" selection-start-column="2" selection-end-line="106" selection-end-column="2" />
               <folding>
                 <element signature="e#42#62#0" expanded="true" />
               </folding>
@@ -117,36 +123,69 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/external/libigl/include/igl/random_points_on_mesh.cpp">
+        <entry file="file:///Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1/map">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-296">
-              <caret line="18" column="26" lean-forward="true" selection-start-line="18" selection-start-column="26" selection-end-line="18" selection-end-column="26" />
+            <state relative-caret-position="155">
+              <caret line="1112" column="25" selection-start-line="1112" selection-start-column="25" selection-end-line="1112" selection-end-column="25" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/CutMesh.h">
+        <entry file="file://$PROJECT_DIR$/external/libigl/external/eigen/Eigen/src/Core/Random.h">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="51">
-              <caret line="41" column="29" lean-forward="true" selection-start-line="41" selection-start-column="29" selection-end-line="41" selection-end-column="29" />
+            <state relative-caret-position="136">
+              <caret line="96" column="20" selection-start-line="96" selection-start-column="20" selection-end-line="96" selection-end-column="20" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/external/libigl/include/igl/opengl/glfw/Viewer.h">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-291">
+              <caret line="137" column="25" selection-start-line="137" selection-start-column="25" selection-end-line="137" selection-end-column="25" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/external/libigl/include/igl/opengl/glfw/Viewer.cpp">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="228">
+              <caret line="918" column="33" lean-forward="true" selection-start-line="918" selection-start-column="33" selection-end-line="918" selection-end-column="33" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/external/libigl/external/eigen/Eigen/src/Core/DenseCoeffsBase.h">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="130">
+              <caret line="393" selection-start-line="393" selection-end-line="393" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main2.cpp">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-360">
+              <caret line="18" column="21" selection-start-line="18" selection-start-column="21" selection-end-line="18" selection-end-column="21" />
               <folding>
-                <element signature="e#100#121#0" expanded="true" />
+                <element signature="e#95#138#0" expanded="true" />
+                <marker date="1559854799012" expanded="true" signature="1323:1562" ph="{...}" />
+                <marker date="1559854799012" expanded="true" signature="1604:1708" ph="{...}" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/hard_soft_nrosy.cpp">
-          <provider selected="true" editor-type-id="text-editor" />
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/CutMeshTest.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="276">
-              <caret line="27" column="15" selection-start-line="27" selection-start-column="15" selection-end-line="27" selection-end-column="15" />
+            <state relative-caret-position="217">
+              <caret line="53" column="30" lean-forward="true" selection-start-line="53" selection-start-column="30" selection-end-line="53" selection-end-column="30" />
               <folding>
                 <element signature="e#41#61#0" expanded="true" />
               </folding>
@@ -155,20 +194,21 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/hard_soft_nrosy.h">
-          <provider selected="true" editor-type-id="text-editor" />
+        <entry file="file://$PROJECT_DIR$/src/hard_soft_nrosy.cpp">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="50">
+              <caret line="20" column="13" lean-forward="true" selection-start-line="20" selection-start-column="13" selection-end-line="20" selection-end-column="13" />
+            </state>
+          </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main.cpp">
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/CutMesh.h">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-657">
-              <caret line="497" column="44" lean-forward="true" selection-start-line="497" selection-start-column="44" selection-end-line="497" selection-end-column="44" />
+            <state relative-caret-position="590">
+              <caret line="64" column="35" lean-forward="true" selection-start-line="64" selection-start-column="35" selection-end-line="64" selection-end-column="35" />
               <folding>
-                <element signature="e#267#299#0" expanded="true" />
-                <element signature="e#384#408#0" expanded="true" />
-                <element signature="e#12850#13174#0" />
-                <element signature="e#13176#13405#0" />
+                <element signature="e#100#121#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -178,7 +218,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>'1'</find>
       <find>V,</find>
       <find>OFF</find>
       <find>decimated-knight</find>
@@ -196,6 +235,19 @@
       <find>[]</find>
       <find>key</find>
       <find>main(</find>
+      <find>set_from_tr</find>
+      <find>std::make_unique</find>
+      <find>make_uni</find>
+      <find>half_</find>
+      <find>set</find>
+      <find>selected_data_in</find>
+      <find>load_mesh</find>
+      <find>sele</find>
+      <find>load_</find>
+      <find>load_me</find>
+      <find>next_da</find>
+      <find>selected</find>
+      <find>emplace</find>
     </findStrings>
     <replaceStrings>
       <replace>OBJ</replace>
@@ -217,9 +269,9 @@
         <option value="$PROJECT_DIR$/CMakeLists.txt" />
         <option value="$PROJECT_DIR$/src/main2.cpp" />
         <option value="$PROJECT_DIR$/.travis.yml" />
-        <option value="$PROJECT_DIR$/src/CutMesh.h" />
-        <option value="$PROJECT_DIR$/src/CutMeshTest.cpp" />
         <option value="$PROJECT_DIR$/src/CutMesh.cpp" />
+        <option value="$PROJECT_DIR$/src/CutMeshTest.cpp" />
+        <option value="$PROJECT_DIR$/src/CutMesh.h" />
       </list>
     </option>
   </component>
@@ -230,11 +282,9 @@
     <sorting>DEFINITION_ORDER</sorting>
   </component>
   <component name="OCFindUsagesOptions" text="true" ivars="false" properties="true" derivedClasses="false" />
-  <component name="ProjectFrameBounds">
-    <option name="x" value="51" />
-    <option name="y" value="23" />
+  <component name="ProjectFrameBounds" extendedState="6" fullScreen="true">
     <option name="width" value="1280" />
-    <option name="height" value="777" />
+    <option name="height" value="800" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectView">
@@ -242,7 +292,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -279,6 +328,7 @@
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -523,37 +573,39 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1559838285725</updated>
-      <workItem from="1559838287251" duration="29490000" />
+      <workItem from="1559838287251" duration="29756000" />
+      <workItem from="1559870546564" duration="13664000" />
+      <workItem from="1559940475502" duration="13240000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="29490000" />
+    <option name="totallyTimeSpent" value="56660000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="51" y="23" width="1280" height="777" extended-state="0" />
+    <frame x="0" y="0" width="1280" height="800" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info id="Favorites" side_tool="true" />
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.24959612" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.25767368" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
-      <window_info anchor="bottom" id="Database Changes" show_stripe_button="false" />
-      <window_info anchor="bottom" id="Version Control" show_stripe_button="false" />
-      <window_info anchor="bottom" id="Messages" sideWeight="0.49192247" weight="0.329927" />
-      <window_info anchor="bottom" id="Terminal" sideWeight="0.4983845" weight="0.329927" />
-      <window_info anchor="bottom" id="Event Log" sideWeight="0.5072698" side_tool="true" visible="true" weight="0.329927" />
-      <window_info anchor="bottom" id="CMake" sideWeight="0.4983845" weight="0.329927" />
+      <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.4927302" visible="true" weight="0.329927" />
-      <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
+      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.4450727" visible="true" weight="0.32876712" />
+      <window_info anchor="bottom" id="Debug" order="3" sideWeight="0.49353796" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" />
-      <window_info anchor="right" id="Database" />
+      <window_info anchor="bottom" id="Database Changes" order="7" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Messages" order="8" sideWeight="0.44103393" weight="0.32876712" />
+      <window_info anchor="bottom" id="Terminal" order="9" sideWeight="0.4983845" weight="0.329927" />
+      <window_info anchor="bottom" id="Event Log" order="10" sideWeight="0.5549273" side_tool="true" visible="true" weight="0.32876712" />
+      <window_info anchor="bottom" id="Version Control" order="11" show_stripe_button="false" />
+      <window_info anchor="bottom" id="CMake" order="12" sideWeight="0.48142165" weight="0.32876712" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
+      <window_info anchor="right" id="Database" order="3" />
     </layout>
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -561,6 +613,57 @@
   </component>
   <component name="VcsContentAnnotationSettings">
     <option name="myLimit" value="2678400000" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
+          <url>file://$PROJECT_DIR$/src/CutMeshTest.cpp</url>
+          <line>30</line>
+          <option name="timeStamp" value="14" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
+          <url>file://$PROJECT_DIR$/src/CutMeshTest.cpp</url>
+          <line>49</line>
+          <option name="timeStamp" value="15" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
+          <url>file://$PROJECT_DIR$/src/CutMeshTest.cpp</url>
+          <line>44</line>
+          <option name="timeStamp" value="16" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
+          <url>file://$PROJECT_DIR$/src/CutMeshTest.cpp</url>
+          <line>42</line>
+          <option name="timeStamp" value="17" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
+          <url>file://$PROJECT_DIR$/src/CutMeshTest.cpp</url>
+          <line>41</line>
+          <option name="timeStamp" value="18" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
+          <url>file://$PROJECT_DIR$/src/CutMeshTest.cpp</url>
+          <line>43</line>
+          <option name="timeStamp" value="19" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
+          <url>file://$PROJECT_DIR$/src/CutMeshTest.cpp</url>
+          <line>45</line>
+          <option name="timeStamp" value="20" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
+          <url>file://$PROJECT_DIR$/src/CutMeshTest.cpp</url>
+          <line>46</line>
+          <option name="timeStamp" value="21" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
+          <url>file://$PROJECT_DIR$/src/CutMeshTest.cpp</url>
+          <line>48</line>
+          <option name="timeStamp" value="22" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/.gitignore">
@@ -591,24 +694,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/external/libigl/external/eigen/Eigen/src/Core/DenseCoeffsBase.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="131">
-          <caret line="377" selection-start-line="377" selection-end-line="377" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/external/libigl/external/eigen/Eigen/src/Core/Array.h">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="179">
           <caret line="41" selection-start-line="41" selection-end-line="41" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/external/libigl/external/eigen/Eigen/src/Core/Matrix.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="157">
-          <caret line="409" column="54" selection-start-line="409" selection-start-column="54" selection-end-line="409" selection-end-column="54" />
         </state>
       </provider>
     </entry>
@@ -623,9 +712,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="127">
           <caret line="28" column="24" selection-start-line="28" selection-start-column="18" selection-end-line="28" selection-end-column="24" />
-          <folding>
-            <element signature="e#419#442#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -633,9 +719,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="180">
           <caret line="12" column="9" selection-start-line="12" selection-start-column="9" selection-end-line="12" selection-end-column="9" />
-          <folding>
-            <element signature="e#486#515#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -667,25 +750,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/.travis.yml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="276">
-          <caret line="25" column="12" lean-forward="true" selection-start-line="25" selection-start-column="12" selection-end-line="25" selection-end-column="12" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main2.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="465">
-          <caret line="31" column="24" selection-start-line="31" selection-start-column="24" selection-end-line="31" selection-end-column="24" />
-          <folding>
-            <element signature="e#95#138#0" expanded="true" />
-            <marker date="1559854799012" expanded="false" signature="1323:1562" ph="{...}" />
-            <marker date="1559854799012" expanded="true" signature="1604:1708" ph="{...}" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/scalar_from_vector.cpp">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="2">
@@ -700,13 +764,58 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/external/libigl/external/eigen/Eigen/Core">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="144">
+          <caret line="283" selection-start-line="283" selection-end-line="283" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/external/libigl/include/igl/random_points_on_mesh.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-532">
+          <caret line="26" column="13" selection-start-line="26" selection-start-column="13" selection-end-line="26" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file:///Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1/utility">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="4166">
+          <caret line="313" column="28" selection-start-line="313" selection-start-column="28" selection-end-line="313" selection-end-column="28" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/external/libigl/external/eigen/Eigen/src/SparseCore/SparseMatrix.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="223">
+          <caret line="939" column="5" selection-start-line="939" selection-start-column="5" selection-end-line="939" selection-end-column="5" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file:///Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1/memory">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1395">
+          <caret line="93" selection-start-line="93" selection-end-line="93" />
+          <folding>
+            <element signature="e#102255#103152#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/.travis.yml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="180">
+          <caret line="12" column="13" selection-start-line="12" selection-start-column="13" selection-end-line="12" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/hard_soft_nrosy.h">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-657">
-          <caret line="497" column="44" lean-forward="true" selection-start-line="497" selection-start-column="44" selection-end-line="497" selection-end-column="44" />
+        <state relative-caret-position="7455">
+          <caret line="497" column="44" selection-start-line="497" selection-start-column="44" selection-end-line="497" selection-end-column="44" />
           <folding>
             <element signature="e#267#299#0" expanded="true" />
             <element signature="e#384#408#0" expanded="true" />
@@ -716,56 +825,135 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/external/libigl/external/eigen/Eigen/src/Core/Assign.h">
+    <entry file="file://$PROJECT_DIR$/external/libigl/external/eigen/Eigen/src/Core/CommaInitializer.h">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="189">
-          <caret line="501" column="25" lean-forward="true" selection-start-line="501" selection-start-column="25" selection-end-line="501" selection-end-column="25" />
+        <state relative-caret-position="130">
+          <caret line="42" selection-start-line="42" selection-end-line="42" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/external/libigl/external/eigen/Eigen/Core">
+    <entry file="file://$PROJECT_DIR$/external/libigl/external/eigen/Eigen/src/plugins/BlockMethods.h">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="144">
-          <caret line="283" selection-start-line="283" selection-end-line="283" />
+        <state relative-caret-position="467">
+          <caret line="59" lean-forward="true" selection-start-line="59" selection-end-line="59" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/external/libigl/external/eigen/Eigen/src/Core/DenseStorage.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="160">
+          <caret line="304" selection-start-line="304" selection-end-line="304" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/external/libigl/external/eigen/Eigen/src/Core/Assign.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="130">
+          <caret line="526" selection-start-line="526" selection-end-line="526" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/external/libigl/external/eigen/Eigen/src/Core/PlainObjectBase.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="130">
+          <caret line="629" selection-start-line="629" selection-end-line="629" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/external/libigl/external/eigen/Eigen/src/Core/Matrix.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="130">
+          <caret line="155" selection-start-line="155" selection-end-line="155" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main2.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-360">
+          <caret line="18" column="21" selection-start-line="18" selection-start-column="21" selection-end-line="18" selection-end-column="21" />
+          <folding>
+            <element signature="e#95#138#0" expanded="true" />
+            <marker date="1559854799012" expanded="true" signature="1323:1562" ph="{...}" />
+            <marker date="1559854799012" expanded="true" signature="1604:1708" ph="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file:///Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/10.0.1/include/stddef.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="155">
+          <caret line="61" column="22" selection-start-line="61" selection-start-column="22" selection-end-line="61" selection-end-column="22" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/hard_soft_nrosy.cpp">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/CutMesh.h">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="51">
-          <caret line="41" column="29" lean-forward="true" selection-start-line="41" selection-start-column="29" selection-end-line="41" selection-end-column="29" />
-          <folding>
-            <element signature="e#100#121#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="50">
+          <caret line="20" column="13" lean-forward="true" selection-start-line="20" selection-start-column="13" selection-end-line="20" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/external/libigl/external/eigen/Eigen/src/Core/DenseCoeffsBase.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="130">
+          <caret line="393" selection-start-line="393" selection-end-line="393" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/external/libigl/include/igl/opengl/glfw/Viewer.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="228">
+          <caret line="918" column="33" lean-forward="true" selection-start-line="918" selection-start-column="33" selection-end-line="918" selection-end-column="33" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/external/libigl/include/igl/opengl/glfw/Viewer.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-291">
+          <caret line="137" column="25" selection-start-line="137" selection-start-column="25" selection-end-line="137" selection-end-column="25" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/external/libigl/external/eigen/Eigen/src/Core/Random.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="136">
+          <caret line="96" column="20" selection-start-line="96" selection-start-column="20" selection-end-line="96" selection-end-column="20" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file:///Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1/map">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="155">
+          <caret line="1112" column="25" selection-start-line="1112" selection-start-column="25" selection-end-line="1112" selection-end-column="25" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/CutMeshTest.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="276">
-          <caret line="27" column="15" selection-start-line="27" selection-start-column="15" selection-end-line="27" selection-end-column="15" />
+        <state relative-caret-position="217">
+          <caret line="53" column="30" lean-forward="true" selection-start-line="53" selection-start-column="30" selection-end-line="53" selection-end-column="30" />
           <folding>
             <element signature="e#41#61#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/external/libigl/include/igl/random_points_on_mesh.cpp">
+    <entry file="file://$PROJECT_DIR$/src/CutMesh.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-296">
-          <caret line="18" column="26" lean-forward="true" selection-start-line="18" selection-start-column="26" selection-end-line="18" selection-end-column="26" />
+        <state relative-caret-position="1436">
+          <caret line="106" column="2" lean-forward="true" selection-start-line="106" selection-start-column="2" selection-end-line="106" selection-end-column="2" />
+          <folding>
+            <element signature="e#42#62#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/CutMesh.cpp">
+    <entry file="file://$PROJECT_DIR$/src/CutMesh.h">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="201">
-          <caret line="26" column="55" selection-start-line="26" selection-start-column="55" selection-end-line="26" selection-end-column="55" />
+        <state relative-caret-position="590">
+          <caret line="64" column="35" lean-forward="true" selection-start-line="64" selection-start-column="35" selection-end-line="64" selection-end-column="35" />
           <folding>
-            <element signature="e#42#62#0" expanded="true" />
+            <element signature="e#100#121#0" expanded="true" />
           </folding>
         </state>
       </provider>
