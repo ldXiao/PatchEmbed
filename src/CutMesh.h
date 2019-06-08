@@ -25,14 +25,19 @@ namespace OTMapping {
         Eigen::MatrixXd SampleInitial;
         Eigen::MatrixXd SamplePost;
         Eigen::VectorXd SampleVals;
+        Eigen::MatrixXd SamplePerturb;
         Eigen::MatrixXd SampleNorms;
         int SampleNum;
 
         std::vector<std::unique_ptr<Eigen::MatrixXd> > ComponentsVertices;
+        std::vector<std::unique_ptr<Eigen::RowVector3d> > Shifts;
         std::vector<std::unique_ptr<Eigen::MatrixXi> > ComponentsFaces;
-        std::vector<std::unique_ptr<Eigen::MatrixXd> > ComponentSample;
+        std::vector<std::unique_ptr<Eigen::MatrixXd> > ComponentsSample;
+        std::vector<std::unique_ptr<Eigen::VectorXi> > ComponentsSampleIndices;
+        // store the indices of samples in original SampleInitial;
         std::vector<std::unique_ptr<Eigen::VectorXd> > ComponentVals;
         std::vector<std::unique_ptr<Eigen::MatrixXd> > ComponentNorms;
+
 
         Eigen::MatrixXd TransportPlan;
         Eigen::MatrixXd CostMatrix;
@@ -48,26 +53,14 @@ namespace OTMapping {
                 const Eigen::Vector3d & n0,
                 const Eigen::Vector3d & p1,
                 const Eigen::Vector3d & n1);
+
         void perturb(const int seed, double max_shift,  double min_shift);
 
-    private:
-        Eigen::MatrixXd _sample0;
-        Eigen::MatrixXd _sample_vals0;
-        Eigen::MatrixXd _sample1;
-        Eigen::MatrixXd _sample_vals1;
-        Eigen::MatrixXd _sample2;
-        Eigen::MatrixXd _sample_vals2;
-        Eigen::MatrixXd _sample3;
-        Eigen::MatrixXd _sample_vals3;
+        Eigen::MatrixXd to_nearest();
 
-        Eigen::MatrixXd _vertices0;
-        Eigen::MatrixXi _faces0;
-        Eigen::MatrixXd _vertices1;
-        Eigen::MatrixXi _faces1;
-        Eigen::MatrixXd _vertices2;
-        Eigen::MatrixXi _faces2;
-        Eigen::MatrixXd _vertices3;
-        Eigen::MatrixXi _faces3;
+        void compute_CostMatrix(Eigen::MatrixXd, Eigen::MatrixXd,char options);
+
+
 
     };
 }

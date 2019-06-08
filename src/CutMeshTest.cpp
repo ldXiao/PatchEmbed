@@ -10,21 +10,18 @@
 // Mesh
 Eigen::MatrixXd V;
 Eigen::MatrixXi F;
-
+OTMapping::CutMesh CM;
+bool key_down(igl::opengl::glfw::Viewer &viewer, unsigned char key, int modifier) {
+    using namespace Eigen;
+    using namespace std;
+    if(key != 'i') {
+        CM.plot_CutMesh(viewer, key);
+    }
+    return false;
+}
 
 using namespace std;
 using namespace OTMapping;
-class box{
-public:
-    double width;
-    double height;
-    double bridth;
-    std::vector<int> chain;
-    void setVal(double a, double b , double c){width=a; height=b; bridth =c;}
-    double getVolum(){
-        return width * bridth * bridth;
-    }
-};
 int main(int argc, char *argv[]){
     using namespace std;
     using namespace Eigen;
@@ -36,13 +33,11 @@ int main(int argc, char *argv[]){
     // Load a mesh in OBJ format
     igl::readOBJ(argv[1], V, F);
     igl::opengl::glfw::Viewer viewer;
-    CutMesh CM;
+
     auto func = [](Eigen::Vector3d x)->double{return std::sin(x[0]+x[1]+x[2]);};
-    CM.set_initial(V, F, 2000, func);
+    CM.set_initial(V, F, 200, func);
 //    CM.plot_CutMesh(viewer,"aha");
-    box aboox;
     std::cout << "holy shit1" << std::endl;
-    aboox.setVal(1,2,3);
 //    std::unique_ptr<box> ab;
 //    Eigen::MatrixXd* Mxptr;
 //    *Mxptr=Eigen::MatrixXd::Zero(5,5);
@@ -58,7 +53,8 @@ int main(int argc, char *argv[]){
     std::cout << "holy shit3" << std::endl;
     CM.cut_with(p0,n0,p1,n1);
     CM.perturb(3, 0.1, 0.02);
-    CM.plot_CutMesh(viewer,'2');
+    CM.plot_CutMesh(viewer,'i');
+    viewer.callback_key_down = &key_down;
     std::cout << "holy shit4" << std::endl;
     viewer.launch();
 }
