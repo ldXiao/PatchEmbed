@@ -2,25 +2,26 @@ language: cpp
 sudo: false
 matrix:
   include:
-    - os: linux
+  - os: linux
       compiler: gcc-4.8.1
       script:
-        - rm -rf build
-        - mkdir build
-        - cd build
-        - cmake -DCMAKE_CXX_COMPILER=g++-4.8 -DCMAKE_C_COMPILER=gcc-4.8 ../
-        - make -j2
+      - git clone https://github.com/libigl/libigl.git ../libigl
+      - cd ../libigl && git submodule update --recursive --init && cd $TRAVIS_BUILD_DIR
+      - mkdir build
+      - cd build
+      - cmake -DCMAKE_CXX_COMPILER=g++-4.8 -DCMAKE_C_COMPILER=gcc-4.8 -DTRAVISCI_BUILD=ON ../
+      - make -j2
       addons:
         apt:
           sources:
-            - ubuntu-toolchain-r-test
-            - george-edison55-precise-backports
+          - ubuntu-toolchain-r-test
+          - george-edison55-precise-backports
           packages:
-            - xorg-dev
-            - libglu1-mesa-dev
-            - g++-4.8
-            - cmake
-            - cmake-data
+          - xorg-dev
+          - libglu1-mesa-dev
+          - g++-4.8
+          - cmake
+          - cmake-data
    - os: osx
      compiler: clang
      script:

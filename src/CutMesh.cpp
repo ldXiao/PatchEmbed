@@ -181,7 +181,7 @@ void CutMesh::plot_CutMesh(igl::opengl::glfw::Viewer &viewer, unsigned char opti
                 viewer.data_list[i+1].set_colors(Eigen::RowVector3d(1,1,1));
             }
             this->compute_CostMatrix(this->SamplePerturb,this->SampleInitial,'a');
-            this->Sinkhorn(1e-15,1e-15, 10);
+            this->Sinkhorn(1e-15,1e-15, 20);
             viewer.selected_data_index = 0;
             viewer.data().point_size= 11;
             viewer.data().add_points(this->SampleInitial, this->TransportPlan *SamplePerturbColor);
