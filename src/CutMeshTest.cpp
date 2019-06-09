@@ -25,17 +25,17 @@ using namespace OTMapping;
 int main(int argc, char *argv[]){
     using namespace std;
     using namespace Eigen;
-    if (argc != 2) {
-        cout << "Usage cutmeshtest_bin mesh.obj" << endl;
+    if (argc != 3) {
+        cout << "Usage cutmeshtest_bin mesh.obj sample_num" << endl;
         exit(0);
     }
     std::cout << "holy shit0" << std::endl;
     // Load a mesh in OBJ format
     igl::readOBJ(argv[1], V, F);
     igl::opengl::glfw::Viewer viewer;
-
+    int sample_num=std::stoi(argv[2]);
     auto func = [](Eigen::Vector3d x)->double{return std::sin(x[0]+x[1]+x[2]);};
-    CM.set_initial(V, F, 200, func);
+    CM.set_initial(V, F, sample_num , func);
 //    CM.plot_CutMesh(viewer,"aha");
     std::cout << "holy shit1" << std::endl;
 //    std::unique_ptr<box> ab;

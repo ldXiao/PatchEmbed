@@ -15,6 +15,7 @@
 #include <tuple>
 #include <random>
 #include <map>
+#include "Sinkhorn.hpp"
 using namespace OTMapping;
 using MeshPair = std::tuple<Eigen::MatrixXd, Eigen::MatrixXi>;
 using SamplePair = std::tuple<Eigen::MatrixXd, Eigen::VectorXi>;
@@ -87,7 +88,7 @@ void CutMesh::plot_CutMesh(igl::opengl::glfw::Viewer &viewer, unsigned char opti
     component_colors.emplace(3, Eigen::RowVector3d(1,1,0));
     component_colors.emplace(4, Eigen::RowVector3d(1,0,1));
     std::map<int, Eigen::RowVector3d> component_sample_colors;
-    component_sample_colors.emplace(1, Eigen::RowVector3d(1,1,1));
+    component_sample_colors.emplace(1, Eigen::RowVector3d(1,0,0));
     component_sample_colors.emplace(2, Eigen::RowVector3d(0,1,0));
     component_sample_colors.emplace(3, Eigen::RowVector3d(1,1,0));
     component_sample_colors.emplace(4, Eigen::RowVector3d(1,0,1));
@@ -161,12 +162,31 @@ void CutMesh::plot_CutMesh(igl::opengl::glfw::Viewer &viewer, unsigned char opti
             }
             viewer.selected_data_index = 0;
             viewer.data().point_size= 11;
-            viewer.data().add_points(this->to_nearest(), SamplePerturbColor);
+            this->to_nearest();
+            viewer.data().add_points(this->SampleInitial, this->TransportPlan*SamplePerturbColor);
+            std::cout << "the color error for nearst neighbor ="
+            << color_error(this->TransportPlan*SamplePerturbColor,SamplePerturbColor)<< std::endl;
             break;
-        case 'c':
-            std::cout << "called c" <<std::endl;
-            this->compute_CostMatrix(this->SamplePerturb,this->SampleInitial, '2');
-            std::cout << this->CostMatrix << std::endl;
+        case '5':
+            for(auto &data : viewer.data_list){
+                data.clear();
+                data.set_colors(Eigen::RowVector3d(1,1,1));
+            }
+            for(unsigned int i=0; i < this->ComponentsVertices.size() ;++i){
+                Eigen::MatrixXd shift_back_vertices = *(this->ComponentsVertices[i]);
+                for(unsigned int j=0; j < shift_back_vertices.rows();++j){
+                    shift_back_vertices.row(j) -= *(this->Shifts[i]);
+                }
+                viewer.data_list[i+1].set_mesh(shift_back_vertices,*(this->ComponentsFaces[i]));
+                viewer.data_list[i+1].set_colors(Eigen::RowVector3d(1,1,1));
+            }
+            this->compute_CostMatrix(this->SamplePerturb,this->SampleInitial,'a');
+            this->Sinkhorn(1e-15,1e-15, 10);
+            viewer.selected_data_index = 0;
+            viewer.data().point_size= 11;
+            viewer.data().add_points(this->SampleInitial, this->TransportPlan *SamplePerturbColor);
+            std::cout << "the color error for L2-norm cost ="
+                      << color_error(this->TransportPlan*SamplePerturbColor,SamplePerturbColor)<< std::endl;
     }
 }
 
@@ -252,21 +272,29 @@ void CutMesh::perturb(const int seed, double max_shift, double min_shift) {
             this->SamplePerturb.row(this->ComponentsSampleIndices[i]->coeff(k,0))=this->ComponentsSample[i]->row(k);
         }
     }
+//    std::cout <<this->SamplePerturb-this->SampleInitial << std::endl;
+}
+
+double color_error(Eigen::MatrixXd C0, Eigen::MatrixXd C1){
+    return ((C0-C1).rowwise().norm()).sum();
 }
 
 Eigen::MatrixXd CutMesh::to_nearest(){
+    this->TransportPlan = Eigen::MatrixXd::Zero(this->SampleNum,this->SampleNum);
     Eigen::MatrixXd SampleNearest(this->SampleNum, 3);
     for(unsigned int i=0; i< this->SampleNum; ++i){
         int min_idx = 0;
-        double min_dist = (this->SamplePerturb.row(i)-this->SampleInitial.row(min_idx)).norm();
+        double min_dist = (this->SamplePerturb.row(min_idx)-this->SampleInitial.row(i)).norm();
         for(unsigned int j=1; j< this->SampleNum; ++j){
-            double cur_dist=(this->SamplePerturb.row(i)-this->SampleInitial.row(min_idx)).norm();
+            double cur_dist=(this->SamplePerturb.row(j)-this->SampleInitial.row(i)).norm();
             if(cur_dist < min_dist){
                 min_dist = cur_dist;
                 min_idx = j;
+
             }
         }
-        SampleNearest.row(i) = SampleInitial.row(i);
+        this->TransportPlan(i, min_idx) = 1;
+        SampleNearest.row(i) = this->SamplePerturb.row(min_idx);
     }
     return SampleNearest;
 }
@@ -274,20 +302,59 @@ Eigen::MatrixXd CutMesh::to_nearest(){
 void CutMesh::compute_CostMatrix(Eigen::MatrixXd source, Eigen::MatrixXd target, char option) {
     try {
         if (source.cols() != 3 or target.cols() != 3) {
-            throw "Unimplemented";
+            throw "Unimplemented Error";
         }
         if (source.rows() != target.rows()){
-            throw "Unequal";
+            throw "Unequal Error";
         }
-        int n = source.rows();
-        this->CostMatrix.resize(n,n);
-        for(int i= 0; i< target.rows();++i){
-            for(int j =0; j< source.rows(); ++j){
-                this->CostMatrix(i,j)=(target.row(i)-source.row(j)).norm();
-            }
+        int n = this->SampleNum;
+        this->CostMatrix.resize(n, n);
+        switch(option) {
+            case 'a':
+                for (int i = 0; i < n; ++i) {
+                    for (int j = 0; j < n; ++j) {
+                        this->CostMatrix(i, j) = (this->SampleInitial.row(i) - this->SamplePerturb.row(j)).lpNorm<Eigen::Infinity>();
+                    }
+                }
+            case 'b':
+                for (int i = 0; i < target.rows(); ++i) {
+                    for (int j = 0; j < source.rows(); ++j) {
+                        this->CostMatrix(i, j) = (this->SampleInitial.row(i) - this->SamplePerturb.row(j)).lpNorm<Eigen::Infinity>();
+                    }
+                }
+
         }
     }
     catch(std::string a){
         std::cout << a << std::endl;
     }
+}
+
+void CutMesh::Sinkhorn(double eps, double stop_thresh, int max_iters){
+    /*
+    Compute the Sinkhorn divergence between two sum of dirac delta distributions, U, and V.
+            This implementation is numerically stable with float32.
+    :param eps: The reciprocal of the sinkhorn regularization parameter
+    :param max_iters: The maximum number of Sinkhorn iterations
+    :param stop_thresh: Stop if the change in iterates is below this value
+    :return:
+    */
+    try {
+        if (this->CostMatrix.rows()< this->SampleInitial.rows()) {
+            throw "CostMatrix not initialized";
+        }
+//        if (this->TransportPlan.rows() < this->SampleInitial.rows()){
+//            throw "TransportPlan not initialized";
+//        }
+    }
+    catch(std::string a){
+    }
+    int n = this->SampleNum;
+    this->TransportPlan = sinkhorn(
+            Eigen::VectorXd::Constant(n,1),
+            Eigen::VectorXd::Constant(n,1),
+            this->CostMatrix, eps, max_iters, stop_thresh);
+    std::cout<<" Totoal Cost for this TransportPlan=" << (this->TransportPlan.array() * this->CostMatrix.array()).sum()
+    << '\n'<<" Totoal Cost for identity="
+    << (Eigen::MatrixXd::Identity(n,n).array() * this->CostMatrix.array()).sum() <<std::endl;
 }

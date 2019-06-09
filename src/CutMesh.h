@@ -23,10 +23,10 @@ namespace OTMapping {
         Eigen::MatrixXi Faces;
 
         Eigen::MatrixXd SampleInitial;
-        Eigen::MatrixXd SamplePost;
         Eigen::VectorXd SampleVals;
         Eigen::MatrixXd SamplePerturb;
-        Eigen::MatrixXd SampleNorms;
+        Eigen::MatrixXd SampleNormal;
+        Eigen::MatrixXd SampleNormaPerturb;
         int SampleNum;
 
         std::vector<std::unique_ptr<Eigen::MatrixXd> > ComponentsVertices;
@@ -41,9 +41,6 @@ namespace OTMapping {
 
         Eigen::MatrixXd TransportPlan;
         Eigen::MatrixXd CostMatrix;
-        Eigen::VectorXd u;
-        Eigen::VectorXd v;
-
         void plot_CutMesh(igl::opengl::glfw::Viewer &viewer, unsigned char options);
 
         void set_initial(const Eigen::MatrixXd &, const Eigen::MatrixXi &, const int,
@@ -60,9 +57,9 @@ namespace OTMapping {
 
         void compute_CostMatrix(Eigen::MatrixXd, Eigen::MatrixXd,char options);
 
-
-
+        void Sinkhorn(double, double, int);
     };
 }
+double color_error(Eigen::MatrixXd C0, Eigen::MatrixXd C1);
 
 #endif //OTMAPPING_CUTMESH_H
