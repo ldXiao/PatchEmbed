@@ -34,11 +34,13 @@ option(LIBIGL_WITH_XML               "Use XML"            OFF)
 find_package(LIBIGL REQUIRED QUIET)
 
 # Add your project files
-file(GLOB SRCFILES src/main.cpp src/hard_soft_nrosy.cpp src/scalar_from_vector.cpp src/map_UV_vector_field.cpp)
-add_executable(${PROJECT_NAME}_bin ${SRCFILES}
+file(GLOB SRCFILES src/main.cpp)
+add_executable(${PROJECT_NAME}_bin
         src/main.cpp
         src/CutMesh.cpp
-        src/CutMesh.h src/Sinkhorn.hpp src/sinkhorntest.cpp)
+        src/CutMesh.h
+        src/Sinkhorn.hpp
+        src/sinkhorntest.cpp)
 target_link_libraries(${PROJECT_NAME}_bin igl::core  igl::cgal igl::opengl_glfw igl::opengl_glfw_imgui)
 add_executable(cuttest_bin src/main2.cpp src/Sinkhorn.hpp)
 target_link_libraries(cuttest_bin igl::core igl::cgal igl::opengl igl::opengl_glfw)
