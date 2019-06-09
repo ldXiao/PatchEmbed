@@ -36,6 +36,7 @@ find_package(LIBIGL REQUIRED QUIET)
 # Add your project files
 file(GLOB SRCFILES src/main.cpp src/hard_soft_nrosy.cpp src/scalar_from_vector.cpp src/map_UV_vector_field.cpp)
 add_executable(${PROJECT_NAME}_bin ${SRCFILES}
+        src/main.cpp
         src/CutMesh.cpp
         src/CutMesh.h src/Sinkhorn.hpp src/sinkhorntest.cpp)
 target_link_libraries(${PROJECT_NAME}_bin igl::core  igl::cgal igl::opengl_glfw igl::opengl_glfw_imgui)
@@ -45,7 +46,7 @@ add_executable(cutmeshtest_bin
         src/CutMeshTest.cpp
         src/CutMesh.h
         src/CutMesh.cpp
-        src/Sinkhorn.hpp)
+        src/Sinkhorn.hpp src/main.cpp)
 target_link_libraries(cutmeshtest_bin igl::core igl::cgal igl::opengl igl::opengl_glfw)
 add_executable(sinkhorntest_bin
         src/Sinkhorn.hpp
