@@ -20,6 +20,7 @@ matrix:
         - xorg-dev
         - libglu1-mesa-dev
         - libmpfr-dev
+        - libboost-all-dev
         - g++-4.8
         - cmake
         - cmake-data
