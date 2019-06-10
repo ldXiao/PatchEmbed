@@ -45,7 +45,11 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="295248be-c225-463f-a6b6-c526a188320c" name="Default Changelist" comment="" />
+    <list default="true" id="295248be-c225-463f-a6b6-c526a188320c" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.travis.yml" beforeDir="false" afterPath="$PROJECT_DIR$/.travis.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/CutMesh.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/CutMesh.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/CutMesh.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/CutMesh.h" afterDir="false" />
+    </list>
     <ignored path="$PROJECT_DIR$/cmake-build-debug/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -75,7 +79,7 @@
           <entry key="obj" value="2" />
           <entry key="txt" value="6" />
           <entry key="utility" value="1" />
-          <entry key="yml" value="4" />
+          <entry key="yml" value="5" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.open">
@@ -83,26 +87,26 @@
           <entry key="CMakeLists.txt" value="6" />
           <entry key="ObjectiveC" value="70" />
           <entry key="PLAIN_TEXT" value="3" />
-          <entry key="YAML" value="4" />
+          <entry key="YAML" value="5" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
-          <entry key="cpp" value="15261" />
+          <entry key="cpp" value="15524" />
           <entry key="gitignore" value="2" />
-          <entry key="h" value="3259" />
+          <entry key="h" value="3265" />
           <entry key="hpp" value="473" />
           <entry key="obj" value="34" />
           <entry key="txt" value="264" />
-          <entry key="yml" value="14" />
+          <entry key="yml" value="16" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
           <entry key="CMakeLists.txt" value="264" />
-          <entry key="ObjectiveC" value="18993" />
+          <entry key="ObjectiveC" value="19262" />
           <entry key="PLAIN_TEXT" value="36" />
-          <entry key="YAML" value="14" />
+          <entry key="YAML" value="16" />
         </counts>
       </usages-collector>
     </session>
@@ -112,10 +116,10 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/CutMesh.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="184">
-              <caret line="202" column="36" selection-start-line="202" selection-start-column="36" selection-end-line="202" selection-end-column="36" />
+            <state relative-caret-position="2595">
+              <caret line="186" selection-start-line="186" selection-end-line="186" />
               <folding>
-                <marker date="1560110558654" expanded="true" signature="3880:8131" ph="{...}" />
+                <marker date="1560196467910" expanded="true" signature="3880:8135" ph="{...}" />
               </folding>
             </state>
           </provider>
@@ -147,6 +151,15 @@
           </provider>
         </entry>
       </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/.travis.yml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="286">
+              <caret line="21" column="21" selection-start-line="21" selection-start-column="21" selection-end-line="21" selection-end-column="21" />
+            </state>
+          </provider>
+        </entry>
+      </file>
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main.cpp">
           <provider selected="true" editor-type-id="text-editor">
@@ -155,15 +168,6 @@
               <folding>
                 <element signature="e#41#60#0" expanded="true" />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/external/libigl/external/eigen/Eigen/src/Core/Array.h">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="3015">
-              <caret line="201" selection-start-line="201" selection-end-line="201" />
             </state>
           </provider>
         </entry>
@@ -189,11 +193,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/CutMeshTest.cpp">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="-256">
-              <caret line="13" column="58" lean-forward="true" selection-start-line="13" selection-start-column="58" selection-end-line="13" selection-end-column="58" />
+              <caret line="13" column="58" selection-start-line="13" selection-start-column="58" selection-end-line="13" selection-end-column="58" />
               <folding>
                 <element signature="e#41#61#0" expanded="true" />
               </folding>
@@ -204,8 +208,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/CMakeLists.txt">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="420">
-              <caret line="41" column="24" selection-start-line="41" selection-start-column="24" selection-end-line="41" selection-end-column="24" />
+            <state relative-caret-position="242">
+              <caret line="49" column="24" selection-start-line="49" selection-start-column="24" selection-end-line="49" selection-end-column="24" />
             </state>
           </provider>
         </entry>
@@ -213,8 +217,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/CutMesh.h">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="294">
-              <caret line="61" column="1" selection-start-line="61" selection-start-column="1" selection-end-line="61" selection-end-column="1" />
+            <state relative-caret-position="264">
+              <caret line="59" column="47" selection-start-line="59" selection-start-column="47" selection-end-line="59" selection-end-column="47" />
               <folding>
                 <element signature="e#100#121#0" expanded="true" />
               </folding>
@@ -226,14 +230,11 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>to_n</find>
-      <find>summand</find>
       <find>transpo</find>
       <find>initial</find>
       <find>compu</find>
       <find>CostMa</find>
       <find>std::cou</find>
-      <find>Sinkh</find>
       <find>&quot;,</find>
       <find>1/n</find>
       <find>'5'</find>
@@ -252,10 +253,13 @@
       <find>L2</find>
       <find>to_nea</find>
       <find>std::cout</find>
-      <find>Perturb</find>
       <find>Sinkho</find>
       <find>200</find>
       <find>random</find>
+      <find>cgal</find>
+      <find>5'</find>
+      <find>Sinkh</find>
+      <find>Perturb</find>
     </findStrings>
     <replaceStrings>
       <replace>OBJ</replace>
@@ -276,12 +280,12 @@
         <option value="$PROJECT_DIR$/src/main2.cpp" />
         <option value="$PROJECT_DIR$/src/Sinkhorn.hpp" />
         <option value="$PROJECT_DIR$/src/sinkhorntest.cpp" />
-        <option value="$PROJECT_DIR$/src/CutMesh.h" />
         <option value="$PROJECT_DIR$/src/CutMeshTest.cpp" />
+        <option value="$PROJECT_DIR$/src/main.cpp" />
+        <option value="$PROJECT_DIR$/CMakeLists.txt" />
+        <option value="$PROJECT_DIR$/src/CutMesh.h" />
         <option value="$PROJECT_DIR$/src/CutMesh.cpp" />
         <option value="$PROJECT_DIR$/.travis.yml" />
-        <option value="$PROJECT_DIR$/CMakeLists.txt" />
-        <option value="$PROJECT_DIR$/src/main.cpp" />
       </list>
     </option>
   </component>
@@ -488,7 +492,7 @@
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
-    <configuration name="cutmeshtest_bin" type="CMakeRunConfiguration" factoryName="Application" PROGRAM_PARAMS="../data/polysphere.obj 500" PASS_PARENT_ENVS_2="true" PROJECT_NAME="otmapping" TARGET_NAME="cutmeshtest_bin" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="otmapping" RUN_TARGET_NAME="cutmeshtest_bin">
+    <configuration name="cutmeshtest_bin" type="CMakeRunConfiguration" factoryName="Application" PROGRAM_PARAMS="../data/polysphere.obj 5000" PASS_PARENT_ENVS_2="true" PROJECT_NAME="otmapping" TARGET_NAME="cutmeshtest_bin" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="otmapping" RUN_TARGET_NAME="cutmeshtest_bin">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
@@ -575,12 +579,12 @@
       <workItem from="1559838287251" duration="29756000" />
       <workItem from="1559870546564" duration="13664000" />
       <workItem from="1559940475502" duration="77486000" />
-      <workItem from="1560111138488" duration="1185000" />
+      <workItem from="1560111138488" duration="3851000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="122091000" />
+    <option name="totallyTimeSpent" value="124757000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1280" height="800" extended-state="0" />
@@ -591,13 +595,13 @@
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.329927" />
-      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.3974152" weight="0.34931508" />
+      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.3974152" visible="true" weight="0.34931508" />
       <window_info anchor="bottom" id="Debug" order="3" sideWeight="0.4927302" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" />
       <window_info anchor="bottom" id="Database Changes" order="7" show_stripe_button="false" />
-      <window_info anchor="bottom" id="Messages" order="8" sideWeight="0.3933764" visible="true" weight="0.32739726" />
+      <window_info anchor="bottom" id="Messages" order="8" sideWeight="0.3933764" weight="0.32739726" />
       <window_info anchor="bottom" id="Terminal" order="9" sideWeight="0.4983845" weight="0.329927" />
       <window_info anchor="bottom" id="Event Log" order="10" sideWeight="0.60258484" side_tool="true" weight="0.35036495" />
       <window_info anchor="bottom" id="Version Control" order="11" show_stripe_button="false" />
@@ -899,20 +903,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/.travis.yml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="300">
-          <caret line="20" column="26" selection-start-line="20" selection-start-column="26" selection-end-line="20" selection-end-column="26" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/CMakeLists.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="420">
-          <caret line="41" column="24" selection-start-line="41" selection-start-column="24" selection-end-line="41" selection-end-column="24" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main.cpp">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="75">
@@ -955,33 +945,47 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/CutMesh.cpp">
+    <entry file="file://$PROJECT_DIR$/CMakeLists.txt">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="184">
-          <caret line="202" column="36" selection-start-line="202" selection-start-column="36" selection-end-line="202" selection-end-column="36" />
-          <folding>
-            <marker date="1560110558654" expanded="true" signature="3880:8131" ph="{...}" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/CutMesh.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="294">
-          <caret line="61" column="1" selection-start-line="61" selection-start-column="1" selection-end-line="61" selection-end-column="1" />
-          <folding>
-            <element signature="e#100#121#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="242">
+          <caret line="49" column="24" selection-start-line="49" selection-start-column="24" selection-end-line="49" selection-end-column="24" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/CutMeshTest.cpp">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-256">
-          <caret line="13" column="58" lean-forward="true" selection-start-line="13" selection-start-column="58" selection-end-line="13" selection-end-column="58" />
+          <caret line="13" column="58" selection-start-line="13" selection-start-column="58" selection-end-line="13" selection-end-column="58" />
           <folding>
             <element signature="e#41#61#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/CutMesh.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="264">
+          <caret line="59" column="47" selection-start-line="59" selection-start-column="47" selection-end-line="59" selection-end-column="47" />
+          <folding>
+            <element signature="e#100#121#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/CutMesh.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2595">
+          <caret line="186" selection-start-line="186" selection-end-line="186" />
+          <folding>
+            <marker date="1560196467910" expanded="true" signature="3880:8135" ph="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/.travis.yml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="286">
+          <caret line="21" column="21" selection-start-line="21" selection-start-column="21" selection-end-line="21" selection-end-column="21" />
         </state>
       </provider>
     </entry>

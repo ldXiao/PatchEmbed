@@ -181,10 +181,10 @@ void CutMesh::plot_CutMesh(igl::opengl::glfw::Viewer &viewer, unsigned char opti
                 viewer.data_list[i+1].set_colors(Eigen::RowVector3d(1,1,1));
             }
             this->compute_CostMatrix(this->SamplePerturb,this->SampleInitial,'a');
-            this->Sinkhorn(1e-15,1e-15, 20);
+            this->Sinkhorn(1e-15,1e-15, 20,true);
             viewer.selected_data_index = 0;
             viewer.data().point_size= 11;
-            viewer.data().add_points(this->SampleInitial, this->TransportPlan *SamplePerturbColor);
+            viewer.data().add_points(this->SampleInitial, this->TransportPlan*SamplePerturbColor);
             std::cout << "the color error for L2-norm cost ="
                       << color_error(this->TransportPlan*SamplePerturbColor,SamplePerturbColor)<< std::endl;
     }
@@ -330,7 +330,7 @@ void CutMesh::compute_CostMatrix(Eigen::MatrixXd source, Eigen::MatrixXd target,
     }
 }
 
-void CutMesh::Sinkhorn(double eps, double stop_thresh, int max_iters){
+void CutMesh::Sinkhorn(double eps, double stop_thresh, int max_iters, bool round){
     /*
     Compute the Sinkhorn divergence between two sum of dirac delta distributions, U, and V.
             This implementation is numerically stable with float32.
@@ -354,6 +354,25 @@ void CutMesh::Sinkhorn(double eps, double stop_thresh, int max_iters){
             Eigen::VectorXd::Constant(n,1),
             Eigen::VectorXd::Constant(n,1),
             this->CostMatrix, eps, max_iters, stop_thresh);
+    if(round){
+        for(unsigned int i=0; i< this->SampleNum; ++i){
+            int max_idx = 0;
+            double max_val = this->TransportPlan(i,0);
+            this->TransportPlan(i,0)=1;
+            for(unsigned int j=1; j< this->SampleNum; ++j){
+                double cur_val = this->TransportPlan(i,j);
+                if(cur_val > max_val){
+                    max_val = cur_val;
+                    this->TransportPlan(i, max_idx) = 0;
+                    this->TransportPlan(i,j) = 1;
+                    max_idx = j;
+                }
+                else{
+                    this->TransportPlan(i,j) = 0;
+                }
+            }
+        }
+    }
     std::cout<<" Totoal Cost for this TransportPlan=" << (this->TransportPlan.array() * this->CostMatrix.array()).sum()
     << '\n'<<" Totoal Cost for identity="
     << (Eigen::MatrixXd::Identity(n,n).array() * this->CostMatrix.array()).sum() <<std::endl;

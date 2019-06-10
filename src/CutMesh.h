@@ -57,7 +57,7 @@ namespace OTMapping {
 
         void compute_CostMatrix(Eigen::MatrixXd, Eigen::MatrixXd,char options);
 
-        void Sinkhorn(double, double, int);
+        void Sinkhorn(double, double, int, bool);
     };
 }
 double color_error(Eigen::MatrixXd C0, Eigen::MatrixXd C1);
