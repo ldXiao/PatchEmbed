@@ -47,7 +47,8 @@ add_executable(cutmeshtest_bin
         src/CutMeshTest.cpp
         src/CutMesh.h
         src/CutMesh.cpp
-        src/Sinkhorn.hpp)
+        src/Sinkhorn.hpp
+        src/cxxopts.hpp)
 target_link_libraries(cutmeshtest_bin igl::core igl::cgal igl::opengl igl::opengl_glfw)
 add_executable(sinkhorntest_bin
         src/Sinkhorn.hpp

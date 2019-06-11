@@ -41,10 +41,12 @@ namespace OTMapping {
 
         Eigen::MatrixXd TransportPlan;
         Eigen::MatrixXd CostMatrix;
+        Eigen::VectorXi SampleSourceFace;
         void plot_CutMesh(igl::opengl::glfw::Viewer &viewer, unsigned char options);
 
         void set_initial(const Eigen::MatrixXd &, const Eigen::MatrixXi &, const int,
                          std::function<double(Eigen::Vector3d)>);
+        void separate_cube_faces();
 
         void cut_with(const Eigen::Vector3d & p0,
                 const Eigen::Vector3d & n0,

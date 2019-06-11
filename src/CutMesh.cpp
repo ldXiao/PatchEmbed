@@ -18,6 +18,7 @@
 #include "Sinkhorn.hpp"
 using namespace OTMapping;
 using MeshPair = std::tuple<Eigen::MatrixXd, Eigen::MatrixXi>;
+using MeshTriple = std::tuple<Eigen::MatrixXd, Eigen::MatrixXi, Eigen::VectorXi>;
 using SamplePair = std::tuple<Eigen::MatrixXd, Eigen::VectorXi>;
 using SampleTriplet = std::tuple<Eigen::MatrixXd, Eigen::MatrixXd, Eigen::MatrixXd>;
 SamplePair two_half_spaces_sample_select(
@@ -80,6 +81,50 @@ MeshPair two_half_spaces_intersect(
     return std::make_tuple(VD,FD);
 }
 
+//SamplePair cube_sample_select(const Eigen::MatrixXd & S, const int & idx,
+//        const int & entry, const double & val){
+//    Eigen::VectorXi Indices(S.rows());
+//    Eigen::MatrixXd S_sub(S.rows(),3);
+//    int count = 0;
+//    for(unsigned int i=0; i < S.rows(); ++i){
+//        if(S(i,entry)==val){
+//            Indices(count) = i;
+//            S_sub.row(count) = S.row(i);
+//            count+=1;
+//        }
+//    }
+//    Indices.conservativeResize(count);
+//    S_sub.conservativeResize(count,3);
+//    return std::make_tuple(S_sub, Indices);
+//}
+
+MeshTriple cube_surface_select(const Eigen::MatrixXd & V, const Eigen::MatrixXi & F,
+        const int & idx, const int & entry, const double &val){
+    Eigen::MatrixXi FD(F.rows(),3);
+    Eigen::MatrixXd VD;
+    Eigen::VectorXi Indices(F.rows());
+    int count = 0;
+    for(int f =0; f < F.rows(); ++f){
+        int a,b,c;
+        a = F(f,0);
+        b = F(f,1);
+        c = F(f,2);
+        if(std::abs(V(a,entry)-val)<0.05 and std::abs(V(b,entry)-val)<0.05 and std::abs(V(c,entry)-val)<0.05){
+            FD.row(count)=F.row(f);
+            Indices(count)=f;
+            count+=1;
+        }
+    }
+    FD.conservativeResize(count, 3);
+    Indices.conservativeResize(count);
+    {
+        Eigen::VectorXi Local;
+        igl::remove_unreferenced(V, Eigen::MatrixXi(FD), VD, FD, Local);
+    }
+
+    return std::make_tuple(VD, FD, Indices);
+}
+
 void CutMesh::plot_CutMesh(igl::opengl::glfw::Viewer &viewer, unsigned char options) {
     //update the viewer data with CutMesh data and options
     std::map<int, Eigen::RowVector3d> component_colors;
@@ -87,11 +132,15 @@ void CutMesh::plot_CutMesh(igl::opengl::glfw::Viewer &viewer, unsigned char opti
     component_colors.emplace(2, Eigen::RowVector3d(0,1,0));
     component_colors.emplace(3, Eigen::RowVector3d(1,1,0));
     component_colors.emplace(4, Eigen::RowVector3d(1,0,1));
+    component_colors.emplace(5, Eigen::RowVector3d(0,0,1));
+    component_colors.emplace(6, Eigen::RowVector3d(0,1,1));
     std::map<int, Eigen::RowVector3d> component_sample_colors;
     component_sample_colors.emplace(1, Eigen::RowVector3d(1,0,0));
     component_sample_colors.emplace(2, Eigen::RowVector3d(0,1,0));
     component_sample_colors.emplace(3, Eigen::RowVector3d(1,1,0));
     component_sample_colors.emplace(4, Eigen::RowVector3d(1,0,1));
+    component_sample_colors.emplace(5, Eigen::RowVector3d(0,0,1));
+    component_sample_colors.emplace(6, Eigen::RowVector3d(0,1,1));
 
     Eigen::MatrixXd SamplePerturbColor(this->SampleNum, 3);
     for(unsigned int i =0; i < this->ComponentsSample.size(); ++i) {
@@ -201,6 +250,7 @@ void CutMesh::set_initial(const Eigen::MatrixXd &V, const Eigen::MatrixXi &F, co
         Eigen::SparseMatrix<double> B;
         igl::random_points_on_mesh(n, V, F, B, LocalI);
         this->SampleInitial = B * V;
+        this->SampleSourceFace = LocalI;
     }
     this->SampleNum = SampleInitial.rows();
     this->SamplePerturb = Eigen::MatrixXd::Zero(this->SampleNum, 3);
@@ -210,6 +260,73 @@ void CutMesh::set_initial(const Eigen::MatrixXd &V, const Eigen::MatrixXi &F, co
     }
 }
 
+void CutMesh::separate_cube_faces(){
+    std::map<int, std::pair<int, double> > level;
+    level.emplace(0,std::make_pair(0, 0.5));
+    level.emplace(1,std::make_pair(0, -0.5));
+    level.emplace(2,std::make_pair(1, 0.5));
+    level.emplace(3,std::make_pair(1, -0.5));
+    level.emplace(4,std::make_pair(2, 0.5));
+    level.emplace(5,std::make_pair(2, -0.5));
+    int sum = 0;
+    try {
+        if (this->ComponentsVertices.size() != 0) {
+            throw this->ComponentsVertices.size() != 0;
+        }
+        for(unsigned int idx=0; idx < 6; ++idx) {
+            int entry = std::get<0>(level[idx]);
+            double val = std::get<1>(level[idx]);
+
+            MeshTriple TA = cube_surface_select(this->Vertices, this->Faces, idx, entry, val);
+            Eigen::MatrixXd S_sub(this->SampleNum,3);
+            Eigen::VectorXi S_idx(this->SampleNum);
+            Eigen::VectorXi IdA = std::get<2>(TA);
+            Eigen::MatrixXi FA=std::get<1>(TA);
+            int count = 0;
+            for(unsigned int i=0; i< this->SampleNum; ++i){
+                bool found_in_face= false;
+
+                for(unsigned int j= 0; j < IdA.rows();++j){
+                    if(this->SampleSourceFace(i)== IdA(j)){
+                        found_in_face = true;
+                    }
+                }
+                if(found_in_face){
+                    S_sub.row(count)=this->SampleInitial.row(i);
+                    S_idx(count) = i;
+                    count+=1;
+                }
+            }
+            S_sub.conservativeResize(count,3);
+            S_idx.conservativeResize(count);
+
+//            SamplePair SA = cube_sample_select(this->SampleInitial, idx, entry, val);
+            //        std::cout << std::get<0>(PA) << std::endl;
+            std::unique_ptr<Eigen::MatrixXd> ptrVA(new Eigen::MatrixXd()), ptrSA(new Eigen::MatrixXd());
+            *ptrVA = std::get<0>(TA);
+            *ptrSA = S_sub;
+            std::unique_ptr<Eigen::MatrixXi> ptrFA(new Eigen::MatrixXi());
+            std::unique_ptr<Eigen::VectorXi> ptrSIA(new Eigen::VectorXi());
+            *ptrFA = std::get<1>(TA);
+            *ptrSIA = S_idx;
+            sum += ptrSA->rows();
+            this->ComponentsVertices.push_back(std::move(ptrVA));
+            this->ComponentsFaces.push_back(std::move(ptrFA));
+            this->ComponentsSample.push_back(std::move(ptrSA));
+            this->ComponentsSampleIndices.push_back(std::move(ptrSIA));
+        }
+        if(sum!= this->SampleNum){
+            throw sum;
+        }
+    }
+    catch (bool b){
+        std::cout << "Exception accurred, do not separate twice"<<std::endl;
+    }
+    catch (int sum){
+        std::cout << "Exception accurred, divided Sample num " <<
+                  sum  << "!=" << "total sample num" << this->SampleNum << std::endl;
+    }
+}
 void CutMesh::cut_with(const Eigen::Vector3d &p0,
         const Eigen::Vector3d &n0,
         const Eigen::Vector3d &p1,
@@ -217,31 +334,38 @@ void CutMesh::cut_with(const Eigen::Vector3d &p0,
     // slice with two planes to get 4 pieces of mesh
     int signs[4][2] = {{1,1},{-1,1},{1,-1},{-1,-1}};
     int sum = 0;
-    for(unsigned int i=0; i < 4; ++i) {
-        MeshPair PA = two_half_spaces_intersect(this->Vertices, this->Faces, p0, signs[i][0]*n0, p1, signs[i][1]*n1);
-        SamplePair SA = two_half_spaces_sample_select(this->SampleInitial, p0, signs[i][0]*n0, p1, signs[i][1]*n1);
-//        std::cout << std::get<0>(PA) << std::endl;
-        std::unique_ptr<Eigen::MatrixXd> ptrVA(new Eigen::MatrixXd()), ptrSA(new Eigen::MatrixXd());
-        *ptrVA = std::get<0>(PA);
-        *ptrSA = std::get<0>(SA);
-        std::unique_ptr<Eigen::MatrixXi> ptrFA(new Eigen::MatrixXi());
-        std::unique_ptr<Eigen::VectorXi> ptrSIA(new Eigen::VectorXi());
-        *ptrFA = std::get<1>(PA);
-        *ptrSIA = std::get<1>(SA);
-        sum += ptrSA->rows();
-        this->ComponentsVertices.push_back(std::move(ptrVA));
-        this->ComponentsFaces.push_back(std::move(ptrFA));
-        this->ComponentsSample.push_back(std::move(ptrSA));
-        this->ComponentsSampleIndices.push_back(std::move(ptrSIA));
-    }
     try{
+        if(this->ComponentsVertices.size()!=0){
+            throw this->ComponentsVertices.size()!=0;
+        }
+        for(unsigned int i=0; i < 4; ++i) {
+            MeshPair PA = two_half_spaces_intersect(this->Vertices, this->Faces, p0, signs[i][0]*n0, p1, signs[i][1]*n1);
+            SamplePair SA = two_half_spaces_sample_select(this->SampleInitial, p0, signs[i][0]*n0, p1, signs[i][1]*n1);
+    //        std::cout << std::get<0>(PA) << std::endl;
+            std::unique_ptr<Eigen::MatrixXd> ptrVA(new Eigen::MatrixXd()), ptrSA(new Eigen::MatrixXd());
+            *ptrVA = std::get<0>(PA);
+            *ptrSA = std::get<0>(SA);
+            std::unique_ptr<Eigen::MatrixXi> ptrFA(new Eigen::MatrixXi());
+            std::unique_ptr<Eigen::VectorXi> ptrSIA(new Eigen::VectorXi());
+            *ptrFA = std::get<1>(PA);
+            *ptrSIA = std::get<1>(SA);
+            sum += ptrSA->rows();
+            this->ComponentsVertices.push_back(std::move(ptrVA));
+            this->ComponentsFaces.push_back(std::move(ptrFA));
+            this->ComponentsSample.push_back(std::move(ptrSA));
+            this->ComponentsSampleIndices.push_back(std::move(ptrSIA));
+        }
+
         if(sum!= this->SampleNum){
             throw sum;
         }
     }
     catch (int e){
-        std::cout << "Exception accured, divided smaple num " <<
+        std::cout << "Exception accurred, divided Sample num " <<
         sum  << "!=" << "totol sample num" << this->SampleNum << std::endl;
+    }
+    catch (bool b){
+        std::cout << "Exception accurred, do not cut twice"<<std::endl;
     }
 }
 
@@ -255,6 +379,8 @@ void CutMesh::perturb(const int seed, double max_shift, double min_shift) {
     signs.emplace(1, Eigen::Vector3i(-1,1,1));
     signs.emplace(2, Eigen::Vector3i(1,1,-1));
     signs.emplace(3, Eigen::Vector3i(1,-1,1));
+    signs.emplace(4, Eigen::Vector3i(1,-1,-1));
+    signs.emplace(5, Eigen::Vector3i(-1,-1,-1));
     for(unsigned int i = 0; i < num_components; ++i){
         Eigen::RowVector3d shift;
 
