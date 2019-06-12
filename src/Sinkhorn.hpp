@@ -1,10 +1,11 @@
 //
 // Created by Lind Xiao on 6/8/19.
 //
-#include <Eigen/Core>
-#include <iostream>
+
 #ifndef OTMAPPING_SINKHORN_H
 #define OTMAPPING_SINKHORN_H
+#include <Eigen/Core>
+#include <iostream>
 auto stable_log_sum = [](Eigen::ArrayXXd X){
     Eigen::ArrayXd max_X = X.rowwise().maxCoeff();
     for(int i=0; i< X.cols();++i){

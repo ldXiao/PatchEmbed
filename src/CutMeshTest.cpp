@@ -2,7 +2,7 @@
 // Created by Lind Xiao on 6/6/19.
 //
 #include "CutMesh.h"
-#include "cxxopts.hpp"
+#include <cxxopts.hpp>
 #include <igl/readOBJ.h>
 #include <igl/opengl/glfw/Viewer.h>
 #include <math.h>

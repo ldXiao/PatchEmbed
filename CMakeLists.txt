@@ -33,6 +33,10 @@ option(LIBIGL_WITH_XML               "Use XML"            OFF)
 
 find_package(LIBIGL REQUIRED QUIET)
 
+#cxxopts
+add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/external/cxxopts)
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/external/cxxopts/include)
+
 # Add your project files
 file(GLOB SRCFILES src/main.cpp)
 add_executable(${PROJECT_NAME}_bin
@@ -48,9 +52,13 @@ add_executable(cutmeshtest_bin
         src/CutMesh.h
         src/CutMesh.cpp
         src/Sinkhorn.hpp
-        src/cxxopts.hpp)
-target_link_libraries(cutmeshtest_bin igl::core igl::cgal igl::opengl igl::opengl_glfw)
+        )
+target_link_libraries(cutmeshtest_bin igl::core igl::cgal igl::opengl igl::opengl_glfw cxxopts)
 add_executable(sinkhorntest_bin
         src/Sinkhorn.hpp
         src/sinkhorntest.cpp)
 target_link_libraries(sinkhorntest_bin igl::core)
+add_executable(quadratic_OT_bin
+        src/quadratic_OT.hpp
+        src/quadratic_OT_test.cpp)
+target_link_libraries(quadratic_OT_bin igl::core)
