@@ -49,16 +49,7 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="295248be-c225-463f-a6b6-c526a188320c" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/quadratic_OT.hpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/quadratic_OT_test.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CMakeLists.txt" beforeDir="false" afterPath="$PROJECT_DIR$/CMakeLists.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/CutMeshTest.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/CutMeshTest.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Sinkhorn.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/Sinkhorn.hpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/cxxopts.hpp" beforeDir="false" />
-    </list>
+    <list default="true" id="295248be-c225-463f-a6b6-c526a188320c" name="Default Changelist" comment="" />
     <ignored path="$PROJECT_DIR$/cmake-build-debug/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -594,23 +585,22 @@
       <workItem from="1559838287251" duration="29756000" />
       <workItem from="1559870546564" duration="13664000" />
       <workItem from="1559940475502" duration="77486000" />
-      <workItem from="1560111138488" duration="24207000" />
+      <workItem from="1560111138488" duration="24540000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="145113000" />
+    <option name="totallyTimeSpent" value="145446000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1280" height="777" extended-state="0" />
-    <editor active="true" />
     <layout>
       <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.26171243" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.329927" />
-      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.3974152" weight="0.36058393" />
+      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.3974152" visible="true" weight="0.36058393" />
       <window_info anchor="bottom" id="Debug" order="3" sideWeight="0.4927302" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -620,7 +610,7 @@
       <window_info anchor="bottom" id="Terminal" order="9" sideWeight="0.4983845" weight="0.329927" />
       <window_info anchor="bottom" id="Event Log" order="10" sideWeight="0.60258484" side_tool="true" weight="0.35036495" />
       <window_info anchor="bottom" id="Version Control" order="11" show_stripe_button="false" />
-      <window_info anchor="bottom" id="CMake" order="12" sideWeight="0.4806139" visible="true" weight="0.32554746" />
+      <window_info anchor="bottom" id="CMake" order="12" sideWeight="0.4806139" weight="0.32554746" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
