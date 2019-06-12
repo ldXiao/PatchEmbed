@@ -7,7 +7,7 @@ matrix:
     script:
     - git clone https://github.com/libigl/libigl.git ../libigl
     - cd ../libigl && git submodule update --recursive --init && cd $TRAVIS_BUILD_DIR
-    - cd external
+    - mkdir external && cd external
     - git clone https://github.com/jarro2783/cxxopts.git && cd $TRAVIS_BUILD_DIR
     - mkdir build
     - cd build
@@ -30,7 +30,7 @@ matrix:
     compiler: clang
     script:
     - git clone --recursive https://github.com/libigl/libigl.git ../libigl
-    - cd external
+    - mkdir external && cd external
     - git clone https://github.com/jarro2783/cxxopts.git && cd $TRAVIS_BUILD_DIR
     - mkdir build
     - cd build
