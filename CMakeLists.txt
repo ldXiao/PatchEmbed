@@ -9,7 +9,7 @@ download_project(
     SOURCE_DIR   ${CMAKE_CURRENT_SOURCE_DIR}/external/libigl
     DOWNLOAD_DIR ${CMAKE_CURRENT_SOURCE_DIR}/external/.cache/libigl
     GIT_REPOSITORY https://github.com/libigl/libigl.git
-    GIT_TAG        e699d257fe860d4fd82709835e72438bd0cd1533
+    GIT_TAG       v2.1.0
 )
 download_project(
         PROJ         cxxopts
@@ -59,7 +59,7 @@ add_executable(cutmeshtest_bin
         src/CutMesh.h
         src/CutMesh.cpp
         src/Sinkhorn.hpp
-        )
+        src/Skeleton.cpp src/Skeleton.h)
 target_link_libraries(cutmeshtest_bin igl::core igl::cgal igl::opengl igl::opengl_glfw cxxopts)
 add_executable(sinkhorntest_bin
         src/Sinkhorn.hpp
@@ -69,3 +69,8 @@ add_executable(quadratic_OT_bin
         src/quadratic_OT.hpp
         src/quadratic_OT_test.cpp)
 target_link_libraries(quadratic_OT_bin igl::core)
+add_executable(exportCutMesh_bin
+        src/CutMesh.h
+        src/CutMesh.cpp
+        src/exportCutMesh.cpp)
+target_link_libraries(exportCutMesh_bin igl::core igl::cgal igl::opengl igl::opengl_glfw cxxopts)

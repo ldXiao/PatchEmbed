@@ -5,6 +5,7 @@
     <mapping directory="$PROJECT_DIR$/external/cxxopts" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/external/libigl" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/external/libigl/external/cgal" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/external/libigl/external/eigen" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/external/libigl/external/glad" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/external/libigl/external/glfw" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/external/libigl/external/imgui" vcs="Git" />
