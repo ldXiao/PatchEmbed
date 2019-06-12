@@ -49,7 +49,9 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="295248be-c225-463f-a6b6-c526a188320c" name="Default Changelist" comment="" />
+    <list default="true" id="295248be-c225-463f-a6b6-c526a188320c" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+    </list>
     <ignored path="$PROJECT_DIR$/cmake-build-debug/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -73,7 +75,7 @@
           <entry key="Core" value="1" />
           <entry key="cmake" value="2" />
           <entry key="cpp" value="36" />
-          <entry key="gitignore" value="1" />
+          <entry key="gitignore" value="2" />
           <entry key="h" value="37" />
           <entry key="hpp" value="3" />
           <entry key="map" value="1" />
@@ -88,7 +90,7 @@
         <counts>
           <entry key="CMakeLists.txt" value="12" />
           <entry key="ObjectiveC" value="80" />
-          <entry key="PLAIN_TEXT" value="4" />
+          <entry key="PLAIN_TEXT" value="5" />
           <entry key="YAML" value="6" />
         </counts>
       </usages-collector>
@@ -101,7 +103,7 @@
           <entry key="hpp" value="673" />
           <entry key="obj" value="34" />
           <entry key="txt" value="505" />
-          <entry key="yml" value="70" />
+          <entry key="yml" value="88" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
@@ -109,7 +111,7 @@
           <entry key="CMakeLists.txt" value="582" />
           <entry key="ObjectiveC" value="21970" />
           <entry key="PLAIN_TEXT" value="36" />
-          <entry key="YAML" value="70" />
+          <entry key="YAML" value="88" />
         </counts>
       </usages-collector>
     </session>
@@ -154,11 +156,20 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/.travis.yml">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="445">
-              <caret line="32" column="6" selection-start-line="32" selection-start-column="6" selection-end-line="32" selection-end-column="6" />
+            <state relative-caret-position="275">
+              <caret line="14" column="13" selection-start-line="14" selection-start-column="13" selection-end-line="14" selection-end-column="13" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/.gitignore">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="72">
+              <caret line="3" column="3" selection-start-line="3" selection-start-column="3" selection-end-line="3" selection-end-column="3" />
             </state>
           </provider>
         </entry>
@@ -241,7 +252,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/.gitignore" />
         <option value="$PROJECT_DIR$/data/polysphere.obj" />
         <option value="$PROJECT_DIR$/data/cube.obj" />
         <option value="$PROJECT_DIR$/src/main2.cpp" />
@@ -256,8 +266,9 @@
         <option value="$PROJECT_DIR$/src/Sinkhorn.hpp" />
         <option value="$PROJECT_DIR$/src/quadratic_OT_test.cpp" />
         <option value="$PROJECT_DIR$/src/quadratic_OT.hpp" />
-        <option value="$PROJECT_DIR$/.travis.yml" />
         <option value="$PROJECT_DIR$/CMakeLists.txt" />
+        <option value="$PROJECT_DIR$/.travis.yml" />
+        <option value="$PROJECT_DIR$/.gitignore" />
       </list>
     </option>
   </component>
@@ -337,7 +348,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Application.quadratic_OT_bin">
+  <component name="RunManager" selected="Application.cutmeshtest_bin">
     <configuration name="Build All" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" CONFIG_NAME="Debug" EXPLICIT_BUILD_TARGET_NAME="all">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
@@ -594,12 +605,12 @@
       <workItem from="1559838287251" duration="29756000" />
       <workItem from="1559870546564" duration="13664000" />
       <workItem from="1559940475502" duration="77486000" />
-      <workItem from="1560111138488" duration="25511000" />
+      <workItem from="1560111138488" duration="25976000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="146417000" />
+    <option name="totallyTimeSpent" value="146882000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1280" height="777" extended-state="0" />
@@ -682,7 +693,6 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/map_UV_vector_field.h" />
     <entry file="file://$PROJECT_DIR$/data/polysphere.obj">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="39">
@@ -1029,8 +1039,15 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/.travis.yml">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="445">
-          <caret line="32" column="6" selection-start-line="32" selection-start-column="6" selection-end-line="32" selection-end-column="6" />
+        <state relative-caret-position="275">
+          <caret line="14" column="13" selection-start-line="14" selection-start-column="13" selection-end-line="14" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/.gitignore">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="72">
+          <caret line="3" column="3" selection-start-line="3" selection-start-column="3" selection-end-line="3" selection-end-column="3" />
         </state>
       </provider>
     </entry>
