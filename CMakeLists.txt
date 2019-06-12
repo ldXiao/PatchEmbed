@@ -11,6 +11,13 @@ download_project(
     GIT_REPOSITORY https://github.com/libigl/libigl.git
     GIT_TAG        e699d257fe860d4fd82709835e72438bd0cd1533
 )
+download_project(
+        PROJ         cxxopts
+        SOURCE_DIR   ${CMAKE_CURRENT_SOURCE_DIR}/external/cxxopts
+        DOWNLOAD_DIR ${CMAKE_CURRENT_SOURCE_DIR}/external/.cache/cxxopts
+        GIT_REPOSITORY https://github.com/jarro2783/cxxopts.git
+        GIT_TAG        v2.1.1-30-gbd20573
+)
 # libigl
 option(LIBIGL_USE_STATIC_LIBRARY "Use libigl as static library" OFF)
 option(LIBIGL_WITH_ANTTWEAKBAR       "Use AntTweakBar"    OFF)
