@@ -88,13 +88,6 @@ bool key_down(igl::opengl::glfw::Viewer &viewer, unsigned char key, int mods)
                             (boolean_type+igl::NUM_MESH_BOOLEAN_TYPES-1)%
                             igl::NUM_MESH_BOOLEAN_TYPES);
             break;
-        case '[':
-            viewer.core.camera_dnear -= 0.1;
-            return true;
-        case ']':
-            viewer.core.camera_dnear += 0.1;
-            return true;
-
     }
     update(viewer);
     return true;
@@ -114,12 +107,9 @@ int main(int argc, char *argv[])
 
     viewer.data().show_lines = true;
     viewer.callback_key_down = &key_down;
-    viewer.core.camera_dnear = 3.9;
     cout<<
         "Press '.' to switch to next boolean operation type."<<endl<<
         "Press ',' to switch to previous boolean operation type."<<endl<<
-        "Press ']' to push near cutting plane away from camera."<<endl<<
-        "Press '[' to pull near cutting plane closer to camera."<<endl<<
         "Hint: investigate _inside_ the model to see orientation changes."<<endl;
     viewer.launch();
 }
