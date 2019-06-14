@@ -35,6 +35,7 @@ int main(int argc, char *argv[]){
             ("f, file", "File name", cxxopts::value<std::string>())
             ("n, num","Sample number", cxxopts::value<int>())
             ("c, cut","cut the mesh", cxxopts::value<bool>())
+            ("e, eps","sikhorn const eps (1/lambda)", cxxopts::value<double>())
             ;
     auto args = options.parse(argc, argv);
     // Load a mesh in OBJ format
@@ -43,6 +44,7 @@ int main(int argc, char *argv[]){
     int sample_num=args["n"].as<int>();
     auto func = [](Eigen::Vector3d x)->double{return std::sin(x[0]+x[1]+x[2]);};
     CM.set_initial(V, F, sample_num , func);
+    CM.set_sinkhorn_const(args["e"].as<double>(), 0.01,100);
     std::cout << "holy shit1" << std::endl;
     if(args["cut"].as<bool>()) {
         Eigen::Vector3d p0(0, 0, 0);

@@ -30,7 +30,7 @@ int main(){
     Eigen::MatrixXd Y =sinkhorn(
             Eigen::VectorXd::Constant(3,1/double(3)),
             Eigen::VectorXd::Constant(3,1/double(3)),
-            K, 1e-6, 10, 1e-6);
+            K, 1e-6, 10, 1e-5);
     std::cout << Y<<std::endl;
 }
 

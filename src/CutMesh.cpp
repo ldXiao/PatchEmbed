@@ -230,7 +230,7 @@ void CutMesh::plot_CutMesh(igl::opengl::glfw::Viewer &viewer, unsigned char opti
                 viewer.data_list[i+1].set_colors(Eigen::RowVector3d(1,1,1));
             }
             this->compute_CostMatrix(this->SamplePerturb,this->SampleInitial,'a');
-            this->Sinkhorn(1e-2,1e-3, 20,true);
+            this->Sinkhorn();
             viewer.selected_data_index = 0;
             viewer.data().point_size= 11;
             viewer.data().add_points(this->SampleInitial, this->TransportPlan*SamplePerturbColor);
@@ -258,6 +258,12 @@ void CutMesh::set_initial(const Eigen::MatrixXd &V, const Eigen::MatrixXi &F, co
     for (int i = 0; i < this->SampleNum; ++i) {
         SampleVals[i] = func(SampleInitial.row(i));
     }
+}
+
+void CutMesh::set_sinkhorn_const(const double eps, const double threshold, const int maxiter){
+    this->SinkhornEps = eps;
+    this->SinkhornThreshold = threshold;
+    this->SinkhornMaxIter= maxiter;
 }
 
 void CutMesh::separate_cube_faces(){
@@ -456,7 +462,7 @@ void CutMesh::compute_CostMatrix(Eigen::MatrixXd source, Eigen::MatrixXd target,
     }
 }
 
-void CutMesh::Sinkhorn(double eps, double stop_thresh, int max_iters, bool round){
+void CutMesh::Sinkhorn(){
     /*
     Compute the Sinkhorn divergence between two sum of dirac delta distributions, U, and V.
             This implementation is numerically stable with float32.
@@ -469,18 +475,20 @@ void CutMesh::Sinkhorn(double eps, double stop_thresh, int max_iters, bool round
         if (this->CostMatrix.rows()< this->SampleInitial.rows()) {
             throw "CostMatrix not initialized";
         }
-//        if (this->TransportPlan.rows() < this->SampleInitial.rows()){
-//            throw "TransportPlan not initialized";
-//        }
+        if (this->SinkhornEps==0 or this->SinkhornMaxIter==0){
+            throw "Sinkhorn constant not initialized";
+        }
     }
     catch(std::string a){
+        std::cout << "Exception accurred"<<
+        " "<< a<<std::endl;
     }
     int n = this->SampleNum;
     this->TransportPlan = sinkhorn(
             Eigen::VectorXd::Constant(n,1),
             Eigen::VectorXd::Constant(n,1),
-            this->CostMatrix, eps, max_iters, stop_thresh);
-    if(round){
+            this->CostMatrix, this->SinkhornEps, this->SinkhornMaxIter, this->SinkhornThreshold);
+    if(this->round){
         for(unsigned int i=0; i< this->SampleNum; ++i){
             int max_idx = 0;
             double max_val = this->TransportPlan(i,0);

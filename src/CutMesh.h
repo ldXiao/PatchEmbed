@@ -25,8 +25,6 @@ namespace OTMapping {
         Eigen::MatrixXd SampleInitial;
         Eigen::VectorXd SampleVals;
         Eigen::MatrixXd SamplePerturb;
-        Eigen::MatrixXd SampleNormal;
-        Eigen::MatrixXd SampleNormaPerturb;
         int SampleNum;
 
         std::vector<std::unique_ptr<Eigen::MatrixXd> > ComponentsVertices;
@@ -34,10 +32,10 @@ namespace OTMapping {
         std::vector<std::unique_ptr<Eigen::MatrixXi> > ComponentsFaces;
         std::vector<std::unique_ptr<Eigen::MatrixXd> > ComponentsSample;
         std::vector<std::unique_ptr<Eigen::VectorXi> > ComponentsSampleIndices;
-        // store the indices of samples in original SampleInitial;
-        std::vector<std::unique_ptr<Eigen::VectorXd> > ComponentVals;
-        std::vector<std::unique_ptr<Eigen::MatrixXd> > ComponentNorms;
+        // store the indices of samples in original SampleInitial
 
+
+        
 
         Eigen::MatrixXd TransportPlan;
         Eigen::MatrixXd CostMatrix;
@@ -46,6 +44,7 @@ namespace OTMapping {
 
         void set_initial(const Eigen::MatrixXd &, const Eigen::MatrixXi &, const int,
                          std::function<double(Eigen::Vector3d)>);
+        void set_sinkhorn_const(const double, const double, const int);
         void separate_cube_faces();
 
         void cut_with(const Eigen::Vector3d & p0,
@@ -59,7 +58,11 @@ namespace OTMapping {
 
         void compute_CostMatrix(Eigen::MatrixXd, Eigen::MatrixXd,char options);
 
-        void Sinkhorn(double, double, int, bool);
+        void Sinkhorn();
+        double SinkhornEps=0;
+        double SinkhornThreshold=0;
+        int SinkhornMaxIter=0;
+        bool round = true;
     };
 }
 double color_error(Eigen::MatrixXd C0, Eigen::MatrixXd C1);

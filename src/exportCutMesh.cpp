@@ -23,6 +23,7 @@ int main(int argc, char *argv[]){
             ("i, infile", "File name", cxxopts::value<std::string>())
             ("o, outfile","Sample number", cxxopts::value<std::string>())
             ("c, cut", "cut or separate(for cube only)", cxxopts::value<bool>())
+            ("e,eps", "sinkhorn eps", cxxopts::value<double>())
             ;
     auto args = options.parse(argc, argv);
 

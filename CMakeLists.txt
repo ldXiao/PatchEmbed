@@ -18,6 +18,16 @@ download_project(
         GIT_REPOSITORY https://github.com/jarro2783/cxxopts.git
         GIT_TAG        v2.1.1-30-gbd20573
 )
+
+
+download_project(
+        PROJ         json
+        SOURCE_DIR   ${CMAKE_CURRENT_SOURCE_DIR}/external/json
+        DOWNLOAD_DIR ${CMAKE_CURRENT_SOURCE_DIR}/external/.cache/json
+        GIT_REPOSITORY https://github.com/nlohmann/json.git
+        GIT_TAG        v3.6.1
+)
+
 # libigl
 option(LIBIGL_USE_STATIC_LIBRARY "Use libigl as static library" OFF)
 option(LIBIGL_WITH_ANTTWEAKBAR       "Use AntTweakBar"    OFF)
@@ -41,26 +51,35 @@ option(LIBIGL_WITH_XML               "Use XML"            OFF)
 find_package(LIBIGL REQUIRED QUIET)
 
 #cxxopts
-add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/external/cxxopts)
-include_directories(${CMAKE_CURRENT_SOURCE_DIR}/external/cxxopts/include)
+#add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/external/cxxopts)
+add_library(cxxopts INTERFACE)
+target_include_directories(cxxopts SYSTEM INTERFACE ${CMAKE_CURRENT_SOURCE_DIR}/external/cxxopts/include)
 
+#json
+add_library(json INTERFACE)
+target_include_directories(json SYSTEM INTERFACE ${CMAKE_CURRENT_SOURCE_DIR}/external/json/include)
+
+#
+set(SOURCES
+    src/CutMesh.cpp
+    src/CutMesh.h
+    src/Sinkhorn.hpp
+    src/Skeleton.cpp
+    src/Skeleton.h
+    src/exportCutMesh.cpp
+)
+add_library(otmapping ${SOURCES})
+target_link_libraries(otmapping PUBLIC json igl::core igl::cgal igl::opengl_glfw igl::opengl_glfw_imgui cxxopts)
 # Add your project files
-file(GLOB SRCFILES src/main.cpp)
-add_executable(${PROJECT_NAME}_bin
-        src/main.cpp
-        src/CutMesh.h
-        src/CutMesh.cpp
-        src/Sinkhorn.hpp)
-target_link_libraries(${PROJECT_NAME}_bin igl::core  igl::cgal igl::opengl_glfw igl::opengl_glfw_imgui)
+
+add_executable(${PROJECT_NAME}_bin src/main.cpp)
+target_link_libraries(${PROJECT_NAME}_bin PUBLIC otmapping)
 add_executable(cuttest_bin src/main2.cpp src/Sinkhorn.hpp)
 target_link_libraries(cuttest_bin igl::core igl::cgal igl::opengl igl::opengl_glfw)
 add_executable(cutmeshtest_bin
         src/CutMeshTest.cpp
-        src/CutMesh.h
-        src/CutMesh.cpp
-        src/Sinkhorn.hpp
-        src/Skeleton.cpp src/Skeleton.h)
-target_link_libraries(cutmeshtest_bin igl::core igl::cgal igl::opengl igl::opengl_glfw cxxopts)
+        )
+target_link_libraries(cutmeshtest_bin otmapping)
 add_executable(sinkhorntest_bin
         src/Sinkhorn.hpp
         src/sinkhorntest.cpp)
@@ -70,7 +89,5 @@ add_executable(quadratic_OT_bin
         src/quadratic_OT_test.cpp)
 target_link_libraries(quadratic_OT_bin igl::core)
 add_executable(exportCutMesh_bin
-        src/CutMesh.h
-        src/CutMesh.cpp
         src/exportCutMesh.cpp)
-target_link_libraries(exportCutMesh_bin igl::core igl::cgal igl::opengl igl::opengl_glfw cxxopts)
+target_link_libraries(exportCutMesh_bin otmapping)
