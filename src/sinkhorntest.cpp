@@ -4,6 +4,7 @@
 #include "Sinkhorn.hpp"
 #include <Eigen/Core>
 #include <iostream>
+#include <nlohmann/json.hpp>
 int main(){
 //    auto stable_log_sum = [](Eigen::ArrayXXd X){
 //        double max_X = X.maxCoeff();

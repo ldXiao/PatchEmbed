@@ -83,7 +83,7 @@ target_link_libraries(cutmeshtest_bin otmapping)
 add_executable(sinkhorntest_bin
         src/Sinkhorn.hpp
         src/sinkhorntest.cpp)
-target_link_libraries(sinkhorntest_bin igl::core)
+target_link_libraries(sinkhorntest_bin igl::core json)
 add_executable(quadratic_OT_bin
         src/quadratic_OT.hpp
         src/quadratic_OT_test.cpp)
