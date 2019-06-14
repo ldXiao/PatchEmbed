@@ -7,11 +7,14 @@
 #include <igl/opengl/glfw/Viewer.h>
 #include <math.h>
 #include <memory>
+#include <fstream>
 #include <utility>
+#include <nlohmann/json.hpp>
 // Mesh
 Eigen::MatrixXd V;
 Eigen::MatrixXi F;
 OTMapping::CutMesh CM;
+using json = nlohmann::json;
 bool key_down(igl::opengl::glfw::Viewer &viewer, unsigned char key, int modifier) {
     using namespace Eigen;
     using namespace std;
@@ -32,31 +35,19 @@ int main(int argc, char *argv[]){
     }
     cxxopts::Options options("CutMesh", "One line description of MyProgram");
     options.add_options()
-            ("f, file", "File name", cxxopts::value<std::string>())
-            ("n, num","Sample number", cxxopts::value<int>())
-            ("c, cut","cut the mesh", cxxopts::value<bool>())
-            ("e, eps","sikhorn const eps (1/lambda)", cxxopts::value<double>())
+            ("j, json","json storing parameters", cxxopts::value<std::string>())
             ;
     auto args = options.parse(argc, argv);
     // Load a mesh in OBJ format
-    igl::readOBJ(args["file"].as<std::string>(), V, F);
     igl::opengl::glfw::Viewer viewer;
-    int sample_num=args["n"].as<int>();
-    auto func = [](Eigen::Vector3d x)->double{return std::sin(x[0]+x[1]+x[2]);};
-    CM.set_initial(V, F, sample_num , func);
-    CM.set_sinkhorn_const(args["e"].as<double>(), 0.01,100);
-    std::cout << "holy shit1" << std::endl;
-    if(args["cut"].as<bool>()) {
-        Eigen::Vector3d p0(0, 0, 0);
-        Eigen::Vector3d p1(0, 0, 0);
-        Eigen::Vector3d n1(0, 0, 1);
-        Eigen::Vector3d n0(0, 1, 0.5);
-        CM.cut_with(p0, n0, p1, n1);
+    json param_json;
+    {
+        std::ifstream temp(args["json"].as<std::string>());
+        param_json= json::parse(temp);
+        std::cout<< param_json<<std::endl;
     }
-    else{
-        CM.separate_cube_faces();
-    }
-    CM.perturb(3, 0.1, 0.02);
+    CM.set_initial_from_json(param_json);
+
     CM.plot_CutMesh(viewer,'i');
     viewer.callback_key_down = &key_down;
     std::cout << "holy shit4" << std::endl;

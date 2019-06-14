@@ -13,6 +13,7 @@
 #include <functional>
 #include <utility>
 #include <tuple>
+#include <nlohmann/json.hpp>
 namespace OTMapping {
     using MeshPair = std::tuple<Eigen::MatrixXd, Eigen::MatrixXi>;
     using SampleTriplet = std::tuple<Eigen::MatrixXd, Eigen::MatrixXd, Eigen::MatrixXd>;
@@ -26,6 +27,7 @@ namespace OTMapping {
         Eigen::VectorXd SampleVals;
         Eigen::MatrixXd SamplePerturb;
         int SampleNum;
+        int point_size;
 
         std::vector<std::unique_ptr<Eigen::MatrixXd> > ComponentsVertices;
         std::vector<std::unique_ptr<Eigen::RowVector3d> > Shifts;
@@ -45,6 +47,8 @@ namespace OTMapping {
         void set_initial(const Eigen::MatrixXd &, const Eigen::MatrixXi &, const int,
                          std::function<double(Eigen::Vector3d)>);
         void set_sinkhorn_const(const double, const double, const int);
+
+        void set_initial_from_json(const nlohmann::json &);
         void separate_cube_faces();
 
         void cut_with(const Eigen::Vector3d & p0,

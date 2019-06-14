@@ -1,0 +1,15 @@
+{
+  "CutMesh_params": {
+    "mesh_file": "../data/cube.obj",
+    "cut": false,
+    "sample_num": 5000,
+    "random_seed": 3,
+    "point_size": 7
+  },
+  "Sinkhorn_params": {
+    "eps": 1e-3,
+    "threshold": 1e-10,
+    "max_iter": 20,
+    "round": false
+  }
+}

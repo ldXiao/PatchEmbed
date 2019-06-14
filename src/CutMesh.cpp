@@ -3,11 +3,13 @@
 //
 
 #include "CutMesh.h"
+#include "Sinkhorn.hpp"
 #include <igl/random_points_on_mesh.h>
 #include <igl/opengl/glfw/Viewer.h>
 #include <igl/copyleft/cgal/intersect_with_half_space.h>
 #include <igl/random_points_on_mesh.h>
 #include <igl/uniformly_sample_two_manifold.h>
+#include <igl/readOBJ.h>
 #include <Eigen/Core>
 #include <memory.h>
 #include <utility>
@@ -15,7 +17,7 @@
 #include <tuple>
 #include <random>
 #include <map>
-#include "Sinkhorn.hpp"
+#include <nlohmann/json.hpp>
 using namespace OTMapping;
 using MeshPair = std::tuple<Eigen::MatrixXd, Eigen::MatrixXi>;
 using MeshTriple = std::tuple<Eigen::MatrixXd, Eigen::MatrixXi, Eigen::VectorXi>;
@@ -137,7 +139,7 @@ void CutMesh::plot_CutMesh(igl::opengl::glfw::Viewer &viewer, unsigned char opti
     std::map<int, Eigen::RowVector3d> component_sample_colors;
     component_sample_colors.emplace(1, Eigen::RowVector3d(1,0,0));
     component_sample_colors.emplace(2, Eigen::RowVector3d(0,1,0));
-    component_sample_colors.emplace(3, Eigen::RowVector3d(1,1,0));
+    component_sample_colors.emplace(3, Eigen::RowVector3d(1,1,1));
     component_sample_colors.emplace(4, Eigen::RowVector3d(1,0,1));
     component_sample_colors.emplace(5, Eigen::RowVector3d(0,0,1));
     component_sample_colors.emplace(6, Eigen::RowVector3d(0,1,1));
@@ -149,12 +151,13 @@ void CutMesh::plot_CutMesh(igl::opengl::glfw::Viewer &viewer, unsigned char opti
             = component_sample_colors[i+1];
         }
     }
+    int point_size = this->point_size;
     switch(options) {
         case 'i':
             viewer.init();
-            viewer.data().point_size = 11;
+            viewer.data().point_size = point_size;
             for(unsigned int i =0; i < this->ComponentsVertices.size(); ++i) {
-                viewer.data().point_size = 11;
+                viewer.data().point_size = point_size;
                 viewer.append_mesh();
             }
             break;
@@ -180,7 +183,7 @@ void CutMesh::plot_CutMesh(igl::opengl::glfw::Viewer &viewer, unsigned char opti
             }
             for(auto &data : viewer.data_list){
                 data.set_colors(component_colors[data.id]);
-                data.point_size = 11;
+                data.point_size = point_size;
             }
             break;
         case '3':
@@ -192,7 +195,7 @@ void CutMesh::plot_CutMesh(igl::opengl::glfw::Viewer &viewer, unsigned char opti
             viewer.data().add_points(this->SamplePerturb, SamplePerturbColor);
             for(auto &data : viewer.data_list){
 //                data.set_colors(component_colors[data.id]);
-                data.point_size = 11;
+                data.point_size = point_size;
                 data.set_colors(component_colors[data.id]);
             }
             break;
@@ -210,7 +213,7 @@ void CutMesh::plot_CutMesh(igl::opengl::glfw::Viewer &viewer, unsigned char opti
                 viewer.data_list[i+1].set_colors(Eigen::RowVector3d(1,1,1));
             }
             viewer.selected_data_index = 0;
-            viewer.data().point_size= 11;
+            viewer.data().point_size= point_size;
             this->to_nearest();
             viewer.data().add_points(this->SampleInitial, this->TransportPlan*SamplePerturbColor);
             std::cout << "the color error for nearst neighbor ="
@@ -232,10 +235,44 @@ void CutMesh::plot_CutMesh(igl::opengl::glfw::Viewer &viewer, unsigned char opti
             this->compute_CostMatrix(this->SamplePerturb,this->SampleInitial,'a');
             this->Sinkhorn();
             viewer.selected_data_index = 0;
-            viewer.data().point_size= 11;
+            viewer.data().point_size= point_size;
             viewer.data().add_points(this->SampleInitial, this->TransportPlan*SamplePerturbColor);
             std::cout << "the color error for L2-norm cost ="
                       << color_error(this->TransportPlan*SamplePerturbColor,SamplePerturbColor)<< std::endl;
+            std::cout << this->TransportPlan*SamplePerturbColor << std::endl;
+    }
+}
+
+void CutMesh::set_initial_from_json(const nlohmann::json & params){
+    if(params.find("CutMesh_params")!= params.end()){
+        auto CutMesh_params = params["CutMesh_params"];
+        Eigen::MatrixXd V;
+        Eigen::MatrixXi F;
+        igl::readOBJ(CutMesh_params["mesh_file"],V, F);
+        auto func = [](Eigen::Vector3d x)->double{return std::sin(x[0]+x[1]+x[2]);};
+        this->set_initial(V,F,CutMesh_params["sample_num"],func);
+        if(CutMesh_params["cut"]){
+            Eigen::Vector3d p0(0, 0, 0);
+            Eigen::Vector3d p1(0, 0, 0);
+            Eigen::Vector3d n1(0, 0, 1);
+            Eigen::Vector3d n0(0, 1, 0.5);
+            this->cut_with(p0, n0, p1, n1);
+        }
+        else{
+            this->separate_cube_faces();
+        }
+        this->point_size = CutMesh_params["point_size"];
+        this->perturb(CutMesh_params["random_seed"],0.1,0.02);
+        if(params.find("Sinkhorn_params")!= params.end()){
+            auto Sinkhorn_params = params["Sinkhorn_params"];
+            this->set_sinkhorn_const(
+                    Sinkhorn_params["eps"],
+                    Sinkhorn_params["threshold"],
+                    Sinkhorn_params["max_iter"]);
+            this->round = Sinkhorn_params["round"];
+        }
+
+
     }
 }
 
