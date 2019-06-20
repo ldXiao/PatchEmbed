@@ -9,25 +9,7 @@ download_project(
     SOURCE_DIR   ${CMAKE_CURRENT_SOURCE_DIR}/external/libigl
     DOWNLOAD_DIR ${CMAKE_CURRENT_SOURCE_DIR}/external/.cache/libigl
     GIT_REPOSITORY https://github.com/libigl/libigl.git
-    GIT_TAG       v2.1.0
-)
-download_project(
-        PROJ         cxxopts
-        SOURCE_DIR   ${CMAKE_CURRENT_SOURCE_DIR}/external/cxxopts
-        DOWNLOAD_DIR ${CMAKE_CURRENT_SOURCE_DIR}/external/.cache/cxxopts
-        GIT_REPOSITORY https://github.com/jarro2783/cxxopts.git
-        GIT_TAG        v2.1.1-30-gbd20573
-)
-
-
-download_project(
-        PROJ         json
-        SOURCE_DIR   ${CMAKE_CURRENT_SOURCE_DIR}/external/json
-        DOWNLOAD_DIR ${CMAKE_CURRENT_SOURCE_DIR}/external/.cache/json
-        GIT_REPOSITORY https://github.com/nlohmann/json.git
-        GIT_TAG        v3.6.1
-)
-
+    GIT_TAG       v2.1.0)
 # libigl
 option(LIBIGL_USE_STATIC_LIBRARY "Use libigl as static library" OFF)
 option(LIBIGL_WITH_ANTTWEAKBAR       "Use AntTweakBar"    OFF)
@@ -49,7 +31,19 @@ option(LIBIGL_WITH_VIEWER            "Use OpenGL viewer"  ON)
 option(LIBIGL_WITH_XML               "Use XML"            OFF)
 
 find_package(LIBIGL REQUIRED QUIET)
-
+download_project(
+        PROJ         json
+        SOURCE_DIR   ${CMAKE_CURRENT_SOURCE_DIR}/external/json
+        DOWNLOAD_DIR ${CMAKE_CURRENT_SOURCE_DIR}/external/.cache/json
+        GIT_REPOSITORY https://github.com/nlohmann/json.git
+        GIT_TAG        v3.6.1
+)
+download_project(
+        PROJ         cxxopts
+        SOURCE_DIR   ${CMAKE_CURRENT_SOURCE_DIR}/external/cxxopts
+        DOWNLOAD_DIR ${CMAKE_CURRENT_SOURCE_DIR}/external/.cache/cxxopts
+        GIT_REPOSITORY https://github.com/jarro2783/cxxopts.git
+        GIT_TAG        v2.1.2)
 #cxxopts
 #add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/external/cxxopts)
 add_library(cxxopts INTERFACE)

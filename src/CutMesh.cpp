@@ -9,6 +9,7 @@
 #include <igl/copyleft/cgal/intersect_with_half_space.h>
 #include <igl/random_points_on_mesh.h>
 #include <igl/uniformly_sample_two_manifold.h>
+#include <igl/triangle_triangle_adjacency.h>
 #include <igl/readOBJ.h>
 #include <Eigen/Core>
 #include <memory.h>
@@ -193,6 +194,10 @@ void CutMesh::plot_CutMesh(igl::opengl::glfw::Viewer &viewer, unsigned char opti
             viewer.selected_data_index = 0;
             viewer.data().add_points(this->SampleInitial, Eigen::RowVector3d(0, 0, 1));
             viewer.data().add_points(this->SamplePerturb, SamplePerturbColor);
+            viewer.data().add_edges(
+                    igl::slice(this->SamplePerturb,this->SkeletonIndices0,1),
+                    igl::slice(this->SamplePerturb,this->SkeletonIndices1,1),
+                    Eigen::RowVector3d(0,0,0));
             for(auto &data : viewer.data_list){
 //                data.set_colors(component_colors[data.id]);
                 data.point_size = point_size;
@@ -271,8 +276,7 @@ void CutMesh::set_initial_from_json(const nlohmann::json & params){
                     Sinkhorn_params["max_iter"]);
             this->round = Sinkhorn_params["round"];
         }
-
-
+        this->build_elastic_tensor(CutMesh_params["skeleton_range"],0.1);
     }
 }
 
@@ -301,6 +305,62 @@ void CutMesh::set_sinkhorn_const(const double eps, const double threshold, const
     this->SinkhornEps = eps;
     this->SinkhornThreshold = threshold;
     this->SinkhornMaxIter= maxiter;
+}
+
+void CutMesh::build_elastic_tensor(double range, double strength) {
+    unsigned int num_components = this->ComponentsSample.size();
+    std::vector<Eigen::Triplet<double> >Elastic_JK;
+    std::vector<Eigen::Triplet<double> >QuadraticCost_JaKb;
+    this->Skeleton0.resize(std::pow(this->SampleNum,2)/2,3);
+    this->Skeleton1.resize(std::pow(this->SampleNum,2)/2,3);
+    this->SkeletonIndices0.resize(std::pow(this->SampleNum,2)/2,1);
+    this->SkeletonIndices1.resize(std::pow(this->SampleNum,2)/2,1);
+    int count = 0;
+    for(int i =0; i< num_components; ++i){
+        for(int j=0; j < this->ComponentsSampleIndices[i]->rows()-1; ++j){
+            for(int k=j+1; k< this->ComponentsSampleIndices[i]->rows();++k){
+                int idj = this->ComponentsSampleIndices[i]->coeff(j,0);
+                int idk = this->ComponentsSampleIndices[i]->coeff(k,0);
+                if((this->SamplePerturb.row(idk)-this->SamplePerturb.row(idj)).norm()<range){
+                    Elastic_JK.push_back(Eigen::Triplet<double>(idj,idk,strength));
+                    Elastic_JK.push_back(Eigen::Triplet<double>(idk,idj,strength));
+                    this->Skeleton0.row(count) = this->SamplePerturb.row(idj);
+                    this->Skeleton1.row(count) = this->SamplePerturb.row(idk);
+                    (this->SkeletonIndices0)(count)= idj;
+                    (this->SkeletonIndices1)(count)= idk;
+                    count += 1;
+                    for(int a = 0; a < this->SampleNum-1; ++a){
+                        for(int b = a+1; b < this->SampleNum;++b){
+                            Eigen::MatrixXd Rjk= this->SamplePerturb.row(idk)-this->SamplePerturb.row(idj);
+                            Eigen::MatrixXd Rab = this->SampleInitial.row(b)-this->SampleInitial.row(a);
+                            QuadraticCost_JaKb.push_back(
+                                    Eigen::Triplet<double>(
+                                            idj*this->SampleNum + a,
+                                            idk*this->SampleNum + b,
+                                            pow((Rjk-Rab).norm(),2)
+                                            ));
+                            QuadraticCost_JaKb.push_back(
+                                    Eigen::Triplet<double>(
+                                            idj*this->SampleNum + b,
+                                            idk*this->SampleNum + a,
+                                            pow((Rjk+Rab).norm(),2)
+                                    ));
+                        }
+                    }
+                }
+            }
+        }
+    }
+    this->Skeleton0.conservativeResize(count,3);
+    this->Skeleton0.conservativeResize(count,3);
+    this->SkeletonIndices0.conservativeResize(count,1);
+    this->SkeletonIndices1.conservativeResize(count,1);
+    Eigen::SparseMatrix<double> temp(this->SampleNum,this->SampleNum);
+    Eigen::SparseMatrix<double> temp2(pow(this->SampleNum,2),pow(this->SampleNum,2));
+    temp.setFromTriplets(Elastic_JK.begin(), Elastic_JK.end());
+    temp2.setFromTriplets(QuadraticCost_JaKb.begin(), QuadraticCost_JaKb.end());
+    this->ElasticTensor = temp;
+    this->QuadraticCostMatrix = temp2;
 }
 
 void CutMesh::separate_cube_faces(){

@@ -9,6 +9,7 @@
 #include <Eigen/Core>
 #include <igl/opengl/glfw/Viewer.h>
 #include <Eigen/StdVector>
+#include <Eigen/Sparse>
 #include <vector>
 #include <functional>
 #include <utility>
@@ -26,6 +27,10 @@ namespace OTMapping {
         Eigen::MatrixXd SampleInitial;
         Eigen::VectorXd SampleVals;
         Eigen::MatrixXd SamplePerturb;
+        Eigen::MatrixXd Skeleton0;
+        Eigen::MatrixXd Skeleton1;
+        Eigen::VectorXi SkeletonIndices0;
+        Eigen::VectorXi SkeletonIndices1;
         int SampleNum;
         int point_size;
 
@@ -42,12 +47,13 @@ namespace OTMapping {
         Eigen::MatrixXd TransportPlan;
         Eigen::MatrixXd CostMatrix;
         Eigen::VectorXi SampleSourceFace;
+        Eigen::SparseMatrix<double> ElasticTensor;
+        Eigen::SparseMatrix<double> QuadraticCostMatrix;
         void plot_CutMesh(igl::opengl::glfw::Viewer &viewer, unsigned char options);
-
         void set_initial(const Eigen::MatrixXd &, const Eigen::MatrixXi &, const int,
                          std::function<double(Eigen::Vector3d)>);
         void set_sinkhorn_const(const double, const double, const int);
-
+        void build_elastic_tensor(double range, double l);
         void set_initial_from_json(const nlohmann::json &);
         void separate_cube_faces();
 
@@ -61,7 +67,7 @@ namespace OTMapping {
         Eigen::MatrixXd to_nearest();
 
         void compute_CostMatrix(Eigen::MatrixXd, Eigen::MatrixXd,char options);
-
+        void compute_QuadraticCostMatrix();
         void Sinkhorn();
         double SinkhornEps=0;
         double SinkhornThreshold=0;

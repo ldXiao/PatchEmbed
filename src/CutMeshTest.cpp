@@ -47,7 +47,6 @@ int main(int argc, char *argv[]){
         std::cout<< param_json<<std::endl;
     }
     CM.set_initial_from_json(param_json);
-
     CM.plot_CutMesh(viewer,'i');
     viewer.callback_key_down = &key_down;
     std::cout << "holy shit4" << std::endl;
