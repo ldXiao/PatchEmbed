@@ -4,6 +4,7 @@
 
 #include "CutMesh.h"
 #include "Sinkhorn.hpp"
+#include "Kruskal.hpp"
 #include <igl/random_points_on_mesh.h>
 #include <igl/opengl/glfw/Viewer.h>
 #include <igl/copyleft/cgal/intersect_with_half_space.h>
@@ -276,7 +277,8 @@ void CutMesh::set_initial_from_json(const nlohmann::json & params){
                     Sinkhorn_params["max_iter"]);
             this->round = Sinkhorn_params["round"];
         }
-        this->build_elastic_tensor(CutMesh_params["skeleton_range"],0.1);
+        this->build_graph(CutMesh_params["skeleton_range"],0.1);
+        this->build_tree();
     }
 }
 
@@ -307,52 +309,53 @@ void CutMesh::set_sinkhorn_const(const double eps, const double threshold, const
     this->SinkhornMaxIter= maxiter;
 }
 
-void CutMesh::build_elastic_tensor(double range, double strength) {
+void CutMesh::build_graph(double range, double strength) {
     unsigned int num_components = this->ComponentsSample.size();
     std::vector<Eigen::Triplet<double> >Elastic_JK;
     std::vector<Eigen::Triplet<double> >QuadraticCost_JaKb;
-    this->Skeleton0.resize(std::pow(this->SampleNum,2)/2,3);
-    this->Skeleton1.resize(std::pow(this->SampleNum,2)/2,3);
     this->SkeletonIndices0.resize(std::pow(this->SampleNum,2)/2,1);
     this->SkeletonIndices1.resize(std::pow(this->SampleNum,2)/2,1);
     int count = 0;
     for(int i =0; i< num_components; ++i){
         for(int j=0; j < this->ComponentsSampleIndices[i]->rows()-1; ++j){
+            std::cout << j << std::endl;
             for(int k=j+1; k< this->ComponentsSampleIndices[i]->rows();++k){
                 int idj = this->ComponentsSampleIndices[i]->coeff(j,0);
                 int idk = this->ComponentsSampleIndices[i]->coeff(k,0);
-                if((this->SamplePerturb.row(idk)-this->SamplePerturb.row(idj)).norm()<range){
-                    Elastic_JK.push_back(Eigen::Triplet<double>(idj,idk,strength));
-                    Elastic_JK.push_back(Eigen::Triplet<double>(idk,idj,strength));
+                double norm_jk = (this->SamplePerturb.row(idk)-this->SamplePerturb.row(idj)).norm();
+                if(norm_jk<range){
+                    Elastic_JK.push_back(Eigen::Triplet<double>(idj,idk,norm_jk));
+//                    Elastic_JK.push_back(Eigen::Triplet<double>(idk,idj,norm_jk));
                     this->Skeleton0.row(count) = this->SamplePerturb.row(idj);
                     this->Skeleton1.row(count) = this->SamplePerturb.row(idk);
                     (this->SkeletonIndices0)(count)= idj;
                     (this->SkeletonIndices1)(count)= idk;
                     count += 1;
-                    for(int a = 0; a < this->SampleNum-1; ++a){
-                        for(int b = a+1; b < this->SampleNum;++b){
-                            Eigen::MatrixXd Rjk= this->SamplePerturb.row(idk)-this->SamplePerturb.row(idj);
-                            Eigen::MatrixXd Rab = this->SampleInitial.row(b)-this->SampleInitial.row(a);
-                            QuadraticCost_JaKb.push_back(
-                                    Eigen::Triplet<double>(
-                                            idj*this->SampleNum + a,
-                                            idk*this->SampleNum + b,
-                                            pow((Rjk-Rab).norm(),2)
-                                            ));
-                            QuadraticCost_JaKb.push_back(
-                                    Eigen::Triplet<double>(
-                                            idj*this->SampleNum + b,
-                                            idk*this->SampleNum + a,
-                                            pow((Rjk+Rab).norm(),2)
-                                    ));
-                        }
+                    if(count % 10 == 0){
+                        std::cout << "found " << count << "skeletons"<< std::endl;
                     }
+//                    for(int a = 0; a < this->SampleNum-1; ++a){
+//                        for(int b = a+1; b < this->SampleNum;++b){
+//                            Eigen::MatrixXd Rjk= this->SamplePerturb.row(idk)-this->SamplePerturb.row(idj);
+//                            Eigen::MatrixXd Rab = this->SampleInitial.row(b)-this->SampleInitial.row(a);
+//                            QuadraticCost_JaKb.push_back(
+//                                    Eigen::Triplet<double>(
+//                                            idj*this->SampleNum + a,
+//                                            idk*this->SampleNum + b,
+//                                            pow((Rjk-Rab).norm(),2)
+//                                            ));
+//                            QuadraticCost_JaKb.push_back(
+//                                    Eigen::Triplet<double>(
+//                                            idj*this->SampleNum + b,
+//                                            idk*this->SampleNum + a,
+//                                            pow((Rjk+Rab).norm(),2)
+//                                    ));
+//                        }
+//                    }
                 }
             }
         }
     }
-    this->Skeleton0.conservativeResize(count,3);
-    this->Skeleton0.conservativeResize(count,3);
     this->SkeletonIndices0.conservativeResize(count,1);
     this->SkeletonIndices1.conservativeResize(count,1);
     Eigen::SparseMatrix<double> temp(this->SampleNum,this->SampleNum);
@@ -363,6 +366,22 @@ void CutMesh::build_elastic_tensor(double range, double strength) {
     this->QuadraticCostMatrix = temp2;
 }
 
+void CutMesh::build_tree() {
+    this->ElasticTensor = Kruskal_MST(this->ElasticTensor);
+    Eigen::VectorXi temp0(this->ElasticTensor.nonZeros());
+    Eigen::VectorXi temp1(this->ElasticTensor.nonZeros());
+    int count = 0;
+    for (int k = 0; k <this->ElasticTensor.outerSize(); ++k){
+        for (Eigen::SparseMatrix<double>::InnerIterator it(this->ElasticTensor, k); it; ++it) {
+            temp0(count)= it.row();
+            temp1(count)=it.col();
+            count+=1;
+        }
+    }
+    this->SkeletonIndices0 = temp0;
+    this->SkeletonIndices1 = temp1;
+    std::cout << "after min_spaning tree, the number of skeleton is"<< count << std::endl;
+}
 void CutMesh::separate_cube_faces(){
     std::map<int, std::pair<int, double> > level;
     level.emplace(0,std::make_pair(0, 0.5));

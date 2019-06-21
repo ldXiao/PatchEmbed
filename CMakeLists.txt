@@ -61,7 +61,7 @@ set(SOURCES
     src/Skeleton.cpp
     src/Skeleton.h
     src/exportCutMesh.cpp
-)
+    src/Kruskal.hpp)
 add_library(otmapping ${SOURCES})
 target_link_libraries(otmapping PUBLIC json igl::core igl::cgal igl::opengl_glfw igl::opengl_glfw_imgui cxxopts)
 # Add your project files

@@ -53,7 +53,8 @@ namespace OTMapping {
         void set_initial(const Eigen::MatrixXd &, const Eigen::MatrixXi &, const int,
                          std::function<double(Eigen::Vector3d)>);
         void set_sinkhorn_const(const double, const double, const int);
-        void build_elastic_tensor(double range, double l);
+        void build_graph(double range, double l);
+        void build_tree();
         void set_initial_from_json(const nlohmann::json &);
         void separate_cube_faces();
 

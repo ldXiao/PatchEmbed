@@ -4,7 +4,8 @@
     "cut": true,
     "sample_num": 5000,
     "random_seed": 3,
-    "point_size": 7
+    "point_size": 7,
+    "skeleton_range": 0.1
   },
   "Sinkhorn_params": {
     "eps": 1,
