@@ -2,7 +2,7 @@
   "CutMesh_params": {
     "mesh_file": "../data/cube.obj",
     "cut": false,
-    "sample_num": 10000,
+    "sample_num": 40000,
     "random_seed": 3,
     "point_size": 7,
     "skeleton_range": 0.08

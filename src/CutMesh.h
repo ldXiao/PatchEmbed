@@ -46,6 +46,8 @@ namespace OTMapping {
 
         Eigen::MatrixXd TransportPlan;
         Eigen::MatrixXd CostMatrix;
+        Eigen::SparseMatrix<double> WeightMatrix;
+        Eigen::MatrixXd Centers;
         Eigen::VectorXi SampleSourceFace;
         Eigen::SparseMatrix<double> ElasticTensor;
         Eigen::SparseMatrix<double> QuadraticCostMatrix;
@@ -58,6 +60,10 @@ namespace OTMapping {
         void set_initial_from_json(const nlohmann::json &);
         void separate_cube_faces();
 
+        void compute_WeightMatrix(double sigma);
+        void locate_Centers();
+
+
         void cut_with(const Eigen::Vector3d & p0,
                 const Eigen::Vector3d & n0,
                 const Eigen::Vector3d & p1,
@@ -68,7 +74,6 @@ namespace OTMapping {
         Eigen::MatrixXd to_nearest();
 
         void compute_CostMatrix(Eigen::MatrixXd, Eigen::MatrixXd,char options);
-        void compute_QuadraticCostMatrix();
         void Sinkhorn();
         double SinkhornEps=0;
         double SinkhornThreshold=0;

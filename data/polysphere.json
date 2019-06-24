@@ -2,7 +2,7 @@
   "CutMesh_params": {
     "mesh_file": "../data/polysphere.obj",
     "cut": true,
-    "sample_num": 5000,
+    "sample_num": 500,
     "random_seed": 3,
     "point_size": 7,
     "skeleton_range": 0.1

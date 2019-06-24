@@ -279,6 +279,7 @@ void CutMesh::set_initial_from_json(const nlohmann::json & params){
         }
         this->build_graph(CutMesh_params["skeleton_range"],0.1);
         this->build_tree();
+        this->compute_WeightMatrix(0.5);
     }
 }
 
@@ -326,32 +327,14 @@ void CutMesh::build_graph(double range, double strength) {
                 if(norm_jk<range){
                     Elastic_JK.push_back(Eigen::Triplet<double>(idj,idk,norm_jk));
 //                    Elastic_JK.push_back(Eigen::Triplet<double>(idk,idj,norm_jk));
-                    this->Skeleton0.row(count) = this->SamplePerturb.row(idj);
-                    this->Skeleton1.row(count) = this->SamplePerturb.row(idk);
+//                    this->Skeleton0.row(count) = this->SamplePerturb.row(idj);
+//                    this->Skeleton1.row(count) = this->SamplePerturb.row(idk);
                     (this->SkeletonIndices0)(count)= idj;
                     (this->SkeletonIndices1)(count)= idk;
                     count += 1;
                     if(count % 10 == 0){
                         std::cout << "found " << count << "skeletons"<< std::endl;
                     }
-//                    for(int a = 0; a < this->SampleNum-1; ++a){
-//                        for(int b = a+1; b < this->SampleNum;++b){
-//                            Eigen::MatrixXd Rjk= this->SamplePerturb.row(idk)-this->SamplePerturb.row(idj);
-//                            Eigen::MatrixXd Rab = this->SampleInitial.row(b)-this->SampleInitial.row(a);
-//                            QuadraticCost_JaKb.push_back(
-//                                    Eigen::Triplet<double>(
-//                                            idj*this->SampleNum + a,
-//                                            idk*this->SampleNum + b,
-//                                            pow((Rjk-Rab).norm(),2)
-//                                            ));
-//                            QuadraticCost_JaKb.push_back(
-//                                    Eigen::Triplet<double>(
-//                                            idj*this->SampleNum + b,
-//                                            idk*this->SampleNum + a,
-//                                            pow((Rjk+Rab).norm(),2)
-//                                    ));
-//                        }
-//                    }
                 }
             }
         }
@@ -626,4 +609,42 @@ void CutMesh::Sinkhorn(){
     std::cout<<" Totoal Cost for this TransportPlan=" << (this->TransportPlan.array() * this->CostMatrix.array()).sum()
     << '\n'<<" Totoal Cost for identity="
     << (Eigen::MatrixXd::Identity(n,n).array() * this->CostMatrix.array()).sum() <<std::endl;
+}
+
+void CutMesh::compute_WeightMatrix(double sigma) {
+    // Compute the weightmatrix W_ij=W_{x_i}(x_j)
+    std::vector<Eigen::Triplet<double> > Wxx_triplets;
+    std::vector<Eigen::Triplet<double> > Wyy_triplets;
+    Eigen::MatrixXd Wxx_Dense=Eigen::MatrixXd::Zero(this->SampleNum,this->SampleNum);
+    unsigned int num_components = this->ComponentsSample.size();
+    for(int i =0; i< num_components; ++i) {
+        for (int j = 0; j < this->ComponentsSampleIndices[i]->rows() - 1; ++j) {
+            std::cout << j << std::endl;
+            for (int k = j + 1; k < this->ComponentsSampleIndices[i]->rows(); ++k) {
+                int idj = this->ComponentsSampleIndices[i]->coeff(j,0);
+                int idk = this->ComponentsSampleIndices[i]->coeff(k,0);
+                double norm_jk = (this->SamplePerturb.row(idk)-this->SamplePerturb.row(idj)).norm();
+                double exp_jk = std::exp(-std::pow(norm_jk/sigma,2));
+                if(exp_jk>0.5){
+                    Wxx_Dense(idj,idk)=exp_jk;
+                    Wxx_Dense(idk,idj)=exp_jk;
+                }
+            }
+        }
+    }
+    for(int i =0; i< Wxx_Dense.rows();++i){
+        Wxx_Dense.row(i) /= Wxx_Dense.row(i).sum();
+    }
+    for(int i =0; i< Wxx_Dense.rows();++i){
+        for(int j =0 ; j< Wxx_Dense.cols();++j){
+            if(Wxx_Dense.coeff(i,j)!=0){
+                Wxx_triplets.push_back(Eigen::Triplet<double>(i,j,Wxx_Dense.coeff(i,j)));
+            }
+        }
+    }
+
+    Eigen::SparseMatrix<double> temp(this->SampleNum,this->SampleNum);
+    temp.setFromTriplets(Wxx_triplets.begin(),Wxx_triplets.end());
+    this->WeightMatrix = temp;
+    std::cout << this->WeightMatrix <<std::endl;
 }
