@@ -611,10 +611,22 @@ void CutMesh::Sinkhorn(){
     << (Eigen::MatrixXd::Identity(n,n).array() * this->CostMatrix.array()).sum() <<std::endl;
 }
 
+
+
+
+
 void CutMesh::compute_WeightMatrix(double sigma) {
+    // TODO add face adjacency support.
+    // this is a temporary solution to compute the wieght matrix;
+    // because the sample on the bad mesh does not know the face indices of faces
+    // we temporarily build it on each compoenent, later we will build the weight matrix
+    // based on the adjacency of faces on bad mesh.
+    // In practical usage, the the sample on bad mesh is generated randomly
+    // rather then (currently for evaluation reason) generated on good mesh and then cut
     // Compute the weightmatrix W_ij=W_{x_i}(x_j)
+    // it start with a dense matrix and then transfer into a sparsematrix
+    // does not start with triplets because we need to normalize each row;
     std::vector<Eigen::Triplet<double> > Wxx_triplets;
-    std::vector<Eigen::Triplet<double> > Wyy_triplets;
     Eigen::MatrixXd Wxx_Dense=Eigen::MatrixXd::Zero(this->SampleNum,this->SampleNum);
     unsigned int num_components = this->ComponentsSample.size();
     for(int i =0; i< num_components; ++i) {
@@ -645,6 +657,48 @@ void CutMesh::compute_WeightMatrix(double sigma) {
 
     Eigen::SparseMatrix<double> temp(this->SampleNum,this->SampleNum);
     temp.setFromTriplets(Wxx_triplets.begin(),Wxx_triplets.end());
-    this->WeightMatrix = temp;
-    std::cout << this->WeightMatrix <<std::endl;
+    this->WeightMatrixPerturb = temp;
+    weight_matrix(sigma,
+            this->SampleInitial,
+            this->Faces,
+            this->SampleSourceFace,
+            this->WeightMatrixInitial
+            );
+}
+
+// helper function to build weightmatrix
+void weight_matrix(
+        double sigma,
+        const Eigen::MatrixXd  & sample,
+        const Eigen::MatrixXi & faces,
+        const Eigen::MatrixXi & samplesource_indice,
+        Eigen::SparseMatrix<double> & wmtx){
+    //TODO add face adjacency support.
+    int num = sample.rows();
+    std::vector<Eigen::Triplet<double> > Wyy_triplets;
+    Eigen::MatrixXd Wyy_Dense=Eigen::MatrixXd::Zero(num,num);
+    for (int j = 0; j < num-1; ++j) {
+        for (int k = j + 1; k < num; ++k) {
+            double norm_jk = (sample.row(k)-sample.row(j)).norm();
+            double exp_jk = std::exp(-std::pow(norm_jk/sigma,2));
+            if(exp_jk>0.5){
+                Wyy_Dense(j,k)=exp_jk;
+                Wyy_Dense(k,j)=exp_jk;
+            }
+        }
+    }
+    for(int i =0; i< Wyy_Dense.rows();++i){
+        Wyy_Dense.row(i) /= Wyy_Dense.row(i).sum();
+    }
+    for(int i =0; i< Wyy_Dense.rows();++i){
+        for(int j =0 ; j< Wyy_Dense.cols();++j){
+            if(Wyy_Dense.coeff(i,j)!=0){
+                Wyy_triplets.push_back(Eigen::Triplet<double>(i,j,Wyy_Dense.coeff(i,j)));
+            }
+        }
+    }
+    Eigen::SparseMatrix<double> temp(num,num);
+    temp.setFromTriplets(Wyy_triplets.begin(),Wyy_triplets.end());
+    wmtx= temp;
+
 }

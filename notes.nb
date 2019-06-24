@@ -10,10 +10,10 @@
 NotebookFileLineBreakTest
 NotebookFileLineBreakTest
 NotebookDataPosition[       158,          7]
-NotebookDataLength[     21715,        722]
-NotebookOptionsPosition[     21406,        708]
-NotebookOutlinePosition[     21760,        724]
-CellTagsIndexPosition[     21717,        721]
+NotebookDataLength[     21682,        721]
+NotebookOptionsPosition[     21373,        707]
+NotebookOutlinePosition[     21727,        723]
+CellTagsIndexPosition[     21684,        720]
 WindowFrame->Normal*)
 
 (* Beginning of Notebook Content *)
@@ -689,8 +689,7 @@ Cell[TextData[{
                 SubscriptBox["y", "c"]], "(", 
                SubscriptBox["y", "k"], ")"}]}]}]]}]}], ")"}], 
         SubscriptBox["\[Pi]", "ab"]}]}]}]}]}], TraditionalForm]}],
-  FormatType->"TraditionalForm",ExpressionUUID->
-  "a9bb5a9c-8107-449b-936a-f1aa0d1e1c25"],
+  ExpressionUUID->"a9bb5a9c-8107-449b-936a-f1aa0d1e1c25"],
  "\n"
 }], "Text",
  CellChangeTimes->CompressedData["
@@ -723,7 +722,7 @@ CellTagsIndex->{}
 *)
 (*NotebookFileOutline
 Notebook[{
-Cell[558, 20, 20844, 686, 1094, "Text",ExpressionUUID->"d6511d37-8c56-4e60-b564-90409612dbe4"]
+Cell[558, 20, 20811, 685, 1094, "Text",ExpressionUUID->"d6511d37-8c56-4e60-b564-90409612dbe4"]
 }
 ]
 *)

@@ -15,6 +15,9 @@
 #include <utility>
 #include <tuple>
 #include <nlohmann/json.hpp>
+// TODO add function to relocate the centers
+// TODO add CostMatrix computation tool with centers
+// TODO rename the perturb and initial blah..
 namespace OTMapping {
     using MeshPair = std::tuple<Eigen::MatrixXd, Eigen::MatrixXi>;
     using SampleTriplet = std::tuple<Eigen::MatrixXd, Eigen::MatrixXd, Eigen::MatrixXd>;
@@ -46,8 +49,10 @@ namespace OTMapping {
 
         Eigen::MatrixXd TransportPlan;
         Eigen::MatrixXd CostMatrix;
-        Eigen::SparseMatrix<double> WeightMatrix;
-        Eigen::MatrixXd Centers;
+        Eigen::SparseMatrix<double> WeightMatrixPerturb;
+        Eigen::SparseMatrix<double> WeightMatrixInitial;
+        Eigen::MatrixXd CentersPerturb;
+        Eigen::MatrixXd CentersInitial;
         Eigen::VectorXi SampleSourceFace;
         Eigen::SparseMatrix<double> ElasticTensor;
         Eigen::SparseMatrix<double> QuadraticCostMatrix;
@@ -81,6 +86,13 @@ namespace OTMapping {
         bool round = true;
     };
 }
-double color_error(Eigen::MatrixXd C0, Eigen::MatrixXd C1);
 
+// helper funciton declaritions
+double color_error(Eigen::MatrixXd C0, Eigen::MatrixXd C1);
+void weight_matrix(
+        double sigma,
+        const Eigen::MatrixXd  & sample,
+        const Eigen::MatrixXi & faces,
+        const Eigen::MatrixXi & samplesource_indice,
+        Eigen::SparseMatrix<double> & wmtx);
 #endif //OTMAPPING_CUTMESH_H
