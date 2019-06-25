@@ -564,17 +564,22 @@ void CutMesh::compute_CostMatrix(const Eigen::MatrixXd & source, const Eigen::Ma
         this->CostMatrix.resize(n, n);
         switch(option) {
             case 'a':
+                std::cout << this->SampleInitial << std::endl;
+                std::cout << "-------------------" << std::endl;
+                std::cout << this->SamplePerturb <<std::endl;
                 for (int i = 0; i < n; ++i) {
                     for (int j = 0; j < n; ++j) {
-                        this->CostMatrix(i, j) = (this->SampleInitial.row(i) - this->SamplePerturb.row(j)).lpNorm<Eigen::Infinity>();
+                        this->CostMatrix(i, j) = (this->SampleInitial.row(i) - this->SamplePerturb.row(j)).norm();
                     }
                 }
+                break;
             case 'b':
                 for (int i = 0; i < target.rows(); ++i) {
                     for (int j = 0; j < source.rows(); ++j) {
                         this->CostMatrix(i, j) = (this->SampleInitial.row(i) - this->SamplePerturb.row(j)).lpNorm<Eigen::Infinity>();
                     }
                 }
+                break;
             case 'c':
                 this->locate_Centers(this->WeightMatrixPerturb, this->TransportPlan, this->SamplePerturb, this->CentersPerturb, 'o');
                 this->locate_Centers(this->WeightMatrixInitial,this->TransportPlan.transpose(), this->SampleInitial,this->CentersInitial, 'o');
@@ -589,6 +594,7 @@ void CutMesh::compute_CostMatrix(const Eigen::MatrixXd & source, const Eigen::Ma
                     }
                 }
                 this->CostMatrix =  D_centerPerturb * this->WeightMatrixPerturb + D_centersInitial * this->WeightMatrixInitial;
+                break;
         }
     }
     catch(std::string a){
@@ -641,7 +647,9 @@ void CutMesh::Sinkhorn(){
             }
         }
     }
-    std::cout<<" Totoal Cost for this TransportPlan=" << (this->TransportPlan.array() * this->CostMatrix.array()).sum()
+    std::cout << this->CostMatrix << std::endl;
+    std::cout << (Eigen::MatrixXd::Identity(n,n)-this->TransportPlan) << std::endl;
+    std::cout<<" Total Cost for this TransportPlan=" << (this->TransportPlan.array() * this->CostMatrix.array()).sum()
     << '\n'<<" Totoal Cost for identity="
     << (Eigen::MatrixXd::Identity(n,n).array() * this->CostMatrix.array()).sum() <<std::endl;
 }
@@ -663,6 +671,7 @@ void CutMesh::VarSinkhorn(){
     }
     int n = this->SampleNum;
     this->compute_CostMatrix(this->SamplePerturb,this->SampleInitial,'a');
+    std::cout << this->CostMatrix<<std::endl;
     this->TransportPlan = sinkhorn(
             Eigen::VectorXd::Constant(n,1),
             Eigen::VectorXd::Constant(n,1),
