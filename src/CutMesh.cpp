@@ -30,8 +30,7 @@ SamplePair two_half_spaces_sample_select(
         const Eigen::Vector3d &p0,
         const Eigen::Vector3d &n0,
         const Eigen::Vector3d &p1,
-        const Eigen::Vector3d &n1
-        ){
+        const Eigen::Vector3d &n1){
     Eigen::VectorXi Indices(S.rows());
     Eigen::RowVector3d P0= p0.transpose();
     Eigen::RowVector3d P1= p1.transpose();
@@ -246,6 +245,29 @@ void CutMesh::plot_CutMesh(igl::opengl::glfw::Viewer &viewer, unsigned char opti
             std::cout << "the color error for L2-norm cost ="
                       << color_error(this->TransportPlan*SamplePerturbColor,SamplePerturbColor)<< std::endl;
             std::cout << this->TransportPlan*SamplePerturbColor << std::endl;
+            break;
+        case '6':
+            for(auto &data : viewer.data_list){
+                data.clear();
+                data.set_colors(Eigen::RowVector3d(1,1,1));
+            }
+            for(unsigned int i=0; i < this->ComponentsVertices.size() ;++i){
+                Eigen::MatrixXd shift_back_vertices = *(this->ComponentsVertices[i]);
+                for(unsigned int j=0; j < shift_back_vertices.rows();++j){
+                    shift_back_vertices.row(j) -= *(this->Shifts[i]);
+                }
+                viewer.data_list[i+1].set_mesh(shift_back_vertices,*(this->ComponentsFaces[i]));
+                viewer.data_list[i+1].set_colors(Eigen::RowVector3d(1,1,1));
+            }
+            this->VarSinkhorn();
+            viewer.selected_data_index = 0;
+            viewer.data().point_size= point_size;
+            viewer.data().add_points(this->SampleInitial, this->TransportPlan*SamplePerturbColor);
+            std::cout << "the color error for L2-norm cost ="
+                      << color_error(this->TransportPlan*SamplePerturbColor,SamplePerturbColor)<< std::endl;
+            std::cout << this->TransportPlan*SamplePerturbColor << std::endl;
+            break;
+
     }
 }
 
@@ -530,7 +552,7 @@ Eigen::MatrixXd CutMesh::to_nearest(){
     return SampleNearest;
 }
 
-void CutMesh::compute_CostMatrix(Eigen::MatrixXd source, Eigen::MatrixXd target, char option) {
+void CutMesh::compute_CostMatrix(const Eigen::MatrixXd & source, const Eigen::MatrixXd & target, char option) {
     try {
         if (source.cols() != 3 or target.cols() != 3) {
             throw "Unimplemented Error";
@@ -553,7 +575,20 @@ void CutMesh::compute_CostMatrix(Eigen::MatrixXd source, Eigen::MatrixXd target,
                         this->CostMatrix(i, j) = (this->SampleInitial.row(i) - this->SamplePerturb.row(j)).lpNorm<Eigen::Infinity>();
                     }
                 }
-
+            case 'c':
+                this->locate_Centers(this->WeightMatrixPerturb, this->TransportPlan, this->SamplePerturb, this->CentersPerturb, 'o');
+                this->locate_Centers(this->WeightMatrixInitial,this->TransportPlan.transpose(), this->SampleInitial,this->CentersInitial, 'o');
+                int num = this->SampleNum;
+                Eigen::MatrixXd D_centersInitial(num, num);
+                Eigen::MatrixXd D_centerPerturb(num, num);
+                // store the squared distance of the samples from the centers
+                for(unsigned int i =0; i < num; ++i){
+                    for(unsigned int j =0 ; j < num; ++j){
+                        D_centersInitial(i,j) = (this->CentersInitial.row(j)-this->SamplePerturb.row(j)).squaredNorm();
+                        D_centerPerturb(i,j) = (this->CentersPerturb.row(j)-this->SampleInitial.row(j)).squaredNorm();
+                    }
+                }
+                this->CostMatrix =  D_centerPerturb * this->WeightMatrixPerturb + D_centersInitial * this->WeightMatrixInitial;
         }
     }
     catch(std::string a){
@@ -611,6 +646,79 @@ void CutMesh::Sinkhorn(){
     << (Eigen::MatrixXd::Identity(n,n).array() * this->CostMatrix.array()).sum() <<std::endl;
 }
 
+void CutMesh::VarSinkhorn(){
+    // this is the two loop Sinkhorn described in the paper;
+    // for the first step initialize the costmatrix by the wasserstein metric
+     try {
+        if (this->CostMatrix.rows()< this->SampleInitial.rows()) {
+            throw "CostMatrix not initialized";
+        }
+        if (this->SinkhornEps==0 or this->SinkhornMaxIter==0){
+            throw "Sinkhorn constant not initialized";
+        }
+    }
+    catch(std::string a){
+        std::cout << "Exception accurred"<<
+        " "<< a<<std::endl;
+    }
+    int n = this->SampleNum;
+    this->compute_CostMatrix(this->SamplePerturb,this->SampleInitial,'a');
+    this->TransportPlan = sinkhorn(
+            Eigen::VectorXd::Constant(n,1),
+            Eigen::VectorXd::Constant(n,1),
+            this->CostMatrix, this->SinkhornEps, this->SinkhornMaxIter, this->SinkhornThreshold);
+    for(int i =0 ; i < 10 ; ++i){
+        this->compute_CostMatrix(this->SamplePerturb, this->SampleInitial,'c');
+        this->TransportPlan = sinkhorn(
+            Eigen::VectorXd::Constant(n,1),
+            Eigen::VectorXd::Constant(n,1),
+            this->CostMatrix, this->SinkhornEps, 10, this->SinkhornThreshold);
+
+    }            
+
+    if(this->round){
+        for(unsigned int i=0; i< this->SampleNum; ++i){
+            int max_idx = 0;
+            double max_val = this->TransportPlan(i,0);
+            this->TransportPlan(i,0)=1;
+            for(unsigned int j=1; j< this->SampleNum; ++j){
+                double cur_val = this->TransportPlan(i,j);
+                if(cur_val > max_val){
+                    max_val = cur_val;
+                    this->TransportPlan(i, max_idx) = 0;
+                    this->TransportPlan(i,j) = 1;
+                    max_idx = j;
+                }
+                else{
+                    this->TransportPlan(i,j) = 0;
+                }
+            }
+        }
+    }
+    std::cout<<" Totoal Cost for this TransportPlan=" << (this->TransportPlan.array() * this->CostMatrix.array()).sum()
+    << '\n'<<" Totoal Cost for identity="
+    << (Eigen::MatrixXd::Identity(n,n).array() * this->CostMatrix.array()).sum() <<std::endl;
+    
+}
+
+void CutMesh::locate_Centers(
+    const Eigen::SparseMatrix<double> & weightmatrix,
+    const Eigen::MatrixXd & transportplan, 
+    const Eigen::MatrixXd & sample,
+    Eigen::MatrixXd & centers, 
+    char options){
+    switch(options) {
+        case 'o': // stand for original formula in the paper
+            centers = weightmatrix * transportplan * sample;
+            break;
+        case 'h': // stand for half of the formula only the first part
+            break;
+        case 'm': // stand for adding the half formula with the wasserstein metric
+            break;
+
+    }
+    
+}
 
 
 

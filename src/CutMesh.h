@@ -51,6 +51,8 @@ namespace OTMapping {
         Eigen::MatrixXd CostMatrix;
         Eigen::SparseMatrix<double> WeightMatrixPerturb;
         Eigen::SparseMatrix<double> WeightMatrixInitial;
+        Eigen::SparseMatrix<double> VarianceMatrixPerturb;
+        Eigen::SparseMatrix<double> VarianceMatrixInitial;
         Eigen::MatrixXd CentersPerturb;
         Eigen::MatrixXd CentersInitial;
         Eigen::VectorXi SampleSourceFace;
@@ -66,7 +68,13 @@ namespace OTMapping {
         void separate_cube_faces();
 
         void compute_WeightMatrix(double sigma);
-        void locate_Centers();
+        void locate_Centers(
+            const Eigen::SparseMatrix<double> & weightmatrix,
+            const Eigen::MatrixXd & transportplan, 
+            const Eigen::MatrixXd & sample,
+            Eigen::MatrixXd & centers, 
+            char options);
+
 
 
         void cut_with(const Eigen::Vector3d & p0,
@@ -78,8 +86,9 @@ namespace OTMapping {
 
         Eigen::MatrixXd to_nearest();
 
-        void compute_CostMatrix(Eigen::MatrixXd, Eigen::MatrixXd,char options);
+        void compute_CostMatrix(const Eigen::MatrixXd &, const Eigen::MatrixXd &,char options);
         void Sinkhorn();
+        void VarSinkhorn();
         double SinkhornEps=0;
         double SinkhornThreshold=0;
         int SinkhornMaxIter=0;
