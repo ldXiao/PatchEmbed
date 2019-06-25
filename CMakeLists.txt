@@ -85,3 +85,4 @@ target_link_libraries(quadratic_OT_bin igl::core)
 add_executable(exportCutMesh_bin
         src/exportCutMesh.cpp)
 target_link_libraries(exportCutMesh_bin otmapping)
+
