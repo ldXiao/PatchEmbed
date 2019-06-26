@@ -259,6 +259,7 @@ void CutMesh::plot_CutMesh(igl::opengl::glfw::Viewer &viewer, unsigned char opti
                 viewer.data_list[i+1].set_mesh(shift_back_vertices,*(this->ComponentsFaces[i]));
                 viewer.data_list[i+1].set_colors(Eigen::RowVector3d(1,1,1));
             }
+            this->compute_CostMatrix(this->SamplePerturb,this->SampleInitial,'a');
             this->VarSinkhorn();
             viewer.selected_data_index = 0;
             viewer.data().point_size= point_size;
@@ -582,18 +583,20 @@ void CutMesh::compute_CostMatrix(const Eigen::MatrixXd & source, const Eigen::Ma
                 break;
             case 'c':
                 this->locate_Centers(this->WeightMatrixPerturb, this->TransportPlan, this->SamplePerturb, this->CentersPerturb, 'o');
-                this->locate_Centers(this->WeightMatrixInitial,this->TransportPlan.transpose(), this->SampleInitial,this->CentersInitial, 'o');
+                this->locate_Centers(this->WeightMatrixInitial, this->TransportPlan.transpose(), this->SampleInitial, this->CentersInitial, 'o');
                 int num = this->SampleNum;
                 Eigen::MatrixXd D_centersInitial(num, num);
                 Eigen::MatrixXd D_centerPerturb(num, num);
                 // store the squared distance of the samples from the centers
                 for(unsigned int i =0; i < num; ++i){
                     for(unsigned int j =0 ; j < num; ++j){
-                        D_centersInitial(i,j) = (this->CentersInitial.row(j)-this->SamplePerturb.row(j)).squaredNorm();
-                        D_centerPerturb(i,j) = (this->CentersPerturb.row(j)-this->SampleInitial.row(j)).squaredNorm();
+                        D_centersInitial(i,j) = (this->CentersInitial.row(j)-this->SamplePerturb.row(i)).squaredNorm();
+                        D_centerPerturb(i,j) = (this->CentersPerturb.row(j)-this->SampleInitial.row(i)).squaredNorm();
                     }
                 }
-                this->CostMatrix =  D_centerPerturb * this->WeightMatrixPerturb + D_centersInitial * this->WeightMatrixInitial;
+                std::cout << D_centerPerturb << std::endl;
+                std::cout << this->WeightMatrixPerturb;
+                this->CostMatrix =  D_centerPerturb * this->WeightMatrixPerturb;
                 break;
         }
     }
@@ -647,8 +650,6 @@ void CutMesh::Sinkhorn(){
             }
         }
     }
-    std::cout << this->CostMatrix << std::endl;
-    std::cout << (Eigen::MatrixXd::Identity(n,n)-this->TransportPlan) << std::endl;
     std::cout<<" Total Cost for this TransportPlan=" << (this->TransportPlan.array() * this->CostMatrix.array()).sum()
     << '\n'<<" Totoal Cost for identity="
     << (Eigen::MatrixXd::Identity(n,n).array() * this->CostMatrix.array()).sum() <<std::endl;
@@ -656,28 +657,17 @@ void CutMesh::Sinkhorn(){
 
 void CutMesh::VarSinkhorn(){
     // this is the two loop Sinkhorn described in the paper;
-    // for the first step initialize the costmatrix by the wasserstein metric
-     try {
-        if (this->CostMatrix.rows()< this->SampleInitial.rows()) {
-            throw "CostMatrix not initialized";
-        }
-        if (this->SinkhornEps==0 or this->SinkhornMaxIter==0){
-            throw "Sinkhorn constant not initialized";
-        }
-    }
-    catch(std::string a){
-        std::cout << "Exception accurred"<<
-        " "<< a<<std::endl;
-    }
+    // for the first step initialize the centers by the wasserstein metric
     int n = this->SampleNum;
-    this->compute_CostMatrix(this->SamplePerturb,this->SampleInitial,'a');
     std::cout << this->CostMatrix<<std::endl;
     this->TransportPlan = sinkhorn(
             Eigen::VectorXd::Constant(n,1),
             Eigen::VectorXd::Constant(n,1),
             this->CostMatrix, this->SinkhornEps, this->SinkhornMaxIter, this->SinkhornThreshold);
+    std::cout << -1 << "------" << this->CostMatrix.block(0,0,10,10);
     for(int i =0 ; i < 10 ; ++i){
         this->compute_CostMatrix(this->SamplePerturb, this->SampleInitial,'c');
+        std::cout << i << "------" << this->CostMatrix.block(0,0,10,10);
         this->TransportPlan = sinkhorn(
             Eigen::VectorXd::Constant(n,1),
             Eigen::VectorXd::Constant(n,1),
@@ -762,7 +752,10 @@ void CutMesh::compute_WeightMatrix(double sigma) {
         }
     }
     for(int i =0; i< Wxx_Dense.rows();++i){
-        Wxx_Dense.row(i) /= Wxx_Dense.row(i).sum();
+        double su = Wxx_Dense.row(i).sum();
+        if(su > 0) {
+            Wxx_Dense.row(i) /= Wxx_Dense.row(i).sum();
+        }
     }
     for(int i =0; i< Wxx_Dense.rows();++i){
         for(int j =0 ; j< Wxx_Dense.cols();++j){

@@ -2,7 +2,7 @@
   "CutMesh_params": {
     "mesh_file": "../data/polysphere.obj",
     "cut": true,
-    "sample_num": 5000,
+    "sample_num": 4000,
     "random_seed": 3,
     "point_size": 7,
     "skeleton_range": 0.1
@@ -10,7 +10,7 @@
   "Sinkhorn_params": {
     "eps": 1e-3,
     "threshold": 1e-10,
-    "max_iter": 100,
-    "round": false
+    "max_iter": 10,
+    "round": true
   }
 }
