@@ -586,17 +586,18 @@ void CutMesh::compute_CostMatrix(const Eigen::MatrixXd & source, const Eigen::Ma
                 this->locate_Centers(this->WeightMatrixInitial, this->TransportPlan.transpose(), this->SampleInitial, this->CentersInitial, 'o');
                 int num = this->SampleNum;
                 Eigen::MatrixXd D_centersInitial(num, num);
-                Eigen::MatrixXd D_centerPerturb(num, num);
+                Eigen::MatrixXd D_centersPerturb(num, num);
                 // store the squared distance of the samples from the centers
                 for(unsigned int i =0; i < num; ++i){
                     for(unsigned int j =0 ; j < num; ++j){
                         D_centersInitial(i,j) = (this->CentersInitial.row(j)-this->SamplePerturb.row(i)).squaredNorm();
-                        D_centerPerturb(i,j) = (this->CentersPerturb.row(j)-this->SampleInitial.row(i)).squaredNorm();
+                        D_centersPerturb(i,j) = (this->CentersPerturb.row(j)-this->SampleInitial.row(i)).squaredNorm();
                     }
                 }
-                std::cout << D_centerPerturb << std::endl;
-                std::cout << this->WeightMatrixPerturb;
-                this->CostMatrix =  D_centerPerturb * this->WeightMatrixPerturb;
+//                std::cout << D_centerPerturb << std::endl;
+//                std::cout << this->WeightMatrixPerturb;
+                this->CostMatrix =  D_centersPerturb * this->WeightMatrixPerturb
+                        + D_centersInitial * this->WeightMatrixInitial;
                 break;
         }
     }
@@ -659,19 +660,19 @@ void CutMesh::VarSinkhorn(){
     // this is the two loop Sinkhorn described in the paper;
     // for the first step initialize the centers by the wasserstein metric
     int n = this->SampleNum;
-    std::cout << this->CostMatrix<<std::endl;
+//    std::cout << this->CostMatrix<<std::endl;
     this->TransportPlan = sinkhorn(
             Eigen::VectorXd::Constant(n,1),
             Eigen::VectorXd::Constant(n,1),
             this->CostMatrix, this->SinkhornEps, this->SinkhornMaxIter, this->SinkhornThreshold);
-    std::cout << -1 << "------" << this->CostMatrix.block(0,0,10,10);
-    for(int i =0 ; i < 10 ; ++i){
+//    std::cout << -1 << "------" << this->CostMatrix.block(0,0,10,10);
+    for(int i =0 ; i < 4 ; ++i){
         this->compute_CostMatrix(this->SamplePerturb, this->SampleInitial,'c');
-        std::cout << i << "------" << this->CostMatrix.block(0,0,10,10);
+//        std::cout << i << "------" << this->CostMatrix.block(0,0,10,10);
         this->TransportPlan = sinkhorn(
             Eigen::VectorXd::Constant(n,1),
             Eigen::VectorXd::Constant(n,1),
-            this->CostMatrix, this->SinkhornEps, 10, this->SinkhornThreshold);
+            this->CostMatrix, this->SinkhornEps, 100, this->SinkhornThreshold);
 
     }            
 
