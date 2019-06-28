@@ -291,18 +291,19 @@ void CutMesh::set_initial_from_json(const nlohmann::json & params){
             this->separate_cube_faces();
         }
         this->point_size = CutMesh_params["point_size"];
-        this->perturb(CutMesh_params["random_seed"],0.1,0.02);
-        if(params.find("Sinkhorn_params")!= params.end()){
+        this->perturb(CutMesh_params["random_seed"],CutMesh_params["perturb_range"],0.02);
+        if(params.find("Sinkhorn_params")!= params.end()) {
             auto Sinkhorn_params = params["Sinkhorn_params"];
             this->set_sinkhorn_const(
                     Sinkhorn_params["eps"],
                     Sinkhorn_params["threshold"],
                     Sinkhorn_params["max_iter"]);
             this->round = Sinkhorn_params["round"];
+            this->compute_WeightMatrix(Sinkhorn_params["sigma"]);
         }
         this->build_graph(CutMesh_params["skeleton_range"],0.1);
         this->build_tree();
-        this->compute_WeightMatrix(0.5);
+
     }
 }
 
@@ -666,13 +667,13 @@ void CutMesh::VarSinkhorn(){
             Eigen::VectorXd::Constant(n,1),
             this->CostMatrix, this->SinkhornEps, this->SinkhornMaxIter, this->SinkhornThreshold);
 //    std::cout << -1 << "------" << this->CostMatrix.block(0,0,10,10);
-    for(int i =0 ; i < 4 ; ++i){
+    for(int i =0 ; i < 6 ; ++i){
         this->compute_CostMatrix(this->SamplePerturb, this->SampleInitial,'c');
 //        std::cout << i << "------" << this->CostMatrix.block(0,0,10,10);
         this->TransportPlan = sinkhorn(
             Eigen::VectorXd::Constant(n,1),
             Eigen::VectorXd::Constant(n,1),
-            this->CostMatrix, this->SinkhornEps, 100, this->SinkhornThreshold);
+            this->CostMatrix, this->SinkhornEps, (i+1) * 20, this->SinkhornThreshold);
 
     }            
 

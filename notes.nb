@@ -10,10 +10,10 @@
 NotebookFileLineBreakTest
 NotebookFileLineBreakTest
 NotebookDataPosition[       158,          7]
-NotebookDataLength[     21682,        721]
-NotebookOptionsPosition[     21373,        707]
-NotebookOutlinePosition[     21727,        723]
-CellTagsIndexPosition[     21684,        720]
+NotebookDataLength[     25260,        808]
+NotebookOptionsPosition[     24951,        794]
+NotebookOutlinePosition[     25305,        810]
+CellTagsIndexPosition[     25262,        807]
 WindowFrame->Normal*)
 
 (* Beginning of Notebook Content *)
@@ -690,20 +690,107 @@ Cell[TextData[{
                SubscriptBox["y", "k"], ")"}]}]}]]}]}], ")"}], 
         SubscriptBox["\[Pi]", "ab"]}]}]}]}]}], TraditionalForm]}],
   ExpressionUUID->"a9bb5a9c-8107-449b-936a-f1aa0d1e1c25"],
- "\n"
+ "\nto simplify the  notation, we require ",
+ Cell[BoxData[
+  FormBox[
+   RowBox[{
+    SubscriptBox["m", "c"], "=", 
+    RowBox[{
+     SubscriptBox["n", "c"], "=", 
+     RowBox[{"1", "/", "N"}]}]}], TraditionalForm]],
+  FormatType->"TraditionalForm",ExpressionUUID->
+  "053fe140-dd42-445e-af42-2125d02172d6"],
+ " and rescale ",
+ Cell[BoxData[
+  FormBox[
+   SubscriptBox["W", "ca"], TraditionalForm]],
+  FormatType->"TraditionalForm",ExpressionUUID->
+  "b2e863dd-aea6-4137-8b0c-40f7672ca931"],
+ " so that\n",
+ Cell[BoxData[
+  FormBox[
+   RowBox[{
+    RowBox[{
+     SubscriptBox["\[Sum]", "k"], 
+     RowBox[{
+      SubscriptBox["m", "k"], 
+      SubscriptBox["W", "ck"]}]}], "=", "1"}], TraditionalForm]],
+  FormatType->"TraditionalForm",ExpressionUUID->
+  "0090d029-7dac-4289-ba57-45a6a9c8e669"],
+ "\nfor each ",
+ Cell[BoxData[
+  FormBox["c", TraditionalForm]],
+  FormatType->"TraditionalForm",ExpressionUUID->
+  "5b831be8-8bc4-469b-bc37-ecc36b5f1e9f"],
+ ", minimize ",
+ Cell[BoxData[
+  FormBox[
+   RowBox[{
+    SubscriptBox["\[Sum]", "a"], 
+    RowBox[{
+     SubscriptBox["\[Sum]", "b"], 
+     RowBox[{
+      SubscriptBox["\[Pi]", "ab"], 
+      RowBox[{
+       SubscriptBox["W", 
+        SubscriptBox["x", "c"]], "(", 
+       SubscriptBox["x", "a"], ")"}], " ", 
+      SuperscriptBox[
+       RowBox[{"d", "(", 
+        RowBox[{
+         SubscriptBox["y", "b"], ",", 
+         SubscriptBox["\[Eta]", 
+          SubscriptBox["x", "c"]]}], ")"}], "2"]}]}]}], TraditionalForm]],
+  FormatType->"TraditionalForm",ExpressionUUID->
+  "24a8b7bf-6edd-4bfd-9a48-54df9210dfe4"],
+ " with ",
+ Cell[BoxData[
+  FormBox[
+   SubscriptBox["\[Eta]", "c"], TraditionalForm]],
+  FormatType->"TraditionalForm",ExpressionUUID->
+  "668cf775-25a3-4991-81bb-854d425c6c3c"],
+ ", which would be just the weighted barycentric sum\n",
+ Cell[BoxData[
+  FormBox[
+   RowBox[{
+    SubscriptBox["\[Eta]", "c"], "=", 
+    RowBox[{
+     SubscriptBox["W", "ca"], 
+     SubscriptBox["\[Pi]", "ab"], 
+     SubscriptBox["y", "b"]}]}], TraditionalForm]],
+  FormatType->"TraditionalForm",ExpressionUUID->
+  "936a614c-933e-4b77-b966-9fff9b16dabc"],
+ "\nIn this sense, it is trying to minimize\n\n"
 }], "Text",
- CellChangeTimes->CompressedData["
-1:eJwlzlkowwEAx/HFCrXUKMebZY5liEIhzfKwachojhxZkbJQmNvDX5ozSUzt
-ZR6wJ+TKtcwauVvuY5EWDzbHjLGi+f/+Hn59Xn4PX5a0RlzuRqPRgsnBxyje
-iM3Pmurt9q2CrcP9aljs7z0Bf4SsGWhQRszCjqSzRch9DV2CseOEFuoUej20
-5Q1cQo1tgVIQPO6AMkMc852U794VCGu3E4MgUe65B5+6GSdQ8hvzCV8a+AF2
-0vP93mg4uXRDaSIyeB+k5vvBdHhstmTBAA+pBHZaJwqhcmCesq3OUQKJV68y
-uFxRLINiQk7ZY9zQOdC7xTZAU87ZDmxL2H2A4fZVC2TYWV9wrbrlBw5tqxhf
-pKNFz75QKiv1hxomRwHl1tJpGHn7NgeZZsEJlKTlXsHBbMc1VBir6d+kInEz
-pfHOsgBb2JwVmOSq0cKCKs0WVI8J96n/kf4Jbp7e2yFdneyEukybC46WuHyc
-pH1TCYHw4LAuCDZd1IfBt3VRCowM4QsgnfsvtzE/A1Zql6ugPL62HZpmrin/
-AE+uMBI=
-  "],ExpressionUUID->"d6511d37-8c56-4e60-b564-90409612dbe4"]
+ CellChangeTimes->{{3.770125482005725*^9, 3.770125535750251*^9}, {
+   3.770125572393003*^9, 3.770125608440352*^9}, {3.7701256890402813`*^9, 
+   3.770125697362276*^9}, {3.770125742663512*^9, 3.770125745216696*^9}, {
+   3.770125804082177*^9, 3.770125846079071*^9}, {3.770126020416985*^9, 
+   3.770126021654499*^9}, {3.770126261035557*^9, 3.7701264736802273`*^9}, {
+   3.7701265401566477`*^9, 3.7701265938367233`*^9}, {3.770127952262391*^9, 
+   3.770128024391713*^9}, {3.770128297562175*^9, 3.7701285780768957`*^9}, {
+   3.7701287643373823`*^9, 3.770128766866046*^9}, {3.770130946422224*^9, 
+   3.770131028496324*^9}, {3.77013107137156*^9, 3.770131123063366*^9}, {
+   3.770131157185121*^9, 3.770131157611034*^9}, {3.770131191701597*^9, 
+   3.770131208310487*^9}, {3.770131298918789*^9, 3.7701312997034082`*^9}, {
+   3.770136069994206*^9, 3.770136097149128*^9}, {3.7701361346664867`*^9, 
+   3.770136366288023*^9}, {3.770136413842182*^9, 3.770136505060919*^9}, {
+   3.770136547826017*^9, 3.770136676867989*^9}, {3.770136735417552*^9, 
+   3.7701367629819803`*^9}, {3.7701376572834053`*^9, 3.770137970997615*^9}, {
+   3.770138007527121*^9, 3.770138266277718*^9}, {3.770138314633342*^9, 
+   3.770138327697456*^9}, {3.770138659462955*^9, 3.770138659791296*^9}, {
+   3.770140071371071*^9, 3.7701401052857027`*^9}, {3.770140139499906*^9, 
+   3.770140205263104*^9}, {3.770140250299881*^9, 3.7701405020876827`*^9}, {
+   3.770140575057221*^9, 3.770140617894533*^9}, {3.770140671540863*^9, 
+   3.770140823980296*^9}, {3.770140873739202*^9, 3.7701409316188717`*^9}, {
+   3.7701409876513023`*^9, 3.7701411703980637`*^9}, {3.770141250067038*^9, 
+   3.770141250067873*^9}, {3.7701412907645473`*^9, 3.770141533773121*^9}, {
+   3.770141675506648*^9, 3.770141678833967*^9}, {3.770628520071865*^9, 
+   3.770628597434561*^9}, {3.7706287247401533`*^9, 3.7706287866872587`*^9}, {
+   3.770628844888213*^9, 3.7706288753694897`*^9}, 3.770628938093474*^9, {
+   3.770629029515974*^9, 3.770629119718688*^9}, {3.770629151096943*^9, 
+   3.7706291788668623`*^9}},ExpressionUUID->"d6511d37-8c56-4e60-b564-\
+90409612dbe4"]
 },
 WindowSize->{808, 748},
 WindowMargins->{{Automatic, 110}, {3, Automatic}},
@@ -722,7 +809,7 @@ CellTagsIndex->{}
 *)
 (*NotebookFileOutline
 Notebook[{
-Cell[558, 20, 20811, 685, 1094, "Text",ExpressionUUID->"d6511d37-8c56-4e60-b564-90409612dbe4"]
+Cell[558, 20, 24389, 772, 1227, "Text",ExpressionUUID->"d6511d37-8c56-4e60-b564-90409612dbe4"]
 }
 ]
 *)
