@@ -31,6 +31,12 @@ SamplePair two_half_spaces_sample_select(
         const Eigen::Vector3d &n0,
         const Eigen::Vector3d &p1,
         const Eigen::Vector3d &n1){
+    /* As the mesh is cutted by two plane,
+     * this function would divide the generated
+     * sample on the mesh and give back the subset
+     * of the sample that are above both of the two planes
+     * return std::pair(Sample_subset, subset_indices)
+     * */
     Eigen::VectorXi Indices(S.rows());
     Eigen::RowVector3d P0= p0.transpose();
     Eigen::RowVector3d P1= p1.transpose();
@@ -84,25 +90,20 @@ MeshPair two_half_spaces_intersect(
     return std::make_tuple(VD,FD);
 }
 
-//SamplePair cube_sample_select(const Eigen::MatrixXd & S, const int & idx,
-//        const int & entry, const double & val){
-//    Eigen::VectorXi Indices(S.rows());
-//    Eigen::MatrixXd S_sub(S.rows(),3);
-//    int count = 0;
-//    for(unsigned int i=0; i < S.rows(); ++i){
-//        if(S(i,entry)==val){
-//            Indices(count) = i;
-//            S_sub.row(count) = S.row(i);
-//            count+=1;
-//        }
-//    }
-//    Indices.conservativeResize(count);
-//    S_sub.conservativeResize(count,3);
-//    return std::make_tuple(S_sub, Indices);
-//}
 
-MeshTriple cube_surface_select(const Eigen::MatrixXd & V, const Eigen::MatrixXi & F,
-        const int & idx, const int & entry, const double &val){
+
+MeshTriple cube_surface_select(
+        const Eigen::MatrixXd & V,
+        const Eigen::MatrixXi & F,
+        const int & idx,
+        const int & entry,
+        const double &val){
+    /*work for the test case of this cube.obj only
+     * separate the six if the triangle's $(entry)
+     * projection is contain is close to val within
+     * some tolerance, select the face
+     * return this subset of mesh together with
+     * the face indices in the original mesh*/
     Eigen::MatrixXi FD(F.rows(),3);
     Eigen::MatrixXd VD;
     Eigen::VectorXi Indices(F.rows());
@@ -273,6 +274,7 @@ void CutMesh::plot_CutMesh(igl::opengl::glfw::Viewer &viewer, unsigned char opti
 }
 
 void CutMesh::set_initial_from_json(const nlohmann::json & params){
+    /*set the initial parameters from a json*/
     if(params.find("CutMesh_params")!= params.end()){
         auto CutMesh_params = params["CutMesh_params"];
         Eigen::MatrixXd V;
@@ -301,15 +303,15 @@ void CutMesh::set_initial_from_json(const nlohmann::json & params){
             this->round = Sinkhorn_params["round"];
             this->compute_WeightMatrix(Sinkhorn_params["sigma"]);
         }
-        this->build_graph(CutMesh_params["skeleton_range"],0.1);
-        this->build_tree();
+        this->build_graph(CutMesh_params["skeleton_range"],CutMesh_params["graph_valence"]);
+        if(CutMesh_params["build_tree"]) this->build_tree();
 
     }
 }
 
 void CutMesh::set_initial(const Eigen::MatrixXd &V, const Eigen::MatrixXi &F, const int n,
                           std::function<double(Eigen::Vector3d)> func) {
-    //Set the initial mesh and samples
+    /*Set the initial mesh and samples*/
     this->Vertices = V;
 
     this->Faces = F;
@@ -334,31 +336,66 @@ void CutMesh::set_sinkhorn_const(const double eps, const double threshold, const
     this->SinkhornMaxIter= maxiter;
 }
 
-void CutMesh::build_graph(double range, double strength) {
+void CutMesh::build_graph(double range, int m) {
+    /*build  a m-nearst-enighbor graph */
     unsigned int num_components = this->ComponentsSample.size();
     std::vector<Eigen::Triplet<double> >Elastic_JK;
     std::vector<Eigen::Triplet<double> >QuadraticCost_JaKb;
+    Eigen::MatrixXd pair_Dense=Eigen::MatrixXd::Zero(this->SampleNum,this->SampleNum);
     this->SkeletonIndices0.resize(std::pow(this->SampleNum,2)/2,1);
     this->SkeletonIndices1.resize(std::pow(this->SampleNum,2)/2,1);
     int count = 0;
     for(int i =0; i< num_components; ++i){
-        for(int j=0; j < this->ComponentsSampleIndices[i]->rows()-1; ++j){
-            std::cout << j << std::endl;
-            for(int k=j+1; k< this->ComponentsSampleIndices[i]->rows();++k){
-                int idj = this->ComponentsSampleIndices[i]->coeff(j,0);
-                int idk = this->ComponentsSampleIndices[i]->coeff(k,0);
-                double norm_jk = (this->SamplePerturb.row(idk)-this->SamplePerturb.row(idj)).norm();
-                if(norm_jk<range){
-                    Elastic_JK.push_back(Eigen::Triplet<double>(idj,idk,norm_jk));
-//                    Elastic_JK.push_back(Eigen::Triplet<double>(idk,idj,norm_jk));
-//                    this->Skeleton0.row(count) = this->SamplePerturb.row(idj);
-//                    this->Skeleton1.row(count) = this->SamplePerturb.row(idk);
-                    (this->SkeletonIndices0)(count)= idj;
-                    (this->SkeletonIndices1)(count)= idk;
-                    count += 1;
-                    if(count % 10 == 0){
-                        std::cout << "found " << count << "skeletons"<< std::endl;
+        for(int j=0; j < this->ComponentsSampleIndices[i]->rows(); ++j){
+            std::vector<std::pair<int, double> > j_stack;
+            int idj = this->ComponentsSampleIndices[i]->coeff(j, 0);
+            for (int k = 0; k < this->ComponentsSampleIndices[i]->rows(); ++k) {
+                if(k==j) continue;
+                int idk = this->ComponentsSampleIndices[i]->coeff(k, 0);
+                double norm_jk = (this->SamplePerturb.row(idk) - this->SamplePerturb.row(idj)).norm();
+                if(j_stack.size()==0 and k!=j){
+                    j_stack.push_back(std::make_pair(idk, norm_jk));
+                } else {
+                    auto it = j_stack.begin();
+                    while (it->second > norm_jk and it!= j_stack.end()) {
+                        it++;
+                        // loop to find a position to insert
                     }
+                    if (it == j_stack.begin()) {
+                        std::cout << "called0" << std::endl;
+                        // if does not find within
+                        if (j_stack.size() < m) {
+                            // if the stack is not full
+                            j_stack.insert(it, std::make_pair(idk, norm_jk));
+                        }
+                    } else {
+                        // find a position to insert including j_stack.end()
+                        j_stack.insert(it, std::make_pair(idk, norm_jk));
+                        std::cout << "called1" << std::endl;
+                        if (j_stack.size() > m) {
+//                            j_stack.insert(it, std::make_pair(idk, norm_jk));
+                            j_stack.erase(j_stack.begin(), j_stack.begin() + 1);
+                        }
+                    }
+                }
+            }
+            // inserted the detected m-nearest-pair in to the Dense_matrix
+
+            for(auto jt = j_stack.begin(); jt!= j_stack.end(); jt++){
+                int idk = jt->first;
+                std::cout << idj <<"," <<idk <<", " <<j_stack.size() << std::endl;
+                pair_Dense(std::min(idj,idk), std::max(idj,idk))=jt->second;
+            }
+        }
+
+        for(int j=0; j< pair_Dense.rows(); ++j){
+            for(int k=0;k< pair_Dense.cols(); ++k){
+                if(pair_Dense(j,k)!=0){
+                    double norm_jk = pair_Dense(j,k);
+                    Elastic_JK.push_back(Eigen::Triplet<double>(j, k, norm_jk));
+                    (this->SkeletonIndices0)(count) = j;
+                    (this->SkeletonIndices1)(count) = k;
+                    count += 1;
                 }
             }
         }
@@ -374,6 +411,8 @@ void CutMesh::build_graph(double range, double strength) {
 }
 
 void CutMesh::build_tree() {
+    /* use kruskal minspaning tree algorithm to simplify
+     * the knn grpah if necessary */
     this->ElasticTensor = Kruskal_MST(this->ElasticTensor);
     Eigen::VectorXi temp0(this->ElasticTensor.nonZeros());
     Eigen::VectorXi temp1(this->ElasticTensor.nonZeros());
@@ -429,8 +468,6 @@ void CutMesh::separate_cube_faces(){
             S_sub.conservativeResize(count,3);
             S_idx.conservativeResize(count);
 
-//            SamplePair SA = cube_sample_select(this->SampleInitial, idx, entry, val);
-            //        std::cout << std::get<0>(PA) << std::endl;
             std::unique_ptr<Eigen::MatrixXd> ptrVA(new Eigen::MatrixXd()), ptrSA(new Eigen::MatrixXd());
             *ptrVA = std::get<0>(TA);
             *ptrSA = S_sub;
@@ -499,6 +536,7 @@ void CutMesh::cut_with(const Eigen::Vector3d &p0,
 }
 
 void CutMesh::perturb(const int seed, double max_shift, double min_shift) {
+    /*perturb the mesh compoenents with radom shift vectors*/
     unsigned int num_components = this->ComponentsVertices.size();
     std::mt19937 gen;
     gen.seed(seed);
@@ -527,7 +565,6 @@ void CutMesh::perturb(const int seed, double max_shift, double min_shift) {
             this->SamplePerturb.row(this->ComponentsSampleIndices[i]->coeff(k,0))=this->ComponentsSample[i]->row(k);
         }
     }
-//    std::cout <<this->SamplePerturb-this->SampleInitial << std::endl;
 }
 
 double color_error(Eigen::MatrixXd C0, Eigen::MatrixXd C1){
@@ -712,11 +749,6 @@ void CutMesh::locate_Centers(
         case 'o': // stand for original formula in the paper
             centers = weightmatrix * transportplan * sample;
             break;
-        case 'h': // stand for half of the formula only the first part
-            break;
-        case 'm': // stand for adding the half formula with the wasserstein metric
-            break;
-
     }
     
 }

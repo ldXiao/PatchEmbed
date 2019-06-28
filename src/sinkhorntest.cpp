@@ -5,6 +5,7 @@
 #include <Eigen/Core>
 #include <iostream>
 #include <nlohmann/json.hpp>
+#include <vector>
 int main(){
 //    auto stable_log_sum = [](Eigen::ArrayXXd X){
 //        double max_X = X.maxCoeff();
@@ -33,5 +34,13 @@ int main(){
             Eigen::VectorXd::Constant(3,1/double(3)),
             K, 1e-6, 10, 1e-5);
     std::cout << Y<<std::endl;
+    std::vector<int> vec;
+    for(int i=0; i< 10;++i){
+        vec.push_back(i);
+    }
+    vec.insert(vec.end(), 123);
+    for(auto it = vec.begin(); it!=vec.end();++it){
+        std::cout << *it << std::endl;
+    }
 }
 
