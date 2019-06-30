@@ -6,7 +6,7 @@
     "random_seed": 3,
     "perturb_range": 0.1,
     "point_size": 7,
-    "skeleton_range": 0.1,
+    "skeleton_range": 0.05,
     "graph_valence":4,
     "build_tree":false
   },

@@ -168,7 +168,6 @@ void CutMesh::plot_CutMesh(igl::opengl::glfw::Viewer &viewer, unsigned char opti
             for(auto &data : viewer.data_list){
                 data.clear();
             }
-            std::cout << "called 1" <<std::endl;
             viewer.selected_data_index = 0;
             viewer.data().add_points(this->SampleInitial, Eigen::RowVector3d(0, 0, 1));
             viewer.data().set_mesh(this->Vertices, this->Faces);
@@ -362,7 +361,6 @@ void CutMesh::build_graph(double range, int m) {
                         // loop to find a position to insert
                     }
                     if (it == j_stack.begin()) {
-                        std::cout << "called0" << std::endl;
                         // if does not find within
                         if (j_stack.size() < m) {
                             // if the stack is not full
@@ -371,7 +369,6 @@ void CutMesh::build_graph(double range, int m) {
                     } else {
                         // find a position to insert including j_stack.end()
                         j_stack.insert(it, std::make_pair(idk, norm_jk));
-                        std::cout << "called1" << std::endl;
                         if (j_stack.size() > m) {
 //                            j_stack.insert(it, std::make_pair(idk, norm_jk));
                             j_stack.erase(j_stack.begin(), j_stack.begin() + 1);

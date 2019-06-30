@@ -10,10 +10,10 @@
 NotebookFileLineBreakTest
 NotebookFileLineBreakTest
 NotebookDataPosition[       158,          7]
-NotebookDataLength[     25260,        808]
-NotebookOptionsPosition[     24951,        794]
-NotebookOutlinePosition[     25305,        810]
-CellTagsIndexPosition[     25262,        807]
+NotebookDataLength[     26615,        849]
+NotebookOptionsPosition[     26304,        835]
+NotebookOutlinePosition[     26660,        851]
+CellTagsIndexPosition[     26617,        848]
 WindowFrame->Normal*)
 
 (* Beginning of Notebook Content *)
@@ -23,9 +23,10 @@ Cell[TextData[{
   FormBox[
    RowBox[{"\[Sum]", 
     RowBox[{
+     SubscriptBox["P", "jb"], 
      SuperscriptBox[
       RowBox[{
-       SubscriptBox["P", "jb"], "(", 
+       SubscriptBox["k", "ij"], "(", 
        RowBox[{
         RowBox[{"(", 
          RowBox[{
@@ -760,7 +761,44 @@ Cell[TextData[{
      SubscriptBox["y", "b"]}]}], TraditionalForm]],
   FormatType->"TraditionalForm",ExpressionUUID->
   "936a614c-933e-4b77-b966-9fff9b16dabc"],
- "\nIn this sense, it is trying to minimize\n\n"
+ "\nIn this sense, it is trying to minimize a quadratic form \n",
+ Cell[BoxData[
+  FormBox[
+   RowBox[{
+    RowBox[{
+     SubscriptBox["W", "ca"], 
+     SuperscriptBox[
+      RowBox[{
+       SubscriptBox["\[Pi]", "ab"], "(", 
+       RowBox[{
+        SubscriptBox["y", "b"], "-", 
+        RowBox[{
+         SubscriptBox["W", "ca"], 
+         SubscriptBox["\[Pi]", "ad"], 
+         SubscriptBox["y", "d"]}]}], ")"}], "2"]}], "=", 
+    RowBox[{
+     RowBox[{
+      SubscriptBox["W", "ca"], 
+      RowBox[{
+       SubscriptBox["\[Pi]", "ab"], "(", 
+       RowBox[{
+        SubsuperscriptBox["y", "b", "2"], "-", 
+        RowBox[{"2", 
+         SubscriptBox["W", "ca"], 
+         SubscriptBox["\[Pi]", "ab"], 
+         RowBox[{
+          SubscriptBox["y", "d"], "\[CenterDot]", 
+          SubscriptBox["y", "b"]}]}], "+", 
+        SuperscriptBox[
+         RowBox[{"(", 
+          RowBox[{
+           SubscriptBox["W", "ca"], 
+           SubscriptBox["\[Pi]", "ad"], 
+           SubscriptBox["y", "d"]}], ")"}], "2"]}], ")"}]}], "="}]}], 
+   TraditionalForm]],
+  FormatType->"TraditionalForm",ExpressionUUID->
+  "671cd8d5-b51c-424d-bfe9-bcddfd3d9f4f"],
+ "\n\n"
 }], "Text",
  CellChangeTimes->{{3.770125482005725*^9, 3.770125535750251*^9}, {
    3.770125572393003*^9, 3.770125608440352*^9}, {3.7701256890402813`*^9, 
@@ -789,10 +827,13 @@ Cell[TextData[{
    3.770628597434561*^9}, {3.7706287247401533`*^9, 3.7706287866872587`*^9}, {
    3.770628844888213*^9, 3.7706288753694897`*^9}, 3.770628938093474*^9, {
    3.770629029515974*^9, 3.770629119718688*^9}, {3.770629151096943*^9, 
-   3.7706291788668623`*^9}},ExpressionUUID->"d6511d37-8c56-4e60-b564-\
-90409612dbe4"]
+   3.7706291788668623`*^9}, {3.7706324241730957`*^9, 
+   3.7706324296551533`*^9}, {3.77063354585527*^9, 3.770633595844977*^9}, {
+   3.7706336731055317`*^9, 3.7706337637388287`*^9}, {3.770636468282933*^9, 
+   3.770636470527184*^9}},
+ FontSize->48,ExpressionUUID->"d6511d37-8c56-4e60-b564-90409612dbe4"]
 },
-WindowSize->{808, 748},
+WindowSize->{Full, Full},
 WindowMargins->{{Automatic, 110}, {3, Automatic}},
 FrontEndVersion->"11.3 for Mac OS X x86 (32-bit, 64-bit Kernel) (March 5, \
 2018)",
@@ -809,7 +850,7 @@ CellTagsIndex->{}
 *)
 (*NotebookFileOutline
 Notebook[{
-Cell[558, 20, 24389, 772, 1227, "Text",ExpressionUUID->"d6511d37-8c56-4e60-b564-90409612dbe4"]
+Cell[558, 20, 25742, 813, 3742, "Text",ExpressionUUID->"d6511d37-8c56-4e60-b564-90409612dbe4"]
 }
 ]
 *)
