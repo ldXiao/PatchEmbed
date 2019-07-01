@@ -4,10 +4,10 @@
     "cut": false,
     "sample_num": 4000,
     "random_seed": 3,
-    "perturb_range": 0.03,
+    "perturb_range": 0.005,
     "point_size": 7,
     "skeleton_range": 0.08,
-    "graph_valence":3,
+    "graph_valence":5,
     "build_tree":false
   },
   "Sinkhorn_params": {

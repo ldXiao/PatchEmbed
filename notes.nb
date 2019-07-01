@@ -10,10 +10,10 @@
 NotebookFileLineBreakTest
 NotebookFileLineBreakTest
 NotebookDataPosition[       158,          7]
-NotebookDataLength[     26615,        849]
-NotebookOptionsPosition[     26304,        835]
-NotebookOutlinePosition[     26660,        851]
-CellTagsIndexPosition[     26617,        848]
+NotebookDataLength[     27601,        872]
+NotebookOptionsPosition[     27290,        858]
+NotebookOutlinePosition[     27646,        874]
+CellTagsIndexPosition[     27603,        871]
 WindowFrame->Normal*)
 
 (* Beginning of Notebook Content *)
@@ -64,29 +64,59 @@ Cell[TextData[{
       SubscriptBox["P", "\[Alpha]"]}]}]}], 
    TraditionalForm], "\[IndentingNewLine]", 
   FormBox[
+   RowBox[{"=", 
+    RowBox[{"\[Sum]", 
+     RowBox[{
+      SubscriptBox["P", "\[Beta]"], 
+      SubscriptBox["K", "\[Beta]\[Alpha]"], 
+      SubscriptBox["P", "\[Alpha]"]}]}]}], 
+   TraditionalForm], "\[IndentingNewLine]", 
+  FormBox[
+   RowBox[{"Newton", "-", "Sinkhorn"}], 
+   TraditionalForm], "\[IndentingNewLine]", 
+  FormBox[
+   RowBox[{"2", 
+    SubscriptBox["P", "\[Beta]"], 
+    SubscriptBox["K", "\[Beta]\[Alpha]"]}], 
+   TraditionalForm], "\[IndentingNewLine]", 
+  FormBox[
+   RowBox[{"=", 
+    RowBox[{"2", 
+     SubscriptBox["P", "jb"], 
+     SubscriptBox["K", "jbia"]}]}], TraditionalForm], "\[IndentingNewLine]", 
+  FormBox[
+   RowBox[{"=", 
+    RowBox[{"2", 
+     RowBox[{
+      SubscriptBox["P", "n"], "\[SmallCircle]", 
+      SubscriptBox["K", 
+       RowBox[{"(", "ia", ")"}]]}]}]}], 
+   TraditionalForm], "\[IndentingNewLine]", 
+  FormBox[
    RowBox[{
     RowBox[{"=", 
-     RowBox[{"\[Sum]", 
+     RowBox[{"2", 
       RowBox[{
-       SubscriptBox["P", "\[Beta]"], 
-       SubscriptBox["K", "\[Beta]\[Alpha]"], 
-       SubscriptBox["P", "\[Alpha]"]}]}]}], "\[IndentingNewLine]"}], 
+       SubscriptBox["P", "n"], "\[SmallCircle]", 
+       SubscriptBox["K", "ia"]}]}]}], "\[IndentingNewLine]"}], 
    TraditionalForm], "\[IndentingNewLine]", 
   FormBox[
    RowBox[{
     RowBox[{
      SubscriptBox["K", "\[Beta]\[Alpha]"], "=", 
      RowBox[{
-      SuperscriptBox[
+      RowBox[{
+       SuperscriptBox[
+        RowBox[{"(", 
+         RowBox[{
+          SubscriptBox["M", "\[Alpha]"], "-", 
+          SubscriptBox["M", "\[Beta]"]}], ")"}], "t"], 
        RowBox[{"(", 
         RowBox[{
          SubscriptBox["M", "\[Alpha]"], "-", 
-         SubscriptBox["M", "\[Beta]"]}], ")"}], "t"], 
-      RowBox[{"(", 
-       RowBox[{
-        SubscriptBox["M", "\[Alpha]"], "-", 
-        SubscriptBox["M", "\[Beta]"]}], ")"}]}]}], " ", 
-    "\[IndentingNewLine]"}], TraditionalForm], "\[IndentingNewLine]", 
+         SubscriptBox["M", "\[Beta]"]}], ")"}]}], " ", "=", 
+      SubscriptBox["M", "jbia"]}]}], "\[IndentingNewLine]"}], 
+   TraditionalForm], "\[IndentingNewLine]", 
   FormBox[
    RowBox[{"X", "=", " ", 
     RowBox[{"{", 
@@ -576,120 +606,118 @@ Cell[TextData[{
      RowBox[{"\[Pi]", ",", "\[Eta]"}], ")"}], "=", " ", 
     RowBox[{
      RowBox[{
+      RowBox[{
+       SubscriptBox["\[Sum]", "a"], 
+       RowBox[{
+        SubscriptBox["\[Sum]", "b"], 
+        RowBox[{
+         SubscriptBox["\[Sum]", "c"], 
+         RowBox[{
+          SubscriptBox["m", "c"], 
+          FractionBox[
+           RowBox[{
+            RowBox[{
+             SubscriptBox["W", 
+              SubscriptBox["x", "c"]], "(", 
+             SubscriptBox["x", "a"], ")"}], " ", 
+            SuperscriptBox[
+             RowBox[{"d", "(", 
+              RowBox[{
+               SubscriptBox["y", "b"], ",", 
+               SubscriptBox["\[Eta]", 
+                SubscriptBox["x", "c"]]}], ")"}], "2"]}], 
+           RowBox[{
+            SubscriptBox["\[Sum]", "k"], 
+            RowBox[{
+             SubscriptBox["m", "k"], 
+             RowBox[{
+              SubscriptBox["W", 
+               SubscriptBox["x", "c"]], "(", 
+              SubscriptBox["x", "k"], ")"}]}]}]], 
+          SubscriptBox["\[Pi]", "ab"]}]}]}]}], "+", 
+      RowBox[{
+       SubscriptBox["\[Sum]", "b"], 
+       RowBox[{
+        SubscriptBox["\[Sum]", "a"], 
+        RowBox[{
+         SubscriptBox["\[Sum]", "c"], 
+         RowBox[{
+          SubscriptBox["n", "c"], 
+          FractionBox[
+           RowBox[{
+            RowBox[{
+             SubscriptBox["W", 
+              SubscriptBox["y", "c"]], "(", 
+             SubscriptBox["y", "b"], ")"}], 
+            SuperscriptBox[
+             RowBox[{"d", "(", 
+              RowBox[{
+               SubscriptBox["x", "a"], ",", 
+               SubscriptBox["\[Eta]", 
+                SubscriptBox["y", "c"]]}], ")"}], "2"]}], 
+           RowBox[{
+            SubscriptBox["\[Sum]", "k"], 
+            RowBox[{
+             SubscriptBox["n", "k"], 
+             RowBox[{
+              SubscriptBox["W", 
+               SubscriptBox["y", "c"]], "(", 
+              SubscriptBox["y", "k"], ")"}]}]}]], 
+          SubscriptBox["\[Pi]", "ab"]}]}]}]}]}], "\[IndentingNewLine]", "=", 
+     RowBox[{
       SubscriptBox["\[Sum]", "a"], 
       RowBox[{
        SubscriptBox["\[Sum]", "b"], 
        RowBox[{
         SubscriptBox["\[Sum]", "c"], 
         RowBox[{
-         SubscriptBox["m", "c"], 
-         FractionBox[
+         RowBox[{"(", 
           RowBox[{
            RowBox[{
-            SubscriptBox["W", 
-             SubscriptBox["x", "c"]], "(", 
-            SubscriptBox["x", "a"], ")"}], " ", 
-           SuperscriptBox[
-            RowBox[{"d", "(", 
+            SubscriptBox["m", "c"], 
+            FractionBox[
              RowBox[{
-              SubscriptBox["y", "b"], ",", 
-              SubscriptBox["\[Eta]", 
-               SubscriptBox["x", "c"]]}], ")"}], "2"]}], 
-          RowBox[{
-           SubscriptBox["\[Sum]", "k"], 
-           RowBox[{
-            SubscriptBox["m", "k"], 
-            RowBox[{
-             SubscriptBox["W", 
-              SubscriptBox["x", "c"]], "(", 
-             SubscriptBox["x", "k"], ")"}]}]}]], 
-         SubscriptBox["\[Pi]", "ab"]}]}]}]}], "+", 
-     RowBox[{
-      SubscriptBox["\[Sum]", "b"], 
-      RowBox[{
-       SubscriptBox["\[Sum]", "a"], 
-       RowBox[{
-        SubscriptBox["\[Sum]", "c"], 
-        RowBox[{
-         SubscriptBox["n", "c"], 
-         FractionBox[
-          RowBox[{
-           RowBox[{
-            SubscriptBox["W", 
-             SubscriptBox["y", "c"]], "(", 
-            SubscriptBox["y", "b"], ")"}], 
-           SuperscriptBox[
-            RowBox[{"d", "(", 
-             RowBox[{
-              SubscriptBox["x", "a"], ",", 
-              SubscriptBox["\[Eta]", 
-               SubscriptBox["y", "c"]]}], ")"}], "2"]}], 
-          RowBox[{
-           SubscriptBox["\[Sum]", "k"], 
-           RowBox[{
-            SubscriptBox["n", "k"], 
-            RowBox[{
-             SubscriptBox["W", 
-              SubscriptBox["y", "c"]], "(", 
-             SubscriptBox["y", "k"], ")"}]}]}]], 
-         SubscriptBox["\[Pi]", "ab"]}]}]}]}]}]}], 
-   TraditionalForm], "\[IndentingNewLine]", 
-  FormBox[
-   RowBox[{"=", 
-    RowBox[{
-     SubscriptBox["\[Sum]", "a"], 
-     RowBox[{
-      SubscriptBox["\[Sum]", "b"], 
-      RowBox[{
-       SubscriptBox["\[Sum]", "c"], 
-       RowBox[{
-        RowBox[{"(", 
-         RowBox[{
-          RowBox[{
-           SubscriptBox["m", "c"], 
-           FractionBox[
-            RowBox[{
-             RowBox[{
-              SubscriptBox["W", 
-               SubscriptBox["x", "c"]], "(", 
-              SubscriptBox["x", "a"], ")"}], " ", 
-             SuperscriptBox[
-              RowBox[{"d", "(", 
-               RowBox[{
-                SubscriptBox["y", "b"], ",", 
-                SubscriptBox["\[Eta]", 
-                 SubscriptBox["x", "c"]]}], ")"}], "2"]}], 
-            RowBox[{
-             SubscriptBox["\[Sum]", "k"], 
-             RowBox[{
-              SubscriptBox["m", "k"], 
               RowBox[{
                SubscriptBox["W", 
                 SubscriptBox["x", "c"]], "(", 
-               SubscriptBox["x", "k"], ")"}]}]}]]}], "+", 
-          RowBox[{
-           SubscriptBox["n", "c"], 
-           FractionBox[
-            RowBox[{
+               SubscriptBox["x", "a"], ")"}], " ", 
+              SuperscriptBox[
+               RowBox[{"d", "(", 
+                RowBox[{
+                 SubscriptBox["y", "b"], ",", 
+                 SubscriptBox["\[Eta]", 
+                  SubscriptBox["x", "c"]]}], ")"}], "2"]}], 
              RowBox[{
-              SubscriptBox["W", 
-               SubscriptBox["y", "c"]], "(", 
-              SubscriptBox["y", "b"], ")"}], 
-             SuperscriptBox[
-              RowBox[{"d", "(", 
+              SubscriptBox["\[Sum]", "k"], 
+              RowBox[{
+               SubscriptBox["m", "k"], 
                RowBox[{
-                SubscriptBox["x", "a"], ",", 
-                SubscriptBox["\[Eta]", 
-                 SubscriptBox["y", "c"]]}], ")"}], "2"]}], 
-            RowBox[{
-             SubscriptBox["\[Sum]", "k"], 
+                SubscriptBox["W", 
+                 SubscriptBox["x", "c"]], "(", 
+                SubscriptBox["x", "k"], ")"}]}]}]]}], "+", 
+           RowBox[{
+            SubscriptBox["n", "c"], 
+            FractionBox[
              RowBox[{
-              SubscriptBox["n", "k"], 
               RowBox[{
                SubscriptBox["W", 
                 SubscriptBox["y", "c"]], "(", 
-               SubscriptBox["y", "k"], ")"}]}]}]]}]}], ")"}], 
-        SubscriptBox["\[Pi]", "ab"]}]}]}]}]}], TraditionalForm]}],
+               SubscriptBox["y", "b"], ")"}], 
+              SuperscriptBox[
+               RowBox[{"d", "(", 
+                RowBox[{
+                 SubscriptBox["x", "a"], ",", 
+                 SubscriptBox["\[Eta]", 
+                  SubscriptBox["y", "c"]]}], ")"}], "2"]}], 
+             RowBox[{
+              SubscriptBox["\[Sum]", "k"], 
+              RowBox[{
+               SubscriptBox["n", "k"], 
+               RowBox[{
+                SubscriptBox["W", 
+                 SubscriptBox["y", "c"]], "(", 
+                SubscriptBox["y", "k"], ")"}]}]}]]}]}], ")"}], 
+         SubscriptBox["\[Pi]", "ab"]}]}]}]}]}]}], TraditionalForm]}],
   ExpressionUUID->"a9bb5a9c-8107-449b-936a-f1aa0d1e1c25"],
  "\nto simplify the  notation, we require ",
  Cell[BoxData[
@@ -698,14 +726,12 @@ Cell[TextData[{
     SubscriptBox["m", "c"], "=", 
     RowBox[{
      SubscriptBox["n", "c"], "=", 
-     RowBox[{"1", "/", "N"}]}]}], TraditionalForm]],
-  FormatType->"TraditionalForm",ExpressionUUID->
+     RowBox[{"1", "/", "N"}]}]}], TraditionalForm]],ExpressionUUID->
   "053fe140-dd42-445e-af42-2125d02172d6"],
  " and rescale ",
  Cell[BoxData[
   FormBox[
-   SubscriptBox["W", "ca"], TraditionalForm]],
-  FormatType->"TraditionalForm",ExpressionUUID->
+   SubscriptBox["W", "ca"], TraditionalForm]],ExpressionUUID->
   "b2e863dd-aea6-4137-8b0c-40f7672ca931"],
  " so that\n",
  Cell[BoxData[
@@ -716,12 +742,10 @@ Cell[TextData[{
      RowBox[{
       SubscriptBox["m", "k"], 
       SubscriptBox["W", "ck"]}]}], "=", "1"}], TraditionalForm]],
-  FormatType->"TraditionalForm",ExpressionUUID->
-  "0090d029-7dac-4289-ba57-45a6a9c8e669"],
+  ExpressionUUID->"0090d029-7dac-4289-ba57-45a6a9c8e669"],
  "\nfor each ",
  Cell[BoxData[
-  FormBox["c", TraditionalForm]],
-  FormatType->"TraditionalForm",ExpressionUUID->
+  FormBox["c", TraditionalForm]],ExpressionUUID->
   "5b831be8-8bc4-469b-bc37-ecc36b5f1e9f"],
  ", minimize ",
  Cell[BoxData[
@@ -742,13 +766,11 @@ Cell[TextData[{
          SubscriptBox["y", "b"], ",", 
          SubscriptBox["\[Eta]", 
           SubscriptBox["x", "c"]]}], ")"}], "2"]}]}]}], TraditionalForm]],
-  FormatType->"TraditionalForm",ExpressionUUID->
-  "24a8b7bf-6edd-4bfd-9a48-54df9210dfe4"],
+  ExpressionUUID->"24a8b7bf-6edd-4bfd-9a48-54df9210dfe4"],
  " with ",
  Cell[BoxData[
   FormBox[
-   SubscriptBox["\[Eta]", "c"], TraditionalForm]],
-  FormatType->"TraditionalForm",ExpressionUUID->
+   SubscriptBox["\[Eta]", "c"], TraditionalForm]],ExpressionUUID->
   "668cf775-25a3-4991-81bb-854d425c6c3c"],
  ", which would be just the weighted barycentric sum\n",
  Cell[BoxData[
@@ -758,8 +780,7 @@ Cell[TextData[{
     RowBox[{
      SubscriptBox["W", "ca"], 
      SubscriptBox["\[Pi]", "ab"], 
-     SubscriptBox["y", "b"]}]}], TraditionalForm]],
-  FormatType->"TraditionalForm",ExpressionUUID->
+     SubscriptBox["y", "b"]}]}], TraditionalForm]],ExpressionUUID->
   "936a614c-933e-4b77-b966-9fff9b16dabc"],
  "\nIn this sense, it is trying to minimize a quadratic form \n",
  Cell[BoxData[
@@ -795,9 +816,7 @@ Cell[TextData[{
            SubscriptBox["W", "ca"], 
            SubscriptBox["\[Pi]", "ad"], 
            SubscriptBox["y", "d"]}], ")"}], "2"]}], ")"}]}], "="}]}], 
-   TraditionalForm]],
-  FormatType->"TraditionalForm",ExpressionUUID->
-  "671cd8d5-b51c-424d-bfe9-bcddfd3d9f4f"],
+   TraditionalForm]],ExpressionUUID->"671cd8d5-b51c-424d-bfe9-bcddfd3d9f4f"],
  "\n\n"
 }], "Text",
  CellChangeTimes->{{3.770125482005725*^9, 3.770125535750251*^9}, {
@@ -830,7 +849,11 @@ Cell[TextData[{
    3.7706291788668623`*^9}, {3.7706324241730957`*^9, 
    3.7706324296551533`*^9}, {3.77063354585527*^9, 3.770633595844977*^9}, {
    3.7706336731055317`*^9, 3.7706337637388287`*^9}, {3.770636468282933*^9, 
-   3.770636470527184*^9}},
+   3.770636470527184*^9}, {3.770991156944397*^9, 3.77099126875843*^9}, {
+   3.770991328824074*^9, 3.770991374501841*^9}, {3.770991530120348*^9, 
+   3.770991560800679*^9}, {3.770991607760652*^9, 3.770991711436854*^9}, {
+   3.77099174552979*^9, 3.7709917641563377`*^9}, {3.770991917055217*^9, 
+   3.770991918541996*^9}},
  FontSize->48,ExpressionUUID->"d6511d37-8c56-4e60-b564-90409612dbe4"]
 },
 WindowSize->{Full, Full},
@@ -850,7 +873,7 @@ CellTagsIndex->{}
 *)
 (*NotebookFileOutline
 Notebook[{
-Cell[558, 20, 25742, 813, 3742, "Text",ExpressionUUID->"d6511d37-8c56-4e60-b564-90409612dbe4"]
+Cell[558, 20, 26728, 836, 4134, "Text",ExpressionUUID->"d6511d37-8c56-4e60-b564-90409612dbe4"]
 }
 ]
 *)

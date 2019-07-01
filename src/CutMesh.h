@@ -64,6 +64,7 @@ namespace OTMapping {
         void set_sinkhorn_const(const double, const double, const int);
         void build_graph(double range, int m);
         void build_tree();
+        void build_Quad();
         void set_initial_from_json(const nlohmann::json &);
         void separate_cube_faces();
 
@@ -89,6 +90,7 @@ namespace OTMapping {
         void compute_CostMatrix(const Eigen::MatrixXd &, const Eigen::MatrixXd &,char options);
         void Sinkhorn();
         void VarSinkhorn();
+        void NewtonSinkhorn();
         double SinkhornEps=0;
         double SinkhornThreshold=0;
         int SinkhornMaxIter=0;

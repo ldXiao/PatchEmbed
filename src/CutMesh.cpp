@@ -304,6 +304,7 @@ void CutMesh::set_initial_from_json(const nlohmann::json & params){
         }
         this->build_graph(CutMesh_params["skeleton_range"],CutMesh_params["graph_valence"]);
         if(CutMesh_params["build_tree"]) this->build_tree();
+//        this->build_Quad();
 
     }
 }
@@ -339,7 +340,6 @@ void CutMesh::build_graph(double range, int m) {
     /*build  a m-nearst-enighbor graph */
     unsigned int num_components = this->ComponentsSample.size();
     std::vector<Eigen::Triplet<double> >Elastic_JK;
-    std::vector<Eigen::Triplet<double> >QuadraticCost_JaKb;
     Eigen::MatrixXd pair_Dense=Eigen::MatrixXd::Zero(this->SampleNum,this->SampleNum);
     this->SkeletonIndices0.resize(std::pow(this->SampleNum,2)/2,1);
     this->SkeletonIndices1.resize(std::pow(this->SampleNum,2)/2,1);
@@ -400,11 +400,8 @@ void CutMesh::build_graph(double range, int m) {
     this->SkeletonIndices0.conservativeResize(count,1);
     this->SkeletonIndices1.conservativeResize(count,1);
     Eigen::SparseMatrix<double> temp(this->SampleNum,this->SampleNum);
-    Eigen::SparseMatrix<double> temp2(pow(this->SampleNum,2),pow(this->SampleNum,2));
     temp.setFromTriplets(Elastic_JK.begin(), Elastic_JK.end());
-    temp2.setFromTriplets(QuadraticCost_JaKb.begin(), QuadraticCost_JaKb.end());
     this->ElasticTensor = temp;
-    this->QuadraticCostMatrix = temp2;
 }
 
 void CutMesh::build_tree() {
@@ -424,6 +421,39 @@ void CutMesh::build_tree() {
     this->SkeletonIndices0 = temp0;
     this->SkeletonIndices1 = temp1;
     std::cout << "after min_spaning tree, the number of skeleton is"<< count << std::endl;
+}
+
+void CutMesh::build_Quad(){
+    try {
+        if (this->SkeletonIndices0.rows() < 1 or this->SkeletonIndices1.rows() < 1) {
+            throw(this->SkeletonIndices0.rows());
+        }
+        std::vector<Eigen::Triplet<double> > Quad_JK;
+        const int num  = this->SampleNum;
+        const int sknum = this->SkeletonIndices0.rows();
+        for(int i=0; i< sknum; ++i){
+            int j = this->SkeletonIndices0.coeff(i,0);
+            int k = this->SkeletonIndices1.coeff(i,0);
+            std::cout << i << std::endl;
+            for(int a=0; a < num; ++a) {
+                for (int b = 0; b < num; ++b) {
+                    double M_jakb = (
+                            this->SamplePerturb.row(j)
+                            -this->SamplePerturb.row(k)
+                            -this->SampleInitial.row(a)
+                            +this->SampleInitial.row(b)).squaredNorm();
+//                    Quad_JK.push_back(Eigen::Triplet<double>(j* num+a, k* num+b, M_jakb));
+//                    Quad_JK.push_back(Eigen::Triplet<double>(k* num+b, j* num+a, M_jakb));
+                }
+            }
+            Eigen::SparseMatrix<double> temp(num * num, num * num);
+            temp.setFromTriplets(Quad_JK.begin(), Quad_JK.end());
+            this->QuadraticCostMatrix = temp;
+        }
+
+    } catch(int a){
+        std::cout << "skeleton uninitialized" << a << " is too small" << std::endl;
+    }
 }
 void CutMesh::separate_cube_faces(){
     std::map<int, std::pair<int, double> > level;
@@ -735,6 +765,8 @@ void CutMesh::VarSinkhorn(){
     << (Eigen::MatrixXd::Identity(n,n).array() * this->CostMatrix.array()).sum() <<std::endl;
     
 }
+
+void CutMesh::NewtonSinkhorn(){}
 
 void CutMesh::locate_Centers(
     const Eigen::SparseMatrix<double> & weightmatrix,

@@ -50,6 +50,5 @@ int main(int argc, char *argv[]){
     CM.plot_CutMesh(viewer,'i');
 
     viewer.callback_key_down = &key_down;
-    std::cout << "holy shit4" << std::endl;
     viewer.launch();
 }
