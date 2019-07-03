@@ -1,10 +1,10 @@
 {
   "CutMesh_params": {
-    "mesh_file": "../data/polysphere.obj",
+    "mesh_file": "../data/3holes.obj",
     "cut": true,
     "sample_num": 4000,
     "random_seed": 3,
-    "perturb_range": 0.1,
+    "perturb_range": 0.05,
     "point_size": 7,
     "skeleton_range": 0.05,
     "graph_valence":4,
@@ -15,6 +15,6 @@
     "threshold": 1e-10,
     "max_iter": 10,
     "round": true,
-    "sigma":0.3
+    "sigma":0.8
   }
 }
