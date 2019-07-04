@@ -8,7 +8,8 @@
     "point_size": 7,
     "skeleton_range": 0.05,
     "graph_valence":4,
-    "build_tree":false
+    "build_tree": false,
+    "funcexpr": "sin(x+y+z)"
   },
   "Sinkhorn_params": {
     "eps": 1e-2,

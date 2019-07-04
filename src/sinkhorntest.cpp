@@ -6,6 +6,7 @@
 #include <iostream>
 #include <nlohmann/json.hpp>
 #include <vector>
+#include "ExpressionValue.hpp"
 int main(){
 //    auto stable_log_sum = [](Eigen::ArrayXXd X){
 //        double max_X = X.maxCoeff();
@@ -26,6 +27,10 @@ int main(){
     K <<1,2,3,
         4,5,6,
         7,8,9;
+
+    ExpressionValue jasd;
+    std::string aasd = "sin(1)";
+    jasd.init(aasd);
 //    K << -1.09861, -694.246, -1099.71,
 //            -1387.39, -1610.54, -1792.86,
 //            -1947.01, -2080.54 -2198.32;

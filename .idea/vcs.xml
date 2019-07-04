@@ -11,5 +11,6 @@
     <mapping directory="$PROJECT_DIR$/external/libigl/external/glfw" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/external/libigl/external/imgui" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/external/libigl/external/libigl-imgui" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/external/tinyexpr" vcs="Git" />
   </component>
 </project>

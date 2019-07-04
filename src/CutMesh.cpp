@@ -20,6 +20,8 @@
 #include <random>
 #include <map>
 #include <nlohmann/json.hpp>
+#include "ExpressionValue.hpp"
+#include "tinyexpr.h"
 using namespace OTMapping;
 using MeshPair = std::tuple<Eigen::MatrixXd, Eigen::MatrixXi>;
 using MeshTriple = std::tuple<Eigen::MatrixXd, Eigen::MatrixXi, Eigen::VectorXi>;
@@ -279,7 +281,9 @@ void CutMesh::set_initial_from_json(const nlohmann::json & params){
         Eigen::MatrixXd V;
         Eigen::MatrixXi F;
         igl::readOBJ(CutMesh_params["mesh_file"],V, F);
-        auto func = [](Eigen::Vector3d x)->double{return std::sin(x[0]+x[1]+x[2]);};
+        ExpressionValue funcexpr;
+        funcexpr.init(CutMesh_params["funcexpr"]);
+        auto func = [&funcexpr](Eigen::Vector3d x)->double{return funcexpr(x[0],x[1],x[2]);};
         this->set_initial(V,F,CutMesh_params["sample_num"],func);
         if(CutMesh_params["cut"]){
             Eigen::Vector3d p0(0, 0, 0);
@@ -739,7 +743,7 @@ void CutMesh::VarSinkhorn(){
             Eigen::VectorXd::Constant(n,1),
             this->CostMatrix, this->SinkhornEps, (i+1) * 20, this->SinkhornThreshold);
 
-    }            
+    }
 
     if(this->round){
         for(unsigned int i=0; i< this->SampleNum; ++i){
@@ -763,23 +767,23 @@ void CutMesh::VarSinkhorn(){
     std::cout<<" Totoal Cost for this TransportPlan=" << (this->TransportPlan.array() * this->CostMatrix.array()).sum()
     << '\n'<<" Totoal Cost for identity="
     << (Eigen::MatrixXd::Identity(n,n).array() * this->CostMatrix.array()).sum() <<std::endl;
-    
+
 }
 
 void CutMesh::NewtonSinkhorn(){}
 
 void CutMesh::locate_Centers(
     const Eigen::SparseMatrix<double> & weightmatrix,
-    const Eigen::MatrixXd & transportplan, 
+    const Eigen::MatrixXd & transportplan,
     const Eigen::MatrixXd & sample,
-    Eigen::MatrixXd & centers, 
+    Eigen::MatrixXd & centers,
     char options){
     switch(options) {
         case 'o': // stand for original formula in the paper
             centers = weightmatrix * transportplan * sample;
             break;
     }
-    
+
 }
 
 

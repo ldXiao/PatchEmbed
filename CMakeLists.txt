@@ -38,20 +38,32 @@ download_project(
         GIT_REPOSITORY https://github.com/nlohmann/json.git
         GIT_TAG        v3.6.1
 )
+#json
+add_library(json INTERFACE)
+target_include_directories(json SYSTEM INTERFACE ${CMAKE_CURRENT_SOURCE_DIR}/external/json/include)
+
 download_project(
         PROJ         cxxopts
         SOURCE_DIR   ${CMAKE_CURRENT_SOURCE_DIR}/external/cxxopts
         DOWNLOAD_DIR ${CMAKE_CURRENT_SOURCE_DIR}/external/.cache/cxxopts
         GIT_REPOSITORY https://github.com/jarro2783/cxxopts.git
         GIT_TAG        v2.1.2)
+
+
+
 #cxxopts
 #add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/external/cxxopts)
 add_library(cxxopts INTERFACE)
 target_include_directories(cxxopts SYSTEM INTERFACE ${CMAKE_CURRENT_SOURCE_DIR}/external/cxxopts/include)
 
-#json
-add_library(json INTERFACE)
-target_include_directories(json SYSTEM INTERFACE ${CMAKE_CURRENT_SOURCE_DIR}/external/json/include)
+download_project(
+        PROJ         tinyexpr
+        SOURCE_DIR   ${CMAKE_CURRENT_SOURCE_DIR}/external/tinyexpr
+        DOWNLOAD_DIR ${CMAKE_CURRENT_SOURCE_DIR}/external/.cache/tinyexpr
+        GIT_REPOSITORY https://github.com/codeplea/tinyexpr.git
+        GIT_TAG        master)
+add_library(tinyexpr ${CMAKE_CURRENT_SOURCE_DIR}/external/tinyexpr/tinyexpr.c)
+target_include_directories(tinyexpr SYSTEM PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/external/tinyexpr)
 
 #
 set(SOURCES
@@ -61,9 +73,18 @@ set(SOURCES
     src/Skeleton.cpp
     src/Skeleton.h
     src/exportCutMesh.cpp
-    src/Kruskal.hpp)
+    src/Kruskal.hpp
+    src/ExpressionValue.cpp
+    src/ExpressionValue.hpp)
 add_library(otmapping ${SOURCES})
-target_link_libraries(otmapping PUBLIC json igl::core igl::cgal igl::opengl_glfw igl::opengl_glfw_imgui cxxopts)
+target_link_libraries(otmapping PUBLIC
+        json
+        igl::core
+        igl::cgal
+        igl::opengl_glfw
+        igl::opengl_glfw_imgui
+        cxxopts
+        tinyexpr)
 # Add your project files
 
 add_executable(${PROJECT_NAME}_bin src/main.cpp)
@@ -73,11 +94,12 @@ target_link_libraries(cuttest_bin igl::core igl::cgal igl::opengl igl::opengl_gl
 add_executable(cutmeshtest_bin
         src/CutMeshTest.cpp
         )
-target_link_libraries(cutmeshtest_bin otmapping)
+target_link_libraries(cutmeshtest_bin otmapping tinyexpr)
 add_executable(sinkhorntest_bin
         src/Sinkhorn.hpp
-        src/sinkhorntest.cpp)
-target_link_libraries(sinkhorntest_bin igl::core json)
+        src/sinkhorntest.cpp
+        src/ExpressionValue.cpp)
+target_link_libraries(sinkhorntest_bin igl::core json tinyexpr)
 add_executable(quadratic_OT_bin
         src/quadratic_OT.hpp
         src/quadratic_OT_test.cpp)
