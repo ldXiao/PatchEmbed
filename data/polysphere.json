@@ -16,6 +16,6 @@
     "threshold": 1e-10,
     "max_iter": 10,
     "round": true,
-    "sigma":0.8
+    "sigma":0.3
   }
 }

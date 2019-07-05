@@ -225,6 +225,9 @@ void CutMesh::plot_CutMesh(igl::opengl::glfw::Viewer &viewer, unsigned char opti
             viewer.data().add_points(this->SampleInitial, this->TransportPlan*SamplePerturbColor);
             std::cout << "the color error for nearst neighbor ="
             << color_error(this->TransportPlan*SamplePerturbColor,SamplePerturbColor)<< std::endl;
+
+            std::cout << "the function error in L2-norm cost ="
+                      << color_error(this->TransportPlan* this->SampleVals, this->SampleVals)<<std::endl;
             break;
         case '5':
             for(auto &data : viewer.data_list){
@@ -246,7 +249,9 @@ void CutMesh::plot_CutMesh(igl::opengl::glfw::Viewer &viewer, unsigned char opti
             viewer.data().add_points(this->SampleInitial, this->TransportPlan*SamplePerturbColor);
             std::cout << "the color error for L2-norm cost ="
                       << color_error(this->TransportPlan*SamplePerturbColor,SamplePerturbColor)<< std::endl;
-            std::cout << this->TransportPlan*SamplePerturbColor << std::endl;
+//            std::cout << this->TransportPlan*SamplePerturbColor << std::endl;
+            std::cout << "the function error in L2-norm cost ="
+                      << color_error(this->TransportPlan* this->SampleVals, this->SampleVals)<<std::endl;
             break;
         case '6':
             for(auto &data : viewer.data_list){
@@ -268,7 +273,10 @@ void CutMesh::plot_CutMesh(igl::opengl::glfw::Viewer &viewer, unsigned char opti
             viewer.data().add_points(this->SampleInitial, this->TransportPlan*SamplePerturbColor);
             std::cout << "the color error for L2-norm cost ="
                       << color_error(this->TransportPlan*SamplePerturbColor,SamplePerturbColor)<< std::endl;
-            std::cout << this->TransportPlan*SamplePerturbColor << std::endl;
+//            std::cout << this->TransportPlan*SamplePerturbColor << std::endl;
+
+            std::cout << "the function error in L2-norm cost ="
+                      << color_error(this->TransportPlan* this->SampleVals, this->SampleVals)<<std::endl;
             break;
 
     }
