@@ -15,8 +15,6 @@
 #include <utility>
 #include <tuple>
 #include <nlohmann/json.hpp>
-// TODO add function to relocate the centers
-// TODO add CostMatrix computation tool with centers
 // TODO rename the perturb and initial blah..
 namespace OTMapping {
     using MeshPair = std::tuple<Eigen::MatrixXd, Eigen::MatrixXi>;
@@ -30,6 +28,7 @@ namespace OTMapping {
         Eigen::MatrixXd SampleInitial;
         Eigen::VectorXd SampleVals;
         Eigen::MatrixXd SamplePerturb;
+        Eigen::MatrixXd RandomSamplePerturb;
         Eigen::MatrixXd Skeleton0;
         Eigen::MatrixXd Skeleton1;
         Eigen::VectorXi SkeletonIndices0;
@@ -42,6 +41,9 @@ namespace OTMapping {
         std::vector<std::unique_ptr<Eigen::MatrixXi> > ComponentsFaces;
         std::vector<std::unique_ptr<Eigen::MatrixXd> > ComponentsSample;
         std::vector<std::unique_ptr<Eigen::VectorXi> > ComponentsSampleIndices;
+        Eigen::MatrixXd TotalVerticesPerturb;
+        Eigen::MatrixXi TotalFacesPerturb;
+        void _components_union();
         // store the indices of samples in original SampleInitial
 
 
@@ -83,7 +85,7 @@ namespace OTMapping {
                 const Eigen::Vector3d & p1,
                 const Eigen::Vector3d & n1);
 
-        void perturb(const int seed, double max_shift,  double min_shift);
+        void perturb(const int seed, double max_shift,  double min_shift, bool two_samples);
 
         Eigen::MatrixXd to_nearest();
 

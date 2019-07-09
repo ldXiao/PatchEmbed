@@ -8,8 +8,6 @@
 #include <igl/random_points_on_mesh.h>
 #include <igl/opengl/glfw/Viewer.h>
 #include <igl/copyleft/cgal/intersect_with_half_space.h>
-#include <igl/random_points_on_mesh.h>
-#include <igl/uniformly_sample_two_manifold.h>
 #include <igl/triangle_triangle_adjacency.h>
 #include <igl/readOBJ.h>
 #include <Eigen/Core>
@@ -49,6 +47,27 @@ SamplePair two_half_spaces_sample_select(
             Indices(count) = i;
             S_sub.row(count) = S.row(i);
             count+=1;
+        }
+    }
+    Indices.conservativeResize(count);
+    S_sub.conservativeResize(count,3);
+    return std::make_tuple(S_sub, Indices);
+}
+
+SamplePair components_sample_select(
+        const Eigen::MatrixXd & S,
+        const Eigen::VectorXi & SamplesSourceFaces,
+        const Eigen::VectorXi & FacesSourceComponents,
+        const int & component_idx
+        ){
+    Eigen::VectorXi Indices(S.rows());
+    Eigen::MatrixXd S_sub(S.rows(),3);
+    int count = 0;
+    for(unsigned int i=0; i < S.rows(); ++i){
+        if(FacesSourceComponents(SamplesSourceFaces(i))==component_idx){
+            Indices(count) = i;
+            S_sub.row(count) = S.row(i);
+            count += 1;
         }
     }
     Indices.conservativeResize(count);
@@ -278,6 +297,22 @@ void CutMesh::plot_CutMesh(igl::opengl::glfw::Viewer &viewer, unsigned char opti
             std::cout << "the function error in L2-norm cost ="
                       << color_error(this->TransportPlan* this->SampleVals, this->SampleVals)<<std::endl;
             break;
+        case '7':
+            for(auto &data : viewer.data_list){
+                data.clear();
+            }
+            this->_components_union();
+            viewer.selected_data_index = 0;
+            viewer.data().add_points(this->SamplePerturb, Eigen::RowVector3d(0, 0, 1));
+//            viewer.data().set_mesh(this->TotalVerticesPerturb, this->TotalFacesPerturb);
+            for(unsigned int i =0; i < this->ComponentsVertices.size(); ++i) {
+                viewer.data_list[i+1].set_mesh(*(this->ComponentsVertices[i]), *(this->ComponentsFaces[i]));
+                viewer.data_list[i+1].add_points(*(this->ComponentsSample[i]), Eigen::RowVector3d(1, 0, 0));
+            }
+            for(auto &data : viewer.data_list){
+                data.set_colors(component_colors[data.id]);
+                data.point_size = point_size;
+            }
 
     }
 }
@@ -304,7 +339,7 @@ void CutMesh::set_initial_from_json(const nlohmann::json & params){
             this->separate_cube_faces();
         }
         this->point_size = CutMesh_params["point_size"];
-        this->perturb(CutMesh_params["random_seed"],CutMesh_params["perturb_range"],0.02);
+        this->perturb(CutMesh_params["random_seed"],CutMesh_params["perturb_range"],0.02, CutMesh_params["two_samples"]);
         if(params.find("Sinkhorn_params")!= params.end()) {
             auto Sinkhorn_params = params["Sinkhorn_params"];
             this->set_sinkhorn_const(
@@ -467,6 +502,7 @@ void CutMesh::build_Quad(){
         std::cout << "skeleton uninitialized" << a << " is too small" << std::endl;
     }
 }
+
 void CutMesh::separate_cube_faces(){
     std::map<int, std::pair<int, double> > level;
     level.emplace(0,std::make_pair(0, 0.5));
@@ -574,8 +610,9 @@ void CutMesh::cut_with(const Eigen::Vector3d &p0,
     }
 }
 
-void CutMesh::perturb(const int seed, double max_shift, double min_shift) {
-    /*perturb the mesh compoenents with radom shift vectors*/
+void CutMesh::perturb(const int seed, double max_shift, double min_shift, bool two_samples) {
+    /*perturb the mesh compoenents with random shift vectors
+     * and generate the perturbed samples*/
     unsigned int num_components = this->ComponentsVertices.size();
     std::mt19937 gen;
     gen.seed(seed);
@@ -601,11 +638,68 @@ void CutMesh::perturb(const int seed, double max_shift, double min_shift) {
         }
         for(unsigned int k =0; k < this->ComponentsSample[i]->rows();k++){
             this->ComponentsSample[i]->row(k)+= shift;
-            this->SamplePerturb.row(this->ComponentsSampleIndices[i]->coeff(k,0))=this->ComponentsSample[i]->row(k);
+            if(not two_samples) {
+                this->SamplePerturb.row(this->ComponentsSampleIndices[i]->coeff(k, 0)) = this->ComponentsSample[i]->row(
+                        k);
+            } else{
+//                this->SamplePerturb.row(this->ComponentsSampleIndices[i]->coeff(k, 0)) =
+            }
         }
     }
 }
 
+void CutMesh::_components_union(){
+    int NF=0;
+    int NV =0;
+    for(int i = 0; i< this->ComponentsFaces.size(); ++i){
+        NF += this->ComponentsFaces[i]->rows();
+        NV += this->ComponentsVertices[i]->rows();
+    }
+    this->TotalFacesPerturb= Eigen::MatrixXi::Zero(NF,3);
+    this->TotalVerticesPerturb=Eigen::MatrixXd::Zero(NV,3);
+    Eigen::VectorXi FacesSourceComponents = Eigen::VectorXi::Zero(NF);
+    int countF = 0;
+    int shiftF = 0;
+    int countV = 0;
+    for(int i =0 ; i < this->ComponentsFaces.size(); ++i){
+        for(int j = 0; j < this->ComponentsFaces[i]->rows();++j){
+            this->TotalFacesPerturb.row(countF) = this->ComponentsFaces[i]->row(j)
+                    + Eigen::RowVectorXi::Constant(3, shiftF);
+            FacesSourceComponents(countF)= i;
+            countF += 1;
+        }
+        for(int k =0; k < this->ComponentsVertices[i]->rows();++k){
+            this->TotalVerticesPerturb.row(countV) = this->ComponentsVertices[i]->row(k);
+            countV += 1;
+        }
+        shiftF += this->ComponentsVertices[i]->rows();
+    }
+    for(int i =0 ; i< 4;++i){
+        std::cout << this->ComponentsSample[i]->rows() << std::endl;
+    }
+    this->ComponentsSample.resize(0);
+    {
+        Eigen::MatrixXi LocalI;
+        Eigen::SparseMatrix<double> B;
+        igl::random_points_on_mesh(this->SampleNum, this->TotalVerticesPerturb, this->TotalFacesPerturb, B, LocalI);
+        this->SamplePerturb = B * this->TotalVerticesPerturb;
+        this->SampleSourceFace = LocalI;
+
+        for (int i = 0; i < this->ComponentsFaces.size(); ++i) {
+            std::unique_ptr<Eigen::MatrixXd> ptr_SA(new Eigen::MatrixXd());
+            std::unique_ptr<Eigen::VectorXi > ptr_SIA(new Eigen::VectorXi());
+            SamplePair SA = components_sample_select(
+                    this->SamplePerturb,
+                    this->SampleSourceFace,
+                    FacesSourceComponents, i);
+            *(ptr_SA) = std::get<0>(SA);
+            *(ptr_SIA) = std::get<1>(SA);
+            this->ComponentsSample[i]= std::move(ptr_SA);
+            std::cout << this->ComponentsSample[i]->rows() << std::endl;
+            this->ComponentsSampleIndices[i]= std::move(ptr_SIA);
+        }
+    }
+}
 double color_error(Eigen::MatrixXd C0, Eigen::MatrixXd C1){
     return ((C0-C1).rowwise().norm()).sum();
 }

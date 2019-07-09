@@ -44,7 +44,7 @@ int main(int argc, char *argv[]){
         cout << "sepraate"<<endl;
     }
     std::cout << "holy shit2" << std::endl;
-    CM.perturb(3, 0.1, 0.02);
+    CM.perturb(3, 0.1, 0.02, false);
     std::cout << CM.ComponentsVertices[0]->array() << std::endl;
     Eigen::MatrixXd Vout(CM.ComponentsVertices[0]->rows(),3);
     Vout<<CM.ComponentsVertices[0]->array();
