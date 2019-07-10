@@ -201,7 +201,7 @@ void CutMesh::plot_CutMesh(igl::opengl::glfw::Viewer &viewer, unsigned char opti
             viewer.data().add_points(this->SampleInitial, Eigen::RowVector3d(0, 0, 1));
             for(unsigned int i =0; i < this->ComponentsVertices.size(); ++i) {
                 viewer.data_list[i+1].set_mesh(*(this->ComponentsVertices[i]), *(this->ComponentsFaces[i]));
-                viewer.data_list[i+1].add_points(*(this->ComponentsSample[i]), Eigen::RowVector3d(1, 0, 0));
+                viewer.data_list[i+1].add_points(*(this->ComponentsSample[i]), component_sample_colors[i+1]);
             }
             for(auto &data : viewer.data_list){
                 data.set_colors(component_colors[data.id]);
@@ -340,6 +340,9 @@ void CutMesh::set_initial_from_json(const nlohmann::json & params){
         }
         this->point_size = CutMesh_params["point_size"];
         this->perturb(CutMesh_params["random_seed"],CutMesh_params["perturb_range"],0.02, CutMesh_params["two_samples"]);
+        if(CutMesh_params["two_samples"]){
+            this->_components_union();
+        }
         if(params.find("Sinkhorn_params")!= params.end()) {
             auto Sinkhorn_params = params["Sinkhorn_params"];
             this->set_sinkhorn_const(
@@ -641,9 +644,10 @@ void CutMesh::perturb(const int seed, double max_shift, double min_shift, bool t
             if(not two_samples) {
                 this->SamplePerturb.row(this->ComponentsSampleIndices[i]->coeff(k, 0)) = this->ComponentsSample[i]->row(
                         k);
-            } else{
-//                this->SamplePerturb.row(this->ComponentsSampleIndices[i]->coeff(k, 0)) =
             }
+//      else{
+////                this->SamplePerturb.row(this->ComponentsSampleIndices[i]->coeff(k, 0)) =
+//            }
         }
     }
 }
@@ -677,7 +681,7 @@ void CutMesh::_components_union(){
     for(int i =0 ; i< 4;++i){
         std::cout << this->ComponentsSample[i]->rows() << std::endl;
     }
-    this->ComponentsSample.resize(0);
+
     {
         Eigen::MatrixXi LocalI;
         Eigen::SparseMatrix<double> B;
@@ -685,7 +689,7 @@ void CutMesh::_components_union(){
         this->SamplePerturb = B * this->TotalVerticesPerturb;
         this->SampleSourceFace = LocalI;
 
-        for (int i = 0; i < this->ComponentsFaces.size(); ++i) {
+        for (int i = 0; i < this->ComponentsSample.size(); ++i) {
             std::unique_ptr<Eigen::MatrixXd> ptr_SA(new Eigen::MatrixXd());
             std::unique_ptr<Eigen::VectorXi > ptr_SIA(new Eigen::VectorXi());
             SamplePair SA = components_sample_select(

@@ -10,7 +10,7 @@
     "graph_valence":4,
     "build_tree": false,
     "funcexpr": "sin(x+y+z)",
-    "two_samples": false
+    "two_samples": true
   },
   "Sinkhorn_params": {
     "eps": 1e-2,

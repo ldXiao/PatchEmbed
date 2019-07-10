@@ -10,13 +10,13 @@
     "graph_valence": 5,
     "build_tree": false,
     "funcexpr": "sin(x+y+z)",
-    "two_samples": false
+    "two_samples": true
   },
   "Sinkhorn_params": {
     "eps": 1e-3,
     "threshold": 1e-10,
     "max_iter": 20,
     "round": true,
-    "sigma":0.8
+    "sigma":1.2
   }
 }
