@@ -52,7 +52,11 @@
   <component name="ChangeListManager">
     <list default="true" id="295248be-c225-463f-a6b6-c526a188320c" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/cube.json" beforeDir="false" afterPath="$PROJECT_DIR$/data/cube.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/data/polysphere.json" beforeDir="false" afterPath="$PROJECT_DIR$/data/polysphere.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/notes.nb" beforeDir="false" afterPath="$PROJECT_DIR$/notes.nb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/CutMesh.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/CutMesh.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/CutMesh.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/CutMesh.h" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/cmake-build-debug/" />
     <ignored path="$PROJECT_DIR$/cmake-build-release/" />
@@ -70,18 +74,18 @@
     <session id="985261744">
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
-          <entry key="cpp" value="7113" />
-          <entry key="h" value="261" />
+          <entry key="cpp" value="8671" />
+          <entry key="h" value="437" />
           <entry key="hpp" value="53" />
-          <entry key="json" value="281" />
+          <entry key="json" value="424" />
           <entry key="txt" value="320" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
           <entry key="CMakeLists.txt" value="320" />
-          <entry key="JSON" value="281" />
-          <entry key="ObjectiveC" value="7427" />
+          <entry key="JSON" value="424" />
+          <entry key="ObjectiveC" value="9161" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
@@ -90,11 +94,12 @@
           <entry key="c" value="1" />
           <entry key="cmake" value="1" />
           <entry key="cpp" value="9" />
-          <entry key="h" value="11" />
-          <entry key="hpp" value="2" />
-          <entry key="json" value="4" />
+          <entry key="dmat" value="1" />
+          <entry key="h" value="12" />
+          <entry key="hpp" value="3" />
+          <entry key="json" value="5" />
           <entry key="new" value="1" />
-          <entry key="obj" value="5" />
+          <entry key="obj" value="6" />
           <entry key="txt" value="2" />
           <entry key="utility" value="1" />
           <entry key="vector" value="1" />
@@ -103,9 +108,9 @@
       <usages-collector id="statistics.file.types.open">
         <counts>
           <entry key="CMakeLists.txt" value="2" />
-          <entry key="JSON" value="4" />
-          <entry key="ObjectiveC" value="27" />
-          <entry key="PLAIN_TEXT" value="6" />
+          <entry key="JSON" value="5" />
+          <entry key="ObjectiveC" value="29" />
+          <entry key="PLAIN_TEXT" value="8" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.lifecycle.project">
@@ -124,8 +129,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/CutMesh.h">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1008">
-              <caret line="42" column="55" selection-start-line="42" selection-start-column="55" selection-end-line="42" selection-end-column="55" />
+            <state relative-caret-position="2298">
+              <caret line="106" column="17" selection-start-line="106" selection-start-column="17" selection-end-line="106" selection-end-column="17" />
               <folding>
                 <element signature="e#100#121#0" expanded="true" />
               </folding>
@@ -134,21 +139,9 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/sinkhorntest.cpp">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="744">
-              <caret line="31" column="32" selection-start-line="31" selection-start-column="32" selection-end-line="31" selection-end-column="32" />
-              <folding>
-                <element signature="e#41#64#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/exportCutMesh.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1104">
+            <state relative-caret-position="143">
               <caret line="46" column="34" selection-start-line="46" selection-start-column="34" selection-end-line="46" selection-end-column="34" />
             </state>
           </provider>
@@ -157,60 +150,27 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/CutMesh.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="21528">
-              <caret line="897" column="14" selection-start-line="897" selection-start-column="14" selection-end-line="897" selection-end-column="14" />
+            <state relative-caret-position="223">
+              <caret line="862" column="50" selection-start-line="862" selection-start-column="50" selection-end-line="862" selection-end-column="50" />
               <folding>
                 <element signature="e#42#62#0" expanded="true" />
-                <element signature="e#882#1898#0" />
-                <element signature="e#18170#19581#0" />
-                <element signature="e#19582#22222#0" />
-                <element signature="e#22223#24026#0" />
-                <marker date="1562710211631" expanded="true" signature="17157:18526" ph="{...}" />
-                <marker date="1562710211631" expanded="true" signature="27011:27919" ph="{...}" />
-                <marker date="1562710211631" expanded="true" signature="28456:29004" ph="{...}" />
-                <marker date="1562710211631" expanded="true" signature="29115:29408" ph="{...}" />
+                <marker date="1562976639363" expanded="true" signature="17264:18633" ph="{...}" />
+                <marker date="1562976639363" expanded="true" signature="27118:28026" ph="{...}" />
+                <marker date="1562976639363" expanded="true" signature="28563:29111" ph="{...}" />
+                <marker date="1562976639363" expanded="true" signature="29222:29515" ph="{...}" />
+                <marker date="1562976639363" expanded="false" signature="35320:35946" ph="{...}" />
+                <marker date="1562976639363" expanded="true" signature="37201:37207" ph="{...}" />
+                <marker date="1562976639363" expanded="true" signature="41632:42225" ph="{...}" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/data/polysphere.obj">
-          <provider selected="true" editor-type-id="text-editor" />
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/data/cube.obj">
+        <entry file="file://$PROJECT_DIR$/src/Sinkhorn.hpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="384">
-              <caret line="16" column="8" selection-start-line="16" selection-start-column="8" selection-end-line="16" selection-end-column="8" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/data/cube.json">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="288">
-              <caret line="12" column="23" selection-start-line="12" selection-start-column="23" selection-end-line="12" selection-end-column="23" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/data/polysphere.json">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="86">
-              <caret line="4" column="20" selection-start-line="4" selection-start-column="20" selection-end-line="4" selection-end-column="20" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/data/3holes.obj">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="48">
-              <caret line="2" column="17" selection-start-line="2" selection-start-column="17" selection-end-line="2" selection-end-column="17" />
+            <state relative-caret-position="24">
+              <caret line="56" column="29" selection-start-line="56" selection-start-column="29" selection-end-line="56" selection-end-column="29" />
             </state>
           </provider>
         </entry>
@@ -227,6 +187,15 @@
           </provider>
         </entry>
       </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/data/cube.json">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="103">
+              <caret line="19" column="17" selection-start-line="19" selection-start-column="17" selection-end-line="19" selection-end-column="17" />
+            </state>
+          </provider>
+        </entry>
+      </file>
     </leaf>
   </component>
   <component name="FileTemplateManagerImpl">
@@ -238,36 +207,36 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>Constant</find>
-      <find>Local</find>
-      <find>selec</find>
-      <find>this-&gt;ComponentsSample.p</find>
-      <find>ComponentsSa</find>
-      <find>ComponentsSample[</find>
-      <find>union(</find>
-      <find>unordered_map</find>
-      <find>LocalI</find>
-      <find>SIA</find>
-      <find>_select</find>
-      <find>union()</find>
-      <find>_selec</find>
-      <find>'4'</find>
-      <find>TransportPlan</find>
-      <find>union</find>
-      <find>ComponentsSampleI</find>
-      <find>_components_</find>
-      <find>sample_s</find>
-      <find>SamplePerturbCol</find>
-      <find>Total</find>
-      <find>ComponentsSampleIndices</find>
-      <find>json</find>
-      <find>omponentsSampleIn</find>
-      <find>'2'</find>
-      <find>erro</find>
+      <find>loca</find>
+      <find>this-&gt;SamplePerturb =</find>
+      <find>&lt;&lt; this-&gt;</find>
+      <find>---------</find>
+      <find>------</find>
+      <find>'a'</find>
+      <find>&lt;&lt; this-&gt;SampleP</find>
+      <find>------------</find>
+      <find>-0.520791</find>
+      <find>'c'</find>
+      <find>rount</find>
+      <find>Center</find>
+      <find>locate_</find>
+      <find>two_samples</find>
       <find>'6'</find>
-      <find>'</find>
-      <find>_js</find>
-      <find>we</find>
+      <find>r</find>
+      <find>VarS</find>
+      <find>round</find>
+      <find>VarSink</find>
+      <find>compute_C</find>
+      <find>__</find>
+      <find>--------------</find>
+      <find>locate_C</find>
+      <find>or opt</find>
+      <find>-0.00238814          0.5     0.025992</find>
+      <find>copy</find>
+      <find>lambda</find>
+      <find>----------</find>
+      <find>--</find>
+      <find>loop_num</find>
     </findStrings>
     <replaceStrings>
       <replace>OBJ</replace>
@@ -308,10 +277,10 @@
         <option value="$PROJECT_DIR$/src/sinkhorntest.cpp" />
         <option value="$PROJECT_DIR$/CMakeLists.txt" />
         <option value="$PROJECT_DIR$/src/exportCutMesh.cpp" />
+        <option value="$PROJECT_DIR$/data/polysphere.json" />
         <option value="$PROJECT_DIR$/src/CutMesh.h" />
         <option value="$PROJECT_DIR$/src/CutMesh.cpp" />
         <option value="$PROJECT_DIR$/data/cube.json" />
-        <option value="$PROJECT_DIR$/data/polysphere.json" />
       </list>
     </option>
   </component>
@@ -322,8 +291,8 @@
     <sorting>DEFINITION_ORDER</sorting>
   </component>
   <component name="OCFindUsagesOptions" text="true" ivars="false" properties="true" derivedClasses="false" />
-  <component name="ProjectFrameBounds">
-    <option name="y" value="23" />
+  <component name="ProjectFrameBounds" extendedState="6">
+    <option name="y" value="303" />
     <option name="width" value="1280" />
     <option name="height" value="777" />
   </component>
@@ -345,16 +314,6 @@
               <item name="otmapping" type="b2602c69:ProjectViewProjectNode" />
               <item name="OTMapping" type="462c0819:PsiDirectoryNode" />
               <item name="cmake" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="otmapping" type="b2602c69:ProjectViewProjectNode" />
-              <item name="OTMapping" type="462c0819:PsiDirectoryNode" />
-              <item name="cmake-build-debug" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="otmapping" type="b2602c69:ProjectViewProjectNode" />
-              <item name="OTMapping" type="462c0819:PsiDirectoryNode" />
-              <item name="cmake-build-release" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="otmapping" type="b2602c69:ProjectViewProjectNode" />
@@ -551,7 +510,7 @@
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
-    <configuration name="cutmeshtest_bin" type="CMakeRunConfiguration" factoryName="Application" PROGRAM_PARAMS="-j &quot;../data/polysphere.json&quot;" PASS_PARENT_ENVS_2="true" PROJECT_NAME="otmapping" TARGET_NAME="cutmeshtest_bin" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="otmapping" RUN_TARGET_NAME="cutmeshtest_bin">
+    <configuration name="cutmeshtest_bin" type="CMakeRunConfiguration" factoryName="Application" PROGRAM_PARAMS="-j &quot;../data/cube.json&quot;" PASS_PARENT_ENVS_2="true" PROJECT_NAME="otmapping" TARGET_NAME="cutmeshtest_bin" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="otmapping" RUN_TARGET_NAME="cutmeshtest_bin">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
@@ -675,12 +634,12 @@
       <workItem from="1561820832931" duration="18259000" />
       <workItem from="1562076593584" duration="5524000" />
       <workItem from="1562094640394" duration="62170000" />
-      <workItem from="1562776036877" duration="1518000" />
+      <workItem from="1562776036877" duration="39912000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="352861000" />
+    <option name="totallyTimeSpent" value="391255000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -692,7 +651,7 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="23" width="1280" height="777" extended-state="0" />
+    <frame x="0" y="23" width="1280" height="777" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.2980614" />
@@ -704,7 +663,7 @@
       <window_info anchor="bottom" id="Debug" order="3" sideWeight="0.4927302" weight="0.39562044" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
-      <window_info anchor="bottom" id="TODO" order="6" weight="0.32876712" />
+      <window_info anchor="bottom" id="TODO" order="6" weight="0.32846716" />
       <window_info anchor="bottom" id="Database Changes" order="7" show_stripe_button="false" />
       <window_info anchor="bottom" id="Messages" order="8" sideWeight="0.3933764" weight="0.3138686" />
       <window_info anchor="bottom" id="Terminal" order="9" sideWeight="0.4983845" weight="0.3240876" />
@@ -717,18 +676,18 @@
       <window_info anchor="right" id="Database" order="3" />
     </layout>
     <layout-to-restore>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.29321486" />
+      <window_info content_ui="combo" id="Project" order="0" weight="0.2980614" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.3287037" />
-      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.3974152" weight="0.43941605" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.3974152" visible="true" weight="0.43941605" />
       <window_info anchor="bottom" id="Debug" order="3" sideWeight="0.4927302" weight="0.39562044" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
-      <window_info anchor="bottom" id="TODO" order="6" weight="0.32876712" />
+      <window_info anchor="bottom" id="TODO" order="6" weight="0.32846716" />
       <window_info anchor="bottom" id="Database Changes" order="7" show_stripe_button="false" />
-      <window_info active="true" anchor="bottom" id="Messages" order="8" sideWeight="0.3933764" visible="true" weight="0.3138686" />
+      <window_info anchor="bottom" id="Messages" order="8" sideWeight="0.3933764" weight="0.3138686" />
       <window_info anchor="bottom" id="Terminal" order="9" sideWeight="0.4983845" weight="0.3240876" />
       <window_info anchor="bottom" id="Event Log" order="10" sideWeight="0.60258484" side_tool="true" weight="0.35036495" />
       <window_info anchor="bottom" id="Version Control" order="11" show_stripe_button="false" />
@@ -755,7 +714,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
           <url>file://$PROJECT_DIR$/src/CutMesh.cpp</url>
-          <line>511</line>
+          <line>513</line>
           <option name="timeStamp" value="23" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
@@ -780,37 +739,37 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
           <url>file://$PROJECT_DIR$/src/CutMesh.cpp</url>
-          <line>845</line>
+          <line>858</line>
           <option name="timeStamp" value="28" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
           <url>file://$PROJECT_DIR$/src/CutMesh.cpp</url>
-          <line>770</line>
+          <line>775</line>
           <option name="timeStamp" value="31" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
           <url>file://$PROJECT_DIR$/src/CutMesh.cpp</url>
-          <line>685</line>
+          <line>687</line>
           <option name="timeStamp" value="33" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
           <url>file://$PROJECT_DIR$/src/CutMesh.cpp</url>
-          <line>686</line>
+          <line>688</line>
           <option name="timeStamp" value="34" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
           <url>file://$PROJECT_DIR$/src/CutMesh.cpp</url>
-          <line>687</line>
+          <line>689</line>
           <option name="timeStamp" value="35" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
           <url>file://$PROJECT_DIR$/src/CutMesh.cpp</url>
-          <line>688</line>
+          <line>690</line>
           <option name="timeStamp" value="36" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
           <url>file://$PROJECT_DIR$/src/CutMesh.cpp</url>
-          <line>689</line>
+          <line>691</line>
           <option name="timeStamp" value="37" />
         </line-breakpoint>
       </breakpoints>
@@ -848,12 +807,6 @@
           <caret line="69" column="48" lean-forward="true" selection-start-line="69" selection-start-column="48" selection-end-line="69" selection-end-column="48" />
         </state>
       </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/data/outcube.obj">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/data/polysphere.dmat">
-      <provider selected="true" editor-type-id="text-editor" />
     </entry>
     <entry file="file://$PROJECT_DIR$/src/quadratic_OT.hpp">
       <provider selected="true" editor-type-id="text-editor">
@@ -895,13 +848,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="88">
           <caret line="4" column="20" selection-start-line="4" selection-start-column="20" selection-end-line="4" selection-end-column="20" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Sinkhorn.hpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-31">
-          <caret line="32" column="2" selection-start-line="32" selection-start-column="2" selection-end-line="32" selection-end-column="2" />
         </state>
       </provider>
     </entry>
@@ -1052,16 +998,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/CutMesh.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1008">
-          <caret line="42" column="55" selection-start-line="42" selection-start-column="55" selection-end-line="42" selection-end-column="55" />
-          <folding>
-            <element signature="e#100#121#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/sinkhorntest.cpp">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="744">
@@ -1069,55 +1005,6 @@
           <folding>
             <element signature="e#41#64#0" expanded="true" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/exportCutMesh.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1104">
-          <caret line="46" column="34" selection-start-line="46" selection-start-column="34" selection-end-line="46" selection-end-column="34" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/CutMesh.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="21528">
-          <caret line="897" column="14" selection-start-line="897" selection-start-column="14" selection-end-line="897" selection-end-column="14" />
-          <folding>
-            <element signature="e#42#62#0" expanded="true" />
-            <element signature="e#882#1898#0" />
-            <element signature="e#18170#19581#0" />
-            <element signature="e#19582#22222#0" />
-            <element signature="e#22223#24026#0" />
-            <marker date="1562710211631" expanded="true" signature="17157:18526" ph="{...}" />
-            <marker date="1562710211631" expanded="true" signature="27011:27919" ph="{...}" />
-            <marker date="1562710211631" expanded="true" signature="28456:29004" ph="{...}" />
-            <marker date="1562710211631" expanded="true" signature="29115:29408" ph="{...}" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/data/polysphere.obj">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/data/cube.obj">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="384">
-          <caret line="16" column="8" selection-start-line="16" selection-start-column="8" selection-end-line="16" selection-end-column="8" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/data/cube.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="288">
-          <caret line="12" column="23" selection-start-line="12" selection-start-column="23" selection-end-line="12" selection-end-column="23" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/data/3holes.obj">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="48">
-          <caret line="2" column="17" selection-start-line="2" selection-start-column="17" selection-end-line="2" selection-end-column="17" />
         </state>
       </provider>
     </entry>
@@ -1133,8 +1020,79 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/data/polysphere.json">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="86">
-          <caret line="4" column="20" selection-start-line="4" selection-start-column="20" selection-end-line="4" selection-end-column="20" />
+        <state relative-caret-position="145">
+          <caret line="19" column="15" selection-start-line="19" selection-start-column="15" selection-end-line="19" selection-end-column="15" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/data/polysphere.dmat">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/data/polysphere.obj">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/data/cube.obj">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="384">
+          <caret line="16" column="8" selection-start-line="16" selection-start-column="8" selection-end-line="16" selection-end-column="8" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/data/outcube.obj">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/data/3holes.obj">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="24">
+          <caret line="2" column="17" selection-start-line="2" selection-start-column="17" selection-end-line="2" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Sinkhorn.hpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="24">
+          <caret line="56" column="29" selection-start-line="56" selection-start-column="29" selection-end-line="56" selection-end-column="29" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/exportCutMesh.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="143">
+          <caret line="46" column="34" selection-start-line="46" selection-start-column="34" selection-end-line="46" selection-end-column="34" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/CutMesh.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="223">
+          <caret line="862" column="50" selection-start-line="862" selection-start-column="50" selection-end-line="862" selection-end-column="50" />
+          <folding>
+            <element signature="e#42#62#0" expanded="true" />
+            <marker date="1562976639363" expanded="true" signature="17264:18633" ph="{...}" />
+            <marker date="1562976639363" expanded="true" signature="27118:28026" ph="{...}" />
+            <marker date="1562976639363" expanded="true" signature="28563:29111" ph="{...}" />
+            <marker date="1562976639363" expanded="true" signature="29222:29515" ph="{...}" />
+            <marker date="1562976639363" expanded="false" signature="35320:35946" ph="{...}" />
+            <marker date="1562976639363" expanded="true" signature="37201:37207" ph="{...}" />
+            <marker date="1562976639363" expanded="true" signature="41632:42225" ph="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/CutMesh.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2298">
+          <caret line="106" column="17" selection-start-line="106" selection-start-column="17" selection-end-line="106" selection-end-column="17" />
+          <folding>
+            <element signature="e#100#121#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/data/cube.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="103">
+          <caret line="19" column="17" selection-start-line="19" selection-start-column="17" selection-end-line="19" selection-end-column="17" />
         </state>
       </provider>
     </entry>

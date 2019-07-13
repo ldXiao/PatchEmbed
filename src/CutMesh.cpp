@@ -343,12 +343,14 @@ void CutMesh::set_initial_from_json(const nlohmann::json & params){
         if(CutMesh_params["two_samples"]){
             this->_components_union();
         }
+        this->lambda = CutMesh_params["lambda"];
         if(params.find("Sinkhorn_params")!= params.end()) {
             auto Sinkhorn_params = params["Sinkhorn_params"];
             this->set_sinkhorn_const(
                     Sinkhorn_params["eps"],
                     Sinkhorn_params["threshold"],
                     Sinkhorn_params["max_iter"]);
+            this->loop_num = Sinkhorn_params["loop_num"];
             this->round = Sinkhorn_params["round"];
             this->compute_WeightMatrix(Sinkhorn_params["sigma"]);
         }
@@ -757,22 +759,32 @@ void CutMesh::compute_CostMatrix(const Eigen::MatrixXd & source, const Eigen::Ma
                 }
                 break;
             case 'c':
-                this->locate_Centers(this->WeightMatrixPerturb, this->TransportPlan, this->SamplePerturb, this->CentersPerturb, 'o');
-                this->locate_Centers(this->WeightMatrixInitial, this->TransportPlan.transpose(), this->SampleInitial, this->CentersInitial, 'o');
+                this->locate_Centers(this->WeightMatrixPerturb, this->TransportPlan, this->SampleInitial, this->CentersPerturb, 'p');
+                this->locate_Centers(this->WeightMatrixInitial, this->TransportPlan, this->SamplePerturb, this->CentersInitial, 'i');
                 int num = this->SampleNum;
+                std::cout << this->CentersPerturb<< std::endl;
                 Eigen::MatrixXd D_centersInitial(num, num);
                 Eigen::MatrixXd D_centersPerturb(num, num);
                 // store the squared distance of the samples from the centers
+                Eigen::MatrixXd Base(num,num);
                 for(unsigned int i =0; i < num; ++i){
                     for(unsigned int j =0 ; j < num; ++j){
                         D_centersInitial(i,j) = (this->CentersInitial.row(j)-this->SamplePerturb.row(i)).squaredNorm();
                         D_centersPerturb(i,j) = (this->CentersPerturb.row(j)-this->SampleInitial.row(i)).squaredNorm();
+                        Base(i,j) = (this->SampleInitial.row(i) - this->SamplePerturb.row(j)).norm();
                     }
                 }
 //                std::cout << D_centerPerturb << std::endl;
 //                std::cout << this->WeightMatrixPerturb;
-                this->CostMatrix =  D_centersPerturb * this->WeightMatrixPerturb
+                this->CostMatrix =this->lambda * Base + D_centersPerturb * this->WeightMatrixPerturb
                         + D_centersInitial * this->WeightMatrixInitial;
+//                for(unsigned int i =0; i < num; ++i){
+//                    for(unsigned int j =0 ; j < num; ++j){
+//                        if(Base(i,j)>=0.1) {
+//                            this->CostMatrix(i, j) = this->lambda + Base(i,j);
+//                        }
+//                    }
+//                }
                 break;
         }
     }
@@ -808,23 +820,24 @@ void CutMesh::Sinkhorn(){
             Eigen::VectorXd::Constant(n,1),
             this->CostMatrix, this->SinkhornEps, this->SinkhornMaxIter, this->SinkhornThreshold);
     if(this->round){
-        for(unsigned int i=0; i< this->SampleNum; ++i){
-            int max_idx = 0;
-            double max_val = this->TransportPlan(i,0);
-            this->TransportPlan(i,0)=1;
-            for(unsigned int j=1; j< this->SampleNum; ++j){
-                double cur_val = this->TransportPlan(i,j);
-                if(cur_val > max_val){
-                    max_val = cur_val;
-                    this->TransportPlan(i, max_idx) = 0;
-                    this->TransportPlan(i,j) = 1;
-                    max_idx = j;
-                }
-                else{
-                    this->TransportPlan(i,j) = 0;
-                }
-            }
-        }
+//        for(unsigned int i=0; i< this->SampleNum; ++i){
+//            int max_idx = 0;
+//            double max_val = this->TransportPlan(i,0);
+//            this->TransportPlan(i,0)=1;
+//            for(unsigned int j=1; j< this->SampleNum; ++j){
+//                double cur_val = this->TransportPlan(i,j);
+//                if(cur_val > max_val){
+//                    max_val = cur_val;
+//                    this->TransportPlan(i, max_idx) = 0;
+//                    this->TransportPlan(i,j) = 1;
+//                    max_idx = j;
+//                }
+//                else{
+//                    this->TransportPlan(i,j) = 0;
+//                }
+//            }
+//        }
+        round_matrix(this->TransportPlan, 'r');
     }
     std::cout<<" Total Cost for this TransportPlan=" << (this->TransportPlan.array() * this->CostMatrix.array()).sum()
     << '\n'<<" Totoal Cost for identity="
@@ -841,34 +854,16 @@ void CutMesh::VarSinkhorn(){
             Eigen::VectorXd::Constant(n,1),
             this->CostMatrix, this->SinkhornEps, this->SinkhornMaxIter, this->SinkhornThreshold);
 //    std::cout << -1 << "------" << this->CostMatrix.block(0,0,10,10);
-    for(int i =0 ; i < 6 ; ++i){
+    for(int i =0 ; i < this->loop_num; ++i){
         this->compute_CostMatrix(this->SamplePerturb, this->SampleInitial,'c');
 //        std::cout << i << "------" << this->CostMatrix.block(0,0,10,10);
         this->TransportPlan = sinkhorn(
             Eigen::VectorXd::Constant(n,1),
             Eigen::VectorXd::Constant(n,1),
-            this->CostMatrix, this->SinkhornEps, (i+1) * 20, this->SinkhornThreshold);
-
+            this->CostMatrix, this->SinkhornEps, 60, this->SinkhornThreshold);
     }
-
-    if(this->round){
-        for(unsigned int i=0; i< this->SampleNum; ++i){
-            int max_idx = 0;
-            double max_val = this->TransportPlan(i,0);
-            this->TransportPlan(i,0)=1;
-            for(unsigned int j=1; j< this->SampleNum; ++j){
-                double cur_val = this->TransportPlan(i,j);
-                if(cur_val > max_val){
-                    max_val = cur_val;
-                    this->TransportPlan(i, max_idx) = 0;
-                    this->TransportPlan(i,j) = 1;
-                    max_idx = j;
-                }
-                else{
-                    this->TransportPlan(i,j) = 0;
-                }
-            }
-        }
+    if(this->round) {
+        round_matrix(this->TransportPlan, 'r');
     }
     std::cout<<" Totoal Cost for this TransportPlan=" << (this->TransportPlan.array() * this->CostMatrix.array()).sum()
     << '\n'<<" Totoal Cost for identity="
@@ -884,9 +879,27 @@ void CutMesh::locate_Centers(
     const Eigen::MatrixXd & sample,
     Eigen::MatrixXd & centers,
     char options){
+    Eigen::MatrixXd copy = transportplan;
     switch(options) {
-        case 'o': // stand for original formula in the paper
-            centers = weightmatrix * transportplan * sample;
+        case 'p': // stand for original formula in the paper
+            round_matrix(copy, 'c');
+            centers = weightmatrix* copy.transpose()* sample;
+//            for(int i =0 ; i < this->SampleNum ;++i){
+//                if(centers.row(i).norm()<0.001){
+//                    std::cout << "called" << std::endl;
+//                    centers.row(i)= sample.row(i);
+//                }
+//            }
+            break;
+        case 'i': // stand for original formula in the paper
+            round_matrix(copy, 'r');
+            centers =  weightmatrix * copy * sample;
+//            for(int i =0 ; i < this->SampleNum ;++i){
+//                if(centers.row(i).norm()<0.001){
+//                    std::cout << "called" << std::endl;
+//                    centers.row(i)= sample.row(i);
+//                }
+//            }
             break;
     }
 
@@ -950,6 +963,62 @@ void CutMesh::compute_WeightMatrix(double sigma) {
 }
 
 // helper function to build weightmatrix
+void round_matrix(Eigen::MatrixXd & T, char option){
+    try {
+        if(option != 'c' and option != 'r'){
+            throw option;
+        }
+        if(T.rows()!= T.cols()){
+            throw T.rows();
+        }
+        int num = T.rows();
+        switch (option) {
+            case 'r':
+                // round the matrix by row
+                for (unsigned int r = 0; r < num; ++r) {
+                    int max_idx = 0;
+                    double max_val = T(r, 0);
+                    T(r, 0) = 1;
+                    for (unsigned int c = 1; c < num; ++c) {
+                        double cur_val = T(r, c);
+                        if (cur_val > max_val) {
+                            max_val = cur_val;
+                            T(r, max_idx) = 0;
+                            T(r, c) = 1;
+                            max_idx = c;
+                        } else {
+                            T(r, c) = 0;
+                        }
+                    }
+                }
+                break;
+            case 'c':
+                for (unsigned int c = 0; c < num; ++c) {
+                    int max_idx = 0;
+                    double max_val = T(0, c);
+                    T(0, c) = 1;
+                    for (unsigned int r = 1; r < num; ++r) {
+                        double cur_val = T(r, c);
+                        if (cur_val > max_val) {
+                            max_val = cur_val;
+                            T(max_idx, c) = 0;
+                            T(r, c) = 1;
+                            max_idx = r;
+                        } else {
+                            T(r, c) = 0;
+                        }
+                    }
+                }
+                break;
+        }
+    }
+    catch(int rows){
+        std::cout << " the matrix is not a square matrix" << std::endl;
+    }
+    catch(char a){
+        std::cout << a << " is not a valid option" << std::endl;
+    }
+}
 void weight_matrix(
         double sigma,
         const Eigen::MatrixXd  & sample,

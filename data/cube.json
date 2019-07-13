@@ -2,21 +2,23 @@
   "CutMesh_params": {
     "mesh_file": "../data/cube.obj",
     "cut": false,
-    "sample_num": 4000,
+    "sample_num": 10000,
     "random_seed": 3,
-    "perturb_range": 0.005,
+    "perturb_range": 0.01,
     "point_size": 7,
     "skeleton_range": 0.08,
     "graph_valence": 5,
     "build_tree": false,
     "funcexpr": "sin(x+y+z)",
-    "two_samples": true
+    "two_samples": true,
+    "lambda": 0
   },
   "Sinkhorn_params": {
     "eps": 1e-3,
     "threshold": 1e-10,
     "max_iter": 20,
+    "loop_num": 5,
     "round": true,
-    "sigma":1.2
+    "sigma":0.8
   }
 }

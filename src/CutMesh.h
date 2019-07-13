@@ -36,6 +36,7 @@ namespace OTMapping {
         int SampleNum;
         int point_size;
 
+
         std::vector<std::unique_ptr<Eigen::MatrixXd> > ComponentsVertices;
         std::vector<std::unique_ptr<Eigen::RowVector3d> > Shifts;
         std::vector<std::unique_ptr<Eigen::MatrixXi> > ComponentsFaces;
@@ -44,6 +45,7 @@ namespace OTMapping {
         Eigen::MatrixXd TotalVerticesPerturb;
         Eigen::MatrixXi TotalFacesPerturb;
         void _components_union();
+        double lambda=0;
         // store the indices of samples in original SampleInitial
 
 
@@ -92,6 +94,7 @@ namespace OTMapping {
         void compute_CostMatrix(const Eigen::MatrixXd &, const Eigen::MatrixXd &,char options);
         void Sinkhorn();
         void VarSinkhorn();
+        int loop_num=4;
         void NewtonSinkhorn();
         double SinkhornEps=0;
         double SinkhornThreshold=0;
@@ -101,6 +104,7 @@ namespace OTMapping {
 }
 
 // helper funciton declaritions
+void round_matrix(Eigen::MatrixXd & T, char option);
 double color_error(Eigen::MatrixXd C0, Eigen::MatrixXd C1);
 void weight_matrix(
         double sigma,

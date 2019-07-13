@@ -2,7 +2,7 @@
   "CutMesh_params": {
     "mesh_file": "../data/3holes.obj",
     "cut": true,
-    "sample_num": 10000,
+    "sample_num": 4000,
     "random_seed": 3,
     "perturb_range": 0.05,
     "point_size": 7,
@@ -17,6 +17,6 @@
     "threshold": 1e-10,
     "max_iter": 10,
     "round": true,
-    "sigma":0.3
+    "sigma":0.8
   }
 }
