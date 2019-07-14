@@ -51,10 +51,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="295248be-c225-463f-a6b6-c526a188320c" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/data/cube.json" beforeDir="false" afterPath="$PROJECT_DIR$/data/cube.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/polysphere.json" beforeDir="false" afterPath="$PROJECT_DIR$/data/polysphere.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/notes.nb" beforeDir="false" afterPath="$PROJECT_DIR$/notes.nb" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/CutMesh.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/CutMesh.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/CutMesh.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/CutMesh.h" afterDir="false" />
     </list>
@@ -74,18 +71,18 @@
     <session id="985261744">
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
-          <entry key="cpp" value="8671" />
-          <entry key="h" value="437" />
+          <entry key="cpp" value="9109" />
+          <entry key="h" value="554" />
           <entry key="hpp" value="53" />
-          <entry key="json" value="424" />
+          <entry key="json" value="433" />
           <entry key="txt" value="320" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
           <entry key="CMakeLists.txt" value="320" />
-          <entry key="JSON" value="424" />
-          <entry key="ObjectiveC" value="9161" />
+          <entry key="JSON" value="433" />
+          <entry key="ObjectiveC" value="9716" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
@@ -129,8 +126,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/CutMesh.h">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2298">
-              <caret line="106" column="17" selection-start-line="106" selection-start-column="17" selection-end-line="106" selection-end-column="17" />
+            <state relative-caret-position="102">
+              <caret line="46" column="16" selection-start-line="46" selection-start-column="16" selection-end-line="46" selection-end-column="16" />
               <folding>
                 <element signature="e#100#121#0" expanded="true" />
               </folding>
@@ -150,17 +147,17 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/CutMesh.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="223">
-              <caret line="862" column="50" selection-start-line="862" selection-start-column="50" selection-end-line="862" selection-end-column="50" />
+            <state relative-caret-position="440">
+              <caret line="894" column="35" selection-start-line="894" selection-start-column="35" selection-end-line="894" selection-end-column="35" />
               <folding>
                 <element signature="e#42#62#0" expanded="true" />
-                <marker date="1562976639363" expanded="true" signature="17264:18633" ph="{...}" />
-                <marker date="1562976639363" expanded="true" signature="27118:28026" ph="{...}" />
-                <marker date="1562976639363" expanded="true" signature="28563:29111" ph="{...}" />
-                <marker date="1562976639363" expanded="true" signature="29222:29515" ph="{...}" />
-                <marker date="1562976639363" expanded="false" signature="35320:35946" ph="{...}" />
-                <marker date="1562976639363" expanded="true" signature="37201:37207" ph="{...}" />
-                <marker date="1562976639363" expanded="true" signature="41632:42225" ph="{...}" />
+                <marker date="1563058591667" expanded="true" signature="17528:18897" ph="{...}" />
+                <marker date="1563058591667" expanded="true" signature="27382:28290" ph="{...}" />
+                <marker date="1563058591667" expanded="true" signature="28827:29375" ph="{...}" />
+                <marker date="1563058591667" expanded="true" signature="29486:29779" ph="{...}" />
+                <marker date="1563058591667" expanded="false" signature="35604:36230" ph="{...}" />
+                <marker date="1563058591667" expanded="true" signature="37569:37575" ph="{...}" />
+                <marker date="1563058591667" expanded="true" signature="41882:42475" ph="{...}" />
               </folding>
             </state>
           </provider>
@@ -190,8 +187,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/data/cube.json">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="103">
-              <caret line="19" column="17" selection-start-line="19" selection-start-column="17" selection-end-line="19" selection-end-column="17" />
+            <state relative-caret-position="96">
+              <caret line="4" column="20" selection-start-line="4" selection-start-column="20" selection-end-line="4" selection-end-column="20" />
             </state>
           </provider>
         </entry>
@@ -207,36 +204,36 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>loca</find>
-      <find>this-&gt;SamplePerturb =</find>
-      <find>&lt;&lt; this-&gt;</find>
-      <find>---------</find>
-      <find>------</find>
-      <find>'a'</find>
-      <find>&lt;&lt; this-&gt;SampleP</find>
-      <find>------------</find>
-      <find>-0.520791</find>
-      <find>'c'</find>
-      <find>rount</find>
-      <find>Center</find>
-      <find>locate_</find>
-      <find>two_samples</find>
-      <find>'6'</find>
-      <find>r</find>
-      <find>VarS</find>
       <find>round</find>
       <find>VarSink</find>
       <find>compute_C</find>
       <find>__</find>
       <find>--------------</find>
-      <find>locate_C</find>
       <find>or opt</find>
       <find>-0.00238814          0.5     0.025992</find>
-      <find>copy</find>
       <find>lambda</find>
       <find>----------</find>
-      <find>--</find>
       <find>loop_num</find>
+      <find>-------</find>
+      <find>59,</find>
+      <find>59,</find>
+      <find>58,</find>
+      <find>58, 2</find>
+      <find>Transp</find>
+      <find>round_ma</find>
+      <find>this-&gt;Transp</find>
+      <find>this-&gt;TransportPlan =</find>
+      <find>from_json</find>
+      <find>round_</find>
+      <find>round_m</find>
+      <find>0.3</find>
+      <find>this-&gt;Cente</find>
+      <find>0.3copy</find>
+      <find>locate_C</find>
+      <find>--</find>
+      <find>copy</find>
+      <find>'a'</find>
+      <find>weifg</find>
     </findStrings>
     <replaceStrings>
       <replace>OBJ</replace>
@@ -634,12 +631,12 @@
       <workItem from="1561820832931" duration="18259000" />
       <workItem from="1562076593584" duration="5524000" />
       <workItem from="1562094640394" duration="62170000" />
-      <workItem from="1562776036877" duration="39912000" />
+      <workItem from="1562776036877" duration="50591000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="391255000" />
+    <option name="totallyTimeSpent" value="401934000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -659,7 +656,7 @@
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.3287037" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.3974152" visible="true" weight="0.43941605" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.39660743" visible="true" weight="0.43941605" />
       <window_info anchor="bottom" id="Debug" order="3" sideWeight="0.4927302" weight="0.39562044" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -667,7 +664,7 @@
       <window_info anchor="bottom" id="Database Changes" order="7" show_stripe_button="false" />
       <window_info anchor="bottom" id="Messages" order="8" sideWeight="0.3933764" weight="0.3138686" />
       <window_info anchor="bottom" id="Terminal" order="9" sideWeight="0.4983845" weight="0.3240876" />
-      <window_info anchor="bottom" id="Event Log" order="10" sideWeight="0.60258484" side_tool="true" weight="0.35036495" />
+      <window_info anchor="bottom" id="Event Log" order="10" sideWeight="0.60339254" side_tool="true" weight="0.43941605" />
       <window_info anchor="bottom" id="Version Control" order="11" show_stripe_button="false" />
       <window_info anchor="bottom" id="CMake" order="12" sideWeight="0.4806139" weight="0.31824818" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
@@ -714,7 +711,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
           <url>file://$PROJECT_DIR$/src/CutMesh.cpp</url>
-          <line>513</line>
+          <line>517</line>
           <option name="timeStamp" value="23" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
@@ -739,37 +736,37 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
           <url>file://$PROJECT_DIR$/src/CutMesh.cpp</url>
-          <line>858</line>
+          <line>863</line>
           <option name="timeStamp" value="28" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
           <url>file://$PROJECT_DIR$/src/CutMesh.cpp</url>
-          <line>775</line>
+          <line>779</line>
           <option name="timeStamp" value="31" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
           <url>file://$PROJECT_DIR$/src/CutMesh.cpp</url>
-          <line>687</line>
+          <line>691</line>
           <option name="timeStamp" value="33" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
           <url>file://$PROJECT_DIR$/src/CutMesh.cpp</url>
-          <line>688</line>
+          <line>692</line>
           <option name="timeStamp" value="34" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
           <url>file://$PROJECT_DIR$/src/CutMesh.cpp</url>
-          <line>689</line>
+          <line>693</line>
           <option name="timeStamp" value="35" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
           <url>file://$PROJECT_DIR$/src/CutMesh.cpp</url>
-          <line>690</line>
+          <line>694</line>
           <option name="timeStamp" value="36" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
           <url>file://$PROJECT_DIR$/src/CutMesh.cpp</url>
-          <line>691</line>
+          <line>695</line>
           <option name="timeStamp" value="37" />
         </line-breakpoint>
       </breakpoints>
@@ -1062,37 +1059,37 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/CutMesh.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="223">
-          <caret line="862" column="50" selection-start-line="862" selection-start-column="50" selection-end-line="862" selection-end-column="50" />
-          <folding>
-            <element signature="e#42#62#0" expanded="true" />
-            <marker date="1562976639363" expanded="true" signature="17264:18633" ph="{...}" />
-            <marker date="1562976639363" expanded="true" signature="27118:28026" ph="{...}" />
-            <marker date="1562976639363" expanded="true" signature="28563:29111" ph="{...}" />
-            <marker date="1562976639363" expanded="true" signature="29222:29515" ph="{...}" />
-            <marker date="1562976639363" expanded="false" signature="35320:35946" ph="{...}" />
-            <marker date="1562976639363" expanded="true" signature="37201:37207" ph="{...}" />
-            <marker date="1562976639363" expanded="true" signature="41632:42225" ph="{...}" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/CutMesh.h">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2298">
-          <caret line="106" column="17" selection-start-line="106" selection-start-column="17" selection-end-line="106" selection-end-column="17" />
+        <state relative-caret-position="102">
+          <caret line="46" column="16" selection-start-line="46" selection-start-column="16" selection-end-line="46" selection-end-column="16" />
           <folding>
             <element signature="e#100#121#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/CutMesh.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="440">
+          <caret line="894" column="35" selection-start-line="894" selection-start-column="35" selection-end-line="894" selection-end-column="35" />
+          <folding>
+            <element signature="e#42#62#0" expanded="true" />
+            <marker date="1563058591667" expanded="true" signature="17528:18897" ph="{...}" />
+            <marker date="1563058591667" expanded="true" signature="27382:28290" ph="{...}" />
+            <marker date="1563058591667" expanded="true" signature="28827:29375" ph="{...}" />
+            <marker date="1563058591667" expanded="true" signature="29486:29779" ph="{...}" />
+            <marker date="1563058591667" expanded="false" signature="35604:36230" ph="{...}" />
+            <marker date="1563058591667" expanded="true" signature="37569:37575" ph="{...}" />
+            <marker date="1563058591667" expanded="true" signature="41882:42475" ph="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/data/cube.json">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="103">
-          <caret line="19" column="17" selection-start-line="19" selection-start-column="17" selection-end-line="19" selection-end-column="17" />
+        <state relative-caret-position="96">
+          <caret line="4" column="20" selection-start-line="4" selection-start-column="20" selection-end-line="4" selection-end-column="20" />
         </state>
       </provider>
     </entry>

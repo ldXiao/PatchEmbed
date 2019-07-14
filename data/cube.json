@@ -4,7 +4,7 @@
     "cut": false,
     "sample_num": 10000,
     "random_seed": 3,
-    "perturb_range": 0.01,
+    "perturb_range": 0.005,
     "point_size": 7,
     "skeleton_range": 0.08,
     "graph_valence": 5,
@@ -19,6 +19,6 @@
     "max_iter": 20,
     "loop_num": 5,
     "round": true,
-    "sigma":0.8
+    "sigma":0.4
   }
 }

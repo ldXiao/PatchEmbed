@@ -52,6 +52,8 @@ namespace OTMapping {
         
 
         Eigen::MatrixXd TransportPlan;
+        Eigen::MatrixXd TransportPlan_roundR;
+        Eigen::MatrixXd TransportPlan_roundC;
         Eigen::MatrixXd CostMatrix;
         Eigen::SparseMatrix<double> WeightMatrixPerturb;
         Eigen::SparseMatrix<double> WeightMatrixInitial;
@@ -104,7 +106,7 @@ namespace OTMapping {
 }
 
 // helper funciton declaritions
-void round_matrix(Eigen::MatrixXd & T, char option);
+void round_matrix(const Eigen::MatrixXd & T, Eigen::MatrixXd & G, char option);
 double color_error(Eigen::MatrixXd C0, Eigen::MatrixXd C1);
 void weight_matrix(
         double sigma,

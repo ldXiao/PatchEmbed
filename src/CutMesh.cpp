@@ -380,6 +380,10 @@ void CutMesh::set_initial(const Eigen::MatrixXd &V, const Eigen::MatrixXi &F, co
     for (int i = 0; i < this->SampleNum; ++i) {
         SampleVals[i] = func(SampleInitial.row(i));
     }
+    this->TransportPlan = Eigen::MatrixXd::Zero(this->SampleNum, this->SampleNum);
+    this->TransportPlan_roundR = Eigen::MatrixXd::Zero(this->SampleNum, this->SampleNum);
+    this->TransportPlan_roundC = Eigen::MatrixXd::Zero(this->SampleNum, this->SampleNum);
+
 }
 
 void CutMesh::set_sinkhorn_const(const double eps, const double threshold, const int maxiter){
@@ -762,7 +766,7 @@ void CutMesh::compute_CostMatrix(const Eigen::MatrixXd & source, const Eigen::Ma
                 this->locate_Centers(this->WeightMatrixPerturb, this->TransportPlan, this->SampleInitial, this->CentersPerturb, 'p');
                 this->locate_Centers(this->WeightMatrixInitial, this->TransportPlan, this->SamplePerturb, this->CentersInitial, 'i');
                 int num = this->SampleNum;
-                std::cout << this->CentersPerturb<< std::endl;
+                std::cout << this->CentersPerturb-this->SamplePerturb<< std::endl;
                 Eigen::MatrixXd D_centersInitial(num, num);
                 Eigen::MatrixXd D_centersPerturb(num, num);
                 // store the squared distance of the samples from the centers
@@ -837,7 +841,8 @@ void CutMesh::Sinkhorn(){
 //                }
 //            }
 //        }
-        round_matrix(this->TransportPlan, 'r');
+        round_matrix(this->TransportPlan, this->TransportPlan_roundR, 'r');
+        this->TransportPlan=this->TransportPlan_roundR;
     }
     std::cout<<" Total Cost for this TransportPlan=" << (this->TransportPlan.array() * this->CostMatrix.array()).sum()
     << '\n'<<" Totoal Cost for identity="
@@ -863,7 +868,8 @@ void CutMesh::VarSinkhorn(){
             this->CostMatrix, this->SinkhornEps, 60, this->SinkhornThreshold);
     }
     if(this->round) {
-        round_matrix(this->TransportPlan, 'r');
+        round_matrix(this->TransportPlan,this->TransportPlan_roundR, 'r');
+        this->TransportPlan = this->TransportPlan_roundR;
     }
     std::cout<<" Totoal Cost for this TransportPlan=" << (this->TransportPlan.array() * this->CostMatrix.array()).sum()
     << '\n'<<" Totoal Cost for identity="
@@ -879,27 +885,14 @@ void CutMesh::locate_Centers(
     const Eigen::MatrixXd & sample,
     Eigen::MatrixXd & centers,
     char options){
-    Eigen::MatrixXd copy = transportplan;
     switch(options) {
         case 'p': // stand for original formula in the paper
-            round_matrix(copy, 'c');
-            centers = weightmatrix* copy.transpose()* sample;
-//            for(int i =0 ; i < this->SampleNum ;++i){
-//                if(centers.row(i).norm()<0.001){
-//                    std::cout << "called" << std::endl;
-//                    centers.row(i)= sample.row(i);
-//                }
-//            }
+            round_matrix(this->TransportPlan, this->TransportPlan_roundC, 'c');
+            centers = weightmatrix* this->TransportPlan_roundC.transpose()* sample;
             break;
         case 'i': // stand for original formula in the paper
-            round_matrix(copy, 'r');
-            centers =  weightmatrix * copy * sample;
-//            for(int i =0 ; i < this->SampleNum ;++i){
-//                if(centers.row(i).norm()<0.001){
-//                    std::cout << "called" << std::endl;
-//                    centers.row(i)= sample.row(i);
-//                }
-//            }
+            round_matrix(this->TransportPlan, this->TransportPlan_roundR, 'r');
+            centers = weightmatrix* this->TransportPlan_roundR * sample;
             break;
     }
 
@@ -963,7 +956,7 @@ void CutMesh::compute_WeightMatrix(double sigma) {
 }
 
 // helper function to build weightmatrix
-void round_matrix(Eigen::MatrixXd & T, char option){
+void round_matrix(const Eigen::MatrixXd & T, Eigen::MatrixXd & G, char option){
     try {
         if(option != 'c' and option != 'r'){
             throw option;
@@ -971,23 +964,30 @@ void round_matrix(Eigen::MatrixXd & T, char option){
         if(T.rows()!= T.cols()){
             throw T.rows();
         }
+        if(G.rows()!= G.cols()){
+            throw G.rows();
+        }
+        if(G.rows()!= T.cols()){
+            throw T.rows();
+        }
         int num = T.rows();
+        G.conservativeResize(T.rows(), T.cols());
         switch (option) {
             case 'r':
                 // round the matrix by row
                 for (unsigned int r = 0; r < num; ++r) {
                     int max_idx = 0;
                     double max_val = T(r, 0);
-                    T(r, 0) = 1;
+                    G(r, 0) = 1;
                     for (unsigned int c = 1; c < num; ++c) {
                         double cur_val = T(r, c);
                         if (cur_val > max_val) {
                             max_val = cur_val;
-                            T(r, max_idx) = 0;
-                            T(r, c) = 1;
+                            G(r, max_idx) = 0;
+                            G(r, c) = 1;
                             max_idx = c;
                         } else {
-                            T(r, c) = 0;
+                            G(r, c) = 0;
                         }
                     }
                 }
@@ -996,16 +996,16 @@ void round_matrix(Eigen::MatrixXd & T, char option){
                 for (unsigned int c = 0; c < num; ++c) {
                     int max_idx = 0;
                     double max_val = T(0, c);
-                    T(0, c) = 1;
+                    G(0, c) = 1;
                     for (unsigned int r = 1; r < num; ++r) {
                         double cur_val = T(r, c);
                         if (cur_val > max_val) {
                             max_val = cur_val;
-                            T(max_idx, c) = 0;
-                            T(r, c) = 1;
+                            G(max_idx, c) = 0;
+                            G(r, c) = 1;
                             max_idx = r;
                         } else {
-                            T(r, c) = 0;
+                            G(r, c) = 0;
                         }
                     }
                 }
