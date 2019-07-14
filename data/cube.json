@@ -11,7 +11,7 @@
     "build_tree": false,
     "funcexpr": "sin(x+y+z)",
     "two_samples": true,
-    "lambda": 0
+    "lambda": 0.5
   },
   "Sinkhorn_params": {
     "eps": 1e-3,
@@ -19,6 +19,6 @@
     "max_iter": 20,
     "loop_num": 5,
     "round": true,
-    "sigma":0.4
+    "sigma":0.2
   }
 }
