@@ -1,6 +1,6 @@
 {
   "CutMesh_params": {
-    "mesh_file": "../data/3holes.obj",
+    "mesh_file": "../data/joint.obj",
     "cut": true,
     "sample_num": 4000,
     "random_seed": 3,

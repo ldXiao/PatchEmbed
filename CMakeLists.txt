@@ -74,7 +74,9 @@ set(SOURCES
     src/exportCutMesh.cpp
     src/Kruskal.hpp
     src/ExpressionValue.cpp
-    src/ExpressionValue.hpp)
+    src/ExpressionValue.hpp
+    src/xyzgen.cpp
+    src/graphcut_cgal.h)
 add_library(otmapping ${SOURCES})
 target_link_libraries(otmapping PUBLIC
         json
@@ -99,11 +101,13 @@ add_executable(sinkhorntest_bin
         src/sinkhorntest.cpp
         src/ExpressionValue.cpp)
 target_link_libraries(sinkhorntest_bin igl::core json tinyexpr)
-add_executable(quadratic_OT_bin
-        src/quadratic_OT.hpp
-        src/quadratic_OT_test.cpp)
-target_link_libraries(quadratic_OT_bin igl::core)
+add_executable(graphcut_test_bin
+        src/graphcut_test.cpp
+        )
+target_link_libraries(graphcut_test_bin otmapping)
 add_executable(exportCutMesh_bin
         src/exportCutMesh.cpp)
 target_link_libraries(exportCutMesh_bin otmapping)
 
+add_executable(xyzgen_bin src/xyzgen.cpp)
+target_link_libraries(xyzgen_bin otmapping)

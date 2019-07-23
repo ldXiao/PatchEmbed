@@ -5,11 +5,13 @@
 #include "CutMesh.h"
 #include "Sinkhorn.hpp"
 #include "Kruskal.hpp"
+#include "graphcut_cgal.h"
 #include <igl/random_points_on_mesh.h>
 #include <igl/opengl/glfw/Viewer.h>
 #include <igl/copyleft/cgal/intersect_with_half_space.h>
 #include <igl/triangle_triangle_adjacency.h>
 #include <igl/readOBJ.h>
+#include <CGAL/mesh_segmentation.h>
 #include <Eigen/Core>
 #include <memory.h>
 #include <utility>
@@ -321,13 +323,16 @@ void CutMesh::set_initial_from_json(const nlohmann::json & params){
     /*set the initial parameters from a json*/
     if(params.find("CutMesh_params")!= params.end()){
         auto CutMesh_params = params["CutMesh_params"];
-        Eigen::MatrixXd V;
-        Eigen::MatrixXi F;
+        Eigen::MatrixXd V, Vt;
+        Eigen::MatrixXi F, Ft;
         igl::readOBJ(CutMesh_params["mesh_file"],V, F);
         ExpressionValue funcexpr;
         funcexpr.init(CutMesh_params["funcexpr"]);
         auto func = [&funcexpr](Eigen::Vector3d x)->double{return funcexpr(x[0],x[1],x[2]);};
         this->set_initial(V,F,CutMesh_params["sample_num"],func);
+        if(CutMesh_params["two_models"]){
+            igl::readOBJ(CutMesh_params["mesh_file_tetsf"], Vt, Ft);
+        }
         if(CutMesh_params["cut"]){
             Eigen::Vector3d p0(0, 0, 0);
             Eigen::Vector3d p1(0, 0, 0);
@@ -352,7 +357,7 @@ void CutMesh::set_initial_from_json(const nlohmann::json & params){
                     Sinkhorn_params["max_iter"]);
             this->loop_num = Sinkhorn_params["loop_num"];
             this->round = Sinkhorn_params["round"];
-            this->compute_WeightMatrix(Sinkhorn_params["sigma"]);
+            this->compute_WeightMatrix(Sinkhorn_params["sigma"], 'c');
         }
         this->build_graph(CutMesh_params["skeleton_range"],CutMesh_params["graph_valence"]);
         if(CutMesh_params["build_tree"]) this->build_tree();
@@ -665,7 +670,7 @@ void CutMesh::_components_union(){
         NF += this->ComponentsFaces[i]->rows();
         NV += this->ComponentsVertices[i]->rows();
     }
-    this->TotalFacesPerturb= Eigen::MatrixXi::Zero(NF,3);
+    this->TotalFacesPerturb = Eigen::MatrixXi::Zero(NF,3);
     this->TotalVerticesPerturb=Eigen::MatrixXd::Zero(NV,3);
     Eigen::VectorXi FacesSourceComponents = Eigen::VectorXi::Zero(NF);
     int countF = 0;
@@ -709,6 +714,29 @@ void CutMesh::_components_union(){
             this->ComponentsSampleIndices[i]= std::move(ptr_SIA);
         }
     }
+}
+
+void CutMesh::_set_two_models(Eigen::MatrixXd Vi,
+        Eigen::MatrixXi Fi,
+        Eigen::MatrixXd Vp,
+        Eigen::MatrixXi Fp,
+        int sample_num) {
+    this->SampleNum = sample_num;
+    this->Vertices = Vi;
+    this->Faces = Fi;
+    this->TotalVerticesPerturb = Vp;
+    this->TotalFacesPerturb = Fp;
+    {
+        Eigen::MatrixXi LocalI, LocalJ;
+        Eigen::SparseMatrix<double> B, D;
+        igl::random_points_on_mesh(this->SampleNum, this->TotalVerticesPerturb, this->TotalFacesPerturb, B, LocalI);
+        this->SamplePerturb = B * this->TotalVerticesPerturb;
+        this->SampleSourceFace = LocalI;
+        igl::random_points_on_mesh(this->SampleNum, this->Vertices, this->Faces, D, LocalJ);
+        this->SampleInitial = D* this->Vertices;
+    }
+
+
 }
 double color_error(Eigen::MatrixXd C0, Eigen::MatrixXd C1){
     return ((C0-C1).rowwise().norm()).sum();
@@ -901,7 +929,7 @@ void CutMesh::locate_Centers(
 
 
 
-void CutMesh::compute_WeightMatrix(double sigma) {
+void CutMesh::compute_WeightMatrix(double sigma, char option) {
     // TODO add face adjacency support.
     // this is a temporary solution to compute the wieght matrix;
     // because the sample on the bad mesh does not know the face indices of faces
@@ -912,47 +940,55 @@ void CutMesh::compute_WeightMatrix(double sigma) {
     // Compute the weightmatrix W_ij=W_{x_i}(x_j)
     // it start with a dense matrix and then transfer into a sparsematrix
     // does not start with triplets because we need to normalize each row;
-    std::vector<Eigen::Triplet<double> > Wxx_triplets;
-    Eigen::MatrixXd Wxx_Dense=Eigen::MatrixXd::Zero(this->SampleNum,this->SampleNum);
-    unsigned int num_components = this->ComponentsSample.size();
-    for(int i =0; i< num_components; ++i) {
-        for (int j = 0; j < this->ComponentsSampleIndices[i]->rows() - 1; ++j) {
-            std::cout << j << std::endl;
-            for (int k = j + 1; k < this->ComponentsSampleIndices[i]->rows(); ++k) {
-                int idj = this->ComponentsSampleIndices[i]->coeff(j,0);
-                int idk = this->ComponentsSampleIndices[i]->coeff(k,0);
-                double norm_jk = (this->SamplePerturb.row(idk)-this->SamplePerturb.row(idj)).norm();
-                double exp_jk = std::exp(-std::pow(norm_jk/sigma,2));
-                if(exp_jk>0.5){
-                    Wxx_Dense(idj,idk)=exp_jk;
-                    Wxx_Dense(idk,idj)=exp_jk;
+    switch (option){
+        case 'c':{
+            std::vector<Eigen::Triplet<double> > Wxx_triplets;
+            Eigen::MatrixXd Wxx_Dense = Eigen::MatrixXd::Zero(this->SampleNum, this->SampleNum);
+            unsigned int num_components = this->ComponentsSample.size();
+            for (int i = 0; i < num_components; ++i) {
+                for (int j = 0; j < this->ComponentsSampleIndices[i]->rows() - 1; ++j) {
+                    std::cout << j << std::endl;
+                    for (int k = j + 1; k < this->ComponentsSampleIndices[i]->rows(); ++k) {
+                        int idj = this->ComponentsSampleIndices[i]->coeff(j, 0);
+                        int idk = this->ComponentsSampleIndices[i]->coeff(k, 0);
+                        double norm_jk = (this->SamplePerturb.row(idk) - this->SamplePerturb.row(idj)).norm();
+                        double exp_jk = std::exp(-std::pow(norm_jk / sigma, 2));
+                        if (exp_jk > 0.5) {
+                            Wxx_Dense(idj, idk) = exp_jk;
+                            Wxx_Dense(idk, idj) = exp_jk;
+                        }
+                    }
                 }
             }
-        }
-    }
-    for(int i =0; i< Wxx_Dense.rows();++i){
-        double su = Wxx_Dense.row(i).sum();
-        if(su > 0) {
-            Wxx_Dense.row(i) /= Wxx_Dense.row(i).sum();
-        }
-    }
-    for(int i =0; i< Wxx_Dense.rows();++i){
-        for(int j =0 ; j< Wxx_Dense.cols();++j){
-            if(Wxx_Dense.coeff(i,j)!=0){
-                Wxx_triplets.push_back(Eigen::Triplet<double>(i,j,Wxx_Dense.coeff(i,j)));
+            for (int i = 0; i < Wxx_Dense.rows(); ++i) {
+                double su = Wxx_Dense.row(i).sum();
+                if (su > 0) {
+                    Wxx_Dense.row(i) /= Wxx_Dense.row(i).sum();
+                }
             }
+            for (int i = 0; i < Wxx_Dense.rows(); ++i) {
+                for (int j = 0; j < Wxx_Dense.cols(); ++j) {
+                    if (Wxx_Dense.coeff(i, j) != 0) {
+                        Wxx_triplets.push_back(Eigen::Triplet<double>(i, j, Wxx_Dense.coeff(i, j)));
+                    }
+                }
+            }
+
+            Eigen::SparseMatrix<double> temp(this->SampleNum, this->SampleNum);
+            temp.setFromTriplets(Wxx_triplets.begin(), Wxx_triplets.end());
+            this->WeightMatrixPerturb = temp;
+            weight_matrix(sigma,
+                          this->SampleInitial,
+                          this->Faces,
+                          this->SampleSourceFace,
+                          this->WeightMatrixInitial
+            );
+            break;
+        }
+        case 'b': {
+            break;
         }
     }
-
-    Eigen::SparseMatrix<double> temp(this->SampleNum,this->SampleNum);
-    temp.setFromTriplets(Wxx_triplets.begin(),Wxx_triplets.end());
-    this->WeightMatrixPerturb = temp;
-    weight_matrix(sigma,
-            this->SampleInitial,
-            this->Faces,
-            this->SampleSourceFace,
-            this->WeightMatrixInitial
-            );
 }
 
 // helper function to build weightmatrix

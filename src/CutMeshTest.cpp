@@ -24,7 +24,6 @@ bool key_down(igl::opengl::glfw::Viewer &viewer, unsigned char key, int modifier
     return false;
 }
 
-using namespace std;
 using namespace OTMapping;
 int main(int argc, char *argv[]){
     using namespace std;

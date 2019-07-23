@@ -8,6 +8,7 @@
 
 #include <Eigen/Core>
 #include <igl/opengl/glfw/Viewer.h>
+
 #include <Eigen/StdVector>
 #include <Eigen/Sparse>
 #include <vector>
@@ -15,6 +16,8 @@
 #include <utility>
 #include <tuple>
 #include <nlohmann/json.hpp>
+// CGAL stuff
+
 // TODO rename the perturb and initial blah..
 namespace OTMapping {
     using MeshPair = std::tuple<Eigen::MatrixXd, Eigen::MatrixXi>;
@@ -33,6 +36,7 @@ namespace OTMapping {
         Eigen::MatrixXd Skeleton1;
         Eigen::VectorXi SkeletonIndices0;
         Eigen::VectorXi SkeletonIndices1;
+        Eigen::MatrixXd SampleColorPerturb;
         int SampleNum;
         int point_size;
 
@@ -46,8 +50,14 @@ namespace OTMapping {
         Eigen::MatrixXi TotalFacesPerturb;
         void _components_union();
         double lambda=0;
+        void _set_two_models(
+                Eigen::MatrixXd Vi,
+                Eigen::MatrixXi Fi,
+                Eigen::MatrixXd Vp,
+                Eigen::MatrixXi Fp,
+                int sample_num);
         // store the indices of samples in original SampleInitial
-
+        void _generate_sample_color(Eigen::MatrixXd V, Eigen::MatrixXi F);
 
         
 
@@ -74,7 +84,7 @@ namespace OTMapping {
         void set_initial_from_json(const nlohmann::json &);
         void separate_cube_faces();
 
-        void compute_WeightMatrix(double sigma);
+        void compute_WeightMatrix(double sigma, char option);
         void locate_Centers(
             const Eigen::SparseMatrix<double> & weightmatrix,
             const Eigen::MatrixXd & transportplan, 
