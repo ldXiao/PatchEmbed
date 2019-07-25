@@ -37,6 +37,7 @@ namespace OTMapping {
         Eigen::VectorXi SkeletonIndices0;
         Eigen::VectorXi SkeletonIndices1;
         Eigen::MatrixXd SampleColorPerturb;
+        Eigen::MatrixXd FaceColorPerturb;
         int SampleNum;
         int point_size;
 
@@ -50,14 +51,8 @@ namespace OTMapping {
         Eigen::MatrixXi TotalFacesPerturb;
         void _components_union();
         double lambda=0;
-        void _set_two_models(
-                Eigen::MatrixXd Vi,
-                Eigen::MatrixXi Fi,
-                Eigen::MatrixXd Vp,
-                Eigen::MatrixXi Fp,
-                int sample_num);
         // store the indices of samples in original SampleInitial
-        void _generate_sample_color(Eigen::MatrixXd V, Eigen::MatrixXi F);
+        void _generate_sample_color(const Eigen::MatrixXd&V, const Eigen::MatrixXi&F);
 
         
 

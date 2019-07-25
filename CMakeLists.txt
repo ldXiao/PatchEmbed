@@ -7,8 +7,8 @@ download_project(
     PROJ         libigl
     SOURCE_DIR   ${CMAKE_CURRENT_SOURCE_DIR}/external/libigl
     DOWNLOAD_DIR ${CMAKE_CURRENT_SOURCE_DIR}/external/.cache/libigl
-    GIT_REPOSITORY https://github.com/libigl/libigl.git
-    GIT_TAG       v2.1.0)
+    GIT_REPOSITORY https://github.com/ldxiao/libigl.git
+    GIT_TAG       ldxv2.1.0)
 # libigl
 option(LIBIGL_USE_STATIC_LIBRARY "Use libigl as static library" OFF)
 option(LIBIGL_WITH_ANTTWEAKBAR       "Use AntTweakBar"    OFF)
@@ -76,7 +76,8 @@ set(SOURCES
     src/ExpressionValue.cpp
     src/ExpressionValue.hpp
     src/xyzgen.cpp
-    src/graphcut_cgal.h)
+    src/graphcut_cgal.h
+    src/VSA_cgal.hpp src/CutGraph.cpp src/CutGraph.h)
 add_library(otmapping ${SOURCES})
 target_link_libraries(otmapping PUBLIC
         json
@@ -105,6 +106,12 @@ add_executable(graphcut_test_bin
         src/graphcut_test.cpp
         )
 target_link_libraries(graphcut_test_bin otmapping)
+
+add_executable(vsa_test_bin
+        src/VSA_cgal.hpp
+        src/vsa_test.cpp
+        )
+target_link_libraries(vsa_test_bin otmapping)
 add_executable(exportCutMesh_bin
         src/exportCutMesh.cpp)
 target_link_libraries(exportCutMesh_bin otmapping)

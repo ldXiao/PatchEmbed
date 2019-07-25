@@ -10,8 +10,10 @@
 #include <igl/opengl/glfw/Viewer.h>
 #include <igl/copyleft/cgal/intersect_with_half_space.h>
 #include <igl/triangle_triangle_adjacency.h>
-#include <igl/readOBJ.h>
-#include <CGAL/mesh_segmentation.h>
+#include <igl/jet.h>
+#include <CGAL/Surface_mesh.h>
+#include <CGAL/Surface_mesh_approximation/approximate_triangle_mesh.h>
+//CGAL staff
 #include <Eigen/Core>
 #include <memory.h>
 #include <utility>
@@ -22,6 +24,7 @@
 #include <nlohmann/json.hpp>
 #include "ExpressionValue.hpp"
 #include "tinyexpr.h"
+#include "VSA_cgal.hpp"
 using namespace OTMapping;
 using MeshPair = std::tuple<Eigen::MatrixXd, Eigen::MatrixXi>;
 using MeshTriple = std::tuple<Eigen::MatrixXd, Eigen::MatrixXi, Eigen::VectorXi>;
@@ -214,18 +217,22 @@ void CutMesh::plot_CutMesh(igl::opengl::glfw::Viewer &viewer, unsigned char opti
             for(auto &data : viewer.data_list){
                 data.clear();
             }
-            viewer.selected_data_index = 0;
-            viewer.data().add_points(this->SampleInitial, Eigen::RowVector3d(0, 0, 1));
-            viewer.data().add_points(this->SamplePerturb, SamplePerturbColor);
-            viewer.data().add_edges(
-                    igl::slice(this->SamplePerturb,this->SkeletonIndices0,1),
-                    igl::slice(this->SamplePerturb,this->SkeletonIndices1,1),
-                    Eigen::RowVector3d(0,0,0));
-            for(auto &data : viewer.data_list){
+//            viewer.selected_data_index = 0;
+//            viewer.data().add_points(this->SampleInitial, Eigen::RowVector3d(0, 0, 1));
+//            viewer.data().add_points(this->SamplePerturb, SamplePerturbColor);
+//            viewer.data().add_edges(
+//                    igl::slice(this->SamplePerturb,this->SkeletonIndices0,1),
+//                    igl::slice(this->SamplePerturb,this->SkeletonIndices1,1),
+//                    Eigen::RowVector3d(0,0,0));
+//            for(auto &data : viewer.data_list){
+////                data.set_colors(component_colors[data.id]);
+//                data.point_size = point_size;
 //                data.set_colors(component_colors[data.id]);
-                data.point_size = point_size;
-                data.set_colors(component_colors[data.id]);
-            }
+//            }
+            viewer.data().set_mesh(this->TotalVerticesPerturb, this->TotalFacesPerturb);
+            viewer.data().set_colors(this->FaceColorPerturb);
+            viewer.data().add_points(this->SampleInitial, Eigen::RowVector3d(0, 0, 1));
+            viewer.data().add_points(this->SamplePerturb, this->SampleColorPerturb);
             break;
         case '4':
             for(auto &data : viewer.data_list){
@@ -243,7 +250,7 @@ void CutMesh::plot_CutMesh(igl::opengl::glfw::Viewer &viewer, unsigned char opti
             viewer.selected_data_index = 0;
             viewer.data().point_size= point_size;
             this->to_nearest();
-            viewer.data().add_points(this->SampleInitial, this->TransportPlan*SamplePerturbColor);
+            viewer.data().add_points(this->SampleInitial, this->TransportPlan*this->SampleColorPerturb);
             std::cout << "the color error for nearst neighbor ="
             << color_error(this->TransportPlan*SamplePerturbColor,SamplePerturbColor)<< std::endl;
 
@@ -347,6 +354,7 @@ void CutMesh::set_initial_from_json(const nlohmann::json & params){
         this->perturb(CutMesh_params["random_seed"],CutMesh_params["perturb_range"],0.02, CutMesh_params["two_samples"]);
         if(CutMesh_params["two_samples"]){
             this->_components_union();
+            this->_generate_sample_color(this->TotalVerticesPerturb, this->TotalFacesPerturb);
         }
         this->lambda = CutMesh_params["lambda"];
         if(params.find("Sinkhorn_params")!= params.end()) {
@@ -714,30 +722,43 @@ void CutMesh::_components_union(){
             this->ComponentsSampleIndices[i]= std::move(ptr_SIA);
         }
     }
+    igl::writeOBJ("../data/cube_soup.obj", this->TotalVerticesPerturb, this->TotalFacesPerturb);
 }
 
-void CutMesh::_set_two_models(Eigen::MatrixXd Vi,
-        Eigen::MatrixXi Fi,
-        Eigen::MatrixXd Vp,
-        Eigen::MatrixXi Fp,
-        int sample_num) {
-    this->SampleNum = sample_num;
-    this->Vertices = Vi;
-    this->Faces = Fi;
-    this->TotalVerticesPerturb = Vp;
-    this->TotalFacesPerturb = Fp;
-    {
-        Eigen::MatrixXi LocalI, LocalJ;
-        Eigen::SparseMatrix<double> B, D;
-        igl::random_points_on_mesh(this->SampleNum, this->TotalVerticesPerturb, this->TotalFacesPerturb, B, LocalI);
-        this->SamplePerturb = B * this->TotalVerticesPerturb;
-        this->SampleSourceFace = LocalI;
-        igl::random_points_on_mesh(this->SampleNum, this->Vertices, this->Faces, D, LocalJ);
-        this->SampleInitial = D* this->Vertices;
+void CutMesh::_generate_sample_color(const Eigen::MatrixXd &V, const Eigen::MatrixXi &F) {
+    Eigen::MatrixXi face_proxy;
+    int proxy_count;
+    OTMapping::vsa_compute(V, F, 6, face_proxy, proxy_count);
+    igl::jet(face_proxy,1, 6, this->FaceColorPerturb);
+    this->SampleColorPerturb.resize(this->SampleNum, 3);
+    for(int i =0; i < this->SamplePerturb.rows();++i){
+        this->SampleColorPerturb.row(i)=this->FaceColorPerturb.row((this->SampleSourceFace(i,0)));
     }
 
-
 }
+//
+//void CutMesh::_set_two_models(Eigen::MatrixXd Vi,
+//        Eigen::MatrixXi Fi,
+//        Eigen::MatrixXd Vp,
+//        Eigen::MatrixXi Fp,
+//        int sample_num) {
+//    this->SampleNum = sample_num;
+//    this->Vertices = Vi;
+//    this->Faces = Fi;
+//    this->TotalVerticesPerturb = Vp;
+//    this->TotalFacesPerturb = Fp;
+//    {
+//        Eigen::MatrixXi LocalI, LocalJ;
+//        Eigen::SparseMatrix<double> B, D;
+//        igl::random_points_on_mesh(this->SampleNum, this->TotalVerticesPerturb, this->TotalFacesPerturb, B, LocalI);
+//        this->SamplePerturb = B * this->TotalVerticesPerturb;
+//        this->SampleSourceFace = LocalI;
+//        igl::random_points_on_mesh(this->SampleNum, this->Vertices, this->Faces, D, LocalJ);
+//        this->SampleInitial = D* this->Vertices;
+//    }
+//
+//
+//}
 double color_error(Eigen::MatrixXd C0, Eigen::MatrixXd C1){
     return ((C0-C1).rowwise().norm()).sum();
 }
@@ -1055,6 +1076,7 @@ void round_matrix(const Eigen::MatrixXd & T, Eigen::MatrixXd & G, char option){
         std::cout << a << " is not a valid option" << std::endl;
     }
 }
+
 void weight_matrix(
         double sigma,
         const Eigen::MatrixXd  & sample,
