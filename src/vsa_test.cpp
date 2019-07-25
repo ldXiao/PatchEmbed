@@ -11,6 +11,7 @@
 #include <igl/jet.h>
 #include <cxxopts.hpp>
 #include <nlohmann/json.hpp>
+#include "CutGraph.h"
 igl::opengl::glfw::Viewer viewer;
 using json = nlohmann::json;
 int main(int argc, char *argv[]){
@@ -39,8 +40,12 @@ int main(int argc, char *argv[]){
     std::cout << F.rows()<< std::endl;
     OTMapping::vsa_compute(V, F, param_json["proxy_num"], fp, count);
     Eigen::MatrixXd C;
+    CutGraph cg;
+    cg._set_Vertices(V);
+    cg._set_Edges_from_KNN(10);
     igl::jet(fp, 1,param_json["proxy_num"], C);
     viewer.data().set_mesh(V,F);
     viewer.data().set_colors(C);
     viewer.launch();
+    return 0;
 }

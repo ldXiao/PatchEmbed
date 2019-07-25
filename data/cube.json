@@ -1,8 +1,8 @@
 {
   "CutMesh_params": {
-    "mesh_file": "../data/joint.obj",
+    "mesh_file": "../data/cube.obj",
     "mesh_file_tetsf": "../data/cube_tetsf.obj",
-    "cut": true,
+    "cut": false,
     "sample_num": 4000,
     "random_seed": 3,
     "perturb_range": 0.1,
