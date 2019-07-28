@@ -24,6 +24,7 @@
 #include <igl/is_edge_manifold.h>
 #include <CGAL/internal/Surface_mesh_segmentation/Alpha_expansion_graph_cut.h>
 #include <igl/matrix_to_list.h>
+#include <igl/list_to_matrix.h>
 #include <igl/per_face_normals.h>
 #include <igl/PI.h>
 #include <algorithm>
@@ -197,6 +198,8 @@ void calculate_and_log_normalize_dihedral_angles(
     }
 }
 
+
+
 int graphcut_from_cgal(
         const Eigen::MatrixXd &V, const Eigen::MatrixXi& F,
         std::vector<std::vector<double>> &probability_matrix,
@@ -224,6 +227,38 @@ int graphcut_from_cgal(
     }
     CGAL::internal::Alpha_expansion_graph_cut_boykov_kolmogorov()(edges, edge_weights, probability_matrix, labels);
     return 0;
+}
+
+double Alpha_expansion_graph_cut_boykov_kolmogorov_Eigen(
+        const Eigen::MatrixXi &Edges,
+        const Eigen::MatrixXd &EdgeWeights,
+        const Eigen::MatrixXd ProbabilityMatrix,
+        Eigen::MatrixXi & Labels){
+    std::vector<std::pair<std::size_t, std::size_t> > edges;
+    std::vector<double> edge_weights;
+    edges.resize(Edges.rows());
+    edge_weights.resize(EdgeWeights.rows());
+    for(int i =0; i< Edges.rows(); ++i){
+        edges[i]= std::make_pair(Edges(i,0), Edges(i,1));
+        edge_weights[i]= EdgeWeights(i,0);
+    }
+
+    std::vector<std::vector<double>> probability_matrix;
+    std::vector<std::size_t> labels;
+    labels.resize(Labels.rows());
+    for(int i=0; i < Labels.rows(); ++i){
+        labels[i]= Labels(i,0);
+    }
+
+    // transfer to std::vectors
+    igl::matrix_to_list(ProbabilityMatrix.transpose(), probability_matrix);
+    std::cout<< probability_matrix.size() << "y" << probability_matrix[0].size()<<std::endl;
+    std::cout << "label" << labels.size()<<std::endl;
+    CGAL::internal::Alpha_expansion_graph_cut_boykov_kolmogorov()(edges, edge_weights, probability_matrix, labels);
+    std::cout << labels.size();
+    igl::list_to_matrix(labels, Labels);
+    return 0;
+
 }
 
 void refine_labels_graph_cut(const Eigen::MatrixXd&V, const Eigen::MatrixXi&F,

@@ -722,7 +722,7 @@ void CutMesh::_components_union(){
             this->ComponentsSampleIndices[i]= std::move(ptr_SIA);
         }
     }
-    igl::writeOBJ("../data/cube_soup.obj", this->TotalVerticesPerturb, this->TotalFacesPerturb);
+//    igl::writeOBJ("../data/cube_soup.obj", this->TotalVerticesPerturb, this->TotalFacesPerturb);
 }
 
 void CutMesh::_generate_sample_color(const Eigen::MatrixXd &V, const Eigen::MatrixXi &F) {
@@ -769,7 +769,7 @@ Eigen::MatrixXd CutMesh::to_nearest(){
     for(unsigned int i=0; i< this->SampleNum; ++i){
         int min_idx = 0;
         double min_dist = (this->SamplePerturb.row(min_idx)-this->SampleInitial.row(i)).norm();
-        for(unsigned int j=1; j< this->SampleNum; ++j){
+        for(unsigned int j=0; j< this->SampleNum; ++j){
             double cur_dist=(this->SamplePerturb.row(j)-this->SampleInitial.row(i)).norm();
             if(cur_dist < min_dist){
                 min_dist = cur_dist;

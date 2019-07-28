@@ -8,14 +8,15 @@
 #include <map>
 #include <tuple>
 #include <igl/opengl/glfw/Viewer.h>
-void CutGraph::_set_Vertices(Eigen::MatrixXd V) {
-    int num = V.rows();
+#include <random>
+void CutGraph::_set_Vertices(const Eigen::MatrixXd & S) {
+    int num = S.rows();
     this->_vertices.resize(num);
-    this->Vertices = V;
+    this->Vertices = S;
     {
         int count = 0;
         for (auto it = this->_vertices.begin(); it != this->_vertices.end(); ++it) {
-            *it = std::make_tuple(V(count,0),V(count,1), V(count,2));
+            *it = std::make_tuple(S(count,0),S(count,1), S(count,2));
             count += 1;
         }
     }
@@ -74,6 +75,72 @@ void CutGraph::_set_Edges_from_KNN(int m) {
     }
     this->_edges.resize(count);
     this->Edges.conservativeResize(count,2);
+}
+
+void CutGraph::_set_EdgeWeights(double lambda){
+    EdgeWeights = Eigen::MatrixXd::Constant(this->Edges.rows(),1, lambda);
+}
+
+void CutGraph::_set_ProbabilityMatrix(int label_num, Eigen::MatrixXi observed_labels) {
+    this->ProbabilityMatrix = Eigen::MatrixXd::Zero(this->sample_num, this->label_num);
+    std::mt19937 gen;
+    gen.seed(1002);
+    std::uniform_real_distribution<> dis(0, 1);
+    for(int i = 0; i< this->sample_num; ++i){
+        int lbl = observed_labels(i,0);
+        double p = dis(gen);
+        this->ProbabilityMatrix.row(i) = Eigen::MatrixXd::Constant(1,this->label_num, (0)/ this->label_num);
+        this->ProbabilityMatrix(i,lbl) = 1.0;
+    }
+
+    std::cout<< "adaesfhod9aewhfcla" << this->ProbabilityMatrix;
+}
+
+
+void generate_sample_color(
+        const Eigen::MatrixXd &FC,
+        const Eigen::MatrixXi & source_index,
+        const int & sample_num,
+        Eigen::MatrixXd & SC) {
+    SC.resize(sample_num, 3);
+    for(int i =0; i < sample_num;++i){
+        SC.row(i)=FC.row(source_index(i,0));
+    }
+
+}
+
+void generate_sample_label(
+        const Eigen::MatrixXi & FL,
+        const Eigen::MatrixXi & source_index,
+        const int & sample_num,
+        Eigen::MatrixXi & SL
+        ){
+    SL.resize(sample_num, 3);
+    for(int i =0; i < sample_num;++i){
+        SL(i,0)=FL(source_index(i,0),0);
+    }
+}
+
+void NN_sample_label_transport(
+        const Eigen::MatrixXd &S0,
+        const Eigen::MatrixXd &S1,
+        const Eigen::MatrixXi &SL0,
+        Eigen::MatrixXi &SL1){
+    int sample_num = S1.rows();
+    Eigen::VectorXi Nearest(S1.rows());
+    SL1.resize(SL0.rows(),1);
+    for(unsigned int i=0; i< sample_num; ++i){
+        int min_idx = 0;
+        double min_dist = (S0.row(min_idx)-S1.row(i)).norm();
+        for(unsigned int j=0; j< sample_num; ++j){
+            double cur_dist=(S0.row(j)-S1.row(i)).norm();
+            if(cur_dist < min_dist){
+                min_dist = cur_dist;
+                min_idx = j;
+            }
+        }
+        SL1(i,0) = SL0(min_idx,0);
+    }
 }
 
 
