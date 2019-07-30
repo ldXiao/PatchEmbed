@@ -180,7 +180,7 @@ void NN_sample_label_vote_face_label(
     construct_face_sample_dictionary(I1, dict);
     FL1 = Eigen::MatrixXi::Zero(F1.rows(), 1);
     std::cout  << dict.size() << "size" << std::endl;
-    probability_matrix = Eigen::MatrixXd::Zero(F1.rows(),label_num);
+    probability_matrix = Eigen::MatrixXd::Constant(F1.rows(),label_num, 1e-5);
     for(int fidx=0; fidx< FL1.rows(); ++fidx){
         auto find = dict.find(fidx);
         if(find != dict.end()) {

@@ -31,6 +31,7 @@ Eigen::MatrixXd tails;
 int proxy_num;
 int label_num;
 int point_size=7;
+double lambda_refine;
 CutGraph CtGrph;
 bool key_down(igl::opengl::glfw::Viewer &viewer, unsigned char key, int modifier) {
     using namespace Eigen;
@@ -85,7 +86,7 @@ bool key_down(igl::opengl::glfw::Viewer &viewer, unsigned char key, int modifier
             Eigen::MatrixXi FL1_mod;
             Eigen::MatrixXd probmat;
             NN_sample_label_vote_face_label(label_num, I1, SL1, F1, FL1_mod, probmat);
-            OTMapping::refine_labels_graph_cut(V1, F1, probmat.transpose(), FL1_mod);
+            OTMapping::refine_labels_graph_cut(V1, F1, probmat.transpose(), FL1_mod, lambda_refine);
             igl::jet(FL1_mod, 1, label_num, FC1);
             viewer.data().set_colors(FC1);
             break;
@@ -161,7 +162,7 @@ int main(int argc, char *argv[]) {
             param_json["lambda"],
             SL1
             );
-
+    lambda_refine = param_json["lambda"];
     viewer.callback_key_down = &key_down;
     viewer.launch();
 }

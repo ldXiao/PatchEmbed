@@ -722,7 +722,7 @@ void CutMesh::_components_union(){
             this->ComponentsSampleIndices[i]= std::move(ptr_SIA);
         }
     }
-//    igl::writeOBJ("../data/cube_soup.obj", this->TotalVerticesPerturb, this->TotalFacesPerturb);
+    igl::writeOBJ("../data/cube_soup.obj", this->TotalVerticesPerturb, this->TotalFacesPerturb);
 }
 
 void CutMesh::_generate_sample_color(const Eigen::MatrixXd &V, const Eigen::MatrixXi &F) {

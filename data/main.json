@@ -4,5 +4,5 @@
   "sample_num": 10000,
   "proxy_num": 6,
   "KNN_valance": 8,
-  "lambda": 0.05
+  "lambda": 0.11
 }
