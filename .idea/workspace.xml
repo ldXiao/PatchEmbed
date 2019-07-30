@@ -10,6 +10,7 @@
       <config projectName="otmapping" targetName="cuttest_bin" />
       <config projectName="otmapping" targetName="glfw" />
       <config projectName="otmapping" targetName="exportCutMesh_bin" />
+      <config projectName="otmapping" targetName="quicktest_bin" />
       <config projectName="otmapping" targetName="otmapping" />
       <config projectName="otmapping" targetName="tinyexpr" />
       <config projectName="otmapping" targetName="cutmeshtest_bin" />
@@ -20,17 +21,18 @@
   <component name="CMakeSettings">
     <configurations>
       <configuration PROFILE_NAME="Debug" CONFIG_NAME="Debug" />
-      <configuration PROFILE_NAME="Release" CONFIG_NAME="Release" TOOLCHAIN_NAME="Default" />
+      <configuration PROFILE_NAME="Release" CONFIG_NAME="Release" BUILD_OPTIONS="-j 4" />
     </configurations>
   </component>
   <component name="ChangeListManager">
     <list default="true" id="295248be-c225-463f-a6b6-c526a188320c" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/data/main.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/quicktest.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CMakeLists.txt" beforeDir="false" afterPath="$PROJECT_DIR$/CMakeLists.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/Untitled.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/data/Untitled.ipynb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/main.json" beforeDir="false" afterPath="$PROJECT_DIR$/data/main.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/CutGraph.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/CutGraph.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/CutGraph.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/CutGraph.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/CutMesh.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/CutMesh.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/graphcut_cgal.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/graphcut_cgal.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main.cpp" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/cmake-build-debug/" />
@@ -50,18 +52,18 @@
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
           <entry key="cmake" value="18" />
-          <entry key="cpp" value="17827" />
-          <entry key="h" value="3778" />
+          <entry key="cpp" value="19847" />
+          <entry key="h" value="4055" />
           <entry key="hpp" value="1163" />
-          <entry key="json" value="1105" />
-          <entry key="txt" value="486" />
+          <entry key="json" value="1132" />
+          <entry key="txt" value="521" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="CMakeLists.txt" value="504" />
-          <entry key="JSON" value="1105" />
-          <entry key="ObjectiveC" value="22768" />
+          <entry key="CMakeLists.txt" value="539" />
+          <entry key="JSON" value="1133" />
+          <entry key="ObjectiveC" value="25564" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
@@ -73,7 +75,7 @@
           <entry key="array" value="1" />
           <entry key="c" value="3" />
           <entry key="cmake" value="4" />
-          <entry key="cpp" value="39" />
+          <entry key="cpp" value="42" />
           <entry key="dmat" value="1" />
           <entry key="functional" value="1" />
           <entry key="gitignore" value="1" />
@@ -84,32 +86,34 @@
           <entry key="m" value="1" />
           <entry key="map" value="1" />
           <entry key="new" value="1" />
-          <entry key="obj" value="9" />
+          <entry key="obj" value="10" />
           <entry key="off" value="1" />
           <entry key="random" value="1" />
-          <entry key="txt" value="7" />
+          <entry key="txt" value="8" />
           <entry key="type_traits" value="2" />
           <entry key="utility" value="1" />
-          <entry key="vector" value="2" />
+          <entry key="vector" value="3" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.open">
         <counts>
-          <entry key="CMakeLists.txt" value="10" />
+          <entry key="CMakeLists.txt" value="11" />
           <entry key="JSON" value="16" />
           <entry key="Mathematica" value="1" />
-          <entry key="ObjectiveC" value="145" />
-          <entry key="PLAIN_TEXT" value="14" />
+          <entry key="ObjectiveC" value="152" />
+          <entry key="PLAIN_TEXT" value="16" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.lifecycle.project">
         <counts>
-          <entry key="project.closed" value="5" />
+          <entry key="project.closed" value="9" />
           <entry key="project.open.time.10" value="1" />
           <entry key="project.open.time.13" value="1" />
-          <entry key="project.open.time.2" value="1" />
+          <entry key="project.open.time.2" value="3" />
           <entry key="project.open.time.7" value="2" />
-          <entry key="project.opened" value="5" />
+          <entry key="project.open.time.8" value="1" />
+          <entry key="project.open.time.9" value="1" />
+          <entry key="project.opened" value="9" />
         </counts>
       </usages-collector>
     </session>
@@ -119,8 +123,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="95">
-              <caret line="126" column="22" selection-start-line="126" selection-start-column="22" selection-end-line="126" selection-end-column="22" />
+            <state relative-caret-position="144">
+              <caret line="87" column="31" lean-forward="true" selection-start-line="87" selection-start-column="31" selection-end-line="87" selection-end-column="31" />
               <folding>
                 <element signature="e#41#60#0" expanded="true" />
               </folding>
@@ -129,37 +133,15 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/external/libigl/include/igl/opengl/glfw/Viewer.cpp">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="131">
-              <caret line="243" selection-start-line="243" selection-end-line="243" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/external/libigl/external/glfw/src/cocoa_window.m">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="139">
-              <caret line="1405" selection-start-line="1405" selection-end-line="1405" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/external/libigl/external/glfw/src/window.c">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="131">
-              <caret line="1075" selection-start-line="1075" selection-end-line="1075" />
-            </state>
-          </provider>
+        <entry file="file://$PROJECT_DIR$/src/main2.cpp">
+          <provider selected="true" editor-type-id="text-editor" />
         </entry>
       </file>
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/graphcut_cgal.h">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="279">
-              <caret line="256" column="12" selection-start-line="256" selection-start-column="12" selection-end-line="256" selection-end-column="12" />
+            <state relative-caret-position="-204">
+              <caret line="165" column="5" selection-start-line="165" selection-start-column="5" selection-end-line="165" selection-end-column="5" />
               <folding>
                 <element signature="e#111#129#0" expanded="true" />
                 <element signature="e#243#296#0" expanded="true" />
@@ -169,15 +151,49 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/external/libigl/external/eigen/Eigen/src/Core/DenseCoeffsBase.h">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="122">
+              <caret line="335" selection-start-line="335" selection-end-line="335" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/CutGraph.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="609">
-              <caret line="92" column="44" selection-start-line="92" selection-start-column="44" selection-end-line="92" selection-end-column="44" />
+            <state relative-caret-position="237">
+              <caret line="186" column="19" selection-start-line="186" selection-start-column="19" selection-end-line="186" selection-end-column="19" />
               <folding>
                 <element signature="e#0#2#0" />
                 <element signature="e#43#64#0" expanded="true" />
-                <marker date="1564169696054" expanded="false" signature="952:2048" ph="{...}" />
+                <marker date="1564514482640" expanded="false" signature="972:2068" ph="{...}" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/data/cube.obj__sf.obj">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-64764" />
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/CMakeLists.txt">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="342">
+              <caret line="124" column="45" selection-start-line="124" selection-start-column="36" selection-end-line="124" selection-end-column="45" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file:///Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1/vector">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="11112">
+              <caret line="463" column="27" selection-start-line="463" selection-start-column="27" selection-end-line="463" selection-end-column="27" />
             </state>
           </provider>
         </entry>
@@ -186,7 +202,7 @@
         <entry file="file://$PROJECT_DIR$/data/main.json">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="144">
-              <caret line="6" column="13" selection-start-line="6" selection-start-column="13" selection-end-line="6" selection-end-column="13" />
+              <caret line="6" column="16" selection-start-line="6" selection-start-column="16" selection-end-line="6" selection-end-column="16" />
             </state>
           </provider>
         </entry>
@@ -194,26 +210,11 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/CutGraph.h">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="24">
-              <caret line="19" column="13" selection-start-line="19" selection-start-column="13" selection-end-line="19" selection-end-column="13" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file:///Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1/functional">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="122">
-              <caret line="1912" selection-start-line="1912" selection-end-line="1912" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file:///Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1/__functional_base">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="131">
-              <caret line="317" selection-start-line="317" selection-end-line="317" />
+            <state relative-caret-position="222">
+              <caret line="67" column="35" selection-start-line="67" selection-start-column="35" selection-end-line="67" selection-end-column="35" />
+              <folding>
+                <element signature="e#102#119#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -229,24 +230,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>.add</find>
-      <find>error</find>
-      <find>FC0</find>
-      <find>fp</find>
-      <find>SampleColorP</find>
-      <find>fl</find>
-      <find>to_</find>
-      <find>FL0</find>
-      <find>point_</find>
-      <find>err</find>
-      <find>'1'</find>
-      <find>add_edge</find>
-      <find>neare</find>
-      <find>proba</find>
-      <find>Probabli</find>
-      <find>Coeff</find>
-      <find>label_</find>
-      <find>vsa</find>
       <find>n</find>
       <find>Alpha_</find>
       <find>random</find>
@@ -257,8 +240,26 @@
       <find>Alpha</find>
       <find>init</find>
       <find>obser</find>
-      <find>refine</find>
       <find>'2'</find>
+      <find>.trans</find>
+      <find>EdgeW</find>
+      <find>set_E</find>
+      <find>_set_EdgeWeights</find>
+      <find>FL</find>
+      <find>0 *</find>
+      <find>find</find>
+      <find>.find</find>
+      <find>[</find>
+      <find>quick</find>
+      <find>map</find>
+      <find>I1</find>
+      <find>vote</find>
+      <find>'3'</find>
+      <find>refine</find>
+      <find>SL1</find>
+      <find>size(0)</find>
+      <find>fidx</find>
+      <find>FL1</find>
     </findStrings>
     <replaceStrings>
       <replace>OBJ</replace>
@@ -302,7 +303,6 @@
         <option value="$PROJECT_DIR$/src/graphcut_test.cpp" />
         <option value="$PROJECT_DIR$/data/graphcut.json" />
         <option value="$PROJECT_DIR$/external/libigl/cmake/LibiglDownloadExternal.cmake" />
-        <option value="$PROJECT_DIR$/CMakeLists.txt" />
         <option value="$PROJECT_DIR$/external/libigl/external/cgal/Surface_mesh/include/CGAL/boost/graph/graph_traits_Surface_mesh.h" />
         <option value="$PROJECT_DIR$/src/VSA_cgal.hpp" />
         <option value="$PROJECT_DIR$/src/CutMesh.h" />
@@ -310,10 +310,12 @@
         <option value="$PROJECT_DIR$/data/cube.json" />
         <option value="$PROJECT_DIR$/data/vsa.json" />
         <option value="$PROJECT_DIR$/src/CutMesh.cpp" />
+        <option value="$PROJECT_DIR$/CMakeLists.txt" />
+        <option value="$PROJECT_DIR$/src/quicktest.cpp" />
+        <option value="$PROJECT_DIR$/data/main.json" />
         <option value="$PROJECT_DIR$/src/CutGraph.h" />
         <option value="$PROJECT_DIR$/src/CutGraph.cpp" />
         <option value="$PROJECT_DIR$/src/main.cpp" />
-        <option value="$PROJECT_DIR$/data/main.json" />
         <option value="$PROJECT_DIR$/src/graphcut_cgal.h" />
       </list>
     </option>
@@ -325,8 +327,8 @@
     <sorting>DEFINITION_ORDER</sorting>
   </component>
   <component name="OCFindUsagesOptions" text="true" ivars="false" properties="true" derivedClasses="false" />
-  <component name="ProjectFrameBounds" fullScreen="true">
-    <option name="x" value="33" />
+  <component name="ProjectFrameBounds">
+    <option name="x" value="-14" />
     <option name="y" value="23" />
     <option name="width" value="1280" />
     <option name="height" value="777" />
@@ -337,6 +339,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -347,7 +350,7 @@
             <path>
               <item name="otmapping" type="b2602c69:ProjectViewProjectNode" />
               <item name="OTMapping" type="462c0819:PsiDirectoryNode" />
-              <item name="scripts" type="462c0819:PsiDirectoryNode" />
+              <item name="data" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="otmapping" type="b2602c69:ProjectViewProjectNode" />
@@ -358,7 +361,6 @@
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -372,7 +374,7 @@
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
     <property name="nodejs_package_manager_path" value="npm" />
-    <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
+    <property name="settings.editor.selected.configurable" value="CMakeSettings" />
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
@@ -395,72 +397,77 @@
     </option>
   </component>
   <component name="RunManager" selected="Application.otmapping_bin">
-    <configuration name="Build All" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" CONFIG_NAME="Release" EXPLICIT_BUILD_TARGET_NAME="all">
+    <configuration name="Build All" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" CONFIG_NAME="Debug" EXPLICIT_BUILD_TARGET_NAME="all">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
-    <configuration name="cutmeshtest_bin" type="CMakeRunConfiguration" factoryName="Application" PROGRAM_PARAMS="-j &quot;../data/cube.json&quot;" PASS_PARENT_ENVS_2="true" PROJECT_NAME="otmapping" TARGET_NAME="cutmeshtest_bin" CONFIG_NAME="Release" RUN_TARGET_PROJECT_NAME="otmapping" RUN_TARGET_NAME="cutmeshtest_bin">
+    <configuration name="cutmeshtest_bin" type="CMakeRunConfiguration" factoryName="Application" PROGRAM_PARAMS="-j &quot;../data/cube.json&quot;" PASS_PARENT_ENVS_2="true" PROJECT_NAME="otmapping" TARGET_NAME="cutmeshtest_bin" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="otmapping" RUN_TARGET_NAME="cutmeshtest_bin">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
-    <configuration name="cuttest_bin" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="otmapping" TARGET_NAME="cuttest_bin" CONFIG_NAME="Release" RUN_TARGET_PROJECT_NAME="otmapping" RUN_TARGET_NAME="cuttest_bin">
+    <configuration name="cuttest_bin" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="otmapping" TARGET_NAME="cuttest_bin" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="otmapping" RUN_TARGET_NAME="cuttest_bin">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
-    <configuration name="exportCutMesh_bin" type="CMakeRunConfiguration" factoryName="Application" PROGRAM_PARAMS="--infile ../data/cube.obj --outfile ../data/outcube.obj" PASS_PARENT_ENVS_2="true" PROJECT_NAME="otmapping" TARGET_NAME="exportCutMesh_bin" CONFIG_NAME="Release" RUN_TARGET_PROJECT_NAME="otmapping" RUN_TARGET_NAME="exportCutMesh_bin">
+    <configuration name="exportCutMesh_bin" type="CMakeRunConfiguration" factoryName="Application" PROGRAM_PARAMS="--infile ../data/cube.obj --outfile ../data/outcube.obj" PASS_PARENT_ENVS_2="true" PROJECT_NAME="otmapping" TARGET_NAME="exportCutMesh_bin" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="otmapping" RUN_TARGET_NAME="exportCutMesh_bin">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
-    <configuration name="glad" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="otmapping" TARGET_NAME="glad" CONFIG_NAME="Release">
+    <configuration name="glad" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="otmapping" TARGET_NAME="glad" CONFIG_NAME="Debug">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
-    <configuration name="glfw" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="otmapping" TARGET_NAME="glfw" CONFIG_NAME="Release">
+    <configuration name="glfw" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="otmapping" TARGET_NAME="glfw" CONFIG_NAME="Debug">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
-    <configuration name="graphcut_test_bin" type="CMakeRunConfiguration" factoryName="Application" PROGRAM_PARAMS="-j &quot;../data/graphcut.json&quot;" PASS_PARENT_ENVS_2="true" PROJECT_NAME="otmapping" TARGET_NAME="graphcut_test_bin" CONFIG_NAME="Release" RUN_TARGET_PROJECT_NAME="otmapping" RUN_TARGET_NAME="graphcut_test_bin">
+    <configuration name="graphcut_test_bin" type="CMakeRunConfiguration" factoryName="Application" PROGRAM_PARAMS="-j &quot;../data/graphcut.json&quot;" PASS_PARENT_ENVS_2="true" PROJECT_NAME="otmapping" TARGET_NAME="graphcut_test_bin" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="otmapping" RUN_TARGET_NAME="graphcut_test_bin">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
-    <configuration name="imgui" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="otmapping" TARGET_NAME="imgui" CONFIG_NAME="Release">
+    <configuration name="imgui" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="otmapping" TARGET_NAME="imgui" CONFIG_NAME="Debug">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
-    <configuration name="otmapping" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="otmapping" TARGET_NAME="otmapping" CONFIG_NAME="Release">
+    <configuration name="otmapping" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="otmapping" TARGET_NAME="otmapping" CONFIG_NAME="Debug">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
-    <configuration name="otmapping_bin" type="CMakeRunConfiguration" factoryName="Application" PROGRAM_PARAMS="-j ../data/main.json" PASS_PARENT_ENVS_2="true" PROJECT_NAME="otmapping" TARGET_NAME="otmapping_bin" CONFIG_NAME="Release" RUN_TARGET_PROJECT_NAME="otmapping" RUN_TARGET_NAME="otmapping_bin">
+    <configuration name="otmapping_bin" type="CMakeRunConfiguration" factoryName="Application" PROGRAM_PARAMS="-j ../data/main.json" PASS_PARENT_ENVS_2="true" PROJECT_NAME="otmapping" TARGET_NAME="otmapping_bin" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="otmapping" RUN_TARGET_NAME="otmapping_bin">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
-    <configuration name="sinkhorntest_bin" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="otmapping" TARGET_NAME="sinkhorntest_bin" CONFIG_NAME="Release" RUN_TARGET_PROJECT_NAME="otmapping" RUN_TARGET_NAME="sinkhorntest_bin">
+    <configuration name="quicktest_bin" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="otmapping" TARGET_NAME="quicktest_bin" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="otmapping" RUN_TARGET_NAME="quicktest_bin">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
-    <configuration name="tinyexpr" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="otmapping" TARGET_NAME="tinyexpr" CONFIG_NAME="Release">
+    <configuration name="sinkhorntest_bin" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="otmapping" TARGET_NAME="sinkhorntest_bin" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="otmapping" RUN_TARGET_NAME="sinkhorntest_bin">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
-    <configuration name="vsa_test_bin" type="CMakeRunConfiguration" factoryName="Application" PROGRAM_PARAMS="-j ../data/vsa.json" PASS_PARENT_ENVS_2="true" PROJECT_NAME="otmapping" TARGET_NAME="vsa_test_bin" CONFIG_NAME="Release" RUN_TARGET_PROJECT_NAME="otmapping" RUN_TARGET_NAME="vsa_test_bin">
+    <configuration name="tinyexpr" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="otmapping" TARGET_NAME="tinyexpr" CONFIG_NAME="Debug">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
-    <configuration name="xyzgen_bin" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="otmapping" TARGET_NAME="xyzgen_bin" CONFIG_NAME="Release" RUN_TARGET_PROJECT_NAME="otmapping" RUN_TARGET_NAME="xyzgen_bin">
+    <configuration name="vsa_test_bin" type="CMakeRunConfiguration" factoryName="Application" PROGRAM_PARAMS="-j ../data/vsa.json" PASS_PARENT_ENVS_2="true" PROJECT_NAME="otmapping" TARGET_NAME="vsa_test_bin" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="otmapping" RUN_TARGET_NAME="vsa_test_bin">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="xyzgen_bin" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="otmapping" TARGET_NAME="xyzgen_bin" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="otmapping" RUN_TARGET_NAME="xyzgen_bin">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
@@ -473,6 +480,7 @@
       <item itemvalue="Application.graphcut_test_bin" />
       <item itemvalue="Application.otmapping" />
       <item itemvalue="Application.otmapping_bin" />
+      <item itemvalue="Application.quicktest_bin" />
       <item itemvalue="Application.sinkhorntest_bin" />
       <item itemvalue="Application.tinyexpr" />
       <item itemvalue="Application.vsa_test_bin" />
@@ -509,12 +517,16 @@
       <workItem from="1562076593584" duration="5524000" />
       <workItem from="1562094640394" duration="62170000" />
       <workItem from="1562776036877" duration="84077000" />
-      <workItem from="1563743007906" duration="74132000" />
+      <workItem from="1563743007906" duration="83827000" />
+      <workItem from="1564502694785" duration="211000" />
+      <workItem from="1564503063684" duration="537000" />
+      <workItem from="1564503647351" duration="1464000" />
+      <workItem from="1564505733870" duration="8032000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="509552000" />
+    <option name="totallyTimeSpent" value="529491000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -526,25 +538,24 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="0" width="1280" height="800" extended-state="0" />
-    <editor active="true" />
+    <frame x="-14" y="23" width="1280" height="777" extended-state="0" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.3029079" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.32229403" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.3287037" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.39660743" visible="true" weight="0.30547947" />
-      <window_info anchor="bottom" id="Debug" order="3" sideWeight="0.4927302" weight="0.39452055" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.39660743" visible="true" weight="0.3970803" />
+      <window_info anchor="bottom" id="Debug" order="3" sideWeight="0.4927302" weight="0.3941606" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" weight="0.32739726" />
       <window_info anchor="bottom" id="Database Changes" order="7" show_stripe_button="false" />
-      <window_info anchor="bottom" id="Messages" order="8" sideWeight="0.3933764" weight="0.3041096" />
-      <window_info anchor="bottom" id="Terminal" order="9" sideWeight="0.45153475" weight="0.34452555" />
+      <window_info anchor="bottom" id="Messages" order="8" sideWeight="0.3933764" weight="0.30364963" />
+      <window_info anchor="bottom" id="Terminal" order="9" sideWeight="0.45153475" weight="0.34306568" />
       <window_info anchor="bottom" id="Event Log" order="10" sideWeight="0.54846525" side_tool="true" weight="0.32328767" />
       <window_info anchor="bottom" id="Version Control" order="11" show_stripe_button="false" />
-      <window_info anchor="bottom" id="CMake" order="12" sideWeight="0.4806139" weight="0.29726028" />
+      <window_info anchor="bottom" id="CMake" order="12" sideWeight="0.4806139" weight="0.29635036" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
@@ -667,32 +678,32 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
           <url>file://$PROJECT_DIR$/src/main.cpp</url>
-          <line>37</line>
+          <line>39</line>
           <option name="timeStamp" value="53" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
           <url>file://$PROJECT_DIR$/src/main.cpp</url>
-          <line>39</line>
+          <line>41</line>
           <option name="timeStamp" value="54" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
           <url>file://$PROJECT_DIR$/src/main.cpp</url>
-          <line>40</line>
+          <line>42</line>
           <option name="timeStamp" value="55" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
           <url>file://$PROJECT_DIR$/src/main.cpp</url>
-          <line>41</line>
+          <line>43</line>
           <option name="timeStamp" value="56" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
           <url>file://$PROJECT_DIR$/src/main.cpp</url>
-          <line>44</line>
+          <line>46</line>
           <option name="timeStamp" value="57" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
           <url>file://$PROJECT_DIR$/src/main.cpp</url>
-          <line>47</line>
+          <line>49</line>
           <option name="timeStamp" value="58" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
@@ -702,7 +713,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
           <url>file://$PROJECT_DIR$/src/main.cpp</url>
-          <line>63</line>
+          <line>66</line>
           <option name="timeStamp" value="76" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
@@ -715,29 +726,30 @@
           <line>608</line>
           <option name="timeStamp" value="90" />
         </line-breakpoint>
+        <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
+          <url>file://$PROJECT_DIR$/src/main.cpp</url>
+          <line>81</line>
+          <option name="timeStamp" value="91" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
+          <url>file://$PROJECT_DIR$/src/main.cpp</url>
+          <line>83</line>
+          <option name="timeStamp" value="92" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
+          <url>file://$PROJECT_DIR$/src/main.cpp</url>
+          <line>85</line>
+          <option name="timeStamp" value="93" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
+          <url>file://$PROJECT_DIR$/src/main.cpp</url>
+          <line>87</line>
+          <option name="timeStamp" value="94" />
+        </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/cmake-build-debug/CMakeFiles/CMakeOutput.log">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-4167">
-          <caret line="29" selection-start-line="29" selection-end-line="29" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/.gitignore">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-557" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/cmake/DownloadProject.cmake">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="385">
-          <caret line="95" column="9" selection-start-line="95" selection-start-column="9" selection-end-line="95" selection-end-column="9" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/external/libigl/external/eigen/Eigen/Core">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
@@ -766,10 +778,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="185">
           <caret line="22" column="53" selection-start-line="22" selection-start-column="53" selection-end-line="22" selection-end-column="53" />
-          <folding>
-            <element signature="e#346#377#0" expanded="true" />
-            <element signature="e#1472#2158#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -777,9 +785,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-2638">
           <caret line="294" column="1" lean-forward="true" selection-start-line="294" selection-start-column="1" selection-end-line="294" selection-end-column="1" />
-          <folding>
-            <element signature="e#11671#12204#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -804,23 +809,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file:///Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1/vector">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="162">
-          <caret line="463" column="27" selection-start-line="463" selection-start-column="27" selection-end-line="463" selection-end-column="27" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main2.cpp">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
     <entry file="file://$PROJECT_DIR$/external/libigl/external/cgal/Surface_mesh_approximation/include/CGAL/Surface_mesh_approximation/approximate_triangle_mesh.h">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1428">
           <caret line="176" selection-start-line="176" selection-end-line="176" />
-          <folding>
-            <element signature="e#5062#5111#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -835,21 +827,11 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="156">
           <caret line="23" column="18" selection-start-line="23" selection-start-column="18" selection-end-line="23" selection-end-column="18" />
-          <folding>
-            <element signature="e#109#131#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/data/cube_soup.obj__sf.obj">
       <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/CMakeLists.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="155">
-          <caret line="87" column="13" lean-forward="true" selection-start-line="87" selection-start-column="13" selection-end-line="87" selection-end-column="13" />
-        </state>
-      </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/data/vsa.json">
       <provider selected="true" editor-type-id="text-editor">
@@ -862,9 +844,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="272">
           <caret line="44" column="4" selection-start-line="44" selection-start-column="4" selection-end-line="44" selection-end-column="31" />
-          <folding>
-            <element signature="e#43#66#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -917,9 +896,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="24">
           <caret line="27" column="8" selection-start-line="27" selection-start-column="8" selection-end-line="27" selection-end-column="8" />
-          <folding>
-            <element signature="e#101#120#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -993,13 +969,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/external/libigl/external/eigen/Eigen/src/Core/DenseCoeffsBase.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="131">
-          <caret line="335" selection-start-line="335" selection-end-line="335" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/external/libigl/external/eigen/Eigen/src/Core/Assign.h">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="139">
@@ -1066,36 +1035,87 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/CutGraph.h">
+    <entry file="file://$PROJECT_DIR$/src/xyzgen.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="24">
-          <caret line="19" column="13" selection-start-line="19" selection-start-column="13" selection-end-line="19" selection-end-column="13" />
+        <state>
+          <folding>
+            <element signature="e#0#35#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/CutGraph.cpp">
+    <entry file="file://$PROJECT_DIR$/src/quicktest.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="609">
-          <caret line="92" column="44" selection-start-line="92" selection-start-column="44" selection-end-line="92" selection-end-column="44" />
+        <state relative-caret-position="264">
+          <caret line="11" column="25" selection-start-line="11" selection-start-column="25" selection-end-line="11" selection-end-column="25" />
           <folding>
-            <element signature="e#0#2#0" />
-            <element signature="e#43#64#0" expanded="true" />
-            <marker date="1564169696054" expanded="false" signature="952:2048" ph="{...}" />
+            <element signature="e#42#56#0" expanded="true" />
           </folding>
         </state>
+      </provider>
+    </entry>
+    <entry file="file:///Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1/vector">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="11112">
+          <caret line="463" column="27" selection-start-line="463" selection-start-column="27" selection-end-line="463" selection-end-column="27" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/CMakeLists.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="342">
+          <caret line="124" column="45" selection-start-line="124" selection-start-column="36" selection-end-line="124" selection-end-column="45" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main2.cpp">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/data/cube.obj__sf.obj">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-64764" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/data/main.json">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="144">
-          <caret line="6" column="13" selection-start-line="6" selection-start-column="13" selection-end-line="6" selection-end-column="13" />
+          <caret line="6" column="16" selection-start-line="6" selection-start-column="16" selection-end-line="6" selection-end-column="16" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/CutGraph.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="222">
+          <caret line="67" column="35" selection-start-line="67" selection-start-column="35" selection-end-line="67" selection-end-column="35" />
+          <folding>
+            <element signature="e#102#119#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/external/libigl/external/eigen/Eigen/src/Core/DenseCoeffsBase.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="122">
+          <caret line="335" selection-start-line="335" selection-end-line="335" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/CutGraph.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="237">
+          <caret line="186" column="19" selection-start-line="186" selection-start-column="19" selection-end-line="186" selection-end-column="19" />
+          <folding>
+            <element signature="e#0#2#0" />
+            <element signature="e#43#64#0" expanded="true" />
+            <marker date="1564514482640" expanded="false" signature="972:2068" ph="{...}" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="95">
-          <caret line="126" column="22" selection-start-line="126" selection-start-column="22" selection-end-line="126" selection-end-column="22" />
+        <state relative-caret-position="144">
+          <caret line="87" column="31" lean-forward="true" selection-start-line="87" selection-start-column="31" selection-end-line="87" selection-end-column="31" />
           <folding>
             <element signature="e#41#60#0" expanded="true" />
           </folding>
@@ -1104,8 +1124,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/graphcut_cgal.h">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="279">
-          <caret line="256" column="12" selection-start-line="256" selection-start-column="12" selection-end-line="256" selection-end-column="12" />
+        <state relative-caret-position="-204">
+          <caret line="165" column="5" selection-start-line="165" selection-start-column="5" selection-end-line="165" selection-end-column="5" />
           <folding>
             <element signature="e#111#129#0" expanded="true" />
             <element signature="e#243#296#0" expanded="true" />

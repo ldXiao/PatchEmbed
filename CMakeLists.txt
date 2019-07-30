@@ -77,7 +77,10 @@ set(SOURCES
     src/ExpressionValue.hpp
     src/xyzgen.cpp
     src/graphcut_cgal.h
-    src/VSA_cgal.hpp src/CutGraph.cpp src/CutGraph.h)
+    src/VSA_cgal.hpp
+    src/CutGraph.cpp
+    src/CutGraph.h
+    )
 add_library(otmapping ${SOURCES})
 target_link_libraries(otmapping PUBLIC
         json
@@ -118,3 +121,5 @@ target_link_libraries(exportCutMesh_bin otmapping)
 
 add_executable(xyzgen_bin src/xyzgen.cpp)
 target_link_libraries(xyzgen_bin otmapping)
+add_executable(quicktest_bin src/quicktest.cpp)
+target_link_libraries(quicktest_bin otmapping)

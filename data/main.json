@@ -1,8 +1,8 @@
 {
   "mesh_file0": "../data/cube_soup.obj",
-  "mesh_file1": "../data/cube.obj",
-  "sample_num": 1000,
+  "mesh_file1": "../data/cube.obj__sf.obj",
+  "sample_num": 10000,
   "proxy_num": 6,
   "KNN_valance": 8,
-  "lambda": 2
+  "lambda": 0.05
 }

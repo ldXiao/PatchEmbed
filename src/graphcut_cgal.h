@@ -214,7 +214,7 @@ int graphcut_from_cgal(
 
     for(auto v: edge_weights){
         if (!std::isfinite(v)) {
-            std::cout<<"Some NaN"<<std::endl;
+            std::cout<<"Some NaN1"<<std::endl;
             return 0;
         }
     }

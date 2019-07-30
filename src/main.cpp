@@ -11,6 +11,8 @@
 #include <igl/jet.h>
 #include <cxxopts.hpp>
 #include <Eigen/Core>
+#include <map>
+#include <vector>
 #include "VSA_cgal.hpp"
 #include "graphcut_cgal.h"
 #include <nlohmann/json.hpp>
@@ -61,6 +63,7 @@ bool key_down(igl::opengl::glfw::Viewer &viewer, unsigned char key, int modifier
             viewer.data().set_colors(Eigen::RowVector3d(1,1,1));
             CtGrph._set_ProbabilityMatrix(label_num, SL1);
             SLf = SL1;
+            std::cout << CtGrph.EdgeWeights << std::endl;
             OTMapping::Alpha_expansion_graph_cut_boykov_kolmogorov_Eigen(
                     CtGrph.Edges,
                     CtGrph.EdgeWeights,
@@ -75,6 +78,30 @@ bool key_down(igl::opengl::glfw::Viewer &viewer, unsigned char key, int modifier
 //                    igl::slice(this->SamplePerturb,this->SkeletonIndices1,1)
 //            viewer.data().add_edges(heads, tails, Eigen::RowVector3d(0,0,0));
             break;
+        case '3': {
+            viewer.data().clear();
+            viewer.data().point_size = point_size;
+            viewer.data().set_mesh(V1, F1);
+            Eigen::MatrixXi FL1_mod;
+            Eigen::MatrixXd probmat;
+            NN_sample_label_vote_face_label(label_num, I1, SL1, F1, FL1_mod, probmat);
+            OTMapping::refine_labels_graph_cut(V1, F1, probmat.transpose(), FL1_mod);
+            igl::jet(FL1_mod, 1, label_num, FC1);
+            viewer.data().set_colors(FC1);
+            break;
+        }
+        case '4': {
+            viewer.data().clear();
+            viewer.data().point_size = point_size;
+            viewer.data().set_mesh(V1, F1);
+            Eigen::MatrixXi FL1_mod2;
+            Eigen::MatrixXd probmat2;
+            NN_sample_label_vote_face_label(label_num, I1, SL1, F1, FL1_mod2, probmat2);
+//            OTMapping::refine_labels_graph_cut(V1, F1, probmat2.transpose(), FL1_mod);
+            igl::jet(FL1_mod2, 1, label_num, FC1);
+            viewer.data().set_colors(FC1);
+            break;
+        }
     }
 
     return false;
@@ -113,13 +140,14 @@ int main(int argc, char *argv[]) {
     {
         // use vsa to generate face color and sample color for V0, C0, S0
         int count;
-        Eigen::MatrixXi FL; // face_label for mesh 0
-        OTMapping::vsa_compute(V0, F0, param_json["proxy_num"], FL, count);
-        label_num = FL.maxCoeff()+1;
-        igl::jet(FL, 1, param_json["proxy_num"], FC0);
+        Eigen::MatrixXi FL0; // face_label for mesh 0
+        OTMapping::vsa_compute(V0, F0, param_json["proxy_num"], FL0, count);
+        label_num = FL0.maxCoeff()+1;
+        igl::jet(FL0, 1, param_json["proxy_num"], FC0);
 //        generate_sample_color(FC0, I0,param_json["sample_num"], C0);
-        generate_sample_label(FL, I0, param_json["sample_num"], SL0);
+        generate_sample_label(FL0, I0, param_json["sample_num"], SL0);
         igl::jet(SL0, 1, param_json["proxy_num"], C0);
+
         NN_sample_label_transport(S0, S1, SL0, SL1);
         igl::jet(SL1, 1, param_json["proxy_num"], C1);
     }
@@ -130,7 +158,8 @@ int main(int argc, char *argv[]) {
             S1,
             param_json["KNN_valance"],
             label_num,
-            param_json["lambda"]
+            param_json["lambda"],
+            SL1
             );
 
     viewer.callback_key_down = &key_down;

@@ -9,6 +9,7 @@
 #include <tuple>
 #include <igl/opengl/glfw/Viewer.h>
 #include <random>
+#include <vector>
 void CutGraph::_set_Vertices(const Eigen::MatrixXd & S) {
     int num = S.rows();
     this->_vertices.resize(num);
@@ -24,7 +25,7 @@ void CutGraph::_set_Vertices(const Eigen::MatrixXd & S) {
 
 void CutGraph::_set_Edges_from_KNN(int m) {
     int count = 0;
-    int esize = m * this->_vertices.size();
+    int esize = 2*m * this->_vertices.size();
     this->_edges.resize(esize);
     this->Edges= Eigen::MatrixXi::Zero(esize,2);
     std::map<std::pair<int, int>, int > map;
@@ -63,13 +64,18 @@ void CutGraph::_set_Edges_from_KNN(int m) {
             auto find0 = map.find(std::make_pair(j,k));
             auto find1 = map.find(std::make_pair(k,j));
             if( find0 == map.end() and find1 == map.end()) {
-                // insert each edge only once
+                // insert each edge in both directions
                 this->_edges[count] = std::make_pair(j, k);
+                this->_edges[count+1] = std::make_pair(k, j);
                 Eigen::RowVector2i temp;
                 temp << j,k;
+                Eigen::RowVector2i temp1;
+                temp1 << k,j;
                 this->Edges.row(count) = temp;
-                count += 1;
+                this->Edges.row(count+1)=temp;
+                count += 2;
                 map[std::make_pair(j,k)]=1;
+                map[std::make_pair(k,j)]=1;
             }
         }
     }
@@ -78,7 +84,14 @@ void CutGraph::_set_Edges_from_KNN(int m) {
 }
 
 void CutGraph::_set_EdgeWeights(double lambda){
-    EdgeWeights = Eigen::MatrixXd::Constant(this->Edges.rows(),1, lambda);
+    this->EdgeWeights = Eigen::MatrixXd::Constant(this->Edges.rows(),1, 0);
+    for(int i =0; i< this->Edges.rows();++i){
+        int j = this->Edges(i,0);
+        int k = this->Edges(i,1);
+        if(this->Labels(j,0)==this->Labels(k,0)){
+            this->EdgeWeights(i,0)= lambda;
+        }
+    }
 }
 
 void CutGraph::_set_ProbabilityMatrix(int label_num, Eigen::MatrixXi observed_labels) {
@@ -140,6 +153,56 @@ void NN_sample_label_transport(
             }
         }
         SL1(i,0) = SL0(min_idx,0);
+    }
+}
+
+void construct_face_sample_dictionary(
+        const  Eigen::MatrixXi & I1,
+        std::map<int, std::vector<int> > & dict){
+    for(int i =0; i< I1.rows(); ++i){
+        auto find = dict.find(I1(i,0));
+        if(find != dict.end()){
+            dict[I1(i,0)].push_back(i);
+        } else{
+            dict[I1(i,0)] = std::vector<int>();
+        }
+    }
+}
+void NN_sample_label_vote_face_label(
+        const int label_num,
+        const Eigen::MatrixXi & I1,
+        const Eigen::MatrixXi & SL1,
+        const Eigen::MatrixXi & F1,
+        Eigen::MatrixXi & FL1,
+        Eigen::MatrixXd & probability_matrix
+        ){
+    std::map<int, std::vector<int> > dict;
+    construct_face_sample_dictionary(I1, dict);
+    FL1 = Eigen::MatrixXi::Zero(F1.rows(), 1);
+    std::cout  << dict.size() << "size" << std::endl;
+    probability_matrix = Eigen::MatrixXd::Zero(F1.rows(),label_num);
+    for(int fidx=0; fidx< FL1.rows(); ++fidx){
+        auto find = dict.find(fidx);
+        if(find != dict.end()) {
+            auto vect = dict[fidx];
+            int size = dict[fidx].size();
+            int max_num_label = 0;
+            int max_label_num = 0;
+            for (auto &sp: vect) {
+                int lbl = SL1(sp, 0);
+                probability_matrix(fidx, lbl) = probability_matrix(fidx, lbl) + 1;
+                if (probability_matrix(fidx, lbl) > max_label_num) {
+                    max_label_num = probability_matrix(fidx, lbl);
+                    max_num_label = lbl;
+                }
+            }
+
+            probability_matrix.row(fidx) /= size;
+            FL1(fidx, 0) = max_num_label;
+        } else{
+            probability_matrix.row(fidx) = Eigen::MatrixXd::Constant(1,label_num, 1/label_num);
+            FL1(fidx, 0) = fidx % label_num;
+        }
     }
 }
 
