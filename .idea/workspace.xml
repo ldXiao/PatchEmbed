@@ -2,20 +2,20 @@
 <project version="4">
   <component name="CMakeRunConfigurationManager" shouldGenerate="true" shouldDeleteObsolete="true" buildAllGenerated="true">
     <generated>
-      <config projectName="otmapping" targetName="imgui" />
-      <config projectName="otmapping" targetName="sinkhorntest_bin" />
       <config projectName="otmapping" targetName="graphcut_test_bin" />
-      <config projectName="otmapping" targetName="xyzgen_bin" />
-      <config projectName="otmapping" targetName="otmapping_bin" />
-      <config projectName="otmapping" targetName="cuttest_bin" />
-      <config projectName="otmapping" targetName="glfw" />
+      <config projectName="otmapping" targetName="imgui" />
       <config projectName="otmapping" targetName="exportCutMesh_bin" />
-      <config projectName="otmapping" targetName="quicktest_bin" />
-      <config projectName="otmapping" targetName="otmapping" />
-      <config projectName="otmapping" targetName="tinyexpr" />
-      <config projectName="otmapping" targetName="cutmeshtest_bin" />
-      <config projectName="otmapping" targetName="glad" />
+      <config projectName="otmapping" targetName="xyzgen_bin" />
+      <config projectName="otmapping" targetName="sinkhorntest_bin" />
+      <config projectName="otmapping" targetName="glfw" />
       <config projectName="otmapping" targetName="vsa_test_bin" />
+      <config projectName="otmapping" targetName="tinyexpr" />
+      <config projectName="otmapping" targetName="cuttest_bin" />
+      <config projectName="otmapping" targetName="cutmeshtest_bin" />
+      <config projectName="otmapping" targetName="otmapping_bin" />
+      <config projectName="otmapping" targetName="otmapping" />
+      <config projectName="otmapping" targetName="quicktest_bin" />
+      <config projectName="otmapping" targetName="glad" />
     </generated>
   </component>
   <component name="CMakeSettings">
@@ -26,10 +26,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="295248be-c225-463f-a6b6-c526a188320c" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/data/cube.json" beforeDir="false" afterPath="$PROJECT_DIR$/data/cube.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CMakeLists.txt" beforeDir="false" afterPath="$PROJECT_DIR$/CMakeLists.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/data/main.json" beforeDir="false" afterPath="$PROJECT_DIR$/data/main.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/CutGraph.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/CutGraph.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/CutMesh.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/CutMesh.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/CutGraph.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/CutGraph.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/graphcut_cgal.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/graphcut_cgal.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main.cpp" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/cmake-build-debug/" />
@@ -58,9 +60,9 @@
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="CMakeLists.txt" value="539" />
-          <entry key="JSON" value="1139" />
-          <entry key="ObjectiveC" value="25646" />
+          <entry key="CMakeLists.txt" value="560" />
+          <entry key="JSON" value="1283" />
+          <entry key="ObjectiveC" value="29739" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
@@ -94,23 +96,23 @@
       </usages-collector>
       <usages-collector id="statistics.file.types.open">
         <counts>
-          <entry key="CMakeLists.txt" value="11" />
-          <entry key="JSON" value="17" />
+          <entry key="CMakeLists.txt" value="13" />
+          <entry key="JSON" value="19" />
           <entry key="Mathematica" value="1" />
-          <entry key="ObjectiveC" value="154" />
+          <entry key="ObjectiveC" value="196" />
           <entry key="PLAIN_TEXT" value="16" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.lifecycle.project">
         <counts>
-          <entry key="project.closed" value="9" />
-          <entry key="project.open.time.10" value="1" />
+          <entry key="project.closed" value="11" />
+          <entry key="project.open.time.10" value="2" />
           <entry key="project.open.time.13" value="1" />
-          <entry key="project.open.time.2" value="3" />
+          <entry key="project.open.time.2" value="4" />
           <entry key="project.open.time.7" value="2" />
           <entry key="project.open.time.8" value="1" />
           <entry key="project.open.time.9" value="1" />
-          <entry key="project.opened" value="9" />
+          <entry key="project.opened" value="11" />
         </counts>
       </usages-collector>
     </session>
@@ -120,8 +122,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="133">
-              <caret line="33" column="7" selection-start-line="33" selection-start-column="7" selection-end-line="33" selection-end-column="7" />
+            <state relative-caret-position="-323">
+              <caret line="152" column="16" selection-start-line="152" selection-start-column="13" selection-end-line="152" selection-end-column="16" />
               <folding>
                 <element signature="e#41#60#0" expanded="true" />
               </folding>
@@ -130,10 +132,36 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/CutGraph.cpp">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="126">
+              <caret line="351" column="46" selection-start-line="351" selection-start-column="46" selection-end-line="351" selection-end-column="46" />
+              <folding>
+                <element signature="e#0#2#0" />
+                <element signature="e#43#64#0" expanded="true" />
+                <element signature="e#8597#8814#0" />
+                <element signature="e#10310#10412#0" />
+                <marker date="1565209371167" expanded="false" signature="2245:3341" ph="{...}" />
+                <marker date="1565209371167" expanded="true" signature="5373:5866" ph="{...}" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/external/libigl/external/eigen/Eigen/src/Core/DenseCoeffsBase.h">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="348">
+              <caret line="335" selection-start-line="335" selection-end-line="335" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/graphcut_cgal.h">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="18">
-              <caret line="150" column="28" selection-start-line="150" selection-start-column="19" selection-end-line="150" selection-end-column="28" />
+            <state relative-caret-position="-364">
+              <caret line="160" column="5" selection-start-line="160" selection-start-column="5" selection-end-line="160" selection-end-column="5" />
               <folding>
                 <element signature="e#111#129#0" expanded="true" />
                 <element signature="e#243#296#0" expanded="true" />
@@ -143,81 +171,49 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/external/libigl/external/eigen/Eigen/src/Core/DenseCoeffsBase.h">
+        <entry file="file:///Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1/limits">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="122">
-              <caret line="335" selection-start-line="335" selection-end-line="335" />
+            <state relative-caret-position="159">
+              <caret line="459" column="60" selection-start-line="459" selection-start-column="60" selection-end-line="459" selection-end-column="60" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/CutGraph.cpp">
+        <entry file="file://$PROJECT_DIR$/external/libigl/include/igl/adjacency_matrix.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="30">
-              <caret line="182" column="76" selection-start-line="182" selection-start-column="76" selection-end-line="182" selection-end-column="76" />
+            <state relative-caret-position="130">
+              <caret line="14" column="21" selection-start-line="14" selection-start-column="21" selection-end-line="14" selection-end-column="21" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/external/libigl/include/igl/edges.cpp">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="41">
+              <caret line="29" column="50" selection-start-line="29" selection-start-column="50" selection-end-line="29" selection-end-column="50" />
               <folding>
-                <element signature="e#0#2#0" />
-                <element signature="e#43#64#0" expanded="true" />
-                <marker date="1564516072738" expanded="false" signature="972:2068" ph="{...}" />
+                <element signature="e#342#360#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/data/cube.obj__sf.obj">
+        <entry file="file://$PROJECT_DIR$/external/libigl/external/eigen/Eigen/src/SparseCore/SparseMatrix.h">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-64764" />
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/data/main.json">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="144">
-              <caret line="6" column="15" selection-start-line="6" selection-start-column="15" selection-end-line="6" selection-end-column="15" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/data/cube.json">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="97">
-              <caret line="7" column="25" selection-start-line="7" selection-start-column="25" selection-end-line="7" selection-end-column="25" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/CutMeshTest.cpp">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-549">
-              <caret line="17" column="30" selection-start-line="17" selection-start-column="30" selection-end-line="17" selection-end-column="30" />
-              <folding>
-                <element signature="e#41#61#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="131">
+              <caret line="871" column="44" selection-start-line="871" selection-start-column="44" selection-end-line="871" selection-end-column="44" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/CutMesh.cpp">
+        <entry file="file://$PROJECT_DIR$/data/main.json">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="741">
-              <caret line="724" column="40" selection-start-line="724" selection-start-column="40" selection-end-line="724" selection-end-column="40" />
-              <folding>
-                <element signature="e#0#2#0" />
-                <element signature="e#42#62#0" expanded="true" />
-                <marker date="1564516736285" expanded="true" signature="28127:29035" ph="{...}" />
-                <marker date="1564516736285" expanded="false" signature="29573:30121" ph="{...}" />
-                <marker date="1564516736285" expanded="true" signature="30232:30525" ph="{...}" />
-                <marker date="1564516736285" expanded="false" signature="30590:31221" ph="{...}" />
-                <marker date="1564516736285" expanded="false" signature="37748:38374" ph="{...}" />
-                <marker date="1564516736285" expanded="false" signature="39713:39719" ph="{...}" />
-                <marker date="1564516736285" expanded="false" signature="44547:45140" ph="{...}" />
-              </folding>
+            <state relative-caret-position="168">
+              <caret line="7" column="18" selection-start-line="7" selection-start-column="18" selection-end-line="7" selection-end-column="18" />
             </state>
           </provider>
         </entry>
@@ -225,8 +221,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/CutGraph.h">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="222">
-              <caret line="67" column="35" selection-start-line="67" selection-start-column="35" selection-end-line="67" selection-end-column="35" />
+            <state relative-caret-position="209">
+              <caret line="97" selection-start-line="97" selection-end-line="97" selection-end-column="66" />
               <folding>
                 <element signature="e#102#119#0" expanded="true" />
               </folding>
@@ -245,36 +241,36 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>Alpha_</find>
-      <find>random</find>
-      <find>initiali</find>
-      <find>adaesfhod9aewh</find>
-      <find>2'</find>
-      <find>Alph</find>
-      <find>Alpha</find>
-      <find>init</find>
-      <find>obser</find>
-      <find>'2'</find>
-      <find>.trans</find>
-      <find>EdgeW</find>
-      <find>set_E</find>
-      <find>_set_EdgeWeights</find>
-      <find>FL</find>
-      <find>0 *</find>
-      <find>find</find>
-      <find>.find</find>
-      <find>[</find>
-      <find>quick</find>
-      <find>map</find>
-      <find>I1</find>
       <find>vote</find>
+      <find>Alpha_</find>
+      <find>Alpha</find>
+      <find>internal::</find>
+      <find>1(</find>
+      <find>EdgeWeight</find>
+      <find>Eigen(</find>
       <find>refine</find>
-      <find>SL1</find>
-      <find>size(0)</find>
-      <find>fidx</find>
-      <find>probabili</find>
-      <find>FL1</find>
-      <find>'3'</find>
+      <find>refine_</find>
+      <find>Alpa</find>
+      <find>find !=</find>
+      <find>_set_E</find>
+      <find>::edges</find>
+      <find>Alpha_expan</find>
+      <find>a_edge</find>
+      <find>dihed</find>
+      <find>from_</find>
+      <find>sink</find>
+      <find>.trans</find>
+      <find>set_Ed</find>
+      <find>_set_EdgeW</find>
+      <find>triangle</find>
+      <find>'5'</find>
+      <find>from_F</find>
+      <find>'7'</find>
+      <find>set_E</find>
+      <find>'8'</find>
+      <find>prab</find>
+      <find>normaliz</find>
+      <find>dihe</find>
     </findStrings>
     <replaceStrings>
       <replace>OBJ</replace>
@@ -283,6 +279,9 @@
       <replace>polysphere</replace>
       <replace>build_graph</replace>
       <replace />
+      <replace>V1_1</replace>
+      <replace>F1_1</replace>
+      <replace>S1_1</replace>
     </replaceStrings>
   </component>
   <component name="Git.Settings">
@@ -323,15 +322,17 @@
         <option value="$PROJECT_DIR$/src/CutMesh.h" />
         <option value="$PROJECT_DIR$/src/vsa_test.cpp" />
         <option value="$PROJECT_DIR$/data/vsa.json" />
-        <option value="$PROJECT_DIR$/CMakeLists.txt" />
         <option value="$PROJECT_DIR$/src/quicktest.cpp" />
-        <option value="$PROJECT_DIR$/src/CutGraph.h" />
-        <option value="$PROJECT_DIR$/src/graphcut_cgal.h" />
-        <option value="$PROJECT_DIR$/src/CutGraph.cpp" />
-        <option value="$PROJECT_DIR$/src/main.cpp" />
-        <option value="$PROJECT_DIR$/data/main.json" />
         <option value="$PROJECT_DIR$/data/cube.json" />
         <option value="$PROJECT_DIR$/src/CutMesh.cpp" />
+        <option value="$PROJECT_DIR$/CMakeLists.txt" />
+        <option value="$PROJECT_DIR$/external/libigl/external/cgal/Installation/include/CGAL/license/Surface_mesh_segmentation.h" />
+        <option value="$PROJECT_DIR$/src/Alpha_expansion_graph_cut.h" />
+        <option value="$PROJECT_DIR$/src/CutGraph.h" />
+        <option value="$PROJECT_DIR$/src/CutGraph.cpp" />
+        <option value="$PROJECT_DIR$/src/main.cpp" />
+        <option value="$PROJECT_DIR$/src/graphcut_cgal.h" />
+        <option value="$PROJECT_DIR$/data/main.json" />
       </list>
     </option>
   </component>
@@ -342,8 +343,8 @@
     <sorting>DEFINITION_ORDER</sorting>
   </component>
   <component name="OCFindUsagesOptions" text="true" ivars="false" properties="true" derivedClasses="false" />
-  <component name="ProjectFrameBounds">
-    <option name="x" value="-14" />
+  <component name="ProjectFrameBounds" extendedState="6" fullScreen="true">
+    <option name="x" value="33" />
     <option name="y" value="23" />
     <option name="width" value="1280" />
     <option name="height" value="777" />
@@ -365,7 +366,17 @@
             <path>
               <item name="otmapping" type="b2602c69:ProjectViewProjectNode" />
               <item name="OTMapping" type="462c0819:PsiDirectoryNode" />
+              <item name="cmake" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="otmapping" type="b2602c69:ProjectViewProjectNode" />
+              <item name="OTMapping" type="462c0819:PsiDirectoryNode" />
               <item name="data" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="otmapping" type="b2602c69:ProjectViewProjectNode" />
+              <item name="OTMapping" type="462c0819:PsiDirectoryNode" />
+              <item name="external" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="otmapping" type="b2602c69:ProjectViewProjectNode" />
@@ -392,10 +403,11 @@
     <property name="settings.editor.selected.configurable" value="CMakeSettings" />
   </component>
   <component name="RecentsManager">
-    <key name="MoveFile.RECENT_KEYS">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src" />
       <recent name="$PROJECT_DIR$/data" />
     </key>
-    <key name="CopyFile.RECENT_KEYS">
+    <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/data" />
     </key>
   </component>
@@ -536,12 +548,14 @@
       <workItem from="1564502694785" duration="211000" />
       <workItem from="1564503063684" duration="537000" />
       <workItem from="1564503647351" duration="1464000" />
-      <workItem from="1564505733870" duration="9375000" />
+      <workItem from="1564505733870" duration="37282000" />
+      <workItem from="1565145465587" duration="3301000" />
+      <workItem from="1565184529969" duration="14114000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="530834000" />
+    <option name="totallyTimeSpent" value="576156000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -553,52 +567,30 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="-14" y="23" width="1280" height="777" extended-state="0" />
+    <frame x="0" y="0" width="1280" height="800" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.32229403" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.33198708" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
-      <window_info anchor="bottom" id="Find" order="1" weight="0.3287037" />
-      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.39660743" weight="0.3970803" />
-      <window_info anchor="bottom" id="Debug" order="3" sideWeight="0.4927302" weight="0.3941606" />
+      <window_info anchor="bottom" id="Find" order="1" weight="0.32739726" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.39660743" visible="true" weight="0.3958904" />
+      <window_info anchor="bottom" id="Debug" order="3" sideWeight="0.4927302" weight="0.3931507" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" weight="0.32739726" />
       <window_info anchor="bottom" id="Database Changes" order="7" show_stripe_button="false" />
-      <window_info active="true" anchor="bottom" id="Messages" order="8" sideWeight="0.3933764" visible="true" weight="0.30364963" />
-      <window_info anchor="bottom" id="Terminal" order="9" sideWeight="0.45153475" weight="0.34306568" />
+      <window_info anchor="bottom" id="Messages" order="8" sideWeight="0.3933764" weight="0.30273974" />
+      <window_info anchor="bottom" id="Terminal" order="9" sideWeight="0.45153475" weight="0.32054794" />
       <window_info anchor="bottom" id="Event Log" order="10" sideWeight="0.54846525" side_tool="true" weight="0.32328767" />
       <window_info anchor="bottom" id="Version Control" order="11" show_stripe_button="false" />
-      <window_info anchor="bottom" id="CMake" order="12" sideWeight="0.4806139" weight="0.29635036" />
+      <window_info anchor="bottom" id="CMake" order="12" sideWeight="0.4806139" weight="0.29589042" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
       <window_info anchor="right" id="Database" order="3" />
     </layout>
-    <layout-to-restore>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.3029079" />
-      <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
-      <window_info id="Favorites" order="2" side_tool="true" />
-      <window_info anchor="bottom" id="Message" order="0" />
-      <window_info anchor="bottom" id="Find" order="1" weight="0.3287037" />
-      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.39660743" weight="0.32876712" />
-      <window_info anchor="bottom" id="Debug" order="3" sideWeight="0.4927302" weight="0.39562044" />
-      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
-      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
-      <window_info anchor="bottom" id="TODO" order="6" weight="0.32739726" />
-      <window_info anchor="bottom" id="Database Changes" order="7" show_stripe_button="false" />
-      <window_info anchor="bottom" id="Messages" order="8" sideWeight="0.3933764" weight="0.30547947" />
-      <window_info active="true" anchor="bottom" id="Terminal" order="9" sideWeight="0.4983845" visible="true" weight="0.32328767" />
-      <window_info anchor="bottom" id="Event Log" order="10" sideWeight="0.60339254" side_tool="true" weight="0.43941605" />
-      <window_info anchor="bottom" id="Version Control" order="11" show_stripe_button="false" />
-      <window_info anchor="bottom" id="CMake" order="12" sideWeight="0.4806139" weight="0.29863015" />
-      <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
-      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
-      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
-      <window_info anchor="right" id="Database" order="3" />
-    </layout-to-restore>
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="1" />
@@ -694,42 +686,42 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
           <url>file://$PROJECT_DIR$/src/main.cpp</url>
-          <line>40</line>
+          <line>43</line>
           <option name="timeStamp" value="53" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
           <url>file://$PROJECT_DIR$/src/main.cpp</url>
-          <line>42</line>
+          <line>45</line>
           <option name="timeStamp" value="54" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
           <url>file://$PROJECT_DIR$/src/main.cpp</url>
-          <line>43</line>
+          <line>46</line>
           <option name="timeStamp" value="55" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
           <url>file://$PROJECT_DIR$/src/main.cpp</url>
-          <line>44</line>
+          <line>47</line>
           <option name="timeStamp" value="56" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
           <url>file://$PROJECT_DIR$/src/main.cpp</url>
-          <line>47</line>
+          <line>50</line>
           <option name="timeStamp" value="57" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
           <url>file://$PROJECT_DIR$/src/main.cpp</url>
-          <line>50</line>
+          <line>53</line>
           <option name="timeStamp" value="58" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
           <url>file://$PROJECT_DIR$/src/graphcut_cgal.h</url>
-          <line>256</line>
+          <line>253</line>
           <option name="timeStamp" value="75" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
           <url>file://$PROJECT_DIR$/src/main.cpp</url>
-          <line>67</line>
+          <line>74</line>
           <option name="timeStamp" value="76" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
@@ -744,146 +736,33 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
           <url>file://$PROJECT_DIR$/src/main.cpp</url>
-          <line>82</line>
+          <line>89</line>
           <option name="timeStamp" value="91" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
           <url>file://$PROJECT_DIR$/src/main.cpp</url>
-          <line>84</line>
+          <line>91</line>
           <option name="timeStamp" value="92" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
           <url>file://$PROJECT_DIR$/src/main.cpp</url>
-          <line>86</line>
+          <line>93</line>
           <option name="timeStamp" value="93" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
           <url>file://$PROJECT_DIR$/src/main.cpp</url>
-          <line>88</line>
+          <line>95</line>
           <option name="timeStamp" value="94" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
+          <url>file://$PROJECT_DIR$/external/libigl/external/cgal/Surface_mesh_segmentation/include/CGAL/internal/Surface_mesh_segmentation/Alpha_expansion_graph_cut.h</url>
+          <line>566</line>
+          <option name="timeStamp" value="95" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/external/libigl/external/eigen/Eigen/Core">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/external/libigl/external/cgal/Polyhedron/include/CGAL/Polyhedron_3.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="24">
-          <caret line="471" column="6" selection-start-line="471" selection-start-column="6" selection-end-line="471" selection-end-column="6" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file:///Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1/array">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="134">
-          <caret line="95" column="59" selection-start-line="95" selection-start-column="57" selection-end-line="95" selection-end-column="59" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file:///Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1/__config">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="160">
-          <caret line="509" selection-start-line="509" selection-end-line="509" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/external/libigl/include/igl/copyleft/cgal/mesh_to_polyhedron.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="185">
-          <caret line="22" column="53" selection-start-line="22" selection-start-column="53" selection-end-line="22" selection-end-column="53" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/external/libigl/external/cgal/Surface_mesh/include/CGAL/Surface_mesh/Surface_mesh.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-2638">
-          <caret line="294" column="1" lean-forward="true" selection-start-line="294" selection-start-column="1" selection-end-line="294" selection-end-column="1" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/external/libigl/external/cgal/Surface_mesh/include/CGAL/boost/graph/graph_traits_Surface_mesh.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="193">
-          <caret line="68" column="29" selection-start-line="68" selection-start-column="29" selection-end-line="68" selection-end-column="29" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file:///usr/local/include/boost/foreach.hpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="160">
-          <caret line="1097" column="8" selection-start-line="1097" selection-start-column="8" selection-end-line="1097" selection-end-column="8" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/data/graphcut.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="96">
-          <caret line="4" column="1" lean-forward="true" selection-start-line="4" selection-start-column="1" selection-end-line="4" selection-end-column="1" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/external/libigl/external/cgal/Surface_mesh_approximation/include/CGAL/Surface_mesh_approximation/approximate_triangle_mesh.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1428">
-          <caret line="176" selection-start-line="176" selection-end-line="176" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/external/libigl/external/cgal/STL_Extension/include/CGAL/assertions_impl.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="131">
-          <caret line="169" selection-start-line="169" selection-end-line="169" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/graphcut_test.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="156">
-          <caret line="23" column="18" selection-start-line="23" selection-start-column="18" selection-end-line="23" selection-end-column="18" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/data/cube_soup.obj__sf.obj">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/data/vsa.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret selection-end-line="3" selection-end-column="1" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/vsa_test.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="272">
-          <caret line="44" column="4" selection-start-line="44" selection-start-column="4" selection-end-line="44" selection-end-column="31" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/external/libigl/external/eigen/Eigen/src/Core/CommaInitializer.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="131">
-          <caret line="108" selection-start-line="108" selection-end-line="108" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file:///Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1/map">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="160">
-          <caret line="930" column="4" selection-start-line="930" selection-start-column="4" selection-end-line="930" selection-end-column="4" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/external/json/include/nlohmann/json.hpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="131">
-          <caret line="2874" selection-start-line="2874" selection-end-line="2874" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/external/json/include/nlohmann/detail/conversions/from_json.hpp">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="131">
@@ -912,34 +791,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/external/libigl/external/eigen/Eigen/src/Core/Block.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="131">
-          <caret line="114" selection-start-line="114" selection-end-line="114" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/external/libigl/external/eigen/Eigen/src/plugins/BlockMethods.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="131">
-          <caret line="756" selection-start-line="756" selection-end-line="756" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/external/libigl/include/igl/opengl/ViewerData.cpp">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="131">
           <caret line="285" selection-start-line="285" selection-end-line="285" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/CutMesh.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="24">
-          <caret line="50" column="24" selection-start-line="50" selection-start-column="24" selection-end-line="50" selection-end-column="24" />
-          <folding>
-            <element signature="e#100#121#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -954,16 +809,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="139">
           <caret line="504" selection-start-line="504" selection-end-line="504" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/external/libigl/external/cgal/Surface_mesh_segmentation/include/CGAL/internal/Surface_mesh_segmentation/Alpha_expansion_graph_cut.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="825">
-          <caret line="605" selection-start-line="605" selection-end-line="605" />
-          <folding>
-            <element signature="e#25943#25978#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1017,21 +862,12 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/xyzgen.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <folding>
-            <element signature="e#0#35#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
+      <provider selected="true" editor-type-id="text-editor" />
     </entry>
     <entry file="file://$PROJECT_DIR$/src/quicktest.cpp">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="264">
           <caret line="11" column="25" selection-start-line="11" selection-start-column="25" selection-end-line="11" selection-end-column="25" />
-          <folding>
-            <element signature="e#42#56#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1039,13 +875,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="11112">
           <caret line="463" column="27" selection-start-line="463" selection-start-column="27" selection-end-line="463" selection-end-column="27" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/CMakeLists.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="342">
-          <caret line="124" column="45" selection-start-line="124" selection-start-column="36" selection-end-line="124" selection-end-column="45" />
         </state>
       </provider>
     </entry>
@@ -1057,60 +886,10 @@
         <state relative-caret-position="-64764" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/CutGraph.h">
+    <entry file="file:///Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1/math.h">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="222">
-          <caret line="67" column="35" selection-start-line="67" selection-start-column="35" selection-end-line="67" selection-end-column="35" />
-          <folding>
-            <element signature="e#102#119#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/external/libigl/external/eigen/Eigen/src/Core/DenseCoeffsBase.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="122">
-          <caret line="335" selection-start-line="335" selection-end-line="335" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/graphcut_cgal.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="18">
-          <caret line="150" column="28" selection-start-line="150" selection-start-column="19" selection-end-line="150" selection-end-column="28" />
-          <folding>
-            <element signature="e#111#129#0" expanded="true" />
-            <element signature="e#243#296#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/CutGraph.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="30">
-          <caret line="182" column="76" selection-start-line="182" selection-start-column="76" selection-end-line="182" selection-end-column="76" />
-          <folding>
-            <element signature="e#0#2#0" />
-            <element signature="e#43#64#0" expanded="true" />
-            <marker date="1564516072738" expanded="false" signature="972:2068" ph="{...}" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="133">
-          <caret line="33" column="7" selection-start-line="33" selection-start-column="7" selection-end-line="33" selection-end-column="7" />
-          <folding>
-            <element signature="e#41#60#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/data/main.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="144">
-          <caret line="6" column="15" selection-start-line="6" selection-start-column="15" selection-end-line="6" selection-end-column="15" />
+        <state relative-caret-position="129">
+          <caret line="764" selection-start-line="764" selection-end-line="764" />
         </state>
       </provider>
     </entry>
@@ -1121,23 +900,96 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/CutMeshTest.cpp">
+    <entry file="file://$PROJECT_DIR$/external/libigl/external/eigen/Eigen/src/Core/Dot.h">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-549">
-          <caret line="17" column="30" selection-start-line="17" selection-start-column="30" selection-end-line="17" selection-end-column="30" />
+        <state relative-caret-position="138">
+          <caret line="112" column="110" selection-start-line="112" selection-start-column="110" selection-end-line="112" selection-end-column="110" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/external/libigl/include/igl/upsample.h">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/external/libigl/include/igl/upsample.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2568">
+          <caret line="107" column="21" selection-start-line="107" selection-start-column="21" selection-end-line="107" selection-end-column="21" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/CMakeLists.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2328">
+          <caret line="97" column="41" selection-start-line="97" selection-start-column="36" selection-end-line="97" selection-end-column="41" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/external/libigl/external/cgal/Surface_mesh_segmentation/include/CGAL/internal/auxiliary/graph.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="6024">
+          <caret line="251" selection-start-line="251" selection-end-line="251" />
           <folding>
-            <element signature="e#41#61#0" expanded="true" />
+            <element signature="e#8479#8633#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/external/libigl/external/cgal/Installation/include/CGAL/license/Surface_mesh_segmentation.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="569">
+          <caret line="46" column="61" selection-start-line="46" selection-start-column="61" selection-end-line="46" selection-end-column="61" />
+          <folding>
+            <element signature="e#922#946#0" expanded="true" />
+            <element signature="e#1032#1699#0" expanded="true" />
+            <element signature="e#1805#2059#0" expanded="true" />
+            <element signature="e#2122#2387#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/exportCutMesh.cpp">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/ExpressionValue.hpp">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/graph.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-32756">
+          <caret line="4" column="18" selection-start-line="4" selection-start-column="18" selection-end-line="4" selection-end-column="18" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Alpha_expansion_graph_cut.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-15868">
+          <caret line="20" column="10" selection-start-line="20" selection-start-column="10" selection-end-line="20" selection-end-column="10" />
+          <folding>
+            <element signature="e#1960#1983#0" expanded="true" />
+            <element signature="e#2125#2421#0" expanded="true" />
+            <element signature="e#4897#23919#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Skeleton.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="96">
+          <caret line="4" selection-start-line="4" selection-end-line="5" selection-end-column="28" />
+          <folding>
+            <element signature="e#96#117#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/CutMesh.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="741">
-          <caret line="724" column="40" selection-start-line="724" selection-start-column="40" selection-end-line="724" selection-end-column="40" />
+        <state relative-caret-position="336">
+          <caret line="16" column="9" selection-start-line="16" selection-start-column="9" selection-end-line="16" selection-end-column="9" />
           <folding>
             <element signature="e#0#2#0" />
             <element signature="e#42#62#0" expanded="true" />
+            <element signature="e#450#471#0" expanded="true" />
             <marker date="1564516736285" expanded="true" signature="28127:29035" ph="{...}" />
             <marker date="1564516736285" expanded="false" signature="29573:30121" ph="{...}" />
             <marker date="1564516736285" expanded="true" signature="30232:30525" ph="{...}" />
@@ -1146,6 +998,166 @@
             <marker date="1564516736285" expanded="false" signature="39713:39719" ph="{...}" />
             <marker date="1564516736285" expanded="false" signature="44547:45140" ph="{...}" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/CutMesh.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="368">
+          <caret line="50" column="24" selection-start-line="50" selection-start-column="24" selection-end-line="50" selection-end-column="24" />
+          <folding>
+            <element signature="e#100#121#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/CutMeshTest.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="24">
+          <caret line="17" column="30" selection-start-line="17" selection-start-column="30" selection-end-line="17" selection-end-column="30" />
+          <folding>
+            <element signature="e#41#61#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/external/libigl/include/igl/triangle_triangle_adjacency.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="138">
+          <caret line="37" column="21" selection-start-line="37" selection-start-column="21" selection-end-line="37" selection-end-column="21" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/external/libigl/external/cgal/Surface_mesh_segmentation/include/CGAL/internal/Surface_mesh_segmentation/Alpha_expansion_graph_cut.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="121">
+          <caret line="574" column="6" selection-start-line="574" selection-start-column="6" selection-end-line="574" selection-end-column="6" />
+          <folding>
+            <element signature="e#2124#2420#0" expanded="true" />
+            <element signature="e#4920#23942#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/external/libigl/external/eigen/Eigen/src/Core/PlainObjectBase.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="139">
+          <caret line="341" column="29" selection-start-line="341" selection-start-column="29" selection-end-line="341" selection-end-column="29" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/external/libigl/external/eigen/Eigen/src/Core/Block.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="131">
+          <caret line="115" selection-start-line="115" selection-end-line="115" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/external/libigl/external/eigen/Eigen/src/plugins/BlockMethods.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="131">
+          <caret line="750" selection-start-line="750" selection-end-line="750" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/external/libigl/include/igl/edges.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="249">
+          <caret line="32" column="15" selection-start-line="32" selection-start-column="15" selection-end-line="32" selection-end-column="15" />
+          <folding>
+            <element signature="e#386#409#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/external/libigl/include/igl/adjacency_matrix.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="130">
+          <caret line="14" column="21" selection-start-line="14" selection-start-column="21" selection-end-line="14" selection-end-column="21" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/external/libigl/external/eigen/Eigen/src/SparseCore/SparseMatrix.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="131">
+          <caret line="871" column="44" selection-start-line="871" selection-start-column="44" selection-end-line="871" selection-end-column="44" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/external/libigl/include/igl/edges.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="41">
+          <caret line="29" column="50" selection-start-line="29" selection-start-column="50" selection-end-line="29" selection-end-column="50" />
+          <folding>
+            <element signature="e#342#360#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/external/libigl/external/eigen/Eigen/src/Core/DenseCoeffsBase.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="348">
+          <caret line="335" selection-start-line="335" selection-end-line="335" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/CutGraph.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="209">
+          <caret line="97" selection-start-line="97" selection-end-line="97" selection-end-column="66" />
+          <folding>
+            <element signature="e#102#119#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/CutGraph.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="126">
+          <caret line="351" column="46" selection-start-line="351" selection-start-column="46" selection-end-line="351" selection-end-column="46" />
+          <folding>
+            <element signature="e#0#2#0" />
+            <element signature="e#43#64#0" expanded="true" />
+            <element signature="e#8597#8814#0" />
+            <element signature="e#10310#10412#0" />
+            <marker date="1565209371167" expanded="false" signature="2245:3341" ph="{...}" />
+            <marker date="1565209371167" expanded="true" signature="5373:5866" ph="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-323">
+          <caret line="152" column="16" selection-start-line="152" selection-start-column="13" selection-end-line="152" selection-end-column="16" />
+          <folding>
+            <element signature="e#41#60#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file:///Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1/limits">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="159">
+          <caret line="459" column="60" selection-start-line="459" selection-start-column="60" selection-end-line="459" selection-end-column="60" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/graphcut_cgal.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-364">
+          <caret line="160" column="5" selection-start-line="160" selection-start-column="5" selection-end-line="160" selection-end-column="5" />
+          <folding>
+            <element signature="e#111#129#0" expanded="true" />
+            <element signature="e#243#296#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/data/main.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="168">
+          <caret line="7" column="18" selection-start-line="7" selection-start-column="18" selection-end-line="7" selection-end-column="18" />
         </state>
       </provider>
     </entry>

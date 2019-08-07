@@ -28,11 +28,6 @@
 #include <igl/per_face_normals.h>
 #include <igl/PI.h>
 #include <algorithm>
-//
-//
-//#include <pybind11/pybind11.h>
-//#include <pybind11/eigen.h>
-//#include <pybind11/stl.h>
 namespace OTMapping{
 typedef CGAL::Exact_predicates_inexact_constructions_kernel Kernel;
 typedef CGAL::Polyhedron_3<Kernel> Polyhedron;
@@ -179,7 +174,7 @@ void calculate_and_log_normalize_dihedral_angles(
     auto angle_between = [](const Eigen::MatrixXd& FN, int i, int o){
         double inner = std::min(std::max(FN.row(i).dot(FN.row(o)),-1+1e-9), 1-1e-9);
         double angle = acos(inner)/igl::PI;
-        return 1 - abs(angle);
+        return 1.1-abs(inner);
     };
     a_edges.clear();
     for (int i=0; i<TT.rows(); i++) {
@@ -254,6 +249,8 @@ double Alpha_expansion_graph_cut_boykov_kolmogorov_Eigen(
     igl::matrix_to_list(ProbabilityMatrix.transpose(), probability_matrix);
     std::cout<< probability_matrix.size() << "y" << probability_matrix[0].size()<<std::endl;
     std::cout << "label" << labels.size()<<std::endl;
+    log_normalize_probability_matrix(probability_matrix);
+
     CGAL::internal::Alpha_expansion_graph_cut_boykov_kolmogorov()(edges, edge_weights, probability_matrix, labels);
     std::cout << labels.size();
     igl::list_to_matrix(labels, Labels);

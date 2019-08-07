@@ -8,6 +8,9 @@
 #include <map>
 #include <tuple>
 #include <igl/opengl/glfw/Viewer.h>
+#include <igl/edges.h>
+#include <igl/triangle_triangle_adjacency.h>
+#include <igl/sparse.h>
 #include <random>
 #include <vector>
 void CutGraph::_set_Vertices(const Eigen::MatrixXd & S) {
@@ -19,6 +22,42 @@ void CutGraph::_set_Vertices(const Eigen::MatrixXd & S) {
         for (auto it = this->_vertices.begin(); it != this->_vertices.end(); ++it) {
             *it = std::make_tuple(S(count,0),S(count,1), S(count,2));
             count += 1;
+        }
+    }
+}
+
+void CutGraph::_set_Edges_from_Faces(const Eigen::MatrixXi &F){
+//    Eigen::MatrixXi TT;
+//    igl::triangle_triangle_adjacency(F,TT);
+//    this->Edges = Eigen::MatrixXi::Constant(3 * F.rows(), 2,-1);
+//    int count = 0;
+//    for (int i=0; i<TT.rows(); i++) {
+//        for (int j = 0; j < 3; j++) {
+//            if (TT(i, j) == -1) continue;
+//            int of = TT(i, j);
+//            this->Edges(count,0)= i;
+//            this->Edges(count,1)= of;
+//            count += 1;
+//        }
+//    }
+//    this->Edges.conservativeResize(count,2);
+    this->Edges = Eigen::MatrixXi::Constant(3 * F.rows(), 2,-1);
+    Eigen::SparseMatrix<int> A;
+    igl::adjacency_matrix(F,A);
+    // Number of non zeros should be twice number of edges
+    assert(A.nonZeros()%2 == 0);
+    // Resize to fit edges
+    this->Edges.resize(A.nonZeros(),2);
+    int i = 0;
+    // Iterate over outside
+    for(int k=0; k<A.outerSize(); ++k)
+    {
+        // Iterate over inside
+        for(typename Eigen::SparseMatrix<int>::InnerIterator it (A,k); it; ++it)
+        {
+                this->Edges(i,1) = it.col();
+                this->Edges(i,0) = it.row();
+                i++;
         }
     }
 }
@@ -84,12 +123,39 @@ void CutGraph::_set_Edges_from_KNN(int m) {
 }
 
 void CutGraph::_set_EdgeWeights(double lambda){
-    this->EdgeWeights = Eigen::MatrixXd::Constant(this->Edges.rows(),1, 0);
+    this->EdgeWeights = Eigen::MatrixXd::Constant(this->Edges.rows(),1, lambda);
+    std::map<int, int> boundary_vertices;
     for(int i =0; i< this->Edges.rows();++i){
         int j = this->Edges(i,0);
         int k = this->Edges(i,1);
+//        if(normk > 0.45 or normj> 0.45){
+//            this->EdgeWeights(i,0)=0.01 * lambda;
+//        }
         if(this->Labels(j,0)==this->Labels(k,0)){
-            this->EdgeWeights(i,0)= lambda;
+//            auto findj = boundary_vertices.find(j);
+//            auto findk = boundary_vertices.find(k);
+//            if(findj!= boundary_vertices.end() or findk != boundary_vertices.end()){
+//                this->EdgeWeights(i,0)= 0.01*lambda;
+//                if(boundary_vertices[j]==1 and findk ==boundary_vertices.end()){
+//                    boundary_vertices[k]=2;
+//                }
+//                if(boundary_vertices[k]==1 and findj == boundary_vertices.end()){
+//                    boundary_vertices[j]=2;
+//                }
+//            }
+            continue;
+        }
+        else{
+//            auto findj = boundary_vertices.find(j);
+//            auto findk = boundary_vertices.find(k);
+//            if(findj== boundary_vertices.end() and findk == boundary_vertices.end()){
+//                boundary_vertices[j]=1;
+//                boundary_vertices[k]=1;
+//                this->EdgeWeights(i,0)= 0.01 * lambda;
+//            } else {
+//                this->EdgeWeights(i,0)= 0.01 * lambda;
+//            }
+            this->EdgeWeights(i,0)= 0.01*lambda;
         }
     }
 }
@@ -102,12 +168,12 @@ void CutGraph::_set_ProbabilityMatrix(int label_num, Eigen::MatrixXi observed_la
     for(int i = 0; i< this->sample_num; ++i){
         int lbl = observed_labels(i,0);
         double p = dis(gen);
-        this->ProbabilityMatrix.row(i) = Eigen::MatrixXd::Constant(1,this->label_num, (0)/ this->label_num);
-        this->ProbabilityMatrix(i,lbl) = 1.0;
+        double q = 9e-1;
+        this->ProbabilityMatrix.row(i) = Eigen::MatrixXd::Constant(1,this->label_num, (1-q)/ (this->label_num-1));
+        this->ProbabilityMatrix(i,lbl) = q;
     }
-
-    std::cout<< "adaesfhod9aewhfcla" << this->ProbabilityMatrix;
 }
+
 
 
 void generate_sample_color(
@@ -180,7 +246,7 @@ void NN_sample_label_vote_face_label(
     construct_face_sample_dictionary(I1, dict);
     FL1 = Eigen::MatrixXi::Zero(F1.rows(), 1);
     std::cout  << dict.size() << "size" << std::endl;
-    probability_matrix = Eigen::MatrixXd::Constant(F1.rows(),label_num, 1e-5);
+    probability_matrix = Eigen::MatrixXd::Constant(F1.rows(),label_num, 0.5);
     for(int fidx=0; fidx< FL1.rows(); ++fidx){
         auto find = dict.find(fidx);
         if(find != dict.end()) {
@@ -196,14 +262,106 @@ void NN_sample_label_vote_face_label(
                     max_num_label = lbl;
                 }
             }
-
-            probability_matrix.row(fidx) /= size;
+            double sum = probability_matrix.row(fidx).sum();
+            probability_matrix.row(fidx) /= sum;
             FL1(fidx, 0) = max_num_label;
-        } else{
+        }
+        else{
             probability_matrix.row(fidx) = Eigen::MatrixXd::Constant(1,label_num, 1/label_num);
             FL1(fidx, 0) = fidx % label_num;
         }
     }
 }
 
+void vertex_label_vote_face_label(
+        const int label_num,
+        const Eigen::MatrixXi & VL,
+        const Eigen::MatrixXi & F,
+        Eigen::MatrixXi & FL,
+        Eigen::MatrixXd & prob_mat
+        ){
+    FL = Eigen::MatrixXi::Zero(F.rows(), 1);
+    prob_mat = Eigen::MatrixXd::Constant(FL.rows(), label_num, 0.1/6);
+    for(int fidx=0; fidx< F.rows(); ++fidx) {
+        int v0, v1, v2, l0,l1,l2;
+        std::map<int, int> dict;
+        for(int i =0; i<3; ++i) {
+            int vi = F(fidx, i);
+            int li = VL(vi,0);
+            auto find = dict.find(li);
+            if(find != dict.end()){
+                dict[li] += 1;
+            } else{
+                dict[li] = 1;
+            }
+        }
+        if(dict.size()==3){
+            FL(fidx,0)= dict.begin()->first;
+            auto it = dict.begin();
+            int l0 = it->first;
+            it++;
+            int l1 = it->first;
+            it++;
+            int l2 = it->first;
 
+            prob_mat(fidx, l0) = 0.3;
+            prob_mat(fidx, l1) = 0.3;
+            prob_mat(fidx, l2) = 0.3;
+
+        }
+        if(dict.size()==2){
+            auto it = dict.begin();
+            int l0 = it->first;
+            it++;
+            int l1 = it->first;
+            if(dict[l0]>dict[l1]){
+                FL(fidx,0)= l0;
+                prob_mat(fidx, l0) = 0.6;
+                prob_mat(fidx, l1) = 0.3;
+            } else{
+                FL(fidx,0)=l1;
+                prob_mat(fidx, l1) = 0.6;
+                prob_mat(fidx, l2) = 0.3;
+            }
+        }
+        if(dict.size()==1){
+            FL(fidx,0)= dict.begin()->first;
+            int l0 = dict.begin()->first;
+            prob_mat(fidx, l0) = 0.9;
+        }
+    }
+
+
+}
+
+void set_EdgeWeight(const double &lambda, const Eigen::MatrixXi & SL, const Eigen::MatrixXi &E, Eigen::MatrixXd &EW){
+    EW = Eigen::MatrixXd::Constant(E.rows(),1, lambda);
+    std::map<int, int> boundary_vertices;
+    for(int i =0; i< E.rows();++i){
+        int j = E(i,0);
+        int k = E(i,1);
+        if(SL(j,0)==SL(k,0)){
+            continue;
+        }
+        else{
+            EW(i,0)= 0.01*lambda;
+        }
+    }
+}
+
+void set_Face_Edges(const Eigen::MatrixXi &F, Eigen::MatrixXi &E){
+    Eigen::MatrixXi TT;
+    igl::triangle_triangle_adjacency(F,TT);
+    E = Eigen::MatrixXi::Constant(3 * F.rows(), 2,-1);
+    int count = 0;
+    for (int i=0; i<TT.rows(); i++) {
+        for (int j = 0; j < 3; j++) {
+            if (TT(i, j) == -1) continue;
+            int of = TT(i, j);
+            E(count,0)= i;
+            E(count,1)= of;
+            count += 1;
+        }
+    }
+    E.conservativeResize(count,2);
+}

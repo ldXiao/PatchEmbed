@@ -80,7 +80,7 @@ set(SOURCES
     src/VSA_cgal.hpp
     src/CutGraph.cpp
     src/CutGraph.h
-    )
+        )
 add_library(otmapping ${SOURCES})
 target_link_libraries(otmapping PUBLIC
         json
