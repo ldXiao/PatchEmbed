@@ -40,6 +40,7 @@ namespace OTMapping {
         Eigen::MatrixXd FaceColorPerturb;
         int SampleNum;
         int point_size;
+        std::string outfile_name;
 
 
         std::vector<std::unique_ptr<Eigen::MatrixXd> > ComponentsVertices;

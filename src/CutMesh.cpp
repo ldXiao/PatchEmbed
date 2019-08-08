@@ -329,7 +329,9 @@ void CutMesh::plot_CutMesh(igl::opengl::glfw::Viewer &viewer, unsigned char opti
 void CutMesh::set_initial_from_json(const nlohmann::json & params){
     /*set the initial parameters from a json*/
     if(params.find("CutMesh_params")!= params.end()){
+
         auto CutMesh_params = params["CutMesh_params"];
+        this->outfile_name = CutMesh_params["outfile_name"];
         Eigen::MatrixXd V, Vt;
         Eigen::MatrixXi F, Ft;
         igl::readOBJ(CutMesh_params["mesh_file"],V, F);
@@ -722,7 +724,7 @@ void CutMesh::_components_union(){
             this->ComponentsSampleIndices[i]= std::move(ptr_SIA);
         }
     }
-    igl::writeOBJ("../data/cube_soup.obj", this->TotalVerticesPerturb, this->TotalFacesPerturb);
+    igl::writeOBJ(this->outfile_name, this->TotalVerticesPerturb, this->TotalFacesPerturb);
 }
 
 void CutMesh::_generate_sample_color(const Eigen::MatrixXd &V, const Eigen::MatrixXi &F) {

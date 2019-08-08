@@ -5,7 +5,7 @@
     "cut": false,
     "sample_num": 4000,
     "random_seed": 3,
-    "perturb_range": 0.03,
+    "perturb_range": 0.1,
     "point_size": 7,
     "skeleton_range": 0.08,
     "graph_valence": 5,
@@ -13,7 +13,8 @@
     "funcexpr": "sin(x+y+z)",
     "two_samples": true,
     "two_models":false,
-    "lambda": 0
+    "lambda": 0,
+    "outfile_name": "../data/cube_soup010.obj"
   },
   "Sinkhorn_params": {
     "eps": 1e-3,

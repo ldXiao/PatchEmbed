@@ -48,22 +48,22 @@ bool key_down(igl::opengl::glfw::Viewer &viewer, unsigned char key, int modifier
             viewer.data().set_colors(FC0);
             break;
         case '1': {
+            // show  mesh knn graph edgweight and nn transported labels
             viewer.data().clear();
             viewer.data().point_size = point_size;
             viewer.data().set_mesh(V1, F1);
             viewer.data().set_colors(Eigen::RowVector3d(1, 1, 0));
-//            std::cout << S1 << std::endl;
             igl::jet(SL1, 0, proxy_num-1, C1);
             Eigen::MatrixXd C3;
             igl::jet(CtGrph.EdgeWeights, 0, 2, C3);
             viewer.data().add_points(S1, C1);
             heads = igl::slice(S1, CtGrph.Edges.col(0), 1);
             tails = igl::slice(S1, CtGrph.Edges.col(1), 1);
-//                    igl::slice(this->SamplePerturb,this->SkeletonIndices1,1)
             viewer.data().add_edges(heads, tails, C3);
             break;
         }
         case '2': {
+            // show graph cut on knn graph
             viewer.data().clear();
             viewer.data().point_size = point_size;
             viewer.data().set_mesh(V1, F1);
@@ -86,7 +86,19 @@ bool key_down(igl::opengl::glfw::Viewer &viewer, unsigned char key, int modifier
             viewer.data().add_edges(heads, tails, Eigen::RowVector3d(0,0,0));
             break;
         }
+
         case '3': {
+            viewer.data().clear();
+            viewer.data().point_size = point_size;
+            viewer.data().set_mesh(V1, F1);
+            Eigen::MatrixXi FL1_mod2;
+            Eigen::MatrixXd probmat2;
+            NN_sample_label_vote_face_label(label_num, I1, SL1, F1, FL1_mod2, probmat2);
+            igl::jet(FL1_mod2, 0, label_num-1, FC1);
+            viewer.data().set_colors(FC1);
+            break;
+        }
+        case '4': {
             viewer.data().clear();
             viewer.data().point_size = point_size;
             viewer.data().set_mesh(V1, F1);
@@ -98,18 +110,18 @@ bool key_down(igl::opengl::glfw::Viewer &viewer, unsigned char key, int modifier
             viewer.data().set_colors(FC1);
             break;
         }
-        case '4': {
+        case '5': {
+            // show vertices based initilization
             viewer.data().clear();
             viewer.data().point_size = point_size;
-            viewer.data().set_mesh(V1, F1);
-            Eigen::MatrixXi FL1_mod2;
-            Eigen::MatrixXd probmat2;
-            NN_sample_label_vote_face_label(label_num, I1, SL1, F1, FL1_mod2, probmat2);
-            igl::jet(FL1_mod2, 0, label_num-1, FC1);
-            viewer.data().set_colors(FC1);
+            viewer.data().set_mesh(V1_1, F1_1);
+            viewer.data().set_colors(Eigen::RowVector3d(1, 1, 1));
+            igl::jet(SL1_1, 0, SL1_1.maxCoeff(), C1_1);
+            viewer.data().add_points(S1_1, C1_1);
             break;
         }
-        case '5': {
+        case '6': {
+            // vertices-based graph cut
             viewer.data().clear();
             viewer.data().point_size = point_size;
             viewer.data().set_mesh(V1_1, F1_1);
@@ -124,21 +136,24 @@ bool key_down(igl::opengl::glfw::Viewer &viewer, unsigned char key, int modifier
             );
             Eigen::MatrixXd C5;
             igl::jet(SLf, 0, SLf.maxCoeff(), C5);
-            std::cout << "max" <<SLf.maxCoeff() << std::endl;
             viewer.data().add_points(S1_1, C5);
             break;
         }
-        case '6': {
+        case '7':{
+            // show
             viewer.data().clear();
             viewer.data().point_size = point_size;
+            Eigen::MatrixXi FL1_1_mod;
+            Eigen::MatrixXd probmat;
             viewer.data().set_mesh(V1_1, F1_1);
-            viewer.data().set_colors(Eigen::RowVector3d(1, 1, 1));
-            CtGrph1._set_ProbabilityMatrix(label_num, SL1_1);
-            igl::jet(SL1_1, 0, SL1_1.maxCoeff(), C1_1);
-            viewer.data().add_points(S1_1, C1_1);
+            vertex_label_vote_face_label(label_num, SL1_1, F1_1, FL1_1_mod, probmat);
+            igl::jet(FL1_1_mod, 0, label_num-1, FC1_1);
+            viewer.data().set_colors(FC1_1);
             break;
         }
-        case '7':{
+
+        case '8':{
+            // show
             viewer.data().clear();
             viewer.data().point_size = point_size;
             viewer.data().set_mesh(V1_1, F1_1);
@@ -150,7 +165,7 @@ bool key_down(igl::opengl::glfw::Viewer &viewer, unsigned char key, int modifier
             viewer.data().set_colors(FC1_1);
             break;
         }
-        case '8':{
+        case '9':{
             viewer.data().clear();
             viewer.data().point_size = point_size;
             viewer.data().set_mesh(V1_1, F1_1);
@@ -222,13 +237,13 @@ int main(int argc, char *argv[]) {
 
         OTMapping::vsa_compute(V0, F0, param_json["proxy_num"], FL0, count);
         label_num = FL0.maxCoeff()+1;
-        igl::jet(FL0, 1, param_json["proxy_num"], FC0);
+        igl::jet(FL0, 0, label_num-1, FC0);
 //        generate_sample_color(FC0, I0,param_json["sample_num"], C0);
         generate_sample_label(FL0, I0, param_json["sample_num"], SL0);
-        igl::jet(SL0, 1, param_json["proxy_num"], C0);
+        igl::jet(SL0, 0, label_num-1, C0);
 
         NN_sample_label_transport(S0, S1, SL0, SL1);
-        igl::jet(SL1, 1, param_json["proxy_num"], C1);
+        igl::jet(SL1, 0, label_num-1, C1);
     }
     std::cout << "h3"<< std::endl;
     {
@@ -245,10 +260,10 @@ int main(int argc, char *argv[]) {
             S0_1 = B0_1 * V0;
             generate_sample_label(FL0, I0_1, S0_1.rows(), SL0_1);
             std::cout << "ha3"<< std::endl;
-            igl::jet(SL0_1, 1, param_json["proxy_num"], C0_1);
+            igl::jet(SL0_1, 0, label_num-1, C0_1);
             NN_sample_label_transport(S0_1, S1_1, SL0_1, SL1_1);
             std::cout << "ha4"<< std::endl;
-            igl::jet(SL1_1, 1, param_json["proxy_num"], C1_1);
+            igl::jet(SL1_1, 0, label_num-1, C1_1);
             std::cout << "ha5"<< std::endl;
         }
     }
