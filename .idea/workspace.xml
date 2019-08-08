@@ -26,13 +26,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="295248be-c225-463f-a6b6-c526a188320c" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/data/main1.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/cube.json" beforeDir="false" afterPath="$PROJECT_DIR$/data/cube.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/polysphere.json" beforeDir="false" afterPath="$PROJECT_DIR$/data/polysphere.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/CutMesh.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/CutMesh.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/CutMesh.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/CutMesh.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main.cpp" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/cmake-build-debug/" />
     <ignored path="$PROJECT_DIR$/cmake-build-release/" />
@@ -61,8 +56,9 @@
       <usages-collector id="statistics.file.types.edit">
         <counts>
           <entry key="CMakeLists.txt" value="560" />
-          <entry key="JSON" value="1520" />
+          <entry key="JSON" value="1521" />
           <entry key="ObjectiveC" value="30058" />
+          <entry key="PLAIN_TEXT" value="6" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
@@ -100,7 +96,7 @@
           <entry key="JSON" value="22" />
           <entry key="Mathematica" value="1" />
           <entry key="ObjectiveC" value="199" />
-          <entry key="PLAIN_TEXT" value="16" />
+          <entry key="PLAIN_TEXT" value="17" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.lifecycle.project">
@@ -133,23 +129,6 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/CutGraph.cpp">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="8424">
-              <caret line="351" column="46" selection-start-line="351" selection-start-column="46" selection-end-line="351" selection-end-column="46" />
-              <folding>
-                <element signature="e#0#2#0" />
-                <element signature="e#43#64#0" expanded="true" />
-                <element signature="e#8597#8814#0" />
-                <element signature="e#10310#10412#0" />
-                <marker date="1565209371167" expanded="false" signature="2245:3341" ph="{...}" />
-                <marker date="1565209371167" expanded="true" signature="5373:5866" ph="{...}" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/data/polysphere.json">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="168">
@@ -158,11 +137,20 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/data/main1.json">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="192">
-              <caret line="8" column="15" selection-start-line="8" selection-start-column="15" selection-end-line="8" selection-end-column="15" />
+              <caret line="8" column="13" selection-start-line="8" selection-start-column="13" selection-end-line="8" selection-end-column="13" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/.gitignore">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="279">
+              <caret line="34" column="5" selection-start-line="34" selection-start-column="5" selection-end-line="34" selection-end-column="5" />
             </state>
           </provider>
         </entry>
@@ -313,7 +301,6 @@
         <option value="$PROJECT_DIR$/.travis.yml" />
         <option value="$PROJECT_DIR$/src/Skeleton.h" />
         <option value="$PROJECT_DIR$/src/main2.cpp" />
-        <option value="$PROJECT_DIR$/.gitignore" />
         <option value="$PROJECT_DIR$/src/package.json" />
         <option value="$PROJECT_DIR$/src/cube.json" />
         <option value="$PROJECT_DIR$/src/Kruskal.hpp" />
@@ -347,6 +334,7 @@
         <option value="$PROJECT_DIR$/data/polysphere.json" />
         <option value="$PROJECT_DIR$/src/main.cpp" />
         <option value="$PROJECT_DIR$/data/main1.json" />
+        <option value="$PROJECT_DIR$/.gitignore" />
       </list>
     </option>
   </component>
@@ -565,12 +553,12 @@
       <workItem from="1564505733870" duration="37282000" />
       <workItem from="1565145465587" duration="3301000" />
       <workItem from="1565184529969" duration="17540000" />
-      <workItem from="1565273461180" duration="2025000" />
+      <workItem from="1565273461180" duration="2365000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="581607000" />
+    <option name="totallyTimeSpent" value="581947000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -583,9 +571,8 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1280" height="800" extended-state="6" />
-    <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" weight="0.3368336" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.3368336" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -596,8 +583,8 @@
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" weight="0.32739726" />
       <window_info anchor="bottom" id="Database Changes" order="7" show_stripe_button="false" />
-      <window_info active="true" anchor="bottom" id="Messages" order="8" sideWeight="0.3933764" visible="true" weight="0.30273974" />
-      <window_info anchor="bottom" id="Terminal" order="9" sideWeight="0.45153475" weight="0.32054794" />
+      <window_info anchor="bottom" id="Messages" order="8" sideWeight="0.3933764" weight="0.30273974" />
+      <window_info active="true" anchor="bottom" id="Terminal" order="9" sideWeight="0.45153475" visible="true" weight="0.32054794" />
       <window_info anchor="bottom" id="Event Log" order="10" sideWeight="0.54846525" side_tool="true" weight="0.32328767" />
       <window_info anchor="bottom" id="Version Control" order="11" show_stripe_button="false" />
       <window_info anchor="bottom" id="CMake" order="12" sideWeight="0.4806139" weight="0.29589042" />
@@ -780,13 +767,6 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/external/libigl/include/igl/matrix_to_list.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="153">
-          <caret line="12" column="21" selection-start-line="12" selection-start-column="21" selection-end-line="12" selection-end-column="21" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/external/libigl/include/igl/list_to_matrix.cpp">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="151">
@@ -1163,7 +1143,14 @@
     <entry file="file://$PROJECT_DIR$/data/main1.json">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="192">
-          <caret line="8" column="15" selection-start-line="8" selection-start-column="15" selection-end-line="8" selection-end-column="15" />
+          <caret line="8" column="13" selection-start-line="8" selection-start-column="13" selection-end-line="8" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/.gitignore">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="279">
+          <caret line="34" column="5" selection-start-line="34" selection-start-column="5" selection-end-line="34" selection-end-column="5" />
         </state>
       </provider>
     </entry>

@@ -1,5 +1,0 @@
-{
-  "mesh_file": "../data/cactus.off",
-  "cluster_num": 8,
-  "smoothing_lambda": 0.2
-}
