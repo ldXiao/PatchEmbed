@@ -11,7 +11,7 @@ matrix:
     - git clone https://github.com/jarro2783/cxxopts.git && cd $TRAVIS_BUILD_DIR
     - mkdir build
     - cd build
-    - cmake -DCMAKE_CXX_COMPILER=g++-4.8 -DCMAKE_C_COMPILER=gcc-4.8 -DTRAVISCI_BUILD=ON ../
+    - cmake -DCMAKE_CXX_COMPILER=g++-4.8 -DPYTHON_EXECUTABLE:FILEPATH=/opt/pyenv/shims/python3.6 -DCMAKE_C_COMPILER=gcc-4.8 -DTRAVISCI_BUILD=ON ../
     - make -j2
     addons:
       apt:
