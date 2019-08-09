@@ -5,6 +5,7 @@ matrix:
   - os: linux
     compiler: gcc-4.8.1
     script:
+    - which python
     - git clone https://github.com/libigl/libigl.git ../libigl
     - cd ../libigl && git submodule update --recursive --init && cd $TRAVIS_BUILD_DIR
     - mkdir external && cd external
