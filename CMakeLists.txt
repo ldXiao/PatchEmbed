@@ -3,6 +3,10 @@ project(otmapping)
 
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
 include(DownloadProject)
+find_package(PythonLibs 3.6)
+find_package(PythonInterp 3.6)
+include_directories(${PYTHON_INCLUDE_DIRS})
+message(${PYTHON_INCLUDE_DIRS})
 download_project(
     PROJ         libigl
     SOURCE_DIR   ${CMAKE_CURRENT_SOURCE_DIR}/external/libigl
@@ -30,6 +34,12 @@ option(LIBIGL_WITH_VIEWER            "Use OpenGL viewer"  ON)
 option(LIBIGL_WITH_XML               "Use XML"            OFF)
 
 find_package(LIBIGL REQUIRED QUIET)
+
+# pybind11
+set(PYBIND11_DIR ${CMAKE_CURRENT_SOURCE_DIR}/external/pybind11)
+add_subdirectory(${PYBIND11_DIR}/ pybind11)
+
+
 download_project(
         PROJ         json
         SOURCE_DIR   ${CMAKE_CURRENT_SOURCE_DIR}/external/json
@@ -122,4 +132,4 @@ target_link_libraries(exportCutMesh_bin otmapping)
 add_executable(xyzgen_bin src/xyzgen.cpp)
 target_link_libraries(xyzgen_bin otmapping)
 add_executable(quicktest_bin src/quicktest.cpp)
-target_link_libraries(quicktest_bin otmapping)
+target_link_libraries(quicktest_bin otmapping pybind11::embed)

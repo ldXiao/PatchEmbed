@@ -4,10 +4,10 @@
 #include <map>
 #include <vector>
 #include <iostream>
-int main(){
-    std::cout << "ahha"<< std::endl;
-    std::map<int, std::vector<int> > dict;
-    dict[0].push_back(1);
-    dict[0].push_back(2);
-    dict[1].push_back(3);
+#include <pybind11/embed.h> // everything needed for embedding
+namespace py = pybind11;
+int main() {
+    py::scoped_interpreter guard{}; // start the interpreter and keep it alive
+
+    py::print("Hello, World!"); // use the Python API
 }
