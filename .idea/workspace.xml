@@ -7,8 +7,8 @@
       <config projectName="otmapping" targetName="graphcut_test_bin" />
       <config projectName="otmapping" targetName="xyzgen_bin" />
       <config projectName="otmapping" targetName="otmapping_bin" />
-      <config projectName="otmapping" targetName="cuttest_bin" />
       <config projectName="otmapping" targetName="glfw" />
+      <config projectName="otmapping" targetName="cuttest_bin" />
       <config projectName="otmapping" targetName="exportCutMesh_bin" />
       <config projectName="otmapping" targetName="quicktest_bin" />
       <config projectName="otmapping" targetName="otmapping" />
@@ -20,14 +20,27 @@
   </component>
   <component name="CMakeSettings">
     <configurations>
-      <configuration PROFILE_NAME="Debug" CONFIG_NAME="Debug" />
-      <configuration PROFILE_NAME="Release" CONFIG_NAME="Release" GENERATION_OPTIONS="-DPYTHON_EXECUTABLE:FILEPATH=/Users/vector_cat/anaconda3/envs/fenics/bin/python" />
+      <configuration PROFILE_NAME="Release (1)" CONFIG_NAME="Release" GENERATION_OPTIONS="-DPYTHON_EXECUTABLE:FILEPATH=/Users/vector_cat/anaconda3/envs/fenics/bin/python" />
+      <configuration PROFILE_NAME="Debug (2)" CONFIG_NAME="Debug" GENERATION_OPTIONS="-DPYTHON_EXECUTABLE:FILEPATH=/Users/vector_cat/anaconda3/envs/fenics/bin/python" />
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="295248be-c225-463f-a6b6-c526a188320c" name="Default Changelist" comment="" />
+    <list default="true" id="295248be-c225-463f-a6b6-c526a188320c" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CMakeLists.txt" beforeDir="false" afterPath="$PROJECT_DIR$/CMakeLists.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/CutGraph.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/CutGraph.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/CutGraph.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/CutGraph.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/graphcut_cgal.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/graphcut_cgal.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/quicktest.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/quicktest.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/utlis.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/utlis.py" afterDir="false" />
+    </list>
     <ignored path="$PROJECT_DIR$/cmake-build-debug/" />
     <ignored path="$PROJECT_DIR$/cmake-build-release/" />
+    <ignored path="$PROJECT_DIR$/cmake-build-debug-1/" />
+    <ignored path="$PROJECT_DIR$/cmake-build-release-1/" />
+    <ignored path="$PROJECT_DIR$/cmake-build-debug-2/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -37,7 +50,7 @@
   <component name="ClangdSettings">
     <option name="formatViaClangd" value="false" />
   </component>
-  <component name="ExecutionTargetManager" SELECTED_TARGET="CMakeBuildProfile:Release" />
+  <component name="ExecutionTargetManager" SELECTED_TARGET="CMakeBuildProfile:Debug (2)" />
   <component name="FUSProjectUsageTrigger">
     <session id="985261744">
       <usages-collector id="statistics.file.extensions.edit">
@@ -52,12 +65,12 @@
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="CMakeLists.txt" value="633" />
-          <entry key="JSON" value="1521" />
-          <entry key="ObjectiveC" value="30405" />
+          <entry key="CMakeLists.txt" value="725" />
+          <entry key="JSON" value="1522" />
+          <entry key="ObjectiveC" value="33232" />
           <entry key="PLAIN_TEXT" value="12" />
-          <entry key="Python" value="219" />
-          <entry key="YAML" value="21" />
+          <entry key="Python" value="1950" />
+          <entry key="YAML" value="38" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
@@ -91,172 +104,113 @@
       </usages-collector>
       <usages-collector id="statistics.file.types.open">
         <counts>
-          <entry key="CMakeLists.txt" value="15" />
-          <entry key="JSON" value="22" />
-          <entry key="Mathematica" value="1" />
-          <entry key="ObjectiveC" value="206" />
-          <entry key="PLAIN_TEXT" value="19" />
-          <entry key="Python" value="4" />
-          <entry key="YAML" value="2" />
+          <entry key="CMakeLists.txt" value="16" />
+          <entry key="JSON" value="24" />
+          <entry key="Mathematica" value="2" />
+          <entry key="ObjectiveC" value="233" />
+          <entry key="PLAIN_TEXT" value="26" />
+          <entry key="Python" value="6" />
+          <entry key="YAML" value="6" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.lifecycle.project">
         <counts>
-          <entry key="project.closed" value="13" />
+          <entry key="project.closed" value="15" />
           <entry key="project.open.time.1" value="1" />
           <entry key="project.open.time.10" value="2" />
+          <entry key="project.open.time.11" value="1" />
           <entry key="project.open.time.13" value="1" />
-          <entry key="project.open.time.2" value="5" />
+          <entry key="project.open.time.2" value="6" />
           <entry key="project.open.time.7" value="2" />
           <entry key="project.open.time.8" value="1" />
           <entry key="project.open.time.9" value="1" />
-          <entry key="project.opened" value="13" />
+          <entry key="project.opened" value="15" />
         </counts>
       </usages-collector>
     </session>
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main.cpp">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="6212">
-              <caret line="262" column="42" selection-start-line="262" selection-start-column="42" selection-end-line="262" selection-end-column="42" />
-              <folding>
-                <element signature="e#41#60#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/quicktest.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="168">
-              <caret line="7" column="23" selection-start-line="7" selection-start-column="23" selection-end-line="7" selection-end-column="23" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$USER_HOME$/anaconda3/envs/fenics/include/python3.7m/pybind11/eigen.h">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-146">
-              <caret line="33" column="17" selection-start-line="33" selection-start-column="15" selection-end-line="33" selection-end-column="17" />
+            <state relative-caret-position="178">
+              <caret line="145" column="20" lean-forward="true" selection-start-line="145" selection-start-column="20" selection-end-line="145" selection-end-column="20" />
               <folding>
-                <element signature="e#340#480#0" expanded="true" />
-                <element signature="e#686#744#0" expanded="true" />
-                <element signature="e#784#985#0" expanded="true" />
-                <element signature="e#994#1015#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/.travis.yml">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="63">
-              <caret line="7" column="18" selection-start-line="7" selection-start-column="18" selection-end-line="7" selection-end-column="18" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$USER_HOME$/anaconda3/envs/fenics/include/python3.7m/Python.h">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="144">
-              <caret line="6" column="15" selection-start-line="6" selection-start-column="15" selection-end-line="6" selection-end-column="15" />
-              <folding>
-                <element signature="e#278#348#0" expanded="true" />
-                <element signature="e#378#451#0" expanded="true" />
-                <element signature="e#507#529#0" expanded="true" />
-                <element signature="e#570#625#0" expanded="true" />
-                <element signature="e#788#1142#0" expanded="true" />
-                <element signature="e#1190#1209#0" expanded="true" />
-                <element signature="e#1396#1415#0" expanded="true" />
+                <element signature="e#42#56#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$USER_HOME$/anaconda3/envs/fenics/include/python3.7m/patchlevel.h">
-          <provider selected="true" editor-type-id="text-editor" />
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/Sinkhorn.hpp">
-          <provider selected="true" editor-type-id="text-editor" />
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/utlis.py">
+        <entry file="file://$USER_HOME$/anaconda3/envs/fenics/include/python3.7m/pybind11/pybind11.h">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="168">
-              <caret line="7" column="17" selection-start-line="7" selection-start-column="17" selection-end-line="7" selection-end-column="17" />
-              <folding>
-                <element signature="e#0#11#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="122">
+              <caret line="842" selection-start-line="842" selection-end-line="842" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/CMakeLists.txt">
+        <entry file="file://$PROJECT_DIR$/external/libigl/external/glfw/src/window.c">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="52">
-              <caret line="42" column="61" selection-start-line="42" selection-start-column="61" selection-end-line="42" selection-end-column="61" />
+            <state relative-caret-position="131">
+              <caret line="1075" selection-start-line="1075" selection-end-line="1075" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/data/ABC/feat/abc_0000_feat_v00/00000635/00000635_5ae45a997c76423aba2fcc11_features_000.yml">
+        <entry file="file://$PROJECT_DIR$/external/libigl/external/glfw/src/input.c">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="3017">
-              <caret line="627" column="16" selection-start-line="627" selection-start-column="16" selection-end-line="627" selection-end-column="16" />
-              <folding>
-                <element signature="e#36470#141472#0" />
-                <element signature="e#36511#55095#0" />
-                <element signature="e#141473#247912#0" />
-                <element signature="e#247913#249814#0" />
-                <element signature="e#249815#250985#0" />
-                <element signature="e#250238#250903#0" />
-                <element signature="e#250986#253322#0" />
-                <element signature="e#253323#254860#0" />
-                <element signature="e#254861#257216#0" />
-                <element signature="e#257217#258743#0" />
-                <element signature="e#258744#260066#0" />
-                <element signature="e#260067#263844#0" />
-                <element signature="e#263845#265168#0" />
-                <element signature="e#265169#268884#0" />
-                <element signature="e#268885#271050#0" />
-                <element signature="e#271051#271944#0" />
-                <element signature="e#271945#272943#0" />
-                <element signature="e#272944#274092#0" />
-                <element signature="e#274093#289339#0" />
-                <element signature="e#289340#292156#0" />
-                <element signature="e#292157#306994#0" />
-                <element signature="e#306995#309014#0" />
-                <element signature="e#309015#319127#0" />
-                <element signature="e#319128#320058#0" />
-                <element signature="e#319130#319244#0" />
-                <element signature="e#319247#319337#0" />
-                <element signature="e#319506#319976#0" />
-                <element signature="e#320059#323835#0" />
-                <element signature="e#323836#324675#0" />
-                <element signature="e#324676#332080#0" />
-                <element signature="e#332081#333006#0" />
-                <element signature="e#333007#333813#0" />
-                <element signature="e#333814#334884#0" />
-                <element signature="e#334885#335739#0" />
-                <element signature="e#335740#338362#0" />
-                <element signature="e#338363#340181#0" />
-                <element signature="e#340182#342530#0" />
-                <element signature="e#342531#344767#0" />
-                <element signature="e#344768#346603#0" />
-              </folding>
+            <state relative-caret-position="131">
+              <caret line="283" selection-start-line="283" selection-end-line="283" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/external/libigl/include/igl/opengl/glfw/Viewer.cpp">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="131">
+              <caret line="130" selection-start-line="130" selection-end-line="130" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file:///Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1/functional">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="122">
+              <caret line="1561" selection-start-line="1561" selection-end-line="1561" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file:///Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1/__functional_base">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="131">
+              <caret line="317" selection-start-line="317" selection-end-line="317" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file:///Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1/type_traits">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="122">
+              <caret line="4338" selection-start-line="4338" selection-end-line="4338" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/external/libigl/external/cgal/Surface_mesh_segmentation/include/CGAL/internal/Surface_mesh_segmentation/Alpha_expansion_graph_cut.h">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="245">
+              <caret line="605" selection-start-line="605" selection-end-line="605" />
             </state>
           </provider>
         </entry>
@@ -273,36 +227,36 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>_set_E</find>
-      <find>::edges</find>
-      <find>Alpha_expan</find>
-      <find>a_edge</find>
-      <find>dihed</find>
-      <find>from_</find>
-      <find>sink</find>
-      <find>.trans</find>
-      <find>set_Ed</find>
-      <find>_set_EdgeW</find>
-      <find>triangle</find>
-      <find>'5'</find>
-      <find>from_F</find>
-      <find>'7'</find>
-      <find>'8'</find>
-      <find>prab</find>
-      <find>normaliz</find>
-      <find>dihe</find>
-      <find>main</find>
-      <find>'1'</find>
       <find>soup</find>
       <find>ini</find>
       <find>set_E</find>
       <find>from_j</find>
       <find>FC0</find>
       <find>label_num</find>
-      <find>tet</find>
       <find>string</find>
       <find>char</find>
       <find>to</find>
+      <find>brew</find>
+      <find>}</find>
+      <find>face_</find>
+      <find>f</find>
+      <find>face</find>
+      <find>time =</find>
+      <find>filter_energy =</find>
+      <find>time</find>
+      <find>extractS</find>
+      <find>tetra</find>
+      <find>tetrahedralization</find>
+      <find>tiny</find>
+      <find>tet</find>
+      <find>10_.</find>
+      <find>loop</find>
+      <find>generate_sam</find>
+      <find>readD</find>
+      <find>Sparse</find>
+      <find>dma</find>
+      <find>size</find>
+      <find>face_la</find>
     </findStrings>
     <replaceStrings>
       <replace>OBJ</replace>
@@ -315,6 +269,9 @@
       <replace>F1_1</replace>
       <replace>S1_1</replace>
     </replaceStrings>
+    <dirStrings>
+      <dir>$PROJECT_DIR$/data/ABC/obj/abc_0000_obj_v00/00004210</dir>
+    </dirStrings>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -347,28 +304,28 @@
         <option value="$PROJECT_DIR$/data/graphcut.json" />
         <option value="$PROJECT_DIR$/external/libigl/cmake/LibiglDownloadExternal.cmake" />
         <option value="$PROJECT_DIR$/external/libigl/external/cgal/Surface_mesh/include/CGAL/boost/graph/graph_traits_Surface_mesh.h" />
-        <option value="$PROJECT_DIR$/src/VSA_cgal.hpp" />
         <option value="$PROJECT_DIR$/src/vsa_test.cpp" />
         <option value="$PROJECT_DIR$/data/vsa.json" />
         <option value="$PROJECT_DIR$/external/libigl/external/cgal/Installation/include/CGAL/license/Surface_mesh_segmentation.h" />
         <option value="$PROJECT_DIR$/src/Alpha_expansion_graph_cut.h" />
-        <option value="$PROJECT_DIR$/src/CutGraph.h" />
-        <option value="$PROJECT_DIR$/src/CutGraph.cpp" />
-        <option value="$PROJECT_DIR$/src/graphcut_cgal.h" />
         <option value="$PROJECT_DIR$/data/main.json" />
         <option value="$PROJECT_DIR$/src/CutMesh.h" />
         <option value="$PROJECT_DIR$/src/CutMesh.cpp" />
         <option value="$PROJECT_DIR$/data/cube.json" />
         <option value="$PROJECT_DIR$/data/polysphere.json" />
-        <option value="$PROJECT_DIR$/src/main.cpp" />
-        <option value="$PROJECT_DIR$/data/main1.json" />
         <option value="$PROJECT_DIR$/.gitignore" />
         <option value="$PROJECT_DIR$/data/.ipynb_checkpoints/Untitled-checkpoint.ipynb" />
         <option value="$PROJECT_DIR$/src/tetandyml.py" />
-        <option value="$PROJECT_DIR$/src/utlis.py" />
-        <option value="$PROJECT_DIR$/CMakeLists.txt" />
-        <option value="$PROJECT_DIR$/src/quicktest.cpp" />
         <option value="$PROJECT_DIR$/.travis.yml" />
+        <option value="$PROJECT_DIR$/src/VSA_cgal.hpp" />
+        <option value="$PROJECT_DIR$/CMakeLists.txt" />
+        <option value="$PROJECT_DIR$/src/CutGraph.h" />
+        <option value="$PROJECT_DIR$/src/main.cpp" />
+        <option value="$PROJECT_DIR$/data/main1.json" />
+        <option value="$PROJECT_DIR$/src/graphcut_cgal.h" />
+        <option value="$PROJECT_DIR$/src/utlis.py" />
+        <option value="$PROJECT_DIR$/src/CutGraph.cpp" />
+        <option value="$PROJECT_DIR$/src/quicktest.cpp" />
       </list>
     </option>
   </component>
@@ -380,8 +337,8 @@
   </component>
   <component name="OCFindUsagesOptions" text="true" ivars="false" properties="true" derivedClasses="false" />
   <component name="ProjectFrameBounds" extendedState="6" fullScreen="true">
-    <option name="x" value="36" />
-    <option name="y" value="23" />
+    <option name="x" value="78" />
+    <option name="y" value="37" />
     <option name="width" value="1280" />
     <option name="height" value="777" />
   </component>
@@ -391,12 +348,18 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
             <path>
               <item name="otmapping" type="b2602c69:ProjectViewProjectNode" />
               <item name="OTMapping" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="otmapping" type="b2602c69:ProjectViewProjectNode" />
+              <item name="OTMapping" type="462c0819:PsiDirectoryNode" />
+              <item name="data" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="otmapping" type="b2602c69:ProjectViewProjectNode" />
@@ -416,7 +379,6 @@
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -430,7 +392,7 @@
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
     <property name="nodejs_package_manager_path" value="npm" />
-    <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
+    <property name="settings.editor.selected.configurable" value="CMakeSettings" />
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
@@ -454,78 +416,78 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Application.cutmeshtest_bin">
-    <configuration name="Build All" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" CONFIG_NAME="Debug" EXPLICIT_BUILD_TARGET_NAME="all">
+  <component name="RunManager" selected="Application.quicktest_bin">
+    <configuration name="Build All" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" CONFIG_NAME="Release (1)" EXPLICIT_BUILD_TARGET_NAME="all">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
-    <configuration name="cutmeshtest_bin" type="CMakeRunConfiguration" factoryName="Application" PROGRAM_PARAMS="-j &quot;../data/polysphere.json&quot;" PASS_PARENT_ENVS_2="true" PROJECT_NAME="otmapping" TARGET_NAME="cutmeshtest_bin" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="otmapping" RUN_TARGET_NAME="cutmeshtest_bin">
+    <configuration name="cutmeshtest_bin" type="CMakeRunConfiguration" factoryName="Application" PROGRAM_PARAMS="-j &quot;../data/polysphere.json&quot;" PASS_PARENT_ENVS_2="true" PROJECT_NAME="otmapping" TARGET_NAME="cutmeshtest_bin" CONFIG_NAME="Release (1)" RUN_TARGET_PROJECT_NAME="otmapping" RUN_TARGET_NAME="cutmeshtest_bin">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
-    <configuration name="cuttest_bin" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="otmapping" TARGET_NAME="cuttest_bin" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="otmapping" RUN_TARGET_NAME="cuttest_bin">
+    <configuration name="cuttest_bin" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="otmapping" TARGET_NAME="cuttest_bin" CONFIG_NAME="Release (1)" RUN_TARGET_PROJECT_NAME="otmapping" RUN_TARGET_NAME="cuttest_bin">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
-    <configuration name="exportCutMesh_bin" type="CMakeRunConfiguration" factoryName="Application" PROGRAM_PARAMS="--infile ../data/cube.obj --outfile ../data/outcube.obj" PASS_PARENT_ENVS_2="true" PROJECT_NAME="otmapping" TARGET_NAME="exportCutMesh_bin" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="otmapping" RUN_TARGET_NAME="exportCutMesh_bin">
+    <configuration name="exportCutMesh_bin" type="CMakeRunConfiguration" factoryName="Application" PROGRAM_PARAMS="--infile ../data/cube.obj --outfile ../data/outcube.obj" PASS_PARENT_ENVS_2="true" PROJECT_NAME="otmapping" TARGET_NAME="exportCutMesh_bin" CONFIG_NAME="Release (1)" RUN_TARGET_PROJECT_NAME="otmapping" RUN_TARGET_NAME="exportCutMesh_bin">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
-    <configuration name="glad" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="otmapping" TARGET_NAME="glad" CONFIG_NAME="Debug">
+    <configuration name="glad" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="otmapping" TARGET_NAME="glad" CONFIG_NAME="Release (1)">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
-    <configuration name="glfw" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="otmapping" TARGET_NAME="glfw" CONFIG_NAME="Debug">
+    <configuration name="glfw" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="otmapping" TARGET_NAME="glfw" CONFIG_NAME="Release (1)">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
-    <configuration name="graphcut_test_bin" type="CMakeRunConfiguration" factoryName="Application" PROGRAM_PARAMS="-j &quot;../data/graphcut.json&quot;" PASS_PARENT_ENVS_2="true" PROJECT_NAME="otmapping" TARGET_NAME="graphcut_test_bin" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="otmapping" RUN_TARGET_NAME="graphcut_test_bin">
+    <configuration name="graphcut_test_bin" type="CMakeRunConfiguration" factoryName="Application" PROGRAM_PARAMS="-j &quot;../data/graphcut.json&quot;" PASS_PARENT_ENVS_2="true" PROJECT_NAME="otmapping" TARGET_NAME="graphcut_test_bin" CONFIG_NAME="Release (1)" RUN_TARGET_PROJECT_NAME="otmapping" RUN_TARGET_NAME="graphcut_test_bin">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
-    <configuration name="imgui" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="otmapping" TARGET_NAME="imgui" CONFIG_NAME="Debug">
+    <configuration name="imgui" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="otmapping" TARGET_NAME="imgui" CONFIG_NAME="Release (1)">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
-    <configuration name="otmapping" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="otmapping" TARGET_NAME="otmapping" CONFIG_NAME="Debug">
+    <configuration name="otmapping" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="otmapping" TARGET_NAME="otmapping" CONFIG_NAME="Release (1)">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
-    <configuration name="otmapping_bin" type="CMakeRunConfiguration" factoryName="Application" PROGRAM_PARAMS="-j ../data/main1.json" PASS_PARENT_ENVS_2="true" PROJECT_NAME="otmapping" TARGET_NAME="otmapping_bin" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="otmapping" RUN_TARGET_NAME="otmapping_bin">
+    <configuration name="otmapping_bin" type="CMakeRunConfiguration" factoryName="Application" PROGRAM_PARAMS="-j ../data/main1.json" PASS_PARENT_ENVS_2="true" PROJECT_NAME="otmapping" TARGET_NAME="otmapping_bin" CONFIG_NAME="Release (1)" RUN_TARGET_PROJECT_NAME="otmapping" RUN_TARGET_NAME="otmapping_bin">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
-    <configuration name="quicktest_bin" type="CMakeRunConfiguration" factoryName="Application" PROGRAM_PARAMS="utlis.py test" PASS_PARENT_ENVS_2="true" PROJECT_NAME="otmapping" TARGET_NAME="quicktest_bin" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="otmapping" RUN_TARGET_NAME="quicktest_bin">
+    <configuration name="quicktest_bin" type="CMakeRunConfiguration" factoryName="Application" PROGRAM_PARAMS="utlis.py test" PASS_PARENT_ENVS_2="true" PROJECT_NAME="otmapping" TARGET_NAME="quicktest_bin" CONFIG_NAME="Release (1)" RUN_TARGET_PROJECT_NAME="otmapping" RUN_TARGET_NAME="quicktest_bin">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
-    <configuration name="sinkhorntest_bin" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="otmapping" TARGET_NAME="sinkhorntest_bin" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="otmapping" RUN_TARGET_NAME="sinkhorntest_bin">
+    <configuration name="sinkhorntest_bin" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="otmapping" TARGET_NAME="sinkhorntest_bin" CONFIG_NAME="Release (1)" RUN_TARGET_PROJECT_NAME="otmapping" RUN_TARGET_NAME="sinkhorntest_bin">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
-    <configuration name="tinyexpr" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="otmapping" TARGET_NAME="tinyexpr" CONFIG_NAME="Debug">
+    <configuration name="tinyexpr" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="otmapping" TARGET_NAME="tinyexpr" CONFIG_NAME="Release (1)">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
-    <configuration name="vsa_test_bin" type="CMakeRunConfiguration" factoryName="Application" PROGRAM_PARAMS="-j ../data/vsa.json" PASS_PARENT_ENVS_2="true" PROJECT_NAME="otmapping" TARGET_NAME="vsa_test_bin" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="otmapping" RUN_TARGET_NAME="vsa_test_bin">
+    <configuration name="vsa_test_bin" type="CMakeRunConfiguration" factoryName="Application" PROGRAM_PARAMS="-j ../data/vsa.json" PASS_PARENT_ENVS_2="true" PROJECT_NAME="otmapping" TARGET_NAME="vsa_test_bin" CONFIG_NAME="Release (1)" RUN_TARGET_PROJECT_NAME="otmapping" RUN_TARGET_NAME="vsa_test_bin">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
-    <configuration name="xyzgen_bin" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="otmapping" TARGET_NAME="xyzgen_bin" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="otmapping" RUN_TARGET_NAME="xyzgen_bin">
+    <configuration name="xyzgen_bin" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="otmapping" TARGET_NAME="xyzgen_bin" CONFIG_NAME="Release (1)" RUN_TARGET_PROJECT_NAME="otmapping" RUN_TARGET_NAME="xyzgen_bin">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
@@ -583,12 +545,14 @@
       <workItem from="1565145465587" duration="3301000" />
       <workItem from="1565184529969" duration="17540000" />
       <workItem from="1565273461180" duration="5642000" />
-      <workItem from="1565291047709" duration="10579000" />
+      <workItem from="1565291047709" duration="25996000" />
+      <workItem from="1565402566952" duration="16413000" />
+      <workItem from="1565433616877" duration="6744000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="595803000" />
+    <option name="totallyTimeSpent" value="634377000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -600,31 +564,10 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="0" width="1280" height="800" extended-state="6" />
+    <frame x="0" y="0" width="1280" height="800" extended-state="0" />
+    <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.34248787" />
-      <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
-      <window_info id="Favorites" order="2" side_tool="true" />
-      <window_info anchor="bottom" id="Message" order="0" />
-      <window_info anchor="bottom" id="Find" order="1" weight="0.32739726" />
-      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.39660743" weight="0.3958904" />
-      <window_info anchor="bottom" id="Debug" order="3" sideWeight="0.4927302" weight="0.3931507" />
-      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
-      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
-      <window_info anchor="bottom" id="TODO" order="6" weight="0.32739726" />
-      <window_info anchor="bottom" id="Database Changes" order="7" show_stripe_button="false" />
-      <window_info anchor="bottom" id="Messages" order="8" sideWeight="0.3933764" weight="0.30136988" />
-      <window_info active="true" anchor="bottom" id="Terminal" order="9" sideWeight="0.45153475" visible="true" weight="0.3410959" />
-      <window_info anchor="bottom" id="Event Log" order="10" sideWeight="0.54846525" side_tool="true" weight="0.32328767" />
-      <window_info anchor="bottom" id="Version Control" order="11" show_stripe_button="false" />
-      <window_info anchor="bottom" id="CMake" order="12" sideWeight="0.4806139" weight="0.29452056" />
-      <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
-      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
-      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
-      <window_info anchor="right" id="Database" order="3" />
-    </layout>
-    <layout-to-restore>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.3368336" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.35379645" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -635,11 +578,33 @@
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" weight="0.32739726" />
       <window_info anchor="bottom" id="Database Changes" order="7" show_stripe_button="false" />
-      <window_info anchor="bottom" id="Messages" order="8" sideWeight="0.3933764" weight="0.30273974" />
-      <window_info anchor="bottom" id="Terminal" order="9" sideWeight="0.45153475" weight="0.32054794" />
+      <window_info anchor="bottom" id="Messages" order="8" sideWeight="0.3933764" weight="0.30136988" />
+      <window_info anchor="bottom" id="Terminal" order="9" sideWeight="0.45153475" weight="0.3410959" />
       <window_info anchor="bottom" id="Event Log" order="10" sideWeight="0.54846525" side_tool="true" weight="0.32328767" />
       <window_info anchor="bottom" id="Version Control" order="11" show_stripe_button="false" />
-      <window_info anchor="bottom" id="CMake" order="12" sideWeight="0.4806139" weight="0.29589042" />
+      <window_info anchor="bottom" id="CMake" order="12" sideWeight="0.4806139" weight="0.29452056" />
+      <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
+      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
+      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
+      <window_info anchor="right" id="Database" order="3" />
+    </layout>
+    <layout-to-restore>
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.34248787" />
+      <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
+      <window_info id="Favorites" order="2" side_tool="true" />
+      <window_info anchor="bottom" id="Message" order="0" />
+      <window_info anchor="bottom" id="Find" order="1" weight="0.32739726" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.39660743" visible="true" weight="0.3958904" />
+      <window_info anchor="bottom" id="Debug" order="3" sideWeight="0.4927302" weight="0.3931507" />
+      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
+      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
+      <window_info anchor="bottom" id="TODO" order="6" weight="0.32739726" />
+      <window_info anchor="bottom" id="Database Changes" order="7" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Messages" order="8" sideWeight="0.3933764" weight="0.30136988" />
+      <window_info anchor="bottom" id="Terminal" order="9" sideWeight="0.45153475" weight="0.3410959" />
+      <window_info anchor="bottom" id="Event Log" order="10" sideWeight="0.54846525" side_tool="true" weight="0.32328767" />
+      <window_info anchor="bottom" id="Version Control" order="11" show_stripe_button="false" />
+      <window_info anchor="bottom" id="CMake" order="12" sideWeight="0.4806139" weight="0.29452056" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
@@ -740,53 +705,43 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
           <url>file://$PROJECT_DIR$/src/main.cpp</url>
-          <line>43</line>
+          <line>44</line>
           <option name="timeStamp" value="53" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
           <url>file://$PROJECT_DIR$/src/main.cpp</url>
-          <line>45</line>
+          <line>46</line>
           <option name="timeStamp" value="54" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
           <url>file://$PROJECT_DIR$/src/main.cpp</url>
-          <line>46</line>
+          <line>47</line>
           <option name="timeStamp" value="55" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
           <url>file://$PROJECT_DIR$/src/main.cpp</url>
-          <line>47</line>
+          <line>48</line>
           <option name="timeStamp" value="56" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
           <url>file://$PROJECT_DIR$/src/main.cpp</url>
-          <line>51</line>
+          <line>52</line>
           <option name="timeStamp" value="57" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
           <url>file://$PROJECT_DIR$/src/main.cpp</url>
-          <line>54</line>
+          <line>55</line>
           <option name="timeStamp" value="58" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
           <url>file://$PROJECT_DIR$/src/graphcut_cgal.h</url>
-          <line>253</line>
+          <line>256</line>
           <option name="timeStamp" value="75" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
           <url>file://$PROJECT_DIR$/src/main.cpp</url>
-          <line>74</line>
+          <line>75</line>
           <option name="timeStamp" value="76" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
-          <url>file://$PROJECT_DIR$/external/libigl/external/cgal/Surface_mesh_segmentation/include/CGAL/internal/Surface_mesh_segmentation/Alpha_expansion_graph_cut.h</url>
-          <line>605</line>
-          <option name="timeStamp" value="78" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
-          <url>file://$PROJECT_DIR$/external/libigl/external/cgal/Surface_mesh_segmentation/include/CGAL/internal/Surface_mesh_segmentation/Alpha_expansion_graph_cut.h</url>
-          <line>608</line>
-          <option name="timeStamp" value="90" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
           <url>file://$PROJECT_DIR$/external/libigl/external/cgal/Surface_mesh_segmentation/include/CGAL/internal/Surface_mesh_segmentation/Alpha_expansion_graph_cut.h</url>
@@ -795,276 +750,22 @@
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
+    <watches-manager>
+      <configuration name="CMakeRunConfiguration">
+        <watch expression="face_label_dmat" language="ObjectiveC" />
+      </configuration>
+    </watches-manager>
+  </component>
+  <component name="debuggerHistoryManager">
+    <expressions id="watch">
+      <expression>
+        <expression-string>face_label_dmat</expression-string>
+        <language-id>ObjectiveC</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+    </expressions>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/main2.cpp">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/data/cube.obj__sf.obj">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-64764" />
-      </provider>
-    </entry>
-    <entry file="file:///Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1/math.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="129">
-          <caret line="764" selection-start-line="764" selection-end-line="764" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/external/libigl/external/eigen/Eigen/src/Core/Dot.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="138">
-          <caret line="112" column="110" selection-start-line="112" selection-start-column="110" selection-end-line="112" selection-end-column="110" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/external/libigl/include/igl/upsample.h">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/external/libigl/include/igl/upsample.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2568">
-          <caret line="107" column="21" selection-start-line="107" selection-start-column="21" selection-end-line="107" selection-end-column="21" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/external/libigl/external/cgal/Surface_mesh_segmentation/include/CGAL/internal/auxiliary/graph.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="6024">
-          <caret line="251" selection-start-line="251" selection-end-line="251" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/external/libigl/external/cgal/Installation/include/CGAL/license/Surface_mesh_segmentation.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="569">
-          <caret line="46" column="61" selection-start-line="46" selection-start-column="61" selection-end-line="46" selection-end-column="61" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/exportCutMesh.cpp">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/ExpressionValue.hpp">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/graph.h" />
-    <entry file="file://$PROJECT_DIR$/src/Alpha_expansion_graph_cut.h" />
-    <entry file="file://$PROJECT_DIR$/src/Skeleton.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="96">
-          <caret line="4" selection-start-line="4" selection-end-line="5" selection-end-column="28" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/external/libigl/include/igl/triangle_triangle_adjacency.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="138">
-          <caret line="37" column="21" selection-start-line="37" selection-start-column="21" selection-end-line="37" selection-end-column="21" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/external/libigl/external/cgal/Surface_mesh_segmentation/include/CGAL/internal/Surface_mesh_segmentation/Alpha_expansion_graph_cut.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="121">
-          <caret line="574" column="6" selection-start-line="574" selection-start-column="6" selection-end-line="574" selection-end-column="6" />
-          <folding>
-            <element signature="e#2124#2420#0" expanded="true" />
-            <element signature="e#4920#23942#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/external/libigl/external/eigen/Eigen/src/Core/PlainObjectBase.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="139">
-          <caret line="341" column="29" selection-start-line="341" selection-start-column="29" selection-end-line="341" selection-end-column="29" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/external/libigl/external/eigen/Eigen/src/Core/Block.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="131">
-          <caret line="115" selection-start-line="115" selection-end-line="115" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/external/libigl/external/eigen/Eigen/src/plugins/BlockMethods.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="131">
-          <caret line="750" selection-start-line="750" selection-end-line="750" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/external/libigl/include/igl/edges.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="249">
-          <caret line="32" column="15" selection-start-line="32" selection-start-column="15" selection-end-line="32" selection-end-column="15" />
-          <folding>
-            <element signature="e#386#409#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/external/libigl/include/igl/adjacency_matrix.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="130">
-          <caret line="14" column="21" selection-start-line="14" selection-start-column="21" selection-end-line="14" selection-end-column="21" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/external/libigl/external/eigen/Eigen/src/SparseCore/SparseMatrix.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="131">
-          <caret line="871" column="44" selection-start-line="871" selection-start-column="44" selection-end-line="871" selection-end-column="44" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/external/libigl/include/igl/edges.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="41">
-          <caret line="29" column="50" selection-start-line="29" selection-start-column="50" selection-end-line="29" selection-end-column="50" />
-          <folding>
-            <element signature="e#342#360#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/external/libigl/external/eigen/Eigen/src/Core/DenseCoeffsBase.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="348">
-          <caret line="335" selection-start-line="335" selection-end-line="335" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/CutGraph.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="209">
-          <caret line="97" selection-start-line="97" selection-end-line="97" selection-end-column="66" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file:///Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1/limits">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="159">
-          <caret line="459" column="60" selection-start-line="459" selection-start-column="60" selection-end-line="459" selection-end-column="60" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/CutGraph.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="8424">
-          <caret line="351" column="46" selection-start-line="351" selection-start-column="46" selection-end-line="351" selection-end-column="46" />
-          <folding>
-            <element signature="e#0#2#0" />
-            <element signature="e#43#64#0" expanded="true" />
-            <element signature="e#8597#8814#0" />
-            <element signature="e#10310#10412#0" />
-            <marker date="1565209371167" expanded="false" signature="2245:3341" ph="{...}" />
-            <marker date="1565209371167" expanded="true" signature="5373:5866" ph="{...}" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/data/polysphere.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="168">
-          <caret line="7" column="25" selection-start-line="7" selection-start-column="25" selection-end-line="7" selection-end-column="25" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/graphcut_cgal.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3840">
-          <caret line="160" column="5" selection-start-line="160" selection-start-column="5" selection-end-line="160" selection-end-column="5" />
-          <folding>
-            <element signature="e#111#129#0" expanded="true" />
-            <element signature="e#243#296#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/data/main1.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="192">
-          <caret line="8" column="13" selection-start-line="8" selection-start-column="13" selection-end-line="8" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/.gitignore">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="816">
-          <caret line="34" column="5" selection-start-line="34" selection-start-column="5" selection-end-line="34" selection-end-column="5" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/CutMesh.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="7992">
-          <caret line="333" column="43" selection-start-line="333" selection-start-column="43" selection-end-line="333" selection-end-column="43" />
-          <folding>
-            <element signature="e#0#2#0" />
-            <element signature="e#42#62#0" expanded="true" />
-            <element signature="e#450#471#0" expanded="true" />
-            <marker date="1565238587171" expanded="true" signature="28189:29097" ph="{...}" />
-            <marker date="1565238587171" expanded="false" signature="29635:30183" ph="{...}" />
-            <marker date="1565238587171" expanded="true" signature="30294:30587" ph="{...}" />
-            <marker date="1565238587171" expanded="false" signature="30652:31283" ph="{...}" />
-            <marker date="1565238587171" expanded="false" signature="37805:38431" ph="{...}" />
-            <marker date="1565238587171" expanded="false" signature="39770:39776" ph="{...}" />
-            <marker date="1565238587171" expanded="false" signature="44604:45197" ph="{...}" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/data/cube.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="528">
-          <caret line="22" column="4" selection-start-line="22" selection-start-column="4" selection-end-line="22" selection-end-column="18" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/CutMeshTest.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1128">
-          <caret line="47" column="23" selection-start-line="47" selection-start-column="23" selection-end-line="47" selection-end-column="23" />
-          <folding>
-            <element signature="e#41#61#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/CutMesh.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1008">
-          <caret line="42" column="20" selection-start-line="42" selection-start-column="20" selection-end-line="42" selection-end-column="20" />
-          <folding>
-            <element signature="e#100#121#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/data/main.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret selection-end-line="9" selection-end-column="1" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file:///usr/local/Frameworks/Python.framework/Versions/3.7/include/python3.7m/Python.h">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/data/.ipynb_checkpoints/Untitled1-checkpoint.ipynb">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/data/.ipynb_checkpoints/Untitled-checkpoint.ipynb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="462">
-          <caret line="40" column="23" selection-start-line="40" selection-start-column="6" selection-end-line="40" selection-end-column="23" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$USER_HOME$/anaconda3/envs/fenics/lib/python3.7/site-packages/wildmeshing/triangulate_svg.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="120">
@@ -1083,47 +784,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="3017">
           <caret line="627" column="16" selection-start-line="627" selection-start-column="16" selection-end-line="627" selection-end-column="16" />
-          <folding>
-            <element signature="e#36470#141472#0" />
-            <element signature="e#36511#55095#0" />
-            <element signature="e#141473#247912#0" />
-            <element signature="e#247913#249814#0" />
-            <element signature="e#249815#250985#0" />
-            <element signature="e#250238#250903#0" />
-            <element signature="e#250986#253322#0" />
-            <element signature="e#253323#254860#0" />
-            <element signature="e#254861#257216#0" />
-            <element signature="e#257217#258743#0" />
-            <element signature="e#258744#260066#0" />
-            <element signature="e#260067#263844#0" />
-            <element signature="e#263845#265168#0" />
-            <element signature="e#265169#268884#0" />
-            <element signature="e#268885#271050#0" />
-            <element signature="e#271051#271944#0" />
-            <element signature="e#271945#272943#0" />
-            <element signature="e#272944#274092#0" />
-            <element signature="e#274093#289339#0" />
-            <element signature="e#289340#292156#0" />
-            <element signature="e#292157#306994#0" />
-            <element signature="e#306995#309014#0" />
-            <element signature="e#309015#319127#0" />
-            <element signature="e#319128#320058#0" />
-            <element signature="e#319130#319244#0" />
-            <element signature="e#319247#319337#0" />
-            <element signature="e#319506#319976#0" />
-            <element signature="e#320059#323835#0" />
-            <element signature="e#323836#324675#0" />
-            <element signature="e#324676#332080#0" />
-            <element signature="e#332081#333006#0" />
-            <element signature="e#333007#333813#0" />
-            <element signature="e#333814#334884#0" />
-            <element signature="e#334885#335739#0" />
-            <element signature="e#335740#338362#0" />
-            <element signature="e#338363#340181#0" />
-            <element signature="e#340182#342530#0" />
-            <element signature="e#342531#344767#0" />
-            <element signature="e#344768#346603#0" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1131,42 +791,199 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="144">
           <caret line="6" column="15" selection-start-line="6" selection-start-column="15" selection-end-line="6" selection-end-column="15" />
-          <folding>
-            <element signature="e#278#348#0" expanded="true" />
-            <element signature="e#378#451#0" expanded="true" />
-            <element signature="e#507#529#0" expanded="true" />
-            <element signature="e#570#625#0" expanded="true" />
-            <element signature="e#788#1142#0" expanded="true" />
-            <element signature="e#1190#1209#0" expanded="true" />
-            <element signature="e#1396#1415#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$USER_HOME$/anaconda3/envs/fenics/include/python3.7m/patchlevel.h">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
+    <entry file="file://$PROJECT_DIR$/cmake-build-release/utlis.py" />
+    <entry file="file://$USER_HOME$/anaconda3/envs/fenics/include/python3.7m/pybind11/eigen.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-146">
+          <caret line="33" column="17" selection-start-line="33" selection-start-column="15" selection-end-line="33" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/external/libigl/.travis.yml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-153">
+          <caret line="21" column="10" selection-start-line="21" selection-start-column="6" selection-end-line="21" selection-end-column="10" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/data/ABC/feat/abc_0000_feat_v00/00000004/00000004_1ffb81a71e5b402e966b9341_features_003.yml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-227966" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/data/ABC/obj/abc_0000_obj_v00/00000004/00000004_1ffb81a71e5b402e966b9341_trimesh_003.obj">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-240788">
+          <caret line="20402" column="2" selection-start-line="20402" selection-end-line="20402" selection-end-column="2" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/data/ABC/feat/abc_0000_feat_v00/00000004/feat.txt" />
+    <entry file="file://$PROJECT_DIR$/.travis.yml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="48">
+          <caret line="2" column="7" selection-start-line="2" selection-start-column="7" selection-end-line="2" selection-end-column="7" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/Sinkhorn.hpp">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/cmake-build-release/utlis.py">
+    <entry file="file://$USER_HOME$/Library/Caches/CLion2018.2/python_stubs/1792087014/posix.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="144">
-          <caret line="7" column="9" selection-start-line="7" selection-start-column="9" selection-end-line="7" selection-end-column="9" />
+        <state relative-caret-position="13584">
+          <caret line="566" column="4" selection-start-line="566" selection-start-column="4" selection-end-line="566" selection-end-column="4" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/anaconda3/envs/fenics/lib/python3.7/ntpath.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="264">
+          <caret line="11" selection-start-line="11" selection-end-line="11" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/VSA_cgal.hpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="96">
+          <caret line="4" column="19" selection-start-line="4" selection-start-column="19" selection-end-line="4" selection-end-column="19" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/external/tetwild/include/tetwild/Args.h">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/external/tetwild/src/main.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="135">
+          <caret line="170" column="32" selection-start-line="170" selection-start-column="8" selection-end-line="170" selection-end-column="35" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/external/tetwild/include/tetwild/tetwild.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="192">
+          <caret line="33" selection-start-line="33" selection-end-line="34" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/CMakeLists.txt">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="52">
-          <caret line="42" column="61" selection-start-line="42" selection-start-column="61" selection-end-line="42" selection-end-column="61" />
+        <state relative-caret-position="2439">
+          <caret line="118" column="8" selection-start-line="118" selection-start-column="8" selection-end-line="118" selection-end-column="8" />
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/data/main.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret selection-end-line="9" selection-end-column="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/CutMesh.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="3747">
+          <caret line="333" column="43" selection-start-line="333" selection-start-column="43" selection-end-line="333" selection-end-column="43" />
+          <folding>
+            <element signature="e#0#2#0" />
+            <element signature="e#42#62#0" expanded="true" />
+            <element signature="e#450#471#0" expanded="true" />
+            <marker date="1565238587171" expanded="true" signature="28189:29097" ph="{...}" />
+            <marker date="1565238587171" expanded="false" signature="29635:30183" ph="{...}" />
+            <marker date="1565238587171" expanded="true" signature="30294:30587" ph="{...}" />
+            <marker date="1565238587171" expanded="false" signature="30652:31283" ph="{...}" />
+            <marker date="1565238587171" expanded="false" signature="37805:38431" ph="{...}" />
+            <marker date="1565238587171" expanded="false" signature="39770:39776" ph="{...}" />
+            <marker date="1565238587171" expanded="false" signature="44604:45197" ph="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/external/libigl/include/igl/readDMAT.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-990" />
+      </provider>
+    </entry>
+    <entry file="file:///Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1/iosfwd">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="161">
+          <caret line="193" column="64" selection-start-line="193" selection-start-column="64" selection-end-line="193" selection-end-column="64" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/CutGraph.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="185">
+          <caret line="48" column="22" selection-start-line="48" selection-start-column="22" selection-end-line="48" selection-end-column="22" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/external/libigl/include/igl/triangle_triangle_adjacency.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="131">
+          <caret line="120" selection-start-line="120" selection-end-line="120" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../gm-assignment-4-ldXiao/src/main.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1158">
+          <caret line="414" column="22" selection-start-line="414" selection-start-column="17" selection-end-line="414" selection-end-column="22" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/data/ABC/feat/abc_0000_feat_v00/00000006/00000006_d4fe04f0f5f84b52bd4f10e4_features_001.yml">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/data/ABC/feat/abc_0000_feat_v00/00000005/00000005_d4fe04f0f5f84b52bd4f10e4_features_000.yml">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/data/ABC/feat/abc_0000_feat_v00/00000004/feat.dmat" />
+    <entry file="file://$PROJECT_DIR$/data/main1.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="120">
+          <caret line="5" column="17" selection-start-line="5" selection-start-column="17" selection-end-line="5" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../gm-assignment-4-ldXiao/data/camel_head.dmat">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/data/ABC/feat/abc_0000_feat_v00/00000002/feat.dmat">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="120">
+          <caret line="5" selection-start-line="5" selection-end-line="5" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/external/libigl/external/eigen/Eigen/src/Core/Redux.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="4824">
+          <caret line="201" selection-start-line="201" selection-end-line="201" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/external/libigl/include/igl/upsample.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2880">
+          <caret line="120" selection-start-line="120" selection-end-line="120" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../gm-assignment-4-ldXiao/data/irr4-cyl2.scalars">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/main.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="6212">
-          <caret line="262" column="42" selection-start-line="262" selection-start-column="42" selection-end-line="262" selection-end-column="42" />
+        <state relative-caret-position="-2793">
+          <caret line="36" column="14" selection-start-line="36" selection-start-column="10" selection-end-line="36" selection-end-column="14" />
           <folding>
             <element signature="e#41#60#0" expanded="true" />
           </folding>
@@ -1175,38 +992,115 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/utlis.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="168">
-          <caret line="7" column="17" selection-start-line="7" selection-start-column="17" selection-end-line="7" selection-end-column="17" />
+        <state relative-caret-position="648">
+          <caret line="27" column="37" lean-forward="true" selection-start-line="27" selection-start-column="37" selection-end-line="27" selection-end-column="37" />
           <folding>
             <element signature="e#0#11#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/quicktest.cpp">
+    <entry file="file://$PROJECT_DIR$/external/libigl/external/eigen/Eigen/src/Core/DenseCoeffsBase.h">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="168">
-          <caret line="7" column="23" selection-start-line="7" selection-start-column="23" selection-end-line="7" selection-end-column="23" />
+        <state relative-caret-position="131">
+          <caret line="335" selection-start-line="335" selection-end-line="335" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$USER_HOME$/anaconda3/envs/fenics/include/python3.7m/pybind11/eigen.h">
+    <entry file="file://$PROJECT_DIR$/src/CutGraph.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-146">
-          <caret line="33" column="17" selection-start-line="33" selection-start-column="15" selection-end-line="33" selection-end-column="17" />
+        <state relative-caret-position="309">
+          <caret line="318" column="17" selection-start-line="318" selection-start-column="17" selection-end-line="318" selection-end-column="17" />
           <folding>
-            <element signature="e#340#480#0" expanded="true" />
-            <element signature="e#686#744#0" expanded="true" />
-            <element signature="e#784#985#0" expanded="true" />
-            <element signature="e#994#1015#0" expanded="true" />
+            <element signature="e#0#2#0" />
+            <element signature="e#43#64#0" expanded="true" />
+            <marker date="1565463516260" expanded="false" signature="2246:3342" ph="{...}" />
+            <marker date="1565463516260" expanded="true" signature="5374:5867" ph="{...}" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/.travis.yml">
+    <entry file="file://$PROJECT_DIR$/src/graphcut_cgal.h">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="63">
-          <caret line="7" column="18" selection-start-line="7" selection-start-column="18" selection-end-line="7" selection-end-column="18" />
+        <state relative-caret-position="24">
+          <caret line="225" selection-start-line="225" selection-end-line="225" />
+          <folding>
+            <element signature="e#111#129#0" expanded="true" />
+            <element signature="e#243#296#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/external/libigl/external/cgal/Surface_mesh_segmentation/include/CGAL/internal/Surface_mesh_segmentation/Alpha_expansion_graph_cut.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="245">
+          <caret line="605" selection-start-line="605" selection-end-line="605" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/external/libigl/external/glfw/src/window.c">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="131">
+          <caret line="1075" selection-start-line="1075" selection-end-line="1075" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/external/libigl/external/glfw/src/cocoa_window.m">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="139">
+          <caret line="576" selection-start-line="576" selection-end-line="576" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/external/libigl/external/glfw/src/input.c">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="131">
+          <caret line="283" selection-start-line="283" selection-end-line="283" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file:///Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1/functional">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="122">
+          <caret line="1561" selection-start-line="1561" selection-end-line="1561" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file:///Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1/__functional_base">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="131">
+          <caret line="317" selection-start-line="317" selection-end-line="317" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/external/libigl/include/igl/opengl/glfw/Viewer.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="131">
+          <caret line="130" selection-start-line="130" selection-end-line="130" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/anaconda3/envs/fenics/include/python3.7m/pybind11/pybind11.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="122">
+          <caret line="842" selection-start-line="842" selection-end-line="842" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file:///Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1/type_traits">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="122">
+          <caret line="4338" selection-start-line="4338" selection-end-line="4338" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/quicktest.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="178">
+          <caret line="145" column="20" lean-forward="true" selection-start-line="145" selection-start-column="20" selection-end-line="145" selection-end-column="20" />
+          <folding>
+            <element signature="e#42#56#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

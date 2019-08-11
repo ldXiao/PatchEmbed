@@ -1,0 +1,1 @@
+/usr/bin/libtool -c -static -o libtinyexpr.a  CMakeFiles/tinyexpr.dir/external/tinyexpr/tinyexpr.c.o 

@@ -1,0 +1,20 @@
+/Applications/CLion.app/Contents/bin/cmake/mac/bin/cmake -DCMAKE_BUILD_TYPE=Release -DPYTHON_EXECUTABLE:FILEPATH=/Users/vector_cat/anaconda3/envs/fenics/bin/python -G "CodeBlocks - Unix Makefiles" /Users/vector_cat/gits/OTMapping
+/Users/vector_cat/anaconda3/envs/fenics/include/python3.7m
+-- Downloading/updating libigl
+CMake Error at /Applications/CLion.app/Contents/bin/cmake/mac/share/cmake-3.12/Modules/ExternalProject.cmake:2849 (configure_file):
+  configure_file Problem configuring file
+Call Stack (most recent call first):
+  /Applications/CLion.app/Contents/bin/cmake/mac/share/cmake-3.12/Modules/ExternalProject.cmake:3103 (_ep_add_configure_command)
+  CMakeLists.txt:9 (ExternalProject_Add)
+
+
+-- Configuring incomplete, errors occurred!
+See also "/Users/vector_cat/gits/OTMapping/external/.cache/libigl/CMakeFiles/CMakeOutput.log".
+CMake Error at cmake/DownloadProject.cmake:171 (message):
+  CMake step for libigl failed: 1
+Call Stack (most recent call first):
+  CMakeLists.txt:10 (download_project)
+
+
+-- Configuring incomplete, errors occurred!
+See also "/Users/vector_cat/gits/OTMapping/cmake-build-release-1/CMakeFiles/CMakeOutput.log".

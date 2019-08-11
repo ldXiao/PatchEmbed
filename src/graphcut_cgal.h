@@ -203,7 +203,9 @@ int graphcut_from_cgal(
     // calculating edge weights
     std::vector<std::pair<std::size_t, std::size_t> > edges;
     std::vector<double> edge_weights;
+    std::cout << "2"<<std::endl;
     log_normalize_probability_matrix(probability_matrix);
+    std::cout << "3"<<std::endl;
     calculate_and_log_normalize_dihedral_angles(V,F, smoothing_lambda, edges,
                                                 edge_weights);
 
@@ -220,6 +222,7 @@ int graphcut_from_cgal(
                 return 0;
             }
     }
+    std::cout << "4"<<std::endl;
     CGAL::internal::Alpha_expansion_graph_cut_boykov_kolmogorov()(edges, edge_weights, probability_matrix, labels);
     return 0;
 }
@@ -266,7 +269,7 @@ void refine_labels_graph_cut(const Eigen::MatrixXd&V, const Eigen::MatrixXi&F,
     igl::matrix_to_list(probability, prob_mat);
     std::vector<std::size_t> labels;
     for (int i=0; i<C.rows(); i++) labels.push_back(C(i));
-
+    std::cout << "1"<<std::endl;
     graphcut_from_cgal(V,F,prob_mat,labels, lambda);
 
     for (int i=0; i<C.rows(); i++) C(i) = labels[i];

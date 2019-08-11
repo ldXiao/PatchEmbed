@@ -1,0 +1,1 @@
+/usr/bin/libtool -c -static -o libotmapping.a  CMakeFiles/otmapping.dir/src/CutMesh.cpp.o CMakeFiles/otmapping.dir/src/Skeleton.cpp.o CMakeFiles/otmapping.dir/src/exportCutMesh.cpp.o CMakeFiles/otmapping.dir/src/ExpressionValue.cpp.o CMakeFiles/otmapping.dir/src/xyzgen.cpp.o CMakeFiles/otmapping.dir/src/CutGraph.cpp.o 

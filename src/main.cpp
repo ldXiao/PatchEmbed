@@ -20,6 +20,7 @@
 #include "graphcut_cgal.h"
 #include <nlohmann/json.hpp>
 using json = nlohmann::json;
+using namespace OTMapping;
 igl::opengl::glfw::Viewer viewer;
 Eigen::MatrixXd V0, V1, V1_1; // mesh vertices
 Eigen::MatrixXi F0, F1, F1_1; // mesh faces

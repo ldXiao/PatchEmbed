@@ -1,0 +1,258 @@
+/Applications/CLion.app/Contents/bin/cmake/mac/bin/cmake -DCMAKE_BUILD_TYPE=Debug -DPYTHON_EXECUTABLE:FILEPATH=/Users/vector_cat/anaconda3/envs/fenics/bin/python -G "CodeBlocks - Unix Makefiles" /Users/vector_cat/gits/OTMapping
+-- Found PythonInterp: /Users/vector_cat/anaconda3/envs/fenics/bin/python (found suitable version "3.7.3", minimum required is "3.6") 
+/Users/vector_cat/anaconda3/envs/fenics/include/python3.7m
+-- Downloading/updating libigl
+-- Configuring done
+-- Generating done
+-- Build files have been written to: /Users/vector_cat/gits/OTMapping/external/.cache/libigl
+Scanning dependencies of target libigl-download
+[ 11%] Performing update step for 'libigl-download'
+[ 22%] No configure step for 'libigl-download'
+[ 33%] No build step for 'libigl-download'
+[ 44%] No install step for 'libigl-download'
+[ 55%] No test step for 'libigl-download'
+[ 66%] Completed 'libigl-download'
+[100%] Built target libigl-download
+-- Found libtool - /usr/bin/libtool
+-- Creating target: igl::core (igl)
+-- Using header-only CGAL
+-- Targetting Unix Makefiles
+-- Using /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ compiler.
+-- DARWIN_VERSION=18
+-- Mac Leopard detected
+-- __cplusplus is 199711
+CMake Warning at /Applications/CLion.app/Contents/bin/cmake/mac/share/cmake-3.12/Modules/FindBoost.cmake:847 (message):
+  New Boost version may have incorrect or missing dependencies and imported
+  targets
+Call Stack (most recent call first):
+  /Applications/CLion.app/Contents/bin/cmake/mac/share/cmake-3.12/Modules/FindBoost.cmake:963 (_Boost_COMPONENT_DEPENDENCIES)
+  /Applications/CLion.app/Contents/bin/cmake/mac/share/cmake-3.12/Modules/FindBoost.cmake:1622 (_Boost_MISSING_DEPENDENCIES)
+  external/libigl/external/cgal/Installation/cmake/modules/CGAL_SetupBoost.cmake:48 (find_package)
+  external/libigl/external/cgal/Installation/cmake/modules/CGAL_SetupCGALDependencies.cmake:52 (include)
+  external/libigl/external/cgal/Installation/lib/cmake/CGAL/CGALConfig.cmake:120 (include)
+  external/libigl/external/cgal/CGALConfig.cmake:6 (include)
+  external/libigl/cmake/libigl.cmake:206 (find_package)
+  cmake/FindLIBIGL.cmake:37 (include)
+  CMakeLists.txt:36 (find_package)
+
+
+CMake Warning at /Applications/CLion.app/Contents/bin/cmake/mac/share/cmake-3.12/Modules/FindBoost.cmake:847 (message):
+  New Boost version may have incorrect or missing dependencies and imported
+  targets
+Call Stack (most recent call first):
+  /Applications/CLion.app/Contents/bin/cmake/mac/share/cmake-3.12/Modules/FindBoost.cmake:963 (_Boost_COMPONENT_DEPENDENCIES)
+  /Applications/CLion.app/Contents/bin/cmake/mac/share/cmake-3.12/Modules/FindBoost.cmake:1622 (_Boost_MISSING_DEPENDENCIES)
+  external/libigl/external/cgal/Installation/cmake/modules/CGAL_SetupBoost.cmake:48 (find_package)
+  external/libigl/external/cgal/Installation/cmake/modules/CGAL_SetupCGALDependencies.cmake:52 (include)
+  external/libigl/external/cgal/Installation/lib/cmake/CGAL/CGALConfig.cmake:120 (include)
+  external/libigl/external/cgal/CGALConfig.cmake:6 (include)
+  external/libigl/cmake/libigl.cmake:206 (find_package)
+  cmake/FindLIBIGL.cmake:37 (include)
+  CMakeLists.txt:36 (find_package)
+
+
+CMake Warning at /Applications/CLion.app/Contents/bin/cmake/mac/share/cmake-3.12/Modules/FindBoost.cmake:847 (message):
+  New Boost version may have incorrect or missing dependencies and imported
+  targets
+Call Stack (most recent call first):
+  /Applications/CLion.app/Contents/bin/cmake/mac/share/cmake-3.12/Modules/FindBoost.cmake:963 (_Boost_COMPONENT_DEPENDENCIES)
+  /Applications/CLion.app/Contents/bin/cmake/mac/share/cmake-3.12/Modules/FindBoost.cmake:1622 (_Boost_MISSING_DEPENDENCIES)
+  external/libigl/external/cgal/Installation/cmake/modules/CGAL_SetupBoost.cmake:48 (find_package)
+  external/libigl/external/cgal/Installation/cmake/modules/CGAL_SetupCGALDependencies.cmake:52 (include)
+  external/libigl/external/cgal/Installation/lib/cmake/CGAL/CGALConfig.cmake:120 (include)
+  external/libigl/external/cgal/CGALConfig.cmake:6 (include)
+  external/libigl/cmake/libigl.cmake:206 (find_package)
+  cmake/FindLIBIGL.cmake:37 (include)
+  CMakeLists.txt:36 (find_package)
+
+
+CMake Warning at /Applications/CLion.app/Contents/bin/cmake/mac/share/cmake-3.12/Modules/FindBoost.cmake:847 (message):
+  New Boost version may have incorrect or missing dependencies and imported
+  targets
+Call Stack (most recent call first):
+  /Applications/CLion.app/Contents/bin/cmake/mac/share/cmake-3.12/Modules/FindBoost.cmake:963 (_Boost_COMPONENT_DEPENDENCIES)
+  /Applications/CLion.app/Contents/bin/cmake/mac/share/cmake-3.12/Modules/FindBoost.cmake:1622 (_Boost_MISSING_DEPENDENCIES)
+  external/libigl/external/cgal/Installation/cmake/modules/CGAL_SetupBoost.cmake:48 (find_package)
+  external/libigl/external/cgal/Installation/cmake/modules/CGAL_SetupCGALDependencies.cmake:52 (include)
+  external/libigl/external/cgal/Installation/lib/cmake/CGAL/CGALConfig.cmake:120 (include)
+  external/libigl/external/cgal/CGALConfig.cmake:6 (include)
+  external/libigl/cmake/libigl.cmake:206 (find_package)
+  cmake/FindLIBIGL.cmake:37 (include)
+  CMakeLists.txt:36 (find_package)
+
+
+CMake Warning at /Applications/CLion.app/Contents/bin/cmake/mac/share/cmake-3.12/Modules/FindBoost.cmake:847 (message):
+  New Boost version may have incorrect or missing dependencies and imported
+  targets
+Call Stack (most recent call first):
+  /Applications/CLion.app/Contents/bin/cmake/mac/share/cmake-3.12/Modules/FindBoost.cmake:963 (_Boost_COMPONENT_DEPENDENCIES)
+  /Applications/CLion.app/Contents/bin/cmake/mac/share/cmake-3.12/Modules/FindBoost.cmake:1622 (_Boost_MISSING_DEPENDENCIES)
+  external/libigl/external/cgal/Installation/cmake/modules/CGAL_SetupBoost.cmake:48 (find_package)
+  external/libigl/external/cgal/Installation/cmake/modules/CGAL_SetupCGALDependencies.cmake:52 (include)
+  external/libigl/external/cgal/Installation/lib/cmake/CGAL/CGALConfig.cmake:120 (include)
+  external/libigl/external/cgal/CGALConfig.cmake:6 (include)
+  external/libigl/cmake/libigl.cmake:206 (find_package)
+  cmake/FindLIBIGL.cmake:37 (include)
+  CMakeLists.txt:36 (find_package)
+
+
+-- Boost version: 1.70.0
+-- Found the following Boost libraries:
+--   thread
+--   system
+--   chrono
+--   date_time
+--   atomic
+-- Boost include dirs: /usr/local/include
+-- Boost libraries:    /usr/local/lib/libboost_thread-mt.a;/usr/local/lib/libboost_system-mt.a;/usr/local/lib/libboost_chrono-mt.a;/usr/local/lib/libboost_date_time-mt.a;/usr/local/lib/libboost_atomic-mt.a
+CMake Warning at /Applications/CLion.app/Contents/bin/cmake/mac/share/cmake-3.12/Modules/FindBoost.cmake:847 (message):
+  New Boost version may have incorrect or missing dependencies and imported
+  targets
+Call Stack (most recent call first):
+  /Applications/CLion.app/Contents/bin/cmake/mac/share/cmake-3.12/Modules/FindBoost.cmake:963 (_Boost_COMPONENT_DEPENDENCIES)
+  /Applications/CLion.app/Contents/bin/cmake/mac/share/cmake-3.12/Modules/FindBoost.cmake:1622 (_Boost_MISSING_DEPENDENCIES)
+  external/libigl/external/cgal/Installation/cmake/modules/CGAL_SetupCGAL_CoreDependencies.cmake:59 (find_package)
+  external/libigl/external/cgal/Installation/lib/cmake/CGAL/CGALConfig.cmake:120 (include)
+  external/libigl/external/cgal/CGALConfig.cmake:6 (include)
+  external/libigl/cmake/libigl.cmake:206 (find_package)
+  cmake/FindLIBIGL.cmake:37 (include)
+  CMakeLists.txt:36 (find_package)
+
+
+CMake Warning at /Applications/CLion.app/Contents/bin/cmake/mac/share/cmake-3.12/Modules/FindBoost.cmake:847 (message):
+  New Boost version may have incorrect or missing dependencies and imported
+  targets
+Call Stack (most recent call first):
+  /Applications/CLion.app/Contents/bin/cmake/mac/share/cmake-3.12/Modules/FindBoost.cmake:963 (_Boost_COMPONENT_DEPENDENCIES)
+  /Applications/CLion.app/Contents/bin/cmake/mac/share/cmake-3.12/Modules/FindBoost.cmake:1622 (_Boost_MISSING_DEPENDENCIES)
+  external/libigl/external/cgal/Installation/cmake/modules/CGAL_SetupCGAL_CoreDependencies.cmake:59 (find_package)
+  external/libigl/external/cgal/Installation/lib/cmake/CGAL/CGALConfig.cmake:120 (include)
+  external/libigl/external/cgal/CGALConfig.cmake:6 (include)
+  external/libigl/cmake/libigl.cmake:206 (find_package)
+  cmake/FindLIBIGL.cmake:37 (include)
+  CMakeLists.txt:36 (find_package)
+
+
+CMake Warning at /Applications/CLion.app/Contents/bin/cmake/mac/share/cmake-3.12/Modules/FindBoost.cmake:847 (message):
+  New Boost version may have incorrect or missing dependencies and imported
+  targets
+Call Stack (most recent call first):
+  /Applications/CLion.app/Contents/bin/cmake/mac/share/cmake-3.12/Modules/FindBoost.cmake:963 (_Boost_COMPONENT_DEPENDENCIES)
+  /Applications/CLion.app/Contents/bin/cmake/mac/share/cmake-3.12/Modules/FindBoost.cmake:1622 (_Boost_MISSING_DEPENDENCIES)
+  external/libigl/external/cgal/Installation/cmake/modules/CGAL_SetupCGAL_CoreDependencies.cmake:59 (find_package)
+  external/libigl/external/cgal/Installation/lib/cmake/CGAL/CGALConfig.cmake:120 (include)
+  external/libigl/external/cgal/CGALConfig.cmake:6 (include)
+  external/libigl/cmake/libigl.cmake:206 (find_package)
+  cmake/FindLIBIGL.cmake:37 (include)
+  CMakeLists.txt:36 (find_package)
+
+
+CMake Warning at /Applications/CLion.app/Contents/bin/cmake/mac/share/cmake-3.12/Modules/FindBoost.cmake:847 (message):
+  New Boost version may have incorrect or missing dependencies and imported
+  targets
+Call Stack (most recent call first):
+  /Applications/CLion.app/Contents/bin/cmake/mac/share/cmake-3.12/Modules/FindBoost.cmake:963 (_Boost_COMPONENT_DEPENDENCIES)
+  /Applications/CLion.app/Contents/bin/cmake/mac/share/cmake-3.12/Modules/FindBoost.cmake:1622 (_Boost_MISSING_DEPENDENCIES)
+  external/libigl/external/cgal/Installation/cmake/modules/CGAL_SetupCGAL_CoreDependencies.cmake:59 (find_package)
+  external/libigl/external/cgal/Installation/lib/cmake/CGAL/CGALConfig.cmake:120 (include)
+  external/libigl/external/cgal/CGALConfig.cmake:6 (include)
+  external/libigl/cmake/libigl.cmake:206 (find_package)
+  cmake/FindLIBIGL.cmake:37 (include)
+  CMakeLists.txt:36 (find_package)
+
+
+CMake Warning at /Applications/CLion.app/Contents/bin/cmake/mac/share/cmake-3.12/Modules/FindBoost.cmake:847 (message):
+  New Boost version may have incorrect or missing dependencies and imported
+  targets
+Call Stack (most recent call first):
+  /Applications/CLion.app/Contents/bin/cmake/mac/share/cmake-3.12/Modules/FindBoost.cmake:963 (_Boost_COMPONENT_DEPENDENCIES)
+  /Applications/CLion.app/Contents/bin/cmake/mac/share/cmake-3.12/Modules/FindBoost.cmake:1622 (_Boost_MISSING_DEPENDENCIES)
+  external/libigl/external/cgal/Installation/cmake/modules/CGAL_SetupCGAL_CoreDependencies.cmake:59 (find_package)
+  external/libigl/external/cgal/Installation/lib/cmake/CGAL/CGALConfig.cmake:120 (include)
+  external/libigl/external/cgal/CGALConfig.cmake:6 (include)
+  external/libigl/cmake/libigl.cmake:206 (find_package)
+  cmake/FindLIBIGL.cmake:37 (include)
+  CMakeLists.txt:36 (find_package)
+
+
+-- Boost version: 1.70.0
+-- Found the following Boost libraries:
+--   thread
+--   system
+--   chrono
+--   date_time
+--   atomic
+-- Creating target: igl::cgal (igl_cgal)
+-- Creating target: igl::opengl (igl_opengl)
+-- Creating target: igl::opengl_glfw (igl_opengl_glfw)
+-- Using Cocoa for window creation
+-- Creating target: igl::opengl_glfw_imgui (igl_opengl_glfw_imgui)
+-- Downloading/updating pybind11
+-- Configuring done
+-- Generating done
+-- Build files have been written to: /Users/vector_cat/gits/OTMapping/external/.cache/pybind11
+Scanning dependencies of target pybind11-download
+[ 11%] Performing update step for 'pybind11-download'
+[ 22%] No configure step for 'pybind11-download'
+[ 33%] No build step for 'pybind11-download'
+[ 44%] No install step for 'pybind11-download'
+[ 55%] No test step for 'pybind11-download'
+[ 66%] Completed 'pybind11-download'
+[100%] Built target pybind11-download
+-- pybind11 v2.3.0
+-- Downloading/updating json
+-- Configuring done
+-- Generating done
+-- Build files have been written to: /Users/vector_cat/gits/OTMapping/external/.cache/json
+Scanning dependencies of target json-download
+[ 11%] Performing update step for 'json-download'
+[ 22%] No configure step for 'json-download'
+[ 33%] No build step for 'json-download'
+[ 44%] No install step for 'json-download'
+[ 55%] No test step for 'json-download'
+[ 66%] Completed 'json-download'
+[100%] Built target json-download
+-- Downloading/updating cxxopts
+-- Configuring done
+-- Generating done
+-- Build files have been written to: /Users/vector_cat/gits/OTMapping/external/.cache/cxxopts
+Scanning dependencies of target cxxopts-download
+[ 11%] Performing update step for 'cxxopts-download'
+[ 22%] No configure step for 'cxxopts-download'
+[ 33%] No build step for 'cxxopts-download'
+[ 44%] No install step for 'cxxopts-download'
+[ 55%] No test step for 'cxxopts-download'
+[ 66%] Completed 'cxxopts-download'
+[100%] Built target cxxopts-download
+-- Downloading/updating tinyexpr
+-- Configuring done
+-- Generating done
+-- Build files have been written to: /Users/vector_cat/gits/OTMapping/external/.cache/tinyexpr
+Scanning dependencies of target tinyexpr-download
+[ 11%] Performing update step for 'tinyexpr-download'
+Current branch master is up to date.
+[ 22%] No configure step for 'tinyexpr-download'
+[ 33%] No build step for 'tinyexpr-download'
+[ 44%] No install step for 'tinyexpr-download'
+[ 55%] No test step for 'tinyexpr-download'
+[ 66%] Completed 'tinyexpr-download'
+[100%] Built target tinyexpr-download
+CMake Warning at external/libigl/external/cgal/Installation/cmake/modules/CGAL_enable_end_of_configuration_hook.cmake:32 (message):
+  =======================================================================
+
+  CGAL performance notice:
+
+  The variable CMAKE_BUILD_TYPE is set to "Debug".  For performance reasons,
+  you should set CMAKE_BUILD_TYPE to "Release".
+
+  Set CGAL_DO_NOT_WARN_ABOUT_CMAKE_BUILD_TYPE to TRUE if you want to disable
+  this warning.
+
+  =======================================================================
+Call Stack (most recent call first):
+  CMakeLists.txt:9999 (CGAL_run_at_the_end_of_configuration)
+
+
+-- Configuring done
+-- Generating done
+-- Build files have been written to: /Users/vector_cat/gits/OTMapping/cmake-build-debug-2

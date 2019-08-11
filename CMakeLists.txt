@@ -46,9 +46,15 @@ download_project(
 set(PYBIND11_DIR ${CMAKE_CURRENT_SOURCE_DIR}/external/pybind11)
 add_subdirectory(${PYBIND11_DIR}/ pybind11)
 
-
-
-
+## tetwild
+#download_project(
+#        PROJ         tetwild
+#        SOURCE_DIR   ${CMAKE_CURRENT_SOURCE_DIR}/external/tetwild
+#        DOWNLOAD_DIR ${CMAKE_CURRENT_SOURCE_DIR}/external/.cache/tetwild
+#        GIT_REPOSITORY https://github.com/Yixin-Hu/TetWild.git
+#)
+#add_library(tetwild ${CMAKE_CURRENT_SOURCE_DIR}/external/tetwild/src/tetwild)
+#target_include_directories(tetwild SYSTEM INTERFACE ${CMAKE_CURRENT_SOURCE_DIR}/external/tetwild/include)
 
 download_project(
         PROJ         json
@@ -109,7 +115,8 @@ target_link_libraries(otmapping PUBLIC
         igl::opengl_glfw
         igl::opengl_glfw_imgui
         cxxopts
-        tinyexpr)
+        tinyexpr
+        )
 # Add your project files
 
 add_executable(${PROJECT_NAME}_bin src/main.cpp)

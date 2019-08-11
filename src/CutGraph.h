@@ -46,7 +46,7 @@ public:
         this->label_num = LabelNum;
     }
 };
-
+namespace  OTMapping {
 // helper function
 void generate_sample_color(
         const Eigen::MatrixXd &FC,
@@ -61,39 +61,40 @@ void generate_sample_label(
         Eigen::MatrixXi & SL
 );
 
-void NN_sample_label_transport(
-        const Eigen::MatrixXd &S0,
-        const Eigen::MatrixXd &S1,
-        const Eigen::MatrixXi &SL0,
-        Eigen::MatrixXi &SL1);
+    void NN_sample_label_transport(
+            const Eigen::MatrixXd &S0,
+            const Eigen::MatrixXd &S1,
+            const Eigen::MatrixXi &SL0,
+            Eigen::MatrixXi &SL1);
 
-void construct_face_sample_dictionary(
-        const  Eigen::MatrixXi & I1,
-        std::map<int, std::vector<int> > & dict);
+    void construct_face_sample_dictionary(
+            const Eigen::MatrixXi &I1,
+            std::map<int, std::vector<int> > &dict);
 
-void construct_face_nearby_sample_dictionary(
-        const Eigen::MatrixXi & F,
-        const std::map<int, std::vector<int> > & ETT,
-        std::map<int, std::vector<int> > & dict);
+    void construct_face_nearby_sample_dictionary(
+            const Eigen::MatrixXi &F,
+            const std::map<int, std::vector<int> > &ETT,
+            std::map<int, std::vector<int> > &dict);
 
-void NN_sample_label_vote_face_label(
-        const int label_num,
-        const Eigen::MatrixXi & I1,
-        const Eigen::MatrixXi & SL1,
-        const Eigen::MatrixXi & F1,
-        Eigen::MatrixXi & FL1,
-        Eigen::MatrixXd & probability_matrix
-);
+    void NN_sample_label_vote_face_label(
+            const int label_num,
+            const Eigen::MatrixXi &I1,
+            const Eigen::MatrixXi &SL1,
+            const Eigen::MatrixXi &F1,
+            Eigen::MatrixXi &FL1,
+            Eigen::MatrixXd &probability_matrix
+    );
 
-void vertex_label_vote_face_label(
-        const int label_num,
-        const Eigen::MatrixXi & VL,
-        const Eigen::MatrixXi & F,
-        Eigen::MatrixXi & FL,
-        Eigen::MatrixXd & prob_mat
-);
+    void vertex_label_vote_face_label(
+            const int label_num,
+            const Eigen::MatrixXi &VL,
+            const Eigen::MatrixXi &F,
+            Eigen::MatrixXi &FL,
+            Eigen::MatrixXd &prob_mat
+    );
 
-void set_EdgeWeight(const double & lambda, const Eigen::MatrixXi & SL, const Eigen::MatrixXi &E, Eigen::MatrixXd &EW);
+    void set_EdgeWeight(const double &lambda, const Eigen::MatrixXi &SL, const Eigen::MatrixXi &E, Eigen::MatrixXd &EW);
 
-void set_Face_Edges(const Eigen::MatrixXi &F, Eigen::MatrixXi &E);
+    void set_Face_Edges(const Eigen::MatrixXi &F, Eigen::MatrixXi &E);
+}
 #endif //OTMAPPING_CUTGRAPH_H
