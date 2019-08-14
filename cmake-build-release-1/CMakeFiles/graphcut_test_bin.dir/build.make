@@ -92,6 +92,12 @@ graphcut_test_bin: /usr/local/lib/libboost_chrono-mt.a
 graphcut_test_bin: /usr/local/lib/libboost_system-mt.a
 graphcut_test_bin: /usr/local/lib/libboost_date_time-mt.a
 graphcut_test_bin: /usr/local/lib/libboost_atomic-mt.a
+graphcut_test_bin: embree/libembree3.a
+graphcut_test_bin: embree/libsimd.a
+graphcut_test_bin: embree/liblexers.a
+graphcut_test_bin: embree/libsys.a
+graphcut_test_bin: embree/libmath.a
+graphcut_test_bin: embree/libtasking.a
 graphcut_test_bin: /System/Library/Frameworks/OpenGL.framework/OpenGL
 graphcut_test_bin: imgui/libimgui.a
 graphcut_test_bin: glfw/src/libglfw3.a

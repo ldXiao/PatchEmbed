@@ -19,7 +19,7 @@ option(LIBIGL_WITH_ANTTWEAKBAR       "Use AntTweakBar"    OFF)
 option(LIBIGL_WITH_CGAL              "Use CGAL"           ON)
 option(LIBIGL_WITH_COMISO            "Use CoMiso"         OFF)
 option(LIBIGL_WITH_CORK              "Use Cork"           OFF)
-option(LIBIGL_WITH_EMBREE            "Use Embree"         OFF)
+option(LIBIGL_WITH_EMBREE            "Use Embree"         ON)
 option(LIBIGL_WITH_LIM               "Use LIM"            OFF)
 option(LIBIGL_WITH_MATLAB            "Use Matlab"         OFF)
 option(LIBIGL_WITH_MOSEK             "Use MOSEK"          OFF)
@@ -46,6 +46,18 @@ download_project(
 set(PYBIND11_DIR ${CMAKE_CURRENT_SOURCE_DIR}/external/pybind11)
 add_subdirectory(${PYBIND11_DIR}/ pybind11)
 
+
+# nanoflann
+
+download_project(
+PROJ         nanoflann
+SOURCE_DIR   ${CMAKE_CURRENT_SOURCE_DIR}/external/nanoflann
+DOWNLOAD_DIR ${CMAKE_CURRENT_SOURCE_DIR}/external/.cache/nanoflann
+GIT_REPOSITORY https://github.com/jlblancoc/nanoflann.git
+GIT_TAG        v1.3.0
+)
+add_library(nanoflann INTERFACE)
+target_include_directories(nanoflann SYSTEM INTERFACE ${CMAKE_CURRENT_SOURCE_DIR}/external/nanoflann/include)
 ## tetwild
 #download_project(
 #        PROJ         tetwild
@@ -106,16 +118,19 @@ set(SOURCES
     src/VSA_cgal.hpp
     src/CutGraph.cpp
     src/CutGraph.h
+        src/kdtree_NN_Eigen.hpp
         )
 add_library(otmapping ${SOURCES})
 target_link_libraries(otmapping PUBLIC
         json
         igl::core
         igl::cgal
+        igl::embree
         igl::opengl_glfw
         igl::opengl_glfw_imgui
         cxxopts
         tinyexpr
+        nanoflann
         )
 # Add your project files
 
@@ -150,3 +165,6 @@ add_executable(xyzgen_bin src/xyzgen.cpp)
 target_link_libraries(xyzgen_bin otmapping)
 add_executable(quicktest_bin src/quicktest.cpp)
 target_link_libraries(quicktest_bin otmapping pybind11::embed)
+
+add_executable(nanoflanntest src/flann_test.cpp)
+target_link_libraries(nanoflanntest otmapping)

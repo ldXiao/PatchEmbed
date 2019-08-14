@@ -272,8 +272,18 @@ CMakeFiles/quicktest_bin.dir/src/quicktest.cpp.o
  ../external/libigl/cmake/../external/eigen/unsupported/Eigen/src/SparseExtra/MarketIO.h
  ../external/libigl/cmake/../external/eigen/unsupported/Eigen/src/SparseExtra/MatrixMarketIterator.h
  ../external/libigl/cmake/../external/eigen/unsupported/Eigen/src/SparseExtra/RandomSetter.h
+ ../external/libigl/cmake/../external/embree/include/embree3/rtcore.h
+ ../external/libigl/cmake/../external/embree/include/embree3/rtcore_buffer.h
+ ../external/libigl/cmake/../external/embree/include/embree3/rtcore_builder.h
+ ../external/libigl/cmake/../external/embree/include/embree3/rtcore_common.h
+ ../external/libigl/cmake/../external/embree/include/embree3/rtcore_device.h
+ ../external/libigl/cmake/../external/embree/include/embree3/rtcore_geometry.h
+ ../external/libigl/cmake/../external/embree/include/embree3/rtcore_ray.h
+ ../external/libigl/cmake/../external/embree/include/embree3/rtcore_scene.h
+ ../external/libigl/cmake/../external/embree/include/embree3/rtcore_version.h
  ../external/libigl/cmake/../include/igl/EPS.cpp
  ../external/libigl/cmake/../include/igl/EPS.h
+ ../external/libigl/cmake/../include/igl/Hit.h
  ../external/libigl/cmake/../include/igl/IndexComparison.h
  ../external/libigl/cmake/../include/igl/LinSpaced.h
  ../external/libigl/cmake/../include/igl/PI.h
@@ -311,6 +321,9 @@ CMakeFiles/quicktest_bin.dir/src/quicktest.cpp.o
  ../external/libigl/cmake/../include/igl/doublearea.h
  ../external/libigl/cmake/../include/igl/edge_lengths.cpp
  ../external/libigl/cmake/../include/igl/edge_lengths.h
+ ../external/libigl/cmake/../include/igl/embree/EmbreeIntersector.h
+ ../external/libigl/cmake/../include/igl/embree/line_mesh_intersection.cpp
+ ../external/libigl/cmake/../include/igl/embree/line_mesh_intersection.h
  ../external/libigl/cmake/../include/igl/face_occurrences.cpp
  ../external/libigl/cmake/../include/igl/face_occurrences.h
  ../external/libigl/cmake/../include/igl/file_dialog_open.cpp
@@ -369,6 +382,10 @@ CMakeFiles/quicktest_bin.dir/src/quicktest.cpp.o
  ../external/libigl/cmake/../include/igl/opengl/glfw/Viewer.cpp
  ../external/libigl/cmake/../include/igl/opengl/glfw/Viewer.h
  ../external/libigl/cmake/../include/igl/opengl/glfw/ViewerPlugin.h
+ ../external/libigl/cmake/../include/igl/opengl/glfw/imgui/ImGuiHelpers.h
+ ../external/libigl/cmake/../include/igl/opengl/glfw/imgui/ImGuiMenu.cpp
+ ../external/libigl/cmake/../include/igl/opengl/glfw/imgui/ImGuiMenu.h
+ ../external/libigl/cmake/../include/igl/opengl/glfw/imgui/ImGuiTraits.h
  ../external/libigl/cmake/../include/igl/opengl/load_shader.cpp
  ../external/libigl/cmake/../include/igl/opengl/load_shader.h
  ../external/libigl/cmake/../include/igl/opengl/print_program_info_log.cpp
@@ -401,6 +418,9 @@ CMakeFiles/quicktest_bin.dir/src/quicktest.cpp.o
  ../external/libigl/cmake/../include/igl/quat_to_mat.h
  ../external/libigl/cmake/../include/igl/random_points_on_mesh.cpp
  ../external/libigl/cmake/../include/igl/random_points_on_mesh.h
+ ../external/libigl/cmake/../include/igl/ray_mesh_intersect.cpp
+ ../external/libigl/cmake/../include/igl/ray_mesh_intersect.h
+ ../external/libigl/cmake/../include/igl/raytri.c
  ../external/libigl/cmake/../include/igl/readDMAT.cpp
  ../external/libigl/cmake/../include/igl/readDMAT.h
  ../external/libigl/cmake/../include/igl/readMESH.cpp
@@ -454,6 +474,10 @@ CMakeFiles/quicktest_bin.dir/src/quicktest.cpp.o
  ../external/libigl/cmake/../include/igl/unique_simplices.h
  ../external/libigl/cmake/../include/igl/unproject.cpp
  ../external/libigl/cmake/../include/igl/unproject.h
+ ../external/libigl/cmake/../include/igl/unproject_onto_mesh.cpp
+ ../external/libigl/cmake/../include/igl/unproject_onto_mesh.h
+ ../external/libigl/cmake/../include/igl/unproject_ray.cpp
+ ../external/libigl/cmake/../include/igl/unproject_ray.h
  ../external/libigl/cmake/../include/igl/upsample.cpp
  ../external/libigl/cmake/../include/igl/upsample.h
  ../external/libigl/cmake/../include/igl/verbose.h
@@ -1026,6 +1050,12 @@ CMakeFiles/quicktest_bin.dir/src/quicktest.cpp.o
  ../external/libigl/external/glad/include/KHR/khrplatform.h
  ../external/libigl/external/glad/include/glad/glad.h
  ../external/libigl/external/glfw/include/GLFW/glfw3.h
+ ../external/libigl/external/libigl-imgui/../imgui/examples/imgui_impl_glfw.h
+ ../external/libigl/external/libigl-imgui/../imgui/examples/imgui_impl_opengl3.h
+ ../external/libigl/external/libigl-imgui/../imgui/imconfig.h
+ ../external/libigl/external/libigl-imgui/../imgui/imgui.h
+ ../external/libigl/external/libigl-imgui/./imgui_fonts_droid_sans.h
+ ../external/nanoflann/include/nanoflann.hpp
  /Users/vector_cat/anaconda3/envs/fenics/include/python3.7m/Python.h
  /Users/vector_cat/anaconda3/envs/fenics/include/python3.7m/abstract.h
  /Users/vector_cat/anaconda3/envs/fenics/include/python3.7m/bltinmodule.h

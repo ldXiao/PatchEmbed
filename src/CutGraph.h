@@ -67,6 +67,14 @@ void generate_sample_label(
             const Eigen::MatrixXi &SL0,
             Eigen::MatrixXi &SL1);
 
+    void LM_intersection_label_transport(
+            const Eigen::MatrixXd &V0,
+            const Eigen::MatrixXi & F0,
+            const Eigen::MatrixXi & FL0,
+            const Eigen::MatrixXd & V1,
+            const Eigen::MatrixXi & F1,
+            Eigen::MatrixXi & VL1);
+
     void construct_face_sample_dictionary(
             const Eigen::MatrixXi &I1,
             std::map<int, std::vector<int> > &dict);
@@ -96,5 +104,8 @@ void generate_sample_label(
     void set_EdgeWeight(const double &lambda, const Eigen::MatrixXi &SL, const Eigen::MatrixXi &E, Eigen::MatrixXd &EW);
 
     void set_Face_Edges(const Eigen::MatrixXi &F, Eigen::MatrixXi &E);
+
+    void normalize_mesh(Eigen::MatrixXd & V_bad, Eigen::MatrixXd & V_good);
+
 }
 #endif //OTMAPPING_CUTGRAPH_H

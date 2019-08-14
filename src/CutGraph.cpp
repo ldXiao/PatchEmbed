@@ -11,8 +11,13 @@
 #include <igl/edges.h>
 #include <igl/triangle_triangle_adjacency.h>
 #include <igl/sparse.h>
+#include <igl/embree/line_mesh_intersection.h>
+#include <igl/per_vertex_normals.h>
+#include <igl/bounding_box.h>
 #include <random>
 #include <vector>
+#include <cmath>
+#include "kdtree_NN_Eigen.hpp"
 
 void CutGraph::_set_Vertices(const Eigen::MatrixXd & S) {
     int num = S.rows();
@@ -207,19 +212,28 @@ namespace OTMapping {
             const Eigen::MatrixXi &SL0,
             Eigen::MatrixXi &SL1) {
         int sample_num = S1.rows();
-        Eigen::VectorXi Nearest(S1.rows());
         SL1.resize(SL0.rows(), 1);
+        OTMapping::kd_tree_Eigen<double> kdt(S0.cols(),std::cref(S0),10);
+        kdt.index->buildIndex();
         for (unsigned int i = 0; i < sample_num; ++i) {
-            int min_idx = 0;
-            double min_dist = (S0.row(min_idx) - S1.row(i)).norm();
-            for (unsigned int j = 0; j < sample_num; ++j) {
-                double cur_dist = (S0.row(j) - S1.row(i)).norm();
-                if (cur_dist < min_dist) {
-                    min_dist = cur_dist;
-                    min_idx = j;
-                }
-            }
+            int min_idx = OTMapping::kd_tree_NN_Eigen<double>(kdt, S1.row(i));
             SL1(i, 0) = SL0(min_idx, 0);
+        }
+    }
+
+    void LM_intersection_label_transport(
+            const Eigen::MatrixXd &V0,
+            const Eigen::MatrixXi & F0,
+            const Eigen::MatrixXi & FL0,
+            const Eigen::MatrixXd & V1,
+            const Eigen::MatrixXi & F1,
+            Eigen::MatrixXi & VL1){
+        Eigen::MatrixXd N1;
+        igl::per_vertex_normals(V1, F1, N1);
+        Eigen::MatrixXd R1=igl::embree::line_mesh_intersection(V1, N1, V0, F0);
+        VL1= Eigen::MatrixXi::Constant(V1.rows(), 1, -1);
+        for(int i =0; i < VL1.rows(); ++i){
+            VL1(i,0)= FL0(std::round(R1(i,0)),0);
         }
     }
 
@@ -365,5 +379,17 @@ namespace OTMapping {
             }
         }
         E.conservativeResize(count, 2);
+    }
+
+    void normalize_mesh(Eigen::MatrixXd & V_bad, Eigen::MatrixXd & V_good){
+        Eigen::RowVector3d bb_min, bb_max, bb_center;
+        bb_min = V_bad.colwise().minCoeff();
+        bb_max = V_bad.colwise().maxCoeff();
+        bb_center = (bb_min + bb_max)/2;
+        double diag_lenth = (bb_max-bb_min).norm();
+        V_bad.rowwise() -= bb_center;
+        V_bad * 5/ diag_lenth;
+        V_good.rowwise() -= bb_center;
+        V_good * 5/ diag_lenth;
     }
 }

@@ -92,6 +92,12 @@ vsa_test_bin: /usr/local/lib/libboost_chrono-mt.a
 vsa_test_bin: /usr/local/lib/libboost_system-mt.a
 vsa_test_bin: /usr/local/lib/libboost_date_time-mt.a
 vsa_test_bin: /usr/local/lib/libboost_atomic-mt.a
+vsa_test_bin: embree/libembree3.a
+vsa_test_bin: embree/libsimd.a
+vsa_test_bin: embree/liblexers.a
+vsa_test_bin: embree/libsys.a
+vsa_test_bin: embree/libmath.a
+vsa_test_bin: embree/libtasking.a
 vsa_test_bin: /System/Library/Frameworks/OpenGL.framework/OpenGL
 vsa_test_bin: imgui/libimgui.a
 vsa_test_bin: glfw/src/libglfw3.a

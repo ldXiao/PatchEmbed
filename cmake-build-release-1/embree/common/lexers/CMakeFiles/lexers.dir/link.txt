@@ -1,0 +1,1 @@
+/usr/bin/libtool -c -static -o ../../liblexers.a  CMakeFiles/lexers.dir/stringstream.cpp.o CMakeFiles/lexers.dir/tokenstream.cpp.o 

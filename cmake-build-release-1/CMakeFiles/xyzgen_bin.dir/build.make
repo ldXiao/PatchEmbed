@@ -92,6 +92,12 @@ xyzgen_bin: /usr/local/lib/libboost_chrono-mt.a
 xyzgen_bin: /usr/local/lib/libboost_system-mt.a
 xyzgen_bin: /usr/local/lib/libboost_date_time-mt.a
 xyzgen_bin: /usr/local/lib/libboost_atomic-mt.a
+xyzgen_bin: embree/libembree3.a
+xyzgen_bin: embree/libsimd.a
+xyzgen_bin: embree/liblexers.a
+xyzgen_bin: embree/libsys.a
+xyzgen_bin: embree/libmath.a
+xyzgen_bin: embree/libtasking.a
 xyzgen_bin: /System/Library/Frameworks/OpenGL.framework/OpenGL
 xyzgen_bin: imgui/libimgui.a
 xyzgen_bin: glfw/src/libglfw3.a

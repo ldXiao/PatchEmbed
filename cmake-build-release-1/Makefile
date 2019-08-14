@@ -56,16 +56,41 @@ CMAKE_BINARY_DIR = /Users/vector_cat/gits/OTMapping/cmake-build-release-1
 #=============================================================================
 # Targets provided globally by CMake.
 
-# Special rule for the target edit_cache
-edit_cache:
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "No interactive CMake dialog available..."
-	/Applications/CLion.app/Contents/bin/cmake/mac/bin/cmake -E echo No\ interactive\ CMake\ dialog\ available.
-.PHONY : edit_cache
+# Special rule for the target install/strip
+install/strip: preinstall
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Installing the project stripped..."
+	/Applications/CLion.app/Contents/bin/cmake/mac/bin/cmake -DCMAKE_INSTALL_DO_STRIP=1 -P cmake_install.cmake
+.PHONY : install/strip
 
-# Special rule for the target edit_cache
-edit_cache/fast: edit_cache
+# Special rule for the target install/strip
+install/strip/fast: preinstall/fast
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Installing the project stripped..."
+	/Applications/CLion.app/Contents/bin/cmake/mac/bin/cmake -DCMAKE_INSTALL_DO_STRIP=1 -P cmake_install.cmake
+.PHONY : install/strip/fast
 
-.PHONY : edit_cache/fast
+# Special rule for the target install/local
+install/local: preinstall
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Installing only the local directory..."
+	/Applications/CLion.app/Contents/bin/cmake/mac/bin/cmake -DCMAKE_INSTALL_LOCAL_ONLY=1 -P cmake_install.cmake
+.PHONY : install/local
+
+# Special rule for the target install/local
+install/local/fast: preinstall/fast
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Installing only the local directory..."
+	/Applications/CLion.app/Contents/bin/cmake/mac/bin/cmake -DCMAKE_INSTALL_LOCAL_ONLY=1 -P cmake_install.cmake
+.PHONY : install/local/fast
+
+# Special rule for the target install
+install: preinstall
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Install the project..."
+	/Applications/CLion.app/Contents/bin/cmake/mac/bin/cmake -P cmake_install.cmake
+.PHONY : install
+
+# Special rule for the target install
+install/fast: preinstall/fast
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Install the project..."
+	/Applications/CLion.app/Contents/bin/cmake/mac/bin/cmake -P cmake_install.cmake
+.PHONY : install/fast
 
 # Special rule for the target rebuild_cache
 rebuild_cache:
@@ -77,6 +102,49 @@ rebuild_cache:
 rebuild_cache/fast: rebuild_cache
 
 .PHONY : rebuild_cache/fast
+
+# Special rule for the target edit_cache
+edit_cache:
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "No interactive CMake dialog available..."
+	/Applications/CLion.app/Contents/bin/cmake/mac/bin/cmake -E echo No\ interactive\ CMake\ dialog\ available.
+.PHONY : edit_cache
+
+# Special rule for the target edit_cache
+edit_cache/fast: edit_cache
+
+.PHONY : edit_cache/fast
+
+# Special rule for the target package_source
+package_source:
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Run CPack packaging tool for source..."
+	/Applications/CLion.app/Contents/bin/cmake/mac/bin/cpack --config ./CPackSourceConfig.cmake /Users/vector_cat/gits/OTMapping/cmake-build-release-1/CPackSourceConfig.cmake
+.PHONY : package_source
+
+# Special rule for the target package_source
+package_source/fast: package_source
+
+.PHONY : package_source/fast
+
+# Special rule for the target package
+package: preinstall
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Run CPack packaging tool..."
+	/Applications/CLion.app/Contents/bin/cmake/mac/bin/cpack --config ./CPackConfig.cmake
+.PHONY : package
+
+# Special rule for the target package
+package/fast: package
+
+.PHONY : package/fast
+
+# Special rule for the target list_install_components
+list_install_components:
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Available install components are: \"devel\" \"lib\""
+.PHONY : list_install_components
+
+# Special rule for the target list_install_components
+list_install_components/fast: list_install_components
+
+.PHONY : list_install_components/fast
 
 # The main all target
 all: cmake_check_build_system
@@ -111,6 +179,19 @@ depend:
 .PHONY : depend
 
 #=============================================================================
+# Target rules for targets named nanoflanntest
+
+# Build rule for target.
+nanoflanntest: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 nanoflanntest
+.PHONY : nanoflanntest
+
+# fast build rule for target.
+nanoflanntest/fast:
+	$(MAKE) -f CMakeFiles/nanoflanntest.dir/build.make CMakeFiles/nanoflanntest.dir/build
+.PHONY : nanoflanntest/fast
+
+#=============================================================================
 # Target rules for targets named quicktest_bin
 
 # Build rule for target.
@@ -122,6 +203,19 @@ quicktest_bin: cmake_check_build_system
 quicktest_bin/fast:
 	$(MAKE) -f CMakeFiles/quicktest_bin.dir/build.make CMakeFiles/quicktest_bin.dir/build
 .PHONY : quicktest_bin/fast
+
+#=============================================================================
+# Target rules for targets named xyzgen_bin
+
+# Build rule for target.
+xyzgen_bin: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 xyzgen_bin
+.PHONY : xyzgen_bin
+
+# fast build rule for target.
+xyzgen_bin/fast:
+	$(MAKE) -f CMakeFiles/xyzgen_bin.dir/build.make CMakeFiles/xyzgen_bin.dir/build
+.PHONY : xyzgen_bin/fast
 
 #=============================================================================
 # Target rules for targets named exportCutMesh_bin
@@ -161,6 +255,19 @@ sinkhorntest_bin: cmake_check_build_system
 sinkhorntest_bin/fast:
 	$(MAKE) -f CMakeFiles/sinkhorntest_bin.dir/build.make CMakeFiles/sinkhorntest_bin.dir/build
 .PHONY : sinkhorntest_bin/fast
+
+#=============================================================================
+# Target rules for targets named otmapping_bin
+
+# Build rule for target.
+otmapping_bin: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 otmapping_bin
+.PHONY : otmapping_bin
+
+# fast build rule for target.
+otmapping_bin/fast:
+	$(MAKE) -f CMakeFiles/otmapping_bin.dir/build.make CMakeFiles/otmapping_bin.dir/build
+.PHONY : otmapping_bin/fast
 
 #=============================================================================
 # Target rules for targets named cutmeshtest_bin
@@ -215,32 +322,6 @@ cuttest_bin/fast:
 .PHONY : cuttest_bin/fast
 
 #=============================================================================
-# Target rules for targets named otmapping_bin
-
-# Build rule for target.
-otmapping_bin: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 otmapping_bin
-.PHONY : otmapping_bin
-
-# fast build rule for target.
-otmapping_bin/fast:
-	$(MAKE) -f CMakeFiles/otmapping_bin.dir/build.make CMakeFiles/otmapping_bin.dir/build
-.PHONY : otmapping_bin/fast
-
-#=============================================================================
-# Target rules for targets named xyzgen_bin
-
-# Build rule for target.
-xyzgen_bin: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 xyzgen_bin
-.PHONY : xyzgen_bin
-
-# fast build rule for target.
-xyzgen_bin/fast:
-	$(MAKE) -f CMakeFiles/xyzgen_bin.dir/build.make CMakeFiles/xyzgen_bin.dir/build
-.PHONY : xyzgen_bin/fast
-
-#=============================================================================
 # Target rules for targets named vsa_test_bin
 
 # Build rule for target.
@@ -252,6 +333,110 @@ vsa_test_bin: cmake_check_build_system
 vsa_test_bin/fast:
 	$(MAKE) -f CMakeFiles/vsa_test_bin.dir/build.make CMakeFiles/vsa_test_bin.dir/build
 .PHONY : vsa_test_bin/fast
+
+#=============================================================================
+# Target rules for targets named uninstall
+
+# Build rule for target.
+uninstall: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 uninstall
+.PHONY : uninstall
+
+# fast build rule for target.
+uninstall/fast:
+	$(MAKE) -f embree/CMakeFiles/uninstall.dir/build.make embree/CMakeFiles/uninstall.dir/build
+.PHONY : uninstall/fast
+
+#=============================================================================
+# Target rules for targets named sys
+
+# Build rule for target.
+sys: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 sys
+.PHONY : sys
+
+# fast build rule for target.
+sys/fast:
+	$(MAKE) -f embree/common/sys/CMakeFiles/sys.dir/build.make embree/common/sys/CMakeFiles/sys.dir/build
+.PHONY : sys/fast
+
+#=============================================================================
+# Target rules for targets named math
+
+# Build rule for target.
+math: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 math
+.PHONY : math
+
+# fast build rule for target.
+math/fast:
+	$(MAKE) -f embree/common/math/CMakeFiles/math.dir/build.make embree/common/math/CMakeFiles/math.dir/build
+.PHONY : math/fast
+
+#=============================================================================
+# Target rules for targets named simd
+
+# Build rule for target.
+simd: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 simd
+.PHONY : simd
+
+# fast build rule for target.
+simd/fast:
+	$(MAKE) -f embree/common/simd/CMakeFiles/simd.dir/build.make embree/common/simd/CMakeFiles/simd.dir/build
+.PHONY : simd/fast
+
+#=============================================================================
+# Target rules for targets named lexers
+
+# Build rule for target.
+lexers: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 lexers
+.PHONY : lexers
+
+# fast build rule for target.
+lexers/fast:
+	$(MAKE) -f embree/common/lexers/CMakeFiles/lexers.dir/build.make embree/common/lexers/CMakeFiles/lexers.dir/build
+.PHONY : lexers/fast
+
+#=============================================================================
+# Target rules for targets named tasking
+
+# Build rule for target.
+tasking: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 tasking
+.PHONY : tasking
+
+# fast build rule for target.
+tasking/fast:
+	$(MAKE) -f embree/common/tasking/CMakeFiles/tasking.dir/build.make embree/common/tasking/CMakeFiles/tasking.dir/build
+.PHONY : tasking/fast
+
+#=============================================================================
+# Target rules for targets named algorithms
+
+# Build rule for target.
+algorithms: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 algorithms
+.PHONY : algorithms
+
+# fast build rule for target.
+algorithms/fast:
+	$(MAKE) -f embree/common/algorithms/CMakeFiles/algorithms.dir/build.make embree/common/algorithms/CMakeFiles/algorithms.dir/build
+.PHONY : algorithms/fast
+
+#=============================================================================
+# Target rules for targets named embree
+
+# Build rule for target.
+embree: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 embree
+.PHONY : embree
+
+# fast build rule for target.
+embree/fast:
+	$(MAKE) -f embree/kernels/CMakeFiles/embree.dir/build.make embree/kernels/CMakeFiles/embree.dir/build
+.PHONY : embree/fast
 
 #=============================================================================
 # Target rules for targets named glad
@@ -487,6 +672,33 @@ src/exportCutMesh.cpp.s:
 	$(MAKE) -f CMakeFiles/otmapping.dir/build.make CMakeFiles/otmapping.dir/src/exportCutMesh.cpp.s
 .PHONY : src/exportCutMesh.cpp.s
 
+src/flann_test.o: src/flann_test.cpp.o
+
+.PHONY : src/flann_test.o
+
+# target to build an object file
+src/flann_test.cpp.o:
+	$(MAKE) -f CMakeFiles/nanoflanntest.dir/build.make CMakeFiles/nanoflanntest.dir/src/flann_test.cpp.o
+.PHONY : src/flann_test.cpp.o
+
+src/flann_test.i: src/flann_test.cpp.i
+
+.PHONY : src/flann_test.i
+
+# target to preprocess a source file
+src/flann_test.cpp.i:
+	$(MAKE) -f CMakeFiles/nanoflanntest.dir/build.make CMakeFiles/nanoflanntest.dir/src/flann_test.cpp.i
+.PHONY : src/flann_test.cpp.i
+
+src/flann_test.s: src/flann_test.cpp.s
+
+.PHONY : src/flann_test.s
+
+# target to generate assembly for a file
+src/flann_test.cpp.s:
+	$(MAKE) -f CMakeFiles/nanoflanntest.dir/build.make CMakeFiles/nanoflanntest.dir/src/flann_test.cpp.s
+.PHONY : src/flann_test.cpp.s
+
 src/graphcut_test.o: src/graphcut_test.cpp.o
 
 .PHONY : src/graphcut_test.o
@@ -655,8 +867,8 @@ src/xyzgen.o: src/xyzgen.cpp.o
 
 # target to build an object file
 src/xyzgen.cpp.o:
-	$(MAKE) -f CMakeFiles/otmapping.dir/build.make CMakeFiles/otmapping.dir/src/xyzgen.cpp.o
 	$(MAKE) -f CMakeFiles/xyzgen_bin.dir/build.make CMakeFiles/xyzgen_bin.dir/src/xyzgen.cpp.o
+	$(MAKE) -f CMakeFiles/otmapping.dir/build.make CMakeFiles/otmapping.dir/src/xyzgen.cpp.o
 .PHONY : src/xyzgen.cpp.o
 
 src/xyzgen.i: src/xyzgen.cpp.i
@@ -665,8 +877,8 @@ src/xyzgen.i: src/xyzgen.cpp.i
 
 # target to preprocess a source file
 src/xyzgen.cpp.i:
-	$(MAKE) -f CMakeFiles/otmapping.dir/build.make CMakeFiles/otmapping.dir/src/xyzgen.cpp.i
 	$(MAKE) -f CMakeFiles/xyzgen_bin.dir/build.make CMakeFiles/xyzgen_bin.dir/src/xyzgen.cpp.i
+	$(MAKE) -f CMakeFiles/otmapping.dir/build.make CMakeFiles/otmapping.dir/src/xyzgen.cpp.i
 .PHONY : src/xyzgen.cpp.i
 
 src/xyzgen.s: src/xyzgen.cpp.s
@@ -675,8 +887,8 @@ src/xyzgen.s: src/xyzgen.cpp.s
 
 # target to generate assembly for a file
 src/xyzgen.cpp.s:
-	$(MAKE) -f CMakeFiles/otmapping.dir/build.make CMakeFiles/otmapping.dir/src/xyzgen.cpp.s
 	$(MAKE) -f CMakeFiles/xyzgen_bin.dir/build.make CMakeFiles/xyzgen_bin.dir/src/xyzgen.cpp.s
+	$(MAKE) -f CMakeFiles/otmapping.dir/build.make CMakeFiles/otmapping.dir/src/xyzgen.cpp.s
 .PHONY : src/xyzgen.cpp.s
 
 # Help Target
@@ -685,19 +897,34 @@ help:
 	@echo "... all (the default if no target is provided)"
 	@echo "... clean"
 	@echo "... depend"
+	@echo "... install/strip"
+	@echo "... install/local"
+	@echo "... install"
+	@echo "... rebuild_cache"
 	@echo "... edit_cache"
+	@echo "... package_source"
+	@echo "... package"
+	@echo "... nanoflanntest"
+	@echo "... list_install_components"
 	@echo "... quicktest_bin"
+	@echo "... xyzgen_bin"
 	@echo "... exportCutMesh_bin"
 	@echo "... graphcut_test_bin"
 	@echo "... sinkhorntest_bin"
+	@echo "... otmapping_bin"
 	@echo "... cutmeshtest_bin"
 	@echo "... otmapping"
 	@echo "... tinyexpr"
-	@echo "... rebuild_cache"
 	@echo "... cuttest_bin"
-	@echo "... otmapping_bin"
-	@echo "... xyzgen_bin"
 	@echo "... vsa_test_bin"
+	@echo "... uninstall"
+	@echo "... sys"
+	@echo "... math"
+	@echo "... simd"
+	@echo "... lexers"
+	@echo "... tasking"
+	@echo "... algorithms"
+	@echo "... embree"
 	@echo "... glad"
 	@echo "... glfw"
 	@echo "... imgui"
@@ -722,6 +949,9 @@ help:
 	@echo "... src/exportCutMesh.o"
 	@echo "... src/exportCutMesh.i"
 	@echo "... src/exportCutMesh.s"
+	@echo "... src/flann_test.o"
+	@echo "... src/flann_test.i"
+	@echo "... src/flann_test.s"
 	@echo "... src/graphcut_test.o"
 	@echo "... src/graphcut_test.i"
 	@echo "... src/graphcut_test.s"

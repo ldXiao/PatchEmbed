@@ -92,6 +92,12 @@ quicktest_bin: /usr/local/lib/libboost_chrono-mt.a
 quicktest_bin: /usr/local/lib/libboost_system-mt.a
 quicktest_bin: /usr/local/lib/libboost_date_time-mt.a
 quicktest_bin: /usr/local/lib/libboost_atomic-mt.a
+quicktest_bin: embree/libembree3.a
+quicktest_bin: embree/libsimd.a
+quicktest_bin: embree/liblexers.a
+quicktest_bin: embree/libsys.a
+quicktest_bin: embree/libmath.a
+quicktest_bin: embree/libtasking.a
 quicktest_bin: /System/Library/Frameworks/OpenGL.framework/OpenGL
 quicktest_bin: imgui/libimgui.a
 quicktest_bin: glfw/src/libglfw3.a

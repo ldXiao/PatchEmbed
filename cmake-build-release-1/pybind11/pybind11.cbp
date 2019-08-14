@@ -5,7 +5,7 @@
 		<Option title="pybind11"/>
 		<Option makefile_is_custom="1"/>
 		<Option compiler="clang"/>
-		<Option virtualFolders="CMake Files\;CMake Files\external\;CMake Files\external\libigl\;CMake Files\external\libigl\external\;CMake Files\external\libigl\external\glfw\;CMake Files\external\libigl\external\glfw\src\;CMake Files\external\libigl\external\glad\;CMake Files\external\libigl\external\cgal\;CMake Files\external\libigl\external\cgal\Installation\;CMake Files\external\libigl\external\cgal\Installation\lib\;CMake Files\external\libigl\external\cgal\Installation\lib\cmake\;CMake Files\external\libigl\external\cgal\Installation\lib\cmake\CGAL\;CMake Files\external\libigl\external\cgal\Installation\cmake\;CMake Files\external\libigl\external\cgal\Installation\cmake\modules\;CMake Files\external\libigl\external\cgal\Installation\cmake\modules\config\;CMake Files\external\libigl\external\cgal\Installation\cmake\modules\config\support\;CMake Files\external\libigl\external\libigl-imgui\;CMake Files\external\libigl\cmake\;CMake Files\external\pybind11\;CMake Files\external\pybind11\tools\;CMake Files\cmake\;"/>
+		<Option virtualFolders="CMake Files\;CMake Files\external\;CMake Files\external\libigl\;CMake Files\external\libigl\external\;CMake Files\external\libigl\external\glfw\;CMake Files\external\libigl\external\glfw\src\;CMake Files\external\libigl\external\embree\;CMake Files\external\libigl\external\embree\kernels\;CMake Files\external\libigl\external\embree\common\;CMake Files\external\libigl\external\embree\common\cmake\;CMake Files\external\libigl\external\embree\common\sys\;CMake Files\external\libigl\external\embree\common\math\;CMake Files\external\libigl\external\embree\common\simd\;CMake Files\external\libigl\external\embree\common\lexers\;CMake Files\external\libigl\external\embree\common\tasking\;CMake Files\external\libigl\external\embree\common\algorithms\;CMake Files\external\libigl\external\embree\scripts\;CMake Files\external\libigl\external\embree\scripts\install_macosx\;CMake Files\external\libigl\external\glad\;CMake Files\external\libigl\external\cgal\;CMake Files\external\libigl\external\cgal\Installation\;CMake Files\external\libigl\external\cgal\Installation\lib\;CMake Files\external\libigl\external\cgal\Installation\lib\cmake\;CMake Files\external\libigl\external\cgal\Installation\lib\cmake\CGAL\;CMake Files\external\libigl\external\cgal\Installation\cmake\;CMake Files\external\libigl\external\cgal\Installation\cmake\modules\;CMake Files\external\libigl\external\cgal\Installation\cmake\modules\config\;CMake Files\external\libigl\external\cgal\Installation\cmake\modules\config\support\;CMake Files\external\libigl\external\libigl-imgui\;CMake Files\external\libigl\cmake\;CMake Files\external\pybind11\;CMake Files\external\pybind11\tools\;CMake Files\cmake\;"/>
 		<Build>
 			<Target title="all">
 				<Option working_dir="/Users/vector_cat/gits/OTMapping/cmake-build-release-1/pybind11"/>
@@ -35,6 +35,78 @@
 		</Unit>
 		<Unit filename="/Users/vector_cat/gits/OTMapping/external/libigl/external/glfw/src/glfw_config.h.in">
 			<Option virtualFolder="CMake Files\external\libigl\external\glfw\src\"/>
+		</Unit>
+		<Unit filename="/Users/vector_cat/gits/OTMapping/external/libigl/external/embree/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\external\libigl\external\embree\"/>
+		</Unit>
+		<Unit filename="/Users/vector_cat/gits/OTMapping/external/libigl/external/embree/README.md">
+			<Option virtualFolder="CMake Files\external\libigl\external\embree\"/>
+		</Unit>
+		<Unit filename="/Users/vector_cat/gits/OTMapping/external/libigl/external/embree/kernels/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\external\libigl\external\embree\kernels\"/>
+		</Unit>
+		<Unit filename="/Users/vector_cat/gits/OTMapping/external/libigl/external/embree/kernels/config.h.in">
+			<Option virtualFolder="CMake Files\external\libigl\external\embree\kernels\"/>
+		</Unit>
+		<Unit filename="/Users/vector_cat/gits/OTMapping/external/libigl/external/embree/kernels/export.linux.map.in">
+			<Option virtualFolder="CMake Files\external\libigl\external\embree\kernels\"/>
+		</Unit>
+		<Unit filename="/Users/vector_cat/gits/OTMapping/external/libigl/external/embree/kernels/export.macosx.map.in">
+			<Option virtualFolder="CMake Files\external\libigl\external\embree\kernels\"/>
+		</Unit>
+		<Unit filename="/Users/vector_cat/gits/OTMapping/external/libigl/external/embree/kernels/hash.h.in">
+			<Option virtualFolder="CMake Files\external\libigl\external\embree\kernels\"/>
+		</Unit>
+		<Unit filename="/Users/vector_cat/gits/OTMapping/external/libigl/external/embree/kernels/rtcore_version.h.in">
+			<Option virtualFolder="CMake Files\external\libigl\external\embree\kernels\"/>
+		</Unit>
+		<Unit filename="/Users/vector_cat/gits/OTMapping/external/libigl/external/embree/common/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\external\libigl\external\embree\common\"/>
+		</Unit>
+		<Unit filename="/Users/vector_cat/gits/OTMapping/external/libigl/external/embree/common/cmake/clang.cmake">
+			<Option virtualFolder="CMake Files\external\libigl\external\embree\common\cmake\"/>
+		</Unit>
+		<Unit filename="/Users/vector_cat/gits/OTMapping/external/libigl/external/embree/common/cmake/embree-config-builddir.cmake">
+			<Option virtualFolder="CMake Files\external\libigl\external\embree\common\cmake\"/>
+		</Unit>
+		<Unit filename="/Users/vector_cat/gits/OTMapping/external/libigl/external/embree/common/cmake/embree-config-version.cmake">
+			<Option virtualFolder="CMake Files\external\libigl\external\embree\common\cmake\"/>
+		</Unit>
+		<Unit filename="/Users/vector_cat/gits/OTMapping/external/libigl/external/embree/common/cmake/embree-config.cmake">
+			<Option virtualFolder="CMake Files\external\libigl\external\embree\common\cmake\"/>
+		</Unit>
+		<Unit filename="/Users/vector_cat/gits/OTMapping/external/libigl/external/embree/common/cmake/ispc.cmake">
+			<Option virtualFolder="CMake Files\external\libigl\external\embree\common\cmake\"/>
+		</Unit>
+		<Unit filename="/Users/vector_cat/gits/OTMapping/external/libigl/external/embree/common/cmake/package.cmake">
+			<Option virtualFolder="CMake Files\external\libigl\external\embree\common\cmake\"/>
+		</Unit>
+		<Unit filename="/Users/vector_cat/gits/OTMapping/external/libigl/external/embree/common/cmake/test.cmake">
+			<Option virtualFolder="CMake Files\external\libigl\external\embree\common\cmake\"/>
+		</Unit>
+		<Unit filename="/Users/vector_cat/gits/OTMapping/external/libigl/external/embree/common/cmake/uninstall.cmake.in">
+			<Option virtualFolder="CMake Files\external\libigl\external\embree\common\cmake\"/>
+		</Unit>
+		<Unit filename="/Users/vector_cat/gits/OTMapping/external/libigl/external/embree/common/sys/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\external\libigl\external\embree\common\sys\"/>
+		</Unit>
+		<Unit filename="/Users/vector_cat/gits/OTMapping/external/libigl/external/embree/common/math/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\external\libigl\external\embree\common\math\"/>
+		</Unit>
+		<Unit filename="/Users/vector_cat/gits/OTMapping/external/libigl/external/embree/common/simd/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\external\libigl\external\embree\common\simd\"/>
+		</Unit>
+		<Unit filename="/Users/vector_cat/gits/OTMapping/external/libigl/external/embree/common/lexers/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\external\libigl\external\embree\common\lexers\"/>
+		</Unit>
+		<Unit filename="/Users/vector_cat/gits/OTMapping/external/libigl/external/embree/common/tasking/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\external\libigl\external\embree\common\tasking\"/>
+		</Unit>
+		<Unit filename="/Users/vector_cat/gits/OTMapping/external/libigl/external/embree/common/algorithms/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\external\libigl\external\embree\common\algorithms\"/>
+		</Unit>
+		<Unit filename="/Users/vector_cat/gits/OTMapping/external/libigl/external/embree/scripts/install_macosx/uninstall.command">
+			<Option virtualFolder="CMake Files\external\libigl\external\embree\scripts\install_macosx\"/>
 		</Unit>
 		<Unit filename="/Users/vector_cat/gits/OTMapping/external/libigl/external/glad/CMakeLists.txt">
 			<Option virtualFolder="CMake Files\external\libigl\external\glad\"/>

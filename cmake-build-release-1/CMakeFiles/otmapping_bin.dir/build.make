@@ -92,6 +92,12 @@ otmapping_bin: /usr/local/lib/libboost_chrono-mt.a
 otmapping_bin: /usr/local/lib/libboost_system-mt.a
 otmapping_bin: /usr/local/lib/libboost_date_time-mt.a
 otmapping_bin: /usr/local/lib/libboost_atomic-mt.a
+otmapping_bin: embree/libembree3.a
+otmapping_bin: embree/libsimd.a
+otmapping_bin: embree/liblexers.a
+otmapping_bin: embree/libsys.a
+otmapping_bin: embree/libmath.a
+otmapping_bin: embree/libtasking.a
 otmapping_bin: /System/Library/Frameworks/OpenGL.framework/OpenGL
 otmapping_bin: imgui/libimgui.a
 otmapping_bin: glfw/src/libglfw3.a

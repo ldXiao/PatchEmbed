@@ -12,6 +12,7 @@ set(CMAKE_CXX_COMPILER_ID "AppleClang")
 set(CMAKE_TARGET_DEFINITIONS_CXX
   "CGAL_HEADER_ONLY=1"
   "CGAL_USE_CORE=1"
+  "EMBREE_STATIC_LIB"
   "IMGUI_IMPL_OPENGL_LOADER_GLAD"
   )
 
@@ -150,6 +151,7 @@ set(CMAKE_CXX_TARGET_INCLUDE_PATH
   "../external/libigl/external/cgal/Union_find/include"
   "../external/libigl/external/cgal/Visibility_2/include"
   "../external/libigl/external/cgal/Voronoi_diagram_2/include"
+  "../external/libigl/cmake/../external/embree/include"
   "../external/libigl/external/glad/include"
   "../external/libigl/external/glfw/include"
   "../external/libigl/external/libigl-imgui/."
@@ -163,11 +165,18 @@ set(CMAKE_CXX_TARGET_INCLUDE_PATH
   "/System/Library/Frameworks/OpenGL.framework"
   "../external/cxxopts/include"
   "../external/tinyexpr"
+  "../external/nanoflann/include"
   )
 
 # Targets to which this target links.
 set(CMAKE_TARGET_LINKED_INFO_FILES
   "/Users/vector_cat/gits/OTMapping/cmake-build-release-1/CMakeFiles/otmapping.dir/DependInfo.cmake"
+  "/Users/vector_cat/gits/OTMapping/cmake-build-release-1/embree/kernels/CMakeFiles/embree.dir/DependInfo.cmake"
+  "/Users/vector_cat/gits/OTMapping/cmake-build-release-1/embree/common/simd/CMakeFiles/simd.dir/DependInfo.cmake"
+  "/Users/vector_cat/gits/OTMapping/cmake-build-release-1/embree/common/lexers/CMakeFiles/lexers.dir/DependInfo.cmake"
+  "/Users/vector_cat/gits/OTMapping/cmake-build-release-1/embree/common/sys/CMakeFiles/sys.dir/DependInfo.cmake"
+  "/Users/vector_cat/gits/OTMapping/cmake-build-release-1/embree/common/math/CMakeFiles/math.dir/DependInfo.cmake"
+  "/Users/vector_cat/gits/OTMapping/cmake-build-release-1/embree/common/tasking/CMakeFiles/tasking.dir/DependInfo.cmake"
   "/Users/vector_cat/gits/OTMapping/cmake-build-release-1/imgui/CMakeFiles/imgui.dir/DependInfo.cmake"
   "/Users/vector_cat/gits/OTMapping/cmake-build-release-1/glfw/src/CMakeFiles/glfw.dir/DependInfo.cmake"
   "/Users/vector_cat/gits/OTMapping/cmake-build-release-1/glad/CMakeFiles/glad.dir/DependInfo.cmake"

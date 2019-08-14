@@ -34,6 +34,7 @@ endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for each subdirectory.
+  include("/Users/vector_cat/gits/OTMapping/cmake-build-release-1/embree/cmake_install.cmake")
   include("/Users/vector_cat/gits/OTMapping/cmake-build-release-1/glad/cmake_install.cmake")
   include("/Users/vector_cat/gits/OTMapping/cmake-build-release-1/glfw/cmake_install.cmake")
   include("/Users/vector_cat/gits/OTMapping/cmake-build-release-1/imgui/cmake_install.cmake")

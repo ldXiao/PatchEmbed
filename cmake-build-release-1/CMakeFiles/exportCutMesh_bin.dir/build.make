@@ -92,6 +92,12 @@ exportCutMesh_bin: /usr/local/lib/libboost_chrono-mt.a
 exportCutMesh_bin: /usr/local/lib/libboost_system-mt.a
 exportCutMesh_bin: /usr/local/lib/libboost_date_time-mt.a
 exportCutMesh_bin: /usr/local/lib/libboost_atomic-mt.a
+exportCutMesh_bin: embree/libembree3.a
+exportCutMesh_bin: embree/libsimd.a
+exportCutMesh_bin: embree/liblexers.a
+exportCutMesh_bin: embree/libsys.a
+exportCutMesh_bin: embree/libmath.a
+exportCutMesh_bin: embree/libtasking.a
 exportCutMesh_bin: /System/Library/Frameworks/OpenGL.framework/OpenGL
 exportCutMesh_bin: imgui/libimgui.a
 exportCutMesh_bin: glfw/src/libglfw3.a

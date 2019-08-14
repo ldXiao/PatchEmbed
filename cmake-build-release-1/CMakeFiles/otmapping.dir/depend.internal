@@ -266,8 +266,18 @@ CMakeFiles/otmapping.dir/src/CutGraph.cpp.o
  ../external/libigl/cmake/../external/eigen/Eigen/src/plugins/CommonCwiseUnaryOps.h
  ../external/libigl/cmake/../external/eigen/Eigen/src/plugins/MatrixCwiseBinaryOps.h
  ../external/libigl/cmake/../external/eigen/Eigen/src/plugins/MatrixCwiseUnaryOps.h
+ ../external/libigl/cmake/../external/embree/include/embree3/rtcore.h
+ ../external/libigl/cmake/../external/embree/include/embree3/rtcore_buffer.h
+ ../external/libigl/cmake/../external/embree/include/embree3/rtcore_builder.h
+ ../external/libigl/cmake/../external/embree/include/embree3/rtcore_common.h
+ ../external/libigl/cmake/../external/embree/include/embree3/rtcore_device.h
+ ../external/libigl/cmake/../external/embree/include/embree3/rtcore_geometry.h
+ ../external/libigl/cmake/../external/embree/include/embree3/rtcore_ray.h
+ ../external/libigl/cmake/../external/embree/include/embree3/rtcore_scene.h
+ ../external/libigl/cmake/../external/embree/include/embree3/rtcore_version.h
  ../external/libigl/cmake/../include/igl/EPS.cpp
  ../external/libigl/cmake/../include/igl/EPS.h
+ ../external/libigl/cmake/../include/igl/Hit.h
  ../external/libigl/cmake/../include/igl/IndexComparison.h
  ../external/libigl/cmake/../include/igl/LinSpaced.h
  ../external/libigl/cmake/../include/igl/PI.h
@@ -280,6 +290,8 @@ CMakeFiles/otmapping.dir/src/CutGraph.cpp.o
  ../external/libigl/cmake/../include/igl/axis_angle_to_quat.h
  ../external/libigl/cmake/../include/igl/barycenter.cpp
  ../external/libigl/cmake/../include/igl/barycenter.h
+ ../external/libigl/cmake/../include/igl/bounding_box.cpp
+ ../external/libigl/cmake/../include/igl/bounding_box.h
  ../external/libigl/cmake/../include/igl/canonical_quaternions.cpp
  ../external/libigl/cmake/../include/igl/canonical_quaternions.h
  ../external/libigl/cmake/../include/igl/colon.cpp
@@ -299,6 +311,9 @@ CMakeFiles/otmapping.dir/src/CutGraph.cpp.o
  ../external/libigl/cmake/../include/igl/edge_lengths.h
  ../external/libigl/cmake/../include/igl/edges.cpp
  ../external/libigl/cmake/../include/igl/edges.h
+ ../external/libigl/cmake/../include/igl/embree/EmbreeIntersector.h
+ ../external/libigl/cmake/../include/igl/embree/line_mesh_intersection.cpp
+ ../external/libigl/cmake/../include/igl/embree/line_mesh_intersection.h
  ../external/libigl/cmake/../include/igl/file_dialog_open.cpp
  ../external/libigl/cmake/../include/igl/file_dialog_open.h
  ../external/libigl/cmake/../include/igl/file_dialog_save.cpp
@@ -415,8 +430,10 @@ CMakeFiles/otmapping.dir/src/CutGraph.cpp.o
  ../external/libigl/external/glad/include/KHR/khrplatform.h
  ../external/libigl/external/glad/include/glad/glad.h
  ../external/libigl/external/glfw/include/GLFW/glfw3.h
+ ../external/nanoflann/include/nanoflann.hpp
  /Users/vector_cat/gits/OTMapping/src/CutGraph.cpp
  /Users/vector_cat/gits/OTMapping/src/CutGraph.h
+ /Users/vector_cat/gits/OTMapping/src/kdtree_NN_Eigen.hpp
 CMakeFiles/otmapping.dir/src/CutMesh.cpp.o
  ../external/json/include/nlohmann/adl_serializer.hpp
  ../external/json/include/nlohmann/detail/conversions/from_json.hpp

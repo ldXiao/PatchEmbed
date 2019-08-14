@@ -1,0 +1,1 @@
+/usr/bin/libtool -c -static -o ../../libsimd.a  CMakeFiles/simd.dir/sse.cpp.o 

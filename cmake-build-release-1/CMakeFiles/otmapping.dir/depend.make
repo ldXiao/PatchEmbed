@@ -265,8 +265,18 @@ CMakeFiles/otmapping.dir/src/CutGraph.cpp.o: ../external/libigl/cmake/../externa
 CMakeFiles/otmapping.dir/src/CutGraph.cpp.o: ../external/libigl/cmake/../external/eigen/Eigen/src/plugins/CommonCwiseUnaryOps.h
 CMakeFiles/otmapping.dir/src/CutGraph.cpp.o: ../external/libigl/cmake/../external/eigen/Eigen/src/plugins/MatrixCwiseBinaryOps.h
 CMakeFiles/otmapping.dir/src/CutGraph.cpp.o: ../external/libigl/cmake/../external/eigen/Eigen/src/plugins/MatrixCwiseUnaryOps.h
+CMakeFiles/otmapping.dir/src/CutGraph.cpp.o: ../external/libigl/cmake/../external/embree/include/embree3/rtcore.h
+CMakeFiles/otmapping.dir/src/CutGraph.cpp.o: ../external/libigl/cmake/../external/embree/include/embree3/rtcore_buffer.h
+CMakeFiles/otmapping.dir/src/CutGraph.cpp.o: ../external/libigl/cmake/../external/embree/include/embree3/rtcore_builder.h
+CMakeFiles/otmapping.dir/src/CutGraph.cpp.o: ../external/libigl/cmake/../external/embree/include/embree3/rtcore_common.h
+CMakeFiles/otmapping.dir/src/CutGraph.cpp.o: ../external/libigl/cmake/../external/embree/include/embree3/rtcore_device.h
+CMakeFiles/otmapping.dir/src/CutGraph.cpp.o: ../external/libigl/cmake/../external/embree/include/embree3/rtcore_geometry.h
+CMakeFiles/otmapping.dir/src/CutGraph.cpp.o: ../external/libigl/cmake/../external/embree/include/embree3/rtcore_ray.h
+CMakeFiles/otmapping.dir/src/CutGraph.cpp.o: ../external/libigl/cmake/../external/embree/include/embree3/rtcore_scene.h
+CMakeFiles/otmapping.dir/src/CutGraph.cpp.o: ../external/libigl/cmake/../external/embree/include/embree3/rtcore_version.h
 CMakeFiles/otmapping.dir/src/CutGraph.cpp.o: ../external/libigl/cmake/../include/igl/EPS.cpp
 CMakeFiles/otmapping.dir/src/CutGraph.cpp.o: ../external/libigl/cmake/../include/igl/EPS.h
+CMakeFiles/otmapping.dir/src/CutGraph.cpp.o: ../external/libigl/cmake/../include/igl/Hit.h
 CMakeFiles/otmapping.dir/src/CutGraph.cpp.o: ../external/libigl/cmake/../include/igl/IndexComparison.h
 CMakeFiles/otmapping.dir/src/CutGraph.cpp.o: ../external/libigl/cmake/../include/igl/LinSpaced.h
 CMakeFiles/otmapping.dir/src/CutGraph.cpp.o: ../external/libigl/cmake/../include/igl/PI.h
@@ -279,6 +289,8 @@ CMakeFiles/otmapping.dir/src/CutGraph.cpp.o: ../external/libigl/cmake/../include
 CMakeFiles/otmapping.dir/src/CutGraph.cpp.o: ../external/libigl/cmake/../include/igl/axis_angle_to_quat.h
 CMakeFiles/otmapping.dir/src/CutGraph.cpp.o: ../external/libigl/cmake/../include/igl/barycenter.cpp
 CMakeFiles/otmapping.dir/src/CutGraph.cpp.o: ../external/libigl/cmake/../include/igl/barycenter.h
+CMakeFiles/otmapping.dir/src/CutGraph.cpp.o: ../external/libigl/cmake/../include/igl/bounding_box.cpp
+CMakeFiles/otmapping.dir/src/CutGraph.cpp.o: ../external/libigl/cmake/../include/igl/bounding_box.h
 CMakeFiles/otmapping.dir/src/CutGraph.cpp.o: ../external/libigl/cmake/../include/igl/canonical_quaternions.cpp
 CMakeFiles/otmapping.dir/src/CutGraph.cpp.o: ../external/libigl/cmake/../include/igl/canonical_quaternions.h
 CMakeFiles/otmapping.dir/src/CutGraph.cpp.o: ../external/libigl/cmake/../include/igl/colon.cpp
@@ -298,6 +310,9 @@ CMakeFiles/otmapping.dir/src/CutGraph.cpp.o: ../external/libigl/cmake/../include
 CMakeFiles/otmapping.dir/src/CutGraph.cpp.o: ../external/libigl/cmake/../include/igl/edge_lengths.h
 CMakeFiles/otmapping.dir/src/CutGraph.cpp.o: ../external/libigl/cmake/../include/igl/edges.cpp
 CMakeFiles/otmapping.dir/src/CutGraph.cpp.o: ../external/libigl/cmake/../include/igl/edges.h
+CMakeFiles/otmapping.dir/src/CutGraph.cpp.o: ../external/libigl/cmake/../include/igl/embree/EmbreeIntersector.h
+CMakeFiles/otmapping.dir/src/CutGraph.cpp.o: ../external/libigl/cmake/../include/igl/embree/line_mesh_intersection.cpp
+CMakeFiles/otmapping.dir/src/CutGraph.cpp.o: ../external/libigl/cmake/../include/igl/embree/line_mesh_intersection.h
 CMakeFiles/otmapping.dir/src/CutGraph.cpp.o: ../external/libigl/cmake/../include/igl/file_dialog_open.cpp
 CMakeFiles/otmapping.dir/src/CutGraph.cpp.o: ../external/libigl/cmake/../include/igl/file_dialog_open.h
 CMakeFiles/otmapping.dir/src/CutGraph.cpp.o: ../external/libigl/cmake/../include/igl/file_dialog_save.cpp
@@ -414,8 +429,10 @@ CMakeFiles/otmapping.dir/src/CutGraph.cpp.o: ../external/libigl/cmake/../include
 CMakeFiles/otmapping.dir/src/CutGraph.cpp.o: ../external/libigl/external/glad/include/KHR/khrplatform.h
 CMakeFiles/otmapping.dir/src/CutGraph.cpp.o: ../external/libigl/external/glad/include/glad/glad.h
 CMakeFiles/otmapping.dir/src/CutGraph.cpp.o: ../external/libigl/external/glfw/include/GLFW/glfw3.h
+CMakeFiles/otmapping.dir/src/CutGraph.cpp.o: ../external/nanoflann/include/nanoflann.hpp
 CMakeFiles/otmapping.dir/src/CutGraph.cpp.o: ../src/CutGraph.cpp
 CMakeFiles/otmapping.dir/src/CutGraph.cpp.o: ../src/CutGraph.h
+CMakeFiles/otmapping.dir/src/CutGraph.cpp.o: ../src/kdtree_NN_Eigen.hpp
 
 CMakeFiles/otmapping.dir/src/CutMesh.cpp.o: ../external/json/include/nlohmann/adl_serializer.hpp
 CMakeFiles/otmapping.dir/src/CutMesh.cpp.o: ../external/json/include/nlohmann/detail/conversions/from_json.hpp

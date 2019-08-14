@@ -254,12 +254,6 @@ CMAKE_OSX_DEPLOYMENT_TARGET:STRING=
 CMAKE_OSX_SYSROOT:STRING=
 
 //Value Computed by CMake
-CMAKE_PROJECT_DESCRIPTION:STATIC=
-
-//Value Computed by CMake
-CMAKE_PROJECT_HOMEPAGE_URL:STATIC=
-
-//Value Computed by CMake
 CMAKE_PROJECT_NAME:STATIC=otmapping
 
 //Path to a program.
@@ -315,11 +309,130 @@ CMAKE_STATIC_LINKER_FLAGS_RELWITHDEBINFO:STRING=
 //Path to a program.
 CMAKE_STRIP:FILEPATH=/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/strip
 
-//If this value is on, makefiles will be generated without the
-// .SILENT directive, and all commands will be echoed to the console
-// during the make.  This is useful for debugging only. With Visual
-// Studio IDE projects all commands are done without /nologo.
+//Enables verbose mode.
 CMAKE_VERBOSE_MAKEFILE:BOOL=FALSE
+
+//Enable to build RPM source packages
+CPACK_SOURCE_RPM:BOOL=OFF
+
+//Enable to build TBZ2 source packages
+CPACK_SOURCE_TBZ2:BOOL=ON
+
+//Enable to build TGZ source packages
+CPACK_SOURCE_TGZ:BOOL=ON
+
+//Enable to build TXZ source packages
+CPACK_SOURCE_TXZ:BOOL=ON
+
+//Enable to build TZ source packages
+CPACK_SOURCE_TZ:BOOL=ON
+
+//Enable to build ZIP source packages
+CPACK_SOURCE_ZIP:BOOL=OFF
+
+//Enabled CLANG address sanitizer.
+EMBREE_ADDRESS_SANITIZER:BOOL=OFF
+
+//C++ namespace to put API symbols into.
+EMBREE_API_NAMESPACE:STRING=
+
+//Enables backface culling.
+EMBREE_BACKFACE_CULLING:BOOL=OFF
+
+//Self intersection avoidance factor for flat curves. Specify floating
+// point value in range 0 to inf.
+EMBREE_CURVE_SELF_INTERSECTION_AVOIDANCE_FACTOR:STRING=2.0
+
+//Enables filter functions.
+EMBREE_FILTER_FUNCTION:BOOL=ON
+
+//Enables support for curve geometries.
+EMBREE_GEOMETRY_CURVE:BOOL=ON
+
+//Enables support for grid geometries.
+EMBREE_GEOMETRY_GRID:BOOL=ON
+
+//Enables support for instances.
+EMBREE_GEOMETRY_INSTANCE:BOOL=ON
+
+//Enables support for point geometries.
+EMBREE_GEOMETRY_POINT:BOOL=ON
+
+//Enables support for quad geometries.
+EMBREE_GEOMETRY_QUAD:BOOL=ON
+
+//Enables support for subdiv geometries.
+EMBREE_GEOMETRY_SUBDIVISION:BOOL=ON
+
+//Enables support for triangle geometries.
+EMBREE_GEOMETRY_TRIANGLE:BOOL=ON
+
+//Enables support for user geometries.
+EMBREE_GEOMETRY_USER:BOOL=ON
+
+//When enabled Embree ignores default CMAKE_CXX_FLAGS.
+EMBREE_IGNORE_CMAKE_CXX_FLAGS:BOOL=ON
+
+//Ignores invalid rays.
+EMBREE_IGNORE_INVALID_RAYS:BOOL=OFF
+
+//Install Embree dependencies in binary packages and install
+EMBREE_INSTALL_DEPENDENCIES:BOOL=OFF
+
+//Build Embree with support for ISPC applications.
+EMBREE_ISPC_SUPPORT:BOOL=OFF
+
+//Name of the embree library file (default is embree3)
+EMBREE_LIBRARY_NAME:STRING=embree3
+
+// 
+EMBREE_MAX_ISA:STRING=SSE2
+
+//Enables ray mask support.
+EMBREE_RAY_MASK:BOOL=OFF
+
+//Enabled support for ray packets.
+EMBREE_RAY_PACKETS:BOOL=ON
+
+//When enabled Embree compiles with stack protection against return
+// address overrides.
+EMBREE_STACK_PROTECTOR:BOOL=OFF
+
+//Build Embree as a static library.
+EMBREE_STATIC_LIB:BOOL=ON
+
+//Enables statistic counters.
+EMBREE_STAT_COUNTERS:BOOL=OFF
+
+// 
+EMBREE_TASKING_SYSTEM:BOOL=INTERNAL
+
+//Turns benchmarking on.
+EMBREE_TESTING_BENCHMARK:BOOL=OFF
+
+//Path to database for benchmarking.
+EMBREE_TESTING_BENCHMARK_DATABASE:PATH=/Users/vector_cat/gits/OTMapping/cmake-build-release-1/embree
+
+EMBREE_TESTING_INTENSITY:STRING=0
+
+//Runs Kocwork as test.
+EMBREE_TESTING_KLOCWORK:BOOL=OFF
+
+//Turns on memory checking for some tests.
+EMBREE_TESTING_MEMCHECK:BOOL=OFF
+
+//Path to the folder containing the Embree models for regression
+// testing.
+EMBREE_TESTING_MODEL_DIR:PATH=EMBREE_TESTING_MODEL_DIR-NOTFOUND
+
+//Packages release as test.
+EMBREE_TESTING_PACKAGE:BOOL=OFF
+
+//Uses SDE to run tests for specified CPU.
+EMBREE_TESTING_SDE:STRING=OFF
+
+//Enable to build Embree tutorials
+EMBREE_TUTORIALS:BOOL=OFF
 
 //git command line client
 GIT_EXECUTABLE:FILEPATH=/usr/bin/git
@@ -387,7 +500,7 @@ LIBIGL_WITH_COMISO:BOOL=OFF
 LIBIGL_WITH_CORK:BOOL=OFF
 
 //Use Embree
-LIBIGL_WITH_EMBREE:BOOL=OFF
+LIBIGL_WITH_EMBREE:BOOL=ON
 
 //Use LIM
 LIBIGL_WITH_LIM:BOOL=OFF
@@ -478,6 +591,15 @@ ProcessorCount_cmd_sysctl:FILEPATH=/usr/sbin/sysctl
 USE_PYTHON_INCLUDE_DIR:BOOL=OFF
 
 //Value Computed by CMake
+embree3_BINARY_DIR:STATIC=/Users/vector_cat/gits/OTMapping/cmake-build-release-1/embree
+
+//Value Computed by CMake
+embree3_SOURCE_DIR:STATIC=/Users/vector_cat/gits/OTMapping/external/libigl/external/embree
+
+//Dependencies for the target
+embree_LIB_DEPENDS:STATIC=general;sys;general;math;general;simd;general;lexers;general;tasking;
+
+//Value Computed by CMake
 glad_BINARY_DIR:STATIC=/Users/vector_cat/gits/OTMapping/cmake-build-release-1/glad
 
 //Value Computed by CMake
@@ -485,6 +607,9 @@ glad_SOURCE_DIR:STATIC=/Users/vector_cat/gits/OTMapping/external/libigl/external
 
 //Dependencies for the target
 imgui_LIB_DEPENDS:STATIC=general;glad;general;glfw;
+
+//Dependencies for the target
+lexers_LIB_DEPENDS:STATIC=general;sys;general;math;
 
 //Value Computed by CMake
 otmapping_BINARY_DIR:STATIC=/Users/vector_cat/gits/OTMapping/cmake-build-release-1
@@ -565,7 +690,7 @@ CMAKE_CPACK_COMMAND:INTERNAL=/Applications/CLion.app/Contents/bin/cmake/mac/bin/
 //Path to ctest program executable.
 CMAKE_CTEST_COMMAND:INTERNAL=/Applications/CLion.app/Contents/bin/cmake/mac/bin/ctest
 //ADVANCED property for variable: CMAKE_CXX_COMPILER
-CMAKE_CXX_COMPILER-ADVANCED:INTERNAL=1
+CMAKE_CXX_COMPILER-ADVANCED:INTERNAL=0
 //ADVANCED property for variable: CMAKE_CXX_FLAGS
 CMAKE_CXX_FLAGS-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_CXX_FLAGS_DEBUG
@@ -678,11 +803,17 @@ CMAKE_MODULE_LINKER_FLAGS_RELWITHDEBINFO-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_NM
 CMAKE_NM-ADVANCED:INTERNAL=1
 //number of local generators
-CMAKE_NUMBER_OF_MAKEFILES:INTERNAL=6
+CMAKE_NUMBER_OF_MAKEFILES:INTERNAL=15
 //ADVANCED property for variable: CMAKE_OBJCOPY
 CMAKE_OBJCOPY-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_OBJDUMP
 CMAKE_OBJDUMP-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: CMAKE_OSX_ARCHITECTURES
+CMAKE_OSX_ARCHITECTURES-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: CMAKE_OSX_DEPLOYMENT_TARGET
+CMAKE_OSX_DEPLOYMENT_TARGET-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: CMAKE_OSX_SYSROOT
+CMAKE_OSX_SYSROOT-ADVANCED:INTERNAL=1
 //Platform information initialized
 CMAKE_PLATFORM_INFO_INITIALIZED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_RANLIB
@@ -718,9 +849,33 @@ CMAKE_STRIP-ADVANCED:INTERNAL=1
 //uname command
 CMAKE_UNAME:INTERNAL=/usr/bin/uname
 //ADVANCED property for variable: CMAKE_VERBOSE_MAKEFILE
-CMAKE_VERBOSE_MAKEFILE-ADVANCED:INTERNAL=1
+CMAKE_VERBOSE_MAKEFILE-ADVANCED:INTERNAL=0
+//ADVANCED property for variable: CPACK_SOURCE_RPM
+CPACK_SOURCE_RPM-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: CPACK_SOURCE_TBZ2
+CPACK_SOURCE_TBZ2-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: CPACK_SOURCE_TGZ
+CPACK_SOURCE_TGZ-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: CPACK_SOURCE_TXZ
+CPACK_SOURCE_TXZ-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: CPACK_SOURCE_TZ
+CPACK_SOURCE_TZ-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: CPACK_SOURCE_ZIP
+CPACK_SOURCE_ZIP-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: EMBREE_INSTALL_DEPENDENCIES
+EMBREE_INSTALL_DEPENDENCIES-ADVANCED:INTERNAL=1
+//STRINGS property for variable: EMBREE_MAX_ISA
+EMBREE_MAX_ISA-STRINGS:INTERNAL=NONE;SSE2;SSE4.2;AVX;AVX2;AVX512KNL;AVX512SKX;DEFAULT
+//ADVANCED property for variable: EMBREE_STATIC_LIB
+EMBREE_STATIC_LIB-ADVANCED:INTERNAL=0
+//STRINGS property for variable: EMBREE_TASKING_SYSTEM
+EMBREE_TASKING_SYSTEM-STRINGS:INTERNAL=TBB;INTERNAL
+//STRINGS property for variable: EMBREE_TESTING_SDE
+EMBREE_TESTING_SDE-STRINGS:INTERNAL=OFF;pnr;nhm;wsm;snb;ivb;hsw;bdw;knl;skl;skx;cnl
 //Details about finding GMP
 FIND_PACKAGE_MESSAGE_DETAILS_GMP:INTERNAL=[/usr/local/lib/libgmp.dylib][/usr/local/include][v()]
+//Details about finding Git
+FIND_PACKAGE_MESSAGE_DETAILS_Git:INTERNAL=[/usr/bin/git][v2.20.1 (Apple Git-117)()]
 //Details about finding MPFR
 FIND_PACKAGE_MESSAGE_DETAILS_MPFR:INTERNAL=[/usr/local/lib/libmpfr.dylib][/usr/local/include][v()]
 //Details about finding OpenGL
@@ -733,6 +888,8 @@ FIND_PACKAGE_MESSAGE_DETAILS_PythonInterp:INTERNAL=[/Users/vector_cat/anaconda3/
 FIND_PACKAGE_MESSAGE_DETAILS_PythonLibs:INTERNAL=[/Users/vector_cat/anaconda3/envs/fenics/lib/libpython3.7m.dylib][/Users/vector_cat/anaconda3/envs/fenics/include/python3.7m][v3.7.3(3.6)]
 //Details about finding Threads
 FIND_PACKAGE_MESSAGE_DETAILS_Threads:INTERNAL=[TRUE][v()]
+//ADVANCED property for variable: GIT_EXECUTABLE
+GIT_EXECUTABLE-ADVANCED:INTERNAL=1
 //Test HAS_CPP14_FLAG
 HAS_CPP14_FLAG:INTERNAL=1
 //ADVANCED property for variable: LIBIGL_INCLUDE_DIR

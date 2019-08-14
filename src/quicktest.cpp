@@ -9,11 +9,19 @@
 #include <igl/read_triangle_mesh.h>
 #include <igl/readDMAT.h>
 #include <igl/opengl/glfw/Viewer.h>
+#include <igl/per_face_normals.h>
+#include <igl/opengl/glfw/imgui/ImGuiMenu.h>
+#include <igl/opengl/glfw/imgui/ImGuiHelpers.h>
+#include <igl/unproject_onto_mesh.h>
+#include <igl/embree/line_mesh_intersection.h>
+#include <imgui/imgui.h>
+#include <Eigen/Core>
 #include "CutGraph.h"
 #include "graphcut_cgal.h"
 #include <igl/upsample.h>
 #include <igl/random_points_on_mesh.h>
 #include <igl/jet.h>
+#include <nanoflann.hpp>
 namespace py = pybind11;
 igl::opengl::glfw::Viewer viewer;
 
@@ -25,11 +33,18 @@ Eigen::MatrixXd C_bad, C_good_cut, C_good_refine; // Sample color for mesh faces
 Eigen::MatrixXi SL_bad, VL_good_refine;
 Eigen::MatrixXi FL_bad, FL_good_refine, FL_good_cut;
 
+Eigen::MatrixXd prob_mat;
+Eigen::VectorXi b;
+// constrained face id
 int label_num;
 double lambda_refine=1;
-unsigned int file_idx=0;
-int num_subdiv = 2;
+unsigned int file_idx=2;
+int num_subdiv = 1;
 double stop_energy=10;
+
+// Currently selected face
+int selected;
+
 
 
 void update_states(unsigned int file_index){
@@ -59,7 +74,14 @@ void update_states(unsigned int file_index){
     std::cout << "5"<< std::endl;
     igl::read_triangle_mesh(good_mesh_file, V_good, F_good);
     std::cout << "6"<< std::endl;
-    igl::upsample(V_good,F_good, V_good_refine, F_good_refine, num_subdiv);
+    try {
+        igl::upsample(V_good, F_good, V_good_refine, F_good_refine, num_subdiv);
+    } catch(...){
+        std::cout << "failed to upsample by" << num_subdiv << "subdivisions" <<std::endl;
+        V_good_refine = V_good;
+        F_good_refine = F_good;
+    }
+
     std::cout << "7"<< std::endl;
     igl::readDMAT(face_label_dmat, FL_bad);
     std::cout << "8"<< std::endl;
@@ -75,24 +97,42 @@ void update_states(unsigned int file_index){
         // generate random sample on bad mesh;
         std::cout << "9"<< std::endl;
         OTMapping::generate_sample_label(FL_bad, I_bad, sample_num, SL_bad);
-        // generate the sample label on bad mesh;
-        std::cout << "10"<< std::endl;
-        OTMapping::NN_sample_label_transport(S_bad, V_good_refine, SL_bad, VL_good_refine);
-        // nearest neighbor transport sample labels to vertices;
-        std::cout << "11"<< std::endl;
-        Eigen::MatrixXd prob_mat;
-        OTMapping::vertex_label_vote_face_label(label_num, VL_good_refine, F_good_refine, FL_good_refine, prob_mat);
-        std::cout << "12"<< std::endl;
-        FL_good_cut = FL_good_refine;
-        OTMapping::refine_labels_graph_cut(V_good_refine,F_good_refine, prob_mat.transpose(), FL_good_cut, lambda_refine);
-        std::cout << "13"<< std::endl;
     }
 
     igl::jet(FL_bad, 0, label_num-1, C_bad);
-    igl::jet(FL_good_refine, 0, label_num-1, C_good_refine);
-    igl::jet(FL_good_cut, 0, label_num-1, C_good_cut);
+
 }
 
+void update_NN(){
+    // generate the sample label on bad mesh;
+    std::cout << "10"<< std::endl;
+    OTMapping::NN_sample_label_transport(S_bad, V_good_refine, SL_bad, VL_good_refine);
+    // nearest neighbor transport sample labels to vertices;
+    std::cout << "11"<< std::endl;
+    OTMapping::vertex_label_vote_face_label(label_num, VL_good_refine, F_good_refine, FL_good_refine, prob_mat);
+    std::cout << "12"<< std::endl;
+    igl::jet(FL_good_refine, 0, label_num-1, C_good_refine);
+}
+
+void update_intersection(){
+    OTMapping::LM_intersection_label_transport(
+    V_bad,
+    F_bad,
+    FL_bad,
+    V_good_refine,
+    F_good_refine,
+    VL_good_refine);
+    OTMapping::vertex_label_vote_face_label(label_num, VL_good_refine, F_good_refine, FL_good_refine, prob_mat);
+    std::cout << "12"<< std::endl;
+    igl::jet(FL_good_refine, 0, label_num-1, C_good_refine);
+}
+
+void refine_cuts(){
+    FL_good_cut = FL_good_refine;
+    OTMapping::refine_labels_graph_cut(V_good_refine,F_good_refine, prob_mat.transpose(), FL_good_cut, lambda_refine);
+    std::cout << "13"<< std::endl;
+    igl::jet(FL_good_cut, 0, label_num-1, C_good_cut);
+}
 
 bool key_down(igl::opengl::glfw::Viewer &viewer, unsigned char key, int modifier) {
     using namespace Eigen;
@@ -106,6 +146,7 @@ bool key_down(igl::opengl::glfw::Viewer &viewer, unsigned char key, int modifier
         }
         case '2': {
             viewer.data().clear();
+            update_NN();
             viewer.data().set_mesh(V_good_refine, F_good_refine);
             viewer.data().set_colors(C_good_refine);
             break;
@@ -113,6 +154,14 @@ bool key_down(igl::opengl::glfw::Viewer &viewer, unsigned char key, int modifier
         }
         case '3':{
             viewer.data().clear();
+            update_intersection();
+            viewer.data().set_mesh(V_good_refine, F_good_refine);
+            viewer.data().set_colors(C_good_refine);
+            break;
+        }
+        case '4':{
+            viewer.data().clear();
+            refine_cuts();
             viewer.data().set_mesh(V_good_refine, F_good_refine);
             viewer.data().set_colors(C_good_cut);
             break;
@@ -122,12 +171,14 @@ bool key_down(igl::opengl::glfw::Viewer &viewer, unsigned char key, int modifier
                 file_idx = 99;
             }
             else (file_idx = (file_idx-1)% 100);
+            num_subdiv = 1;
             update_states(file_idx);
             std::cout <<"new idx"<< file_idx << std::endl;
             break;
         }
         case ']': {
             file_idx = (file_idx+1)% 100;
+            num_subdiv = 1;
             update_states(file_idx);
             std::cout <<"new idx"<< file_idx << std::endl;
             break;
@@ -137,12 +188,39 @@ bool key_down(igl::opengl::glfw::Viewer &viewer, unsigned char key, int modifier
     return false;
 }
 
+bool mouse_down(igl::opengl::glfw::Viewer &viewer, int, int) {
+    int fid_ray;
+    Eigen::Vector3f bary;
+    // Cast a ray in the view direction starting from the mouse position
+    double x = viewer.current_mouse_x;
+    double y = viewer.core().viewport(3) - viewer.current_mouse_y;
+    if (igl::unproject_onto_mesh(Eigen::Vector2f(x, y), viewer.core().view,
+                                 viewer.core().proj, viewer.core().viewport, V_bad, F_bad, fid_ray, bary)) {
+        bool found = false;
+        for (int i = 0; i < b.size(); ++i) {
+            if (b(i) == fid_ray) {
+                found = true;
+                selected = i;
+            }
+        }
+
+        if (!found) {
+            b.conservativeResize(b.size() + 1);
+            b(b.size() - 1) = fid_ray;
+        }
+
+
+        return true;
+    }
+    return false;
+};
+
+
 int main() {
     py::scoped_interpreter guard{};
-    file_idx=0;
+    file_idx=8;
     std::cout << "1"<< std::endl;
     update_states(file_idx);
     viewer.callback_key_down = &key_down;
     viewer.launch();
-
 }

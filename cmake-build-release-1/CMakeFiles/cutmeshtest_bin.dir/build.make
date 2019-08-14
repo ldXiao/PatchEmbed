@@ -93,6 +93,12 @@ cutmeshtest_bin: /usr/local/lib/libboost_chrono-mt.a
 cutmeshtest_bin: /usr/local/lib/libboost_system-mt.a
 cutmeshtest_bin: /usr/local/lib/libboost_date_time-mt.a
 cutmeshtest_bin: /usr/local/lib/libboost_atomic-mt.a
+cutmeshtest_bin: embree/libembree3.a
+cutmeshtest_bin: embree/libsimd.a
+cutmeshtest_bin: embree/liblexers.a
+cutmeshtest_bin: embree/libsys.a
+cutmeshtest_bin: embree/libmath.a
+cutmeshtest_bin: embree/libtasking.a
 cutmeshtest_bin: /System/Library/Frameworks/OpenGL.framework/OpenGL
 cutmeshtest_bin: imgui/libimgui.a
 cutmeshtest_bin: glfw/src/libglfw3.a
