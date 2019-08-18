@@ -107,5 +107,8 @@ void generate_sample_label(
 
     void normalize_mesh(Eigen::MatrixXd & V_bad, Eigen::MatrixXd & V_good);
 
+    void build_patch_dict(const Eigen::MatrixXi &FL, std::map<int, std::vector<int> > & patch_dict);
+
 }
+
 #endif //OTMAPPING_CUTGRAPH_H

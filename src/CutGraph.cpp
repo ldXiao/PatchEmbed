@@ -16,6 +16,7 @@
 #include <igl/bounding_box.h>
 #include <random>
 #include <vector>
+#include <map>
 #include <cmath>
 #include "kdtree_NN_Eigen.hpp"
 
@@ -391,5 +392,20 @@ namespace OTMapping {
         V_bad * 5/ diag_lenth;
         V_good.rowwise() -= bb_center;
         V_good * 5/ diag_lenth;
+    }
+
+    void build_patch_dict(const Eigen::MatrixXi &FL, std::map<int, std::vector<int> > & patch_dict){
+        patch_dict.clear();
+        for(int fidx =0 ; fidx < FL.rows(); fidx++){
+            int patch_idx = FL(fidx,0);
+//            std::vector<int> chunk;
+            auto it = patch_dict.find(patch_idx);
+            if(it != patch_dict.end()){
+                std::vector<int> chunk;
+                patch_dict[patch_idx]= chunk;
+                patch_dict[patch_idx].push_back(fidx);
+            }
+
+        }
     }
 }

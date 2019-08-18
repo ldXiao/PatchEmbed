@@ -1,11 +1,12 @@
 import yaml
 import os
 import wildmeshing as wm
+import igl
 import numpy as np
 
 def tetrahedralize_bad_mesh(in_obj_file_name, out_file_body="", stop_quality=10):
     parent_dir = os.path.dirname(in_obj_file_name)
-    out_file_name = str(stop_quality)+"__sf.obj"
+    out_file_name = str(stop_quality)+"_.msh"
     for file in os.listdir(parent_dir):
         if str(stop_quality)+"_.msh" in file:
             return os.path.join(parent_dir, out_file_name)
@@ -24,7 +25,7 @@ def parse_feat(in_feat_file_name, out_file_body="feat"):
         except yaml.YAMLError as exc:
             print(exc)
     face_label_dict = {}
-    count =0;
+    count =0
     for label, surface in enumerate(yaml_dict["surfaces"]):
         for face_id in surface["face_indices"]:
             face_label_dict[face_id] = label

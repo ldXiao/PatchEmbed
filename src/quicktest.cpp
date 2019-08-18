@@ -21,12 +21,18 @@
 #include <igl/upsample.h>
 #include <igl/random_points_on_mesh.h>
 #include <igl/jet.h>
+#include <igl/boundary_facets.h>
+#include <igl/readMSH.h>
+#include <igl/remove_unreferenced.h>
 #include <nanoflann.hpp>
+#include <cxxopts.hpp>
+#include <nlohmann/json.hpp>
 namespace py = pybind11;
+using json = nlohmann::json;
 igl::opengl::glfw::Viewer viewer;
 
-Eigen::MatrixXd V_bad, V_good, V_good_refine; // mesh vertices
-Eigen::MatrixXi F_bad, F_good, F_good_refine; // mesh faces
+Eigen::MatrixXd V_bad, V_tet,V_good, V_good_refine; // mesh vertices
+Eigen::MatrixXi F_bad, T_tet,F_good, F_good_refine; // mesh faces
 Eigen::MatrixXd S_bad; // sample on two meshes
 Eigen::MatrixXi I0, I1, I0_1, I1_1; // Sample source index to faces
 Eigen::MatrixXd C_bad, C_good_cut, C_good_refine; // Sample color for mesh faces
@@ -42,6 +48,7 @@ unsigned int file_idx=2;
 int num_subdiv = 1;
 double stop_energy=10;
 
+std::map<int, std::vector<int> > patch_dict_bad;
 // Currently selected face
 int selected;
 
@@ -57,13 +64,13 @@ void update_states(unsigned int file_index){
     py::module utlis = py::module::import("utlis");
     std::cout << "2"<< std::endl;
     // handle and generate all the necessary files
-    std::string bad_mesh_file, good_mesh_file, face_label_dmat, face_label_yml;
+    std::string bad_mesh_file, good_mesh_file, tet_file, face_label_dmat, face_label_yml;
     py::object py_bad_mesh_file =
             utlis.attr("kth_existing_file")("../data/ABC/obj/abc_0000_obj_v00",file_index);
     bad_mesh_file = py_bad_mesh_file.cast<string>();
-    py::object py_good_mesh_file = utlis.attr("tetrahedralize_bad_mesh")(bad_mesh_file,"", stop_energy);
+    py::object py_tet_file = utlis.attr("tetrahedralize_bad_mesh")(bad_mesh_file,"", stop_energy);
     std::cout << "3"<< std::endl;
-    good_mesh_file = py_good_mesh_file.cast<string>();
+    tet_file = py_tet_file.cast<string>();
     py::object py_face_label_yml = utlis.attr("kth_existing_file")("../data/ABC/feat/abc_0000_feat_v00",file_index);
     face_label_yml = py_face_label_yml.cast<string>();
     py::object py_face_label_dmat = utlis.attr("parse_feat")(face_label_yml);
@@ -72,7 +79,13 @@ void update_states(unsigned int file_index){
     // read the files into eigen matrices
     igl::read_triangle_mesh(bad_mesh_file, V_bad, F_bad);
     std::cout << "5"<< std::endl;
-    igl::read_triangle_mesh(good_mesh_file, V_good, F_good);
+    igl::readMSH(tet_file, V_tet, T_tet);
+    {
+        Eigen::MatrixXi F_good_temp;
+        igl::boundary_facets(T_tet, F_good_temp);
+        Eigen::VectorXi J, K;
+        igl::remove_unreferenced(V_tet, F_good_temp, V_good, F_good, J, K);
+    }
     std::cout << "6"<< std::endl;
     try {
         igl::upsample(V_good, F_good, V_good_refine, F_good_refine, num_subdiv);
@@ -84,6 +97,7 @@ void update_states(unsigned int file_index){
 
     std::cout << "7"<< std::endl;
     igl::readDMAT(face_label_dmat, FL_bad);
+    OTMapping::build_patch_dict(FL_bad, patch_dict_bad);
     std::cout << "8"<< std::endl;
     label_num = FL_bad.maxCoeff()+1;
     int sample_num = V_good_refine.rows();
@@ -216,9 +230,28 @@ bool mouse_down(igl::opengl::glfw::Viewer &viewer, int, int) {
 };
 
 
-int main() {
+int main(int argc, char *argv[]) {
+    using namespace std;
+    if (argc < 2) {
+        cout << "Usage cutmeshtest_bin --file mesh.obj --n sample_num --cut" << endl;
+        exit(0);
+    }
+    cxxopts::Options options("CutGraph", "One line description of MyProgram");
+    options.add_options()
+            ("j, json", "json storing parameters", cxxopts::value<std::string>());
+    auto args = options.parse(argc, argv);
+    // Load a mesh in OBJ format
+    json param_json;
+    {
+        std::ifstream temp(args["json"].as<std::string>());
+        param_json = json::parse(temp);
+        std::cout << param_json << std::endl;
+    }
+    lambda_refine=param_json["lambda_refine"];
+    file_idx=param_json["file_idx"];
+    num_subdiv = param_json["num_subdiv"];
+    stop_energy= param_json["stop_energy"];
     py::scoped_interpreter guard{};
-    file_idx=8;
     std::cout << "1"<< std::endl;
     update_states(file_idx);
     viewer.callback_key_down = &key_down;

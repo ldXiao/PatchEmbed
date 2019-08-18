@@ -97,17 +97,17 @@ function(download_project)
 
     set(options QUIET)
     set(oneValueArgs
-        PROJ
-        PREFIX
-        DOWNLOAD_DIR
-        SOURCE_DIR
-        BINARY_DIR
-        # Prevent the following from being passed through
-        CONFIGURE_COMMAND
-        BUILD_COMMAND
-        INSTALL_COMMAND
-        TEST_COMMAND
-    )
+            PROJ
+            PREFIX
+            DOWNLOAD_DIR
+            SOURCE_DIR
+            BINARY_DIR
+            # Prevent the following from being passed through
+            CONFIGURE_COMMAND
+            BUILD_COMMAND
+            INSTALL_COMMAND
+            TEST_COMMAND
+            )
     set(multiValueArgs "")
 
     cmake_parse_arguments(DL_ARGS "${options}" "${oneValueArgs}" "${multiValueArgs}" ${ARGN})
@@ -127,7 +127,7 @@ function(download_project)
         set(DL_ARGS_PREFIX "${CMAKE_BINARY_DIR}")
     else()
         get_filename_component(DL_ARGS_PREFIX "${DL_ARGS_PREFIX}" ABSOLUTE
-                               BASE_DIR "${CMAKE_CURRENT_BINARY_DIR}")
+                BASE_DIR "${CMAKE_CURRENT_BINARY_DIR}")
     endif()
     if (NOT DL_ARGS_DOWNLOAD_DIR)
         set(DL_ARGS_DOWNLOAD_DIR "${DL_ARGS_PREFIX}/${DL_ARGS_PROJ}-download")
@@ -159,22 +159,22 @@ function(download_project)
     # Make sure to pass through CMAKE_MAKE_PROGRAM in case the main project
     # has this set to something not findable on the PATH.
     configure_file("${_DownloadProjectDir}/DownloadProject.CMakeLists.cmake.in"
-                   "${DL_ARGS_DOWNLOAD_DIR}/CMakeLists.txt")
+            "${DL_ARGS_DOWNLOAD_DIR}/CMakeLists.txt")
     execute_process(COMMAND ${CMAKE_COMMAND} -G "${CMAKE_GENERATOR}"
-                        -D "CMAKE_MAKE_PROGRAM:FILE=${CMAKE_MAKE_PROGRAM}"
-                        .
-                    RESULT_VARIABLE result
-                    ${OUTPUT_QUIET}
-                    WORKING_DIRECTORY "${DL_ARGS_DOWNLOAD_DIR}"
-    )
+            -D "CMAKE_MAKE_PROGRAM:FILE=${CMAKE_MAKE_PROGRAM}"
+            .
+            RESULT_VARIABLE result
+            ${OUTPUT_QUIET}
+            WORKING_DIRECTORY "${DL_ARGS_DOWNLOAD_DIR}"
+            )
     if(result)
         message(FATAL_ERROR "CMake step for ${DL_ARGS_PROJ} failed: ${result}")
     endif()
     execute_process(COMMAND ${CMAKE_COMMAND} --build .
-                    RESULT_VARIABLE result
-                    ${OUTPUT_QUIET}
-                    WORKING_DIRECTORY "${DL_ARGS_DOWNLOAD_DIR}"
-    )
+            RESULT_VARIABLE result
+            ${OUTPUT_QUIET}
+            WORKING_DIRECTORY "${DL_ARGS_DOWNLOAD_DIR}"
+            )
     if(result)
         message(FATAL_ERROR "Build step for ${DL_ARGS_PROJ} failed: ${result}")
     endif()

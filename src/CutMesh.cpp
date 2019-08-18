@@ -12,7 +12,7 @@
 #include <igl/triangle_triangle_adjacency.h>
 #include <igl/jet.h>
 #include <CGAL/Surface_mesh.h>
-#include <CGAL/Surface_mesh_approximation/approximate_triangle_mesh.h>
+//#include <CGAL/Surface_mesh_approximation/approximate_triangle_mesh.h>
 //CGAL staff
 #include <Eigen/Core>
 #include <memory.h>
