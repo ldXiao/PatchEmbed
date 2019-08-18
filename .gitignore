@@ -32,9 +32,11 @@
 
 build/
 external/
+scripts/
 debug/
 release/
 cmake-build-debug/
 cmake-build-release/
 .vscode
 .idea
+.DS_Store
