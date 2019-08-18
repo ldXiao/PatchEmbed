@@ -28,7 +28,7 @@
 #include <igl/per_face_normals.h>
 #include <igl/PI.h>
 #include <algorithm>
-namespace OTMapping{
+namespace bcclean{
 typedef CGAL::Exact_predicates_inexact_constructions_kernel Kernel;
 typedef CGAL::Polyhedron_3<Kernel> Polyhedron;
 bool sdf_segmentation(

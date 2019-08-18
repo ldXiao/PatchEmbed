@@ -1,198 +1,200 @@
 //
-// Created by Lind Xiao on 6/9/19.
+// Created by Lind Xiao on 7/30/19.
 //
-#include <iostream>
-#include "CutMesh.h"
-#include "CutGraph.h"
-#include <igl/opengl/glfw/Viewer.h>
-#include <igl/random_points_on_mesh.h>
-#include <igl/read_triangle_mesh.h>
-#include <igl/triangle_triangle_adjacency.h>
-#include <igl/jet.h>
-#include <igl/edges.h>
-#include <igl/loop.h>
-#include <igl/upsample.h>
-#include <cxxopts.hpp>
-#include <Eigen/Core>
 #include <map>
 #include <vector>
-#include "VSA_cgal.hpp"
+#include <iostream>
+#include <pybind11/embed.h> // everything needed for embedding
+#include <pybind11/pybind11.h>
+#include <igl/read_triangle_mesh.h>
+#include <igl/readDMAT.h>
+#include <igl/opengl/glfw/Viewer.h>
+#include <igl/per_face_normals.h>
+#include <igl/opengl/glfw/imgui/ImGuiMenu.h>
+#include <igl/opengl/glfw/imgui/ImGuiHelpers.h>
+#include <igl/unproject_onto_mesh.h>
+#include <igl/embree/line_mesh_intersection.h>
+#include <imgui/imgui.h>
+#include <Eigen/Core>
+#include "bcclean.h"
 #include "graphcut_cgal.h"
+#include <igl/upsample.h>
+#include <igl/random_points_on_mesh.h>
+#include <igl/jet.h>
+#include <igl/boundary_facets.h>
+#include <igl/readMSH.h>
+#include <igl/remove_unreferenced.h>
+#include <nanoflann.hpp>
+#include <cxxopts.hpp>
 #include <nlohmann/json.hpp>
+namespace py = pybind11;
 using json = nlohmann::json;
-using namespace OTMapping;
 igl::opengl::glfw::Viewer viewer;
-Eigen::MatrixXd V0, V1, V1_1; // mesh vertices
-Eigen::MatrixXi F0, F1, F1_1; // mesh faces
-Eigen::MatrixXd S0, S1, S0_1, S1_1; // sample on two meshes
+
+Eigen::MatrixXd V_bad, V_tet,V_good, V_good_refine; // mesh vertices
+Eigen::MatrixXi F_bad, T_tet,F_good, F_good_refine; // mesh faces
+Eigen::MatrixXd S_bad; // sample on two meshes
 Eigen::MatrixXi I0, I1, I0_1, I1_1; // Sample source index to faces
-Eigen::MatrixXd C0, C1, C0_1, C1_1; // Sample color for mesh faces
-Eigen::MatrixXd FC0, FC1, FC1_1;
-Eigen::MatrixXi SL0, SL1, SLf, SL0_1 ,SL1_1; // Sample Label
-Eigen::MatrixXd heads;
-Eigen::MatrixXd tails;
-//                    igl::slice(this->SamplePerturb,this->SkeletonIndices1,1)
-int proxy_num;
+Eigen::MatrixXd C_bad, C_good_cut, C_good_refine; // Sample color for mesh faces
+Eigen::MatrixXi SL_bad, VL_good_refine;
+Eigen::MatrixXi FL_bad, FL_good_refine, FL_good_cut;
+
+Eigen::MatrixXd prob_mat;
+Eigen::VectorXi b;
+// constrained face id
 int label_num;
-int point_size=7;
-double lambda_refine;
-CutGraph CtGrph, CtGrph1;
+double lambda_refine=1;
+unsigned int file_idx=2;
+int num_subdiv = 1;
+double stop_energy=10;
+
+std::map<int, std::vector<int> > patch_dict_bad;
+// Currently selected face
+int selected;
+
+
+
+void update_states(unsigned int file_index){
+    using namespace std;
+
+    py::module sys = py::module::import("sys");
+//    py::module torch = py::module::import("torch");
+    py::module os = py::module::import("os");
+    sys.attr("path").attr("append")("../src");
+    py::module utlis = py::module::import("utlis");
+    std::cout << "2"<< std::endl;
+    // handle and generate all the necessary files
+    std::string bad_mesh_file, good_mesh_file, tet_file, face_label_dmat, face_label_yml;
+    py::object py_bad_mesh_file =
+            utlis.attr("kth_existing_file")("../data/ABC/obj/abc_0000_obj_v00",file_index);
+    bad_mesh_file = py_bad_mesh_file.cast<string>();
+    py::object py_tet_file = utlis.attr("tetrahedralize_bad_mesh")(bad_mesh_file,"", stop_energy);
+    std::cout << "3"<< std::endl;
+    tet_file = py_tet_file.cast<string>();
+    py::object py_face_label_yml = utlis.attr("kth_existing_file")("../data/ABC/feat/abc_0000_feat_v00",file_index);
+    face_label_yml = py_face_label_yml.cast<string>();
+    py::object py_face_label_dmat = utlis.attr("parse_feat")(face_label_yml);
+    face_label_dmat = py_face_label_dmat.cast<string>();
+    std::cout << "4"<< std::endl;
+    // read the files into eigen matrices
+    igl::read_triangle_mesh(bad_mesh_file, V_bad, F_bad);
+    std::cout << "5"<< std::endl;
+    igl::readMSH(tet_file, V_tet, T_tet);
+    {
+        Eigen::MatrixXi F_good_temp;
+        igl::boundary_facets(T_tet, F_good_temp);
+        Eigen::VectorXi J, K;
+        igl::remove_unreferenced(V_tet, F_good_temp, V_good, F_good, J, K);
+    }
+    std::cout << "6"<< std::endl;
+    try {
+        igl::upsample(V_good, F_good, V_good_refine, F_good_refine, num_subdiv);
+    } catch(...){
+        std::cout << "failed to upsample by" << num_subdiv << "subdivisions" <<std::endl;
+        V_good_refine = V_good;
+        F_good_refine = F_good;
+    }
+
+    std::cout << "7"<< std::endl;
+    igl::readDMAT(face_label_dmat, FL_bad);
+    bcclean::build_patch_dict(FL_bad, patch_dict_bad);
+    std::cout << "8"<< std::endl;
+    label_num = FL_bad.maxCoeff()+1;
+    int sample_num = V_good_refine.rows();
+    std::cout << sample_num<< std::endl;
+    {
+        // handle all the labels
+        Eigen::MatrixXi I_bad;
+        Eigen::SparseMatrix<double> B_bad;
+        igl::random_points_on_mesh(sample_num, V_bad, F_bad, B_bad, I_bad);
+        S_bad = B_bad * V_bad;
+        // generate random sample on bad mesh;
+        std::cout << "9"<< std::endl;
+        bcclean::generate_sample_label(FL_bad, I_bad, sample_num, SL_bad);
+    }
+
+    igl::jet(FL_bad, 0, label_num-1, C_bad);
+
+}
+
+void update_NN(){
+    // generate the sample label on bad mesh;
+    std::cout << "10"<< std::endl;
+    bcclean::NN_sample_label_transport(S_bad, V_good_refine, SL_bad, VL_good_refine);
+    // nearest neighbor transport sample labels to vertices;
+    std::cout << "11"<< std::endl;
+    bcclean::vertex_label_vote_face_label(label_num, VL_good_refine, F_good_refine, FL_good_refine, prob_mat);
+    std::cout << "12"<< std::endl;
+    igl::jet(FL_good_refine, 0, label_num-1, C_good_refine);
+}
+
+void update_intersection(){
+    bcclean::LM_intersection_label_transport(
+    V_bad,
+    F_bad,
+    FL_bad,
+    V_good_refine,
+    F_good_refine,
+    VL_good_refine);
+    bcclean::vertex_label_vote_face_label(label_num, VL_good_refine, F_good_refine, FL_good_refine, prob_mat);
+    std::cout << "12"<< std::endl;
+    igl::jet(FL_good_refine, 0, label_num-1, C_good_refine);
+}
+
+void refine_cuts(){
+    FL_good_cut = FL_good_refine;
+    bcclean::refine_labels_graph_cut(V_good_refine,F_good_refine, prob_mat.transpose(), FL_good_cut, lambda_refine);
+    std::cout << "13"<< std::endl;
+    igl::jet(FL_good_cut, 0, label_num-1, C_good_cut);
+}
+
 bool key_down(igl::opengl::glfw::Viewer &viewer, unsigned char key, int modifier) {
     using namespace Eigen;
     using namespace std;
-    switch(key){
-        case '0':
+    switch(key) {
+        case '1':{
             viewer.data().clear();
-            viewer.data().point_size = point_size;
-            viewer.data().set_mesh(V0, F0);
-            viewer.data().add_points(S0, C0);
-            viewer.data().set_colors(FC0);
-            break;
-        case '1': {
-            // show  mesh knn graph edgweight and nn transported labels
-            viewer.data().clear();
-            viewer.data().point_size = point_size;
-            viewer.data().set_mesh(V1, F1);
-            viewer.data().set_colors(Eigen::RowVector3d(1, 1, 0));
-            igl::jet(SL1, 0, proxy_num-1, C1);
-            Eigen::MatrixXd C3;
-            igl::jet(CtGrph.EdgeWeights, 0, 2, C3);
-            viewer.data().add_points(S1, C1);
-            heads = igl::slice(S1, CtGrph.Edges.col(0), 1);
-            tails = igl::slice(S1, CtGrph.Edges.col(1), 1);
-            viewer.data().add_edges(heads, tails, C3);
+            viewer.data().set_mesh(V_bad, F_bad);
+            viewer.data().set_colors(C_bad);
             break;
         }
         case '2': {
-            // show graph cut on knn graph
             viewer.data().clear();
-            viewer.data().point_size = point_size;
-            viewer.data().set_mesh(V1, F1);
-            viewer.data().set_colors(Eigen::RowVector3d(1, 1, 1));
-            CtGrph._set_ProbabilityMatrix(label_num, SL1);
-            SLf = SL1;
-            std::cout << "initial label" << SLf << std::endl;
-            std::cout << CtGrph.EdgeWeights << std::endl;
-            OTMapping::Alpha_expansion_graph_cut_boykov_kolmogorov_Eigen(
-                    CtGrph.Edges,
-                    CtGrph.EdgeWeights,
-                    CtGrph.ProbabilityMatrix,
-                    SLf
-            );
-            igl::jet(SLf, 0, SLf.maxCoeff(), C1);
-            std::cout << SLf << std::endl;
-            viewer.data().add_points(S1, C1);
-            heads = igl::slice(S1, CtGrph.Edges.col(0), 1);
-            tails = igl::slice(S1, CtGrph.Edges.col(1), 1);
-            viewer.data().add_edges(heads, tails, Eigen::RowVector3d(0,0,0));
+            update_NN();
+            viewer.data().set_mesh(V_good_refine, F_good_refine);
+            viewer.data().set_colors(C_good_refine);
             break;
-        }
 
-        case '3': {
+        }
+        case '3':{
             viewer.data().clear();
-            viewer.data().point_size = point_size;
-            viewer.data().set_mesh(V1, F1);
-            Eigen::MatrixXi FL1_mod2;
-            Eigen::MatrixXd probmat2;
-            NN_sample_label_vote_face_label(label_num, I1, SL1, F1, FL1_mod2, probmat2);
-            igl::jet(FL1_mod2, 0, label_num-1, FC1);
-            viewer.data().set_colors(FC1);
+            update_intersection();
+            viewer.data().set_mesh(V_good_refine, F_good_refine);
+            viewer.data().set_colors(C_good_refine);
             break;
         }
-        case '4': {
+        case '4':{
             viewer.data().clear();
-            viewer.data().point_size = point_size;
-            viewer.data().set_mesh(V1, F1);
-            Eigen::MatrixXi FL1_mod;
-            Eigen::MatrixXd probmat;
-            NN_sample_label_vote_face_label(label_num, I1, SL1, F1, FL1_mod, probmat);
-            OTMapping::refine_labels_graph_cut(V1, F1, probmat.transpose(), FL1_mod, lambda_refine);
-            igl::jet(FL1_mod, 0, label_num-1, FC1);
-            viewer.data().set_colors(FC1);
+            refine_cuts();
+            viewer.data().set_mesh(V_good_refine, F_good_refine);
+            viewer.data().set_colors(C_good_cut);
             break;
         }
-        case '5': {
-            // show vertices based initilization
-            viewer.data().clear();
-            viewer.data().point_size = point_size;
-            viewer.data().set_mesh(V1_1, F1_1);
-            viewer.data().set_colors(Eigen::RowVector3d(1, 1, 1));
-            igl::jet(SL1_1, 0, SL1_1.maxCoeff(), C1_1);
-            viewer.data().add_points(S1_1, C1_1);
+        case '[': {
+            if (file_idx == 0){
+                file_idx = 99;
+            }
+            else (file_idx = (file_idx-1)% 100);
+            num_subdiv = 1;
+            update_states(file_idx);
+            std::cout <<"new idx"<< file_idx << std::endl;
             break;
         }
-        case '6': {
-            // vertices-based graph cut
-            viewer.data().clear();
-            viewer.data().point_size = point_size;
-            viewer.data().set_mesh(V1_1, F1_1);
-            viewer.data().set_colors(Eigen::RowVector3d(1, 1, 1));
-            CtGrph1._set_ProbabilityMatrix(label_num, SL1_1);
-            SLf = SL1_1;
-            OTMapping::Alpha_expansion_graph_cut_boykov_kolmogorov_Eigen(
-                    CtGrph1.Edges,
-                    CtGrph1.EdgeWeights,
-                    CtGrph1.ProbabilityMatrix,
-                    SLf
-            );
-            Eigen::MatrixXd C5;
-            igl::jet(SLf, 0, SLf.maxCoeff(), C5);
-            viewer.data().add_points(S1_1, C5);
-            break;
-        }
-        case '7':{
-            // show
-            viewer.data().clear();
-            viewer.data().point_size = point_size;
-            Eigen::MatrixXi FL1_1_mod;
-            Eigen::MatrixXd probmat;
-            viewer.data().set_mesh(V1_1, F1_1);
-            vertex_label_vote_face_label(label_num, SL1_1, F1_1, FL1_1_mod, probmat);
-            igl::jet(FL1_1_mod, 0, label_num-1, FC1_1);
-            viewer.data().set_colors(FC1_1);
-            break;
-        }
-
-        case '8':{
-            // show
-            viewer.data().clear();
-            viewer.data().point_size = point_size;
-            viewer.data().set_mesh(V1_1, F1_1);
-            Eigen::MatrixXi FL1_1_mod;
-            Eigen::MatrixXd probmat;
-            vertex_label_vote_face_label(label_num, SL1_1, F1_1, FL1_1_mod, probmat);
-            OTMapping::refine_labels_graph_cut(V1_1, F1_1, probmat.transpose(), FL1_1_mod, lambda_refine);
-            igl::jet(FL1_1_mod, 0, label_num-1, FC1_1);
-            viewer.data().set_colors(FC1_1);
-            break;
-        }
-        case '9':{
-            viewer.data().clear();
-            viewer.data().point_size = point_size;
-            viewer.data().set_mesh(V1_1, F1_1);
-            Eigen::MatrixXi FL1_1_mod;
-            Eigen::MatrixXd probmat;
-            vertex_label_vote_face_label(label_num, SL1_1, F1_1, FL1_1_mod, probmat);
-            Eigen::MatrixXd FW;
-            Eigen::MatrixXi Edg;
-            set_Face_Edges(F1_1, Edg);
-            set_EdgeWeight(lambda_refine, FL1_1_mod, Edg, FW);
-            std::vector<std::pair<std::size_t, std::size_t> > a_edges;
-            std::vector<double> edge_weights;
-//            OTMapping::calculate_and_log_normalize_dihedral_angles(
-//                    V1_1,
-//                    F1_1,
-//                    lambda_refine,
-//                    a_edges,
-//                    edge_weights);
-            OTMapping::Alpha_expansion_graph_cut_boykov_kolmogorov_Eigen(
-                    Edg,
-                    FW,
-                    probmat,
-                    FL1_1_mod
-            );
-            igl::jet(FL1_1_mod, 0, label_num-1, FC1_1);
-            viewer.data().set_colors(FC1_1);
+        case ']': {
+            file_idx = (file_idx+1)% 100;
+            num_subdiv = 1;
+            update_states(file_idx);
+            std::cout <<"new idx"<< file_idx << std::endl;
             break;
         }
     }
@@ -200,9 +202,36 @@ bool key_down(igl::opengl::glfw::Viewer &viewer, unsigned char key, int modifier
     return false;
 }
 
+bool mouse_down(igl::opengl::glfw::Viewer &viewer, int, int) {
+    int fid_ray;
+    Eigen::Vector3f bary;
+    // Cast a ray in the view direction starting from the mouse position
+    double x = viewer.current_mouse_x;
+    double y = viewer.core().viewport(3) - viewer.current_mouse_y;
+    if (igl::unproject_onto_mesh(Eigen::Vector2f(x, y), viewer.core().view,
+                                 viewer.core().proj, viewer.core().viewport, V_bad, F_bad, fid_ray, bary)) {
+        bool found = false;
+        for (int i = 0; i < b.size(); ++i) {
+            if (b(i) == fid_ray) {
+                found = true;
+                selected = i;
+            }
+        }
+
+        if (!found) {
+            b.conservativeResize(b.size() + 1);
+            b(b.size() - 1) = fid_ray;
+        }
+
+
+        return true;
+    }
+    return false;
+};
+
+
 int main(int argc, char *argv[]) {
     using namespace std;
-    unsigned int sample_num;
     if (argc < 2) {
         cout << "Usage cutmeshtest_bin --file mesh.obj --n sample_num --cut" << endl;
         exit(0);
@@ -218,74 +247,13 @@ int main(int argc, char *argv[]) {
         param_json = json::parse(temp);
         std::cout << param_json << std::endl;
     }
-    std::cout << "h1"<< std::endl;
-    igl::read_triangle_mesh(param_json["mesh_file0"], V0, F0);
-    igl::read_triangle_mesh(param_json["mesh_file1"], V1, F1);
-    sample_num = param_json["sample_num"];
-    proxy_num = param_json["proxy_num"];
-    {
-        Eigen::SparseMatrix<double> B0, B1;
-        igl::random_points_on_mesh(sample_num, V0, F0, B0, I0);
-        igl::random_points_on_mesh(sample_num, V1, F1, B1, I1);
-        S0 = B0 * V0;
-        S1 = B1 * V1;
-    }
-    std::cout << "h2"<< std::endl;
-    Eigen::MatrixXi FL0; // face_label for mesh 0
-    {
-        // use vsa to generate face color and sample color for V0, C0, S0
-        int count;
-
-        OTMapping::vsa_compute(V0, F0, param_json["proxy_num"], FL0, count);
-        label_num = FL0.maxCoeff()+1;
-        igl::jet(FL0, 0, label_num-1, FC0);
-//        generate_sample_color(FC0, I0,param_json["sample_num"], C0);
-        generate_sample_label(FL0, I0, param_json["sample_num"], SL0);
-        igl::jet(SL0, 0, label_num-1, C0);
-
-        NN_sample_label_transport(S0, S1, SL0, SL1);
-        igl::jet(SL1, 0, label_num-1, C1);
-    }
-    std::cout << "h3"<< std::endl;
-    {
-        std::string upsample_method = param_json["upsample"];
-        int num_subdiv = param_json["num_subdiv"];
-        if(upsample_method != "loop"){
-            igl::upsample(V1,F1, V1_1, F1_1, num_subdiv);
-            std::cout << "ha1"<< std::endl;
-            int nsample_num = V1_1.rows();
-            S1_1 = V1_1;
-            Eigen::SparseMatrix<double> B0_1;
-            igl::random_points_on_mesh(nsample_num, V0, F0, B0_1, I0_1);
-            std::cout << "ha2"<< std::endl;
-            S0_1 = B0_1 * V0;
-            generate_sample_label(FL0, I0_1, S0_1.rows(), SL0_1);
-            std::cout << "ha3"<< std::endl;
-            igl::jet(SL0_1, 0, label_num-1, C0_1);
-            NN_sample_label_transport(S0_1, S1_1, SL0_1, SL1_1);
-            std::cout << "ha4"<< std::endl;
-            igl::jet(SL1_1, 0, label_num-1, C1_1);
-            std::cout << "ha5"<< std::endl;
-        }
-    }
-    std::cout << "ha"<< std::endl;
-//    CtGrph._set_Vertices(S0);
-
-    CtGrph.initialize(
-            S1,
-            param_json["KNN_valance"],
-            label_num,
-            param_json["lambda"],
-            SL1
-            );
-    CtGrph1.initialize2(
-            S1_1,
-            F1_1,
-            label_num,
-            param_json["lambda"],
-            SL1_1
-            );
-    lambda_refine = param_json["lambda"];
+    lambda_refine=param_json["lambda_refine"];
+    file_idx=param_json["file_idx"];
+    num_subdiv = param_json["num_subdiv"];
+    stop_energy= param_json["stop_energy"];
+    py::scoped_interpreter guard{};
+    std::cout << "1"<< std::endl;
+    update_states(file_idx);
     viewer.callback_key_down = &key_down;
     viewer.launch();
 }

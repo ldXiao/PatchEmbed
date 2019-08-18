@@ -34,7 +34,6 @@ build/
 external/
 debug/
 release/
-data/
 cmake-build-debug/
 cmake-build-release/
 .vscode

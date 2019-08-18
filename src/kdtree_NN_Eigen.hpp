@@ -16,7 +16,7 @@ using namespace Eigen;
 using namespace std;
 using namespace nanoflann;
 
-namespace OTMapping {
+namespace bcclean {
     template<typename num_t>
     using kd_tree_Eigen=KDTreeEigenMatrixAdaptor <Eigen::Matrix<num_t, Dynamic, Dynamic>>;
 

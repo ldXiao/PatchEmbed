@@ -93,33 +93,12 @@ add_library(cxxopts INTERFACE)
 target_include_directories(cxxopts SYSTEM INTERFACE ${CMAKE_CURRENT_SOURCE_DIR}/external/cxxopts/include)
 
 
-download_project(
-        PROJ         tinyexpr
-        SOURCE_DIR   ${CMAKE_CURRENT_SOURCE_DIR}/external/tinyexpr
-        DOWNLOAD_DIR ${CMAKE_CURRENT_SOURCE_DIR}/external/.cache/tinyexpr
-        GIT_REPOSITORY https://github.com/codeplea/tinyexpr.git
-        GIT_TAG        master)
-add_library(tinyexpr ${CMAKE_CURRENT_SOURCE_DIR}/external/tinyexpr/tinyexpr.c)
-target_include_directories(tinyexpr SYSTEM PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/external/tinyexpr)
-
-#
 set(SOURCES
-#    src/CutMesh.cpp
-#    src/CutMesh.h
-#    src/Sinkhorn.hpp
-#    src/Skeleton.cpp
-#    src/Skeleton.h
-#    src/exportCutMesh.cpp
-#    src/Kruskal.hpp
-    src/ExpressionValue.cpp
-    src/ExpressionValue.hpp
-#    src/xyzgen.cpp
     src/graphcut_cgal.h
-#    src/VSA_cgal.hpp
-    src/CutGraph.cpp
-    src/CutGraph.h
+    src/bcclean.cpp
+    src/bcclean.h
     src/kdtree_NN_Eigen.hpp
-        )
+)
 add_library(bcclean ${SOURCES})
 target_link_libraries(bcclean PUBLIC
         json
@@ -129,43 +108,8 @@ target_link_libraries(bcclean PUBLIC
         igl::opengl_glfw
         igl::opengl_glfw_imgui
         cxxopts
-        tinyexpr
         nanoflann
         )
 # Add your project files
-
-#add_executable(${PROJECT_NAME}_bin src/main.cpp)
-#target_link_libraries(${PROJECT_NAME}_bin PUBLIC bcclean)
-#add_executable(cuttest_bin src/main2.cpp src/Sinkhorn.hpp)
-#target_link_libraries(cuttest_bin igl::core igl::cgal igl::opengl igl::opengl_glfw)
-#add_executable(cutmeshtest_bin
-#        src/CutMeshTest.cpp
-#        )
-#target_link_libraries(cutmeshtest_bin bcclean tinyexpr)
-#add_executable(sinkhorntest_bin
-#        src/Sinkhorn.hpp
-#        src/sinkhorntest.cpp
-#        src/ExpressionValue.cpp)
-#target_link_libraries(sinkhorntest_bin igl::core json tinyexpr)
-#add_executable(graphcut_test_bin
-#        src/graphcut_test.cpp
-#        )
-#target_link_libraries(graphcut_test_bin bcclean)
-#
-##add_executable(vsa_test_bin
-##        src/VSA_cgal.hpp
-##        src/vsa_test.cpp
-##        )
-##target_link_libraries(vsa_test_bin bcclean)
-#add_executable(exportCutMesh_bin
-#        src/exportCutMesh.cpp)
-#target_link_libraries(exportCutMesh_bin bcclean)
-#
-#add_executable(xyzgen_bin src/xyzgen.cpp)
-#target_link_libraries(xyzgen_bin bcclean)
-add_executable(quicktest_bin src/quicktest.cpp)
-target_link_libraries(quicktest_bin bcclean pybind11::embed)
-
-#
-#add_executable(nanoflanntest src/flann_test.cpp)
-#target_link_libraries(nanoflanntest bcclean)
+add_executable(bcclean_bin src/main.cpp)
+target_link_libraries(bcclean_bin bcclean pybind11::embed)
