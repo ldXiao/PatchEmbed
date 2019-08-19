@@ -26,7 +26,7 @@ cd build
 ./bcclean_bin -j ../run.json
 ```
 where a standard run.json file is provided as
-```json
+```jsonc
 {
     "lambda_refine":1, // control the graph cut parameter lambda
     "stop_energy": 10, // control the tetwild stopping criterion
