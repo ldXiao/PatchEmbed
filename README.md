@@ -35,4 +35,4 @@ where a standard run.json file is provided as
     "label_num": 6 // label num (set to the number of patches you will use)
 }
 ```
-
+![](README_support/blur.gif)
