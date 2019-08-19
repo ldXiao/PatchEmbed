@@ -27,7 +27,6 @@ cd build
 ```
 where a standard run.json file is provided as
 ```jsonc
-{
     "lambda_refine":1, // control the graph cut parameter lambda
     "stop_energy": 10, // control the tetwild stopping criterion
     "data_root": "../data/0", // directory to the data folder
@@ -35,4 +34,5 @@ where a standard run.json file is provided as
     "label_num": 6 // label num (set to the number of patches you will use)
 }
 ```
+The detailed Ussage looks like below
 ![](README_support/blur.gif)
