@@ -45,6 +45,8 @@ Eigen::MatrixXi FT_bad, FL_bad, FL_good_refine, FL_good_cut;
 //while FL_bad store the patch label after manually merging
 Eigen::MatrixXd prob_mat;
 bool clickable= true;
+bool invert_normal= false;
+unsigned int current_show_mode ='1';
 // only set ture when it is bad mesh
 
 
@@ -202,6 +204,7 @@ bool key_down(igl::opengl::glfw::Viewer &viewer, unsigned char key, int modifier
             break;
         }
     }
+    viewer.data().invert_normals = invert_normal;
 
     return false;
 }
@@ -311,20 +314,28 @@ int main(int argc, char *argv[]) {
             }
         }
         if(ImGui::CollapsingHeader("Visualization choices", ImGuiTreeNodeFlags_DefaultOpen)){
+            if(ImGui::Button("flip normal", ImVec2(0,0))){
+                invert_normal = ! invert_normal;
+                key_down(viewer, current_show_mode, 0);
+            }
             if (ImGui::Button("show bad mesh", ImVec2(-1,0))) {
                 key_down(viewer, '1', 0);
+                current_show_mode = '1';
                 clickable = true;
             }
             if (ImGui::Button("show NN on good mesh", ImVec2(-2,0))){
                 key_down(viewer, '2', 0);
+                current_show_mode = '2';
                 clickable = false;
             }
             if (ImGui::Button("show projection on good mesh", ImVec2(-3,0))){
                 key_down(viewer, '3', 0);
+                current_show_mode = '3';
                 clickable = false;
             }
             if(ImGui::Button("graph cut", ImVec2(-4,0))){
                 key_down(viewer, '4', 0);
+                current_show_mode = '4';
                 clickable = false;
             }
         }
