@@ -78,7 +78,7 @@ def get_feat_file(parent_dir):
 def get_bad_mesh(parent_dir):
     for file in os.listdir(parent_dir):
         if (file[-4:]==".obj"):
-            if file[-8:]=="__sf.obj":
+            if file[-8:]=="__sf.obj" or file=="good_mesh.obj":
                 continue
             else:
                 return os.path.join(parent_dir, file)
