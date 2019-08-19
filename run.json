@@ -1,0 +1,7 @@
+{
+    "lambda_refine":1,
+    "stop_energy": 10,
+    "data_root": "../data/0",
+    "num_subdiv": 2,
+    "patch_num": 6
+}

@@ -15,6 +15,7 @@
 #include <igl/unproject_onto_mesh.h>
 #include <igl/embree/line_mesh_intersection.h>
 #include <imgui/imgui.h>
+#include <imgui/imgui_internal.h>
 #include <Eigen/Core>
 #include "bcclean.h"
 #include "graphcut_cgal.h"
@@ -37,68 +38,90 @@ Eigen::MatrixXd S_bad; // sample on two meshes
 Eigen::MatrixXi I0, I1, I0_1, I1_1; // Sample source index to faces
 Eigen::MatrixXd C_bad, C_good_cut, C_good_refine; // Sample color for mesh faces
 Eigen::MatrixXi SL_bad, VL_good_refine;
-Eigen::MatrixXi FL_bad, FL_good_refine, FL_good_cut;
-
+Eigen::MatrixXi FT_bad, FL_bad, FL_good_refine, FL_good_cut;
+// FT_bad store the total feature tags, 
+//while FL_bad store the patch label after manually merging
 Eigen::MatrixXd prob_mat;
-Eigen::VectorXi b;
-// constrained face id
-int label_num;
+bool clickable= true;
+// only set ture when it is bad mesh
+
+
+
+int label_num, patch_num;
 double lambda_refine=1;
 unsigned int file_idx=2;
 int num_subdiv = 1;
 double stop_energy=10;
 
-std::map<int, std::vector<int> > patch_dict_bad;
-// Currently selected face
-int selected;
+int selected_tag = 4;
+int selected_face_label = -1;
+int selected_patch_label = -1; 
+std::map<int, std::vector<int> > patch_dict_bad; //  to re-tag patches
+std::vector<std::string> patch_dict_bad_labels; // for use in menu combo
+bool selected;
 
+void modular_patch_label(
+    const Eigen::MatrixXi & FT_bad, 
+    const int &label_number, 
+    Eigen::MatrixXi & FL_bad){
+        FL_bad = FT_bad;
+    for(int i=0; i< FL_bad.rows(); ++i){
+        FL_bad(i,0)= FT_bad(i,0) % label_number;
+    }
+}
 
-
-void update_states(unsigned int file_index){
+void update_states(std::string data_root){
     using namespace std;
 
     py::module sys = py::module::import("sys");
-//    py::module torch = py::module::import("torch");
     py::module os = py::module::import("os");
     sys.attr("path").attr("append")("../src");
     py::module utlis = py::module::import("utlis");
-    std::cout << "2"<< std::endl;
     // handle and generate all the necessary files
     std::string bad_mesh_file, good_mesh_file, tet_file, face_label_dmat, face_label_yml;
     py::object py_bad_mesh_file =
-            utlis.attr("kth_existing_file")("../data/ABC/obj/abc_0000_obj_v00",file_index);
+            utlis.attr("get_bad_mesh")(data_root);
     bad_mesh_file = py_bad_mesh_file.cast<string>();
+    std::cout << "tetrhedralizing..."<< std::endl;
     py::object py_tet_file = utlis.attr("tetrahedralize_bad_mesh")(bad_mesh_file,"", stop_energy);
-    std::cout << "3"<< std::endl;
     tet_file = py_tet_file.cast<string>();
-    py::object py_face_label_yml = utlis.attr("kth_existing_file")("../data/ABC/feat/abc_0000_feat_v00",file_index);
+    py::object py_face_label_yml = utlis.attr("get_feat_file")(data_root);
     face_label_yml = py_face_label_yml.cast<string>();
     py::object py_face_label_dmat = utlis.attr("parse_feat")(face_label_yml);
     face_label_dmat = py_face_label_dmat.cast<string>();
-    std::cout << "4"<< std::endl;
     // read the files into eigen matrices
+    std::cout << "reading bad mesh..."<< std::endl;
     igl::read_triangle_mesh(bad_mesh_file, V_bad, F_bad);
-    std::cout << "5"<< std::endl;
+    std::cout << "reading tet mesh..."<< std::endl;
     igl::readMSH(tet_file, V_tet, T_tet);
     {
+        std::cout << "generating surface good mesh..."<< std::endl;
         Eigen::MatrixXi F_good_temp;
         igl::boundary_facets(T_tet, F_good_temp);
         Eigen::VectorXi J, K;
         igl::remove_unreferenced(V_tet, F_good_temp, V_good, F_good, J, K);
     }
-    std::cout << "6"<< std::endl;
     try {
         igl::upsample(V_good, F_good, V_good_refine, F_good_refine, num_subdiv);
     } catch(...){
         std::cout << "failed to upsample by" << num_subdiv << "subdivisions" <<std::endl;
+        std::cout << "use original instead..."<< std::endl;
         V_good_refine = V_good;
         F_good_refine = F_good;
     }
 
-    std::cout << "7"<< std::endl;
-    igl::readDMAT(face_label_dmat, FL_bad);
-    bcclean::build_patch_dict(FL_bad, patch_dict_bad);
-    std::cout << "8"<< std::endl;
+    igl::readDMAT(face_label_dmat, FT_bad);
+    bcclean::build_patch_dict(FT_bad, patch_dict_bad);
+    patch_dict_bad_labels.clear();
+    for(int i=0; i < label_num; ++i) {
+        patch_dict_bad_labels.push_back(std::to_string(i));
+    }
+
+    FL_bad = FT_bad;
+    patch_num = FT_bad.maxCoeff()+1;
+    for(int i=0; i< FL_bad.rows(); ++i){
+        FL_bad(i,0)= FT_bad(i,0) % label_num;
+    }
     label_num = FL_bad.maxCoeff()+1;
     int sample_num = V_good_refine.rows();
     std::cout << sample_num<< std::endl;
@@ -109,22 +132,19 @@ void update_states(unsigned int file_index){
         igl::random_points_on_mesh(sample_num, V_bad, F_bad, B_bad, I_bad);
         S_bad = B_bad * V_bad;
         // generate random sample on bad mesh;
-        std::cout << "9"<< std::endl;
         bcclean::generate_sample_label(FL_bad, I_bad, sample_num, SL_bad);
     }
 
     igl::jet(FL_bad, 0, label_num-1, C_bad);
-
 }
+
+
 
 void update_NN(){
     // generate the sample label on bad mesh;
-    std::cout << "10"<< std::endl;
     bcclean::NN_sample_label_transport(S_bad, V_good_refine, SL_bad, VL_good_refine);
     // nearest neighbor transport sample labels to vertices;
-    std::cout << "11"<< std::endl;
     bcclean::vertex_label_vote_face_label(label_num, VL_good_refine, F_good_refine, FL_good_refine, prob_mat);
-    std::cout << "12"<< std::endl;
     igl::jet(FL_good_refine, 0, label_num-1, C_good_refine);
 }
 
@@ -137,14 +157,12 @@ void update_intersection(){
     F_good_refine,
     VL_good_refine);
     bcclean::vertex_label_vote_face_label(label_num, VL_good_refine, F_good_refine, FL_good_refine, prob_mat);
-    std::cout << "12"<< std::endl;
     igl::jet(FL_good_refine, 0, label_num-1, C_good_refine);
 }
 
 void refine_cuts(){
     FL_good_cut = FL_good_refine;
     bcclean::refine_labels_graph_cut(V_good_refine,F_good_refine, prob_mat.transpose(), FL_good_cut, lambda_refine);
-    std::cout << "13"<< std::endl;
     igl::jet(FL_good_cut, 0, label_num-1, C_good_cut);
 }
 
@@ -180,23 +198,6 @@ bool key_down(igl::opengl::glfw::Viewer &viewer, unsigned char key, int modifier
             viewer.data().set_colors(C_good_cut);
             break;
         }
-        case '[': {
-            if (file_idx == 0){
-                file_idx = 99;
-            }
-            else (file_idx = (file_idx-1)% 100);
-            num_subdiv = 1;
-            update_states(file_idx);
-            std::cout <<"new idx"<< file_idx << std::endl;
-            break;
-        }
-        case ']': {
-            file_idx = (file_idx+1)% 100;
-            num_subdiv = 1;
-            update_states(file_idx);
-            std::cout <<"new idx"<< file_idx << std::endl;
-            break;
-        }
     }
 
     return false;
@@ -210,24 +211,18 @@ bool mouse_down(igl::opengl::glfw::Viewer &viewer, int, int) {
     double y = viewer.core().viewport(3) - viewer.current_mouse_y;
     if (igl::unproject_onto_mesh(Eigen::Vector2f(x, y), viewer.core().view,
                                  viewer.core().proj, viewer.core().viewport, V_bad, F_bad, fid_ray, bary)) {
-        bool found = false;
-        for (int i = 0; i < b.size(); ++i) {
-            if (b(i) == fid_ray) {
-                found = true;
-                selected = i;
-            }
+        if(clickable){
+            
         }
-
-        if (!found) {
-            b.conservativeResize(b.size() + 1);
-            b(b.size() - 1) = fid_ray;
-        }
-
-
         return true;
     }
     return false;
 };
+
+void reset_label_num(int new_label_num){
+    label_num = new_label_num;
+    modular_patch_label(FT_bad, label_num, FL_bad);
+}
 
 
 int main(int argc, char *argv[]) {
@@ -245,15 +240,54 @@ int main(int argc, char *argv[]) {
     {
         std::ifstream temp(args["json"].as<std::string>());
         param_json = json::parse(temp);
-        std::cout << param_json << std::endl;
+        std::cout <<"the json parameters are" << param_json << std::endl;
     }
     lambda_refine=param_json["lambda_refine"];
-    file_idx=param_json["file_idx"];
     num_subdiv = param_json["num_subdiv"];
     stop_energy= param_json["stop_energy"];
+    label_num = param_json["label_num"];
+    std::string data_root = param_json["data_root"];
     py::scoped_interpreter guard{};
-    std::cout << "1"<< std::endl;
-    update_states(file_idx);
+    update_states(data_root);
     viewer.callback_key_down = &key_down;
+    // link key_down function
+    igl::opengl::glfw::imgui::ImGuiMenu menu;
+    viewer.plugins.push_back(&menu);
+//
+    menu.callback_draw_viewer_menu = [&]() {
+        if (ImGui::CollapsingHeader("States parameters", ImGuiTreeNodeFlags_DefaultOpen))
+        {
+            ImGui::InputDouble("lambda_refine", &lambda_refine);
+            ImGui::InputInt("num_subdiv", &num_subdiv);
+            ImGui::InputDouble("stop_energy", &stop_energy);
+            ImGui::InputInt("label_num", &label_num);
+            if (ImGui::Button("update states", ImVec2(0,0))){
+                update_states(data_root);
+            }
+        }
+        if(ImGui::CollapsingHeader("Tag manipulation", ImGuiTreeNodeFlags_DefaultOpen)){
+            int selected_tag_num = std::distance(
+                patch_dict_bad_labels.begin(), 
+                std::find(patch_dict_bad_labels.begin(), patch_dict_bad_labels.end(), std::to_string(selected_tag))
+                );
+            if (ImGui::Combo("Tag selected patch as", &selected_tag_num, patch_dict_bad_labels)){
+                selected_tag = std::stoi(patch_dict_bad_labels[selected_tag_num]);
+            }
+        }
+        if(ImGui::CollapsingHeader("Visualization choices", ImGuiTreeNodeFlags_DefaultOpen)){
+            if (ImGui::Button("show bad mesh", ImVec2(-1,0))) {
+                key_down(viewer, '1', 0);
+            }
+            if (ImGui::Button("show NN on good mesh", ImVec2(-2,0))){
+                key_down(viewer, '2', 0);
+            }
+            if (ImGui::Button("show projection on good mesh", ImVec2(-3,0))){
+                key_down(viewer, '3', 0);
+            }
+            if(ImGui::Button("graph cut", ImVec2(-4,0))){
+                key_down(viewer, '4', 0);
+            }
+        }
+    };
     viewer.launch();
 }

@@ -239,12 +239,14 @@ namespace bcclean {
             int patch_idx = FL(fidx,0);
 //            std::vector<int> chunk;
             auto it = patch_dict.find(patch_idx);
-            if(it != patch_dict.end()){
+            if(it == patch_dict.end()){
                 std::vector<int> chunk;
+                chunk.push_back(fidx);
                 patch_dict[patch_idx]= chunk;
+            }
+            else{
                 patch_dict[patch_idx].push_back(fidx);
             }
-
         }
     }
 }

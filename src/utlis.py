@@ -5,13 +5,20 @@ import igl
 import numpy as np
 
 def tetrahedralize_bad_mesh(in_obj_file_name, out_file_body="", stop_quality=10):
-    parent_dir = os.path.dirname(in_obj_file_name)
+    parent_dir = os.path.dirname(in_obj_file_name)    
     out_file_name = str(stop_quality)+"_.msh"
     for file in os.listdir(parent_dir):
-        if str(stop_quality)+"_.msh" in file:
+        if str(stop_quality)+"_.msh" == file:
+            print(os.path.join(parent_dir, out_file_name))
             return os.path.join(parent_dir, out_file_name)
-
     wm.tetrahedralize(in_obj_file_name, os.path.join(parent_dir, str(stop_quality)), stop_quality=stop_quality)
+    print("tethedralization finished, cleaning outputs")
+    for file in os.listdir(parent_dir):
+        if file[-5:] == "_.msh" or file[-4:]== ".yml" or file[-5:]== ".dmat":
+            continue
+        elif file[-4:] == ".obj" and file[-8:] != "__sf.obj":
+            continue
+        os.remove(os.path.join(parent_dir,file))
     return os.path.join(parent_dir,out_file_name)
 
 def parse_feat(in_feat_file_name, out_file_body="feat"):
@@ -61,4 +68,19 @@ def kth_existing_file(grandparent_dir, k):
     else:
         return None
 
+def get_feat_file(parent_dir):
+    for file in os.listdir(parent_dir):
+        if ".yml" in file:
+            print(os.path.join(parent_dir, file))
+            return os.path.join(parent_dir, file)
+    return None
+
+def get_bad_mesh(parent_dir):
+    for file in os.listdir(parent_dir):
+        if (file[-4:]==".obj"):
+            if file[-8:]=="__sf.obj":
+                continue
+            else:
+                return os.path.join(parent_dir, file)
+    return None
 
