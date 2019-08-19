@@ -47,7 +47,7 @@ Eigen::MatrixXd prob_mat;
 bool clickable= true;
 bool invert_normal= false;
 unsigned int current_show_mode ='1';
-// only set ture when it is bad mesh
+// only set true when it is bad mesh
 
 
 
