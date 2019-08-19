@@ -8,6 +8,8 @@
 #include <pybind11/pybind11.h>
 #include <igl/read_triangle_mesh.h>
 #include <igl/readDMAT.h>
+#include <igl/writeDMAT.h>
+#include <igl/writeOBJ.h>
 #include <igl/opengl/glfw/Viewer.h>
 #include <igl/per_face_normals.h>
 #include <igl/opengl/glfw/imgui/ImGuiMenu.h>
@@ -35,7 +37,7 @@ igl::opengl::glfw::Viewer viewer;
 Eigen::MatrixXd V_bad, V_tet,V_good, V_good_refine; // mesh vertices
 Eigen::MatrixXi F_bad, T_tet,F_good, F_good_refine; // mesh faces
 Eigen::MatrixXd S_bad; // sample on two meshes
-Eigen::MatrixXi I0, I1, I0_1, I1_1; // Sample source index to faces
+Eigen::MatrixXi I_bad;
 Eigen::MatrixXd C_bad, C_good_cut, C_good_refine; // Sample color for mesh faces
 Eigen::MatrixXi SL_bad, VL_good_refine;
 Eigen::MatrixXi FT_bad, FL_bad, FL_good_refine, FL_good_cut;
@@ -47,18 +49,19 @@ bool clickable= true;
 
 
 
-int label_num, patch_num;
+int label_num, patch_num, sample_num;
 double lambda_refine=1;
 unsigned int file_idx=2;
 int num_subdiv = 1;
 double stop_energy=10;
 
-int selected_tag = 4;
-int selected_face_label = -1;
-int selected_patch_label = -1; 
+int selected_label = 4;
+int selected_face_index = -1;
+int selected_patch_index = -1; 
+bool selected; // activated when mouse click a patch
 std::map<int, std::vector<int> > patch_dict_bad; //  to re-tag patches
 std::vector<std::string> patch_dict_bad_labels; // for use in menu combo
-bool selected;
+
 
 void modular_patch_label(
     const Eigen::MatrixXi & FT_bad, 
@@ -123,11 +126,10 @@ void update_states(std::string data_root){
         FL_bad(i,0)= FT_bad(i,0) % label_num;
     }
     label_num = FL_bad.maxCoeff()+1;
-    int sample_num = V_good_refine.rows();
+    sample_num = V_good_refine.rows();
     std::cout << sample_num<< std::endl;
     {
         // handle all the labels
-        Eigen::MatrixXi I_bad;
         Eigen::SparseMatrix<double> B_bad;
         igl::random_points_on_mesh(sample_num, V_bad, F_bad, B_bad, I_bad);
         S_bad = B_bad * V_bad;
@@ -142,6 +144,7 @@ void update_states(std::string data_root){
 
 void update_NN(){
     // generate the sample label on bad mesh;
+    bcclean::generate_sample_label(FL_bad, I_bad, sample_num, SL_bad);
     bcclean::NN_sample_label_transport(S_bad, V_good_refine, SL_bad, VL_good_refine);
     // nearest neighbor transport sample labels to vertices;
     bcclean::vertex_label_vote_face_label(label_num, VL_good_refine, F_good_refine, FL_good_refine, prob_mat);
@@ -203,18 +206,42 @@ bool key_down(igl::opengl::glfw::Viewer &viewer, unsigned char key, int modifier
     return false;
 }
 
+void plot_selected_patch_on_bad_mesh(
+    igl::opengl::glfw::Viewer &viewer,
+    const Eigen::MatrixXd & V_bad, 
+    const Eigen::MatrixXi & F_bad, 
+    const Eigen::MatrixXi & FL_bad, 
+    std::map<int, std::vector<int> >  & patch_dict_bad, 
+    int selected_patch_idx){
+        Eigen::MatrixXd temp_C_bad; // only work when patch selected
+        igl::jet(FL_bad,0, label_num-1, temp_C_bad);
+        auto v = patch_dict_bad[selected_patch_idx];
+        for(int f: v){
+            temp_C_bad.row(f) = Eigen::RowVector3d(1,1,1);
+        }
+        viewer.data().clear();
+        viewer.data().set_mesh(V_bad, F_bad);
+        viewer.data().set_colors(temp_C_bad);
+}
+
 bool mouse_down(igl::opengl::glfw::Viewer &viewer, int, int) {
     int fid_ray;
     Eigen::Vector3f bary;
     // Cast a ray in the view direction starting from the mouse position
     double x = viewer.current_mouse_x;
     double y = viewer.core().viewport(3) - viewer.current_mouse_y;
-    if (igl::unproject_onto_mesh(Eigen::Vector2f(x, y), viewer.core().view,
-                                 viewer.core().proj, viewer.core().viewport, V_bad, F_bad, fid_ray, bary)) {
-        if(clickable){
-            
+    if(clickable){
+        // mouse_down only work on bad_mesh
+        if (igl::unproject_onto_mesh(Eigen::Vector2f(x, y), viewer.core().view,
+                                 viewer.core().proj, viewer.core().viewport, V_bad, F_bad, fid_ray, bary)) 
+        {
+            selected_face_index = fid_ray;
+            selected_patch_index = FT_bad(selected_face_index,0);
+            selected_label = FL_bad(selected_face_index,0);
+            plot_selected_patch_on_bad_mesh(viewer, V_bad, F_bad, FL_bad, patch_dict_bad, selected_patch_index);
+            selected = true;   // activate selected state
+            return true;
         }
-        return true;
     }
     return false;
 };
@@ -250,6 +277,7 @@ int main(int argc, char *argv[]) {
     py::scoped_interpreter guard{};
     update_states(data_root);
     viewer.callback_key_down = &key_down;
+    viewer.callback_mouse_down = &mouse_down;
     // link key_down function
     igl::opengl::glfw::imgui::ImGuiMenu menu;
     viewer.plugins.push_back(&menu);
@@ -265,27 +293,47 @@ int main(int argc, char *argv[]) {
                 update_states(data_root);
             }
         }
-        if(ImGui::CollapsingHeader("Tag manipulation", ImGuiTreeNodeFlags_DefaultOpen)){
-            int selected_tag_num = std::distance(
+        if(ImGui::CollapsingHeader("Label manipulation", ImGuiTreeNodeFlags_DefaultOpen)){
+            int selected_label_num = std::distance(
                 patch_dict_bad_labels.begin(), 
-                std::find(patch_dict_bad_labels.begin(), patch_dict_bad_labels.end(), std::to_string(selected_tag))
+                std::find(patch_dict_bad_labels.begin(), patch_dict_bad_labels.end(), std::to_string(selected_label))
                 );
-            if (ImGui::Combo("Tag selected patch as", &selected_tag_num, patch_dict_bad_labels)){
-                selected_tag = std::stoi(patch_dict_bad_labels[selected_tag_num]);
+            if (ImGui::Combo("Label patch as", &selected_label_num, patch_dict_bad_labels)){
+                if(selected){
+                    selected_label = std::stoi(patch_dict_bad_labels[selected_label_num]);
+                    for (auto f:patch_dict_bad[selected_patch_index]){
+                        FL_bad(f,0) = selected_label; 
+                    }
+                    igl::jet(FL_bad, 0, label_num-1, C_bad);
+                    key_down(viewer, '1',0);
+                    selected = false;
+                }
             }
         }
         if(ImGui::CollapsingHeader("Visualization choices", ImGuiTreeNodeFlags_DefaultOpen)){
             if (ImGui::Button("show bad mesh", ImVec2(-1,0))) {
                 key_down(viewer, '1', 0);
+                clickable = true;
             }
             if (ImGui::Button("show NN on good mesh", ImVec2(-2,0))){
                 key_down(viewer, '2', 0);
+                clickable = false;
             }
             if (ImGui::Button("show projection on good mesh", ImVec2(-3,0))){
                 key_down(viewer, '3', 0);
+                clickable = false;
             }
             if(ImGui::Button("graph cut", ImVec2(-4,0))){
                 key_down(viewer, '4', 0);
+                clickable = false;
+            }
+        }
+        if(ImGui::CollapsingHeader("Outputs", ImGuiTreeNodeFlags_DefaultOpen)){
+            if (ImGui::Button("Export good mesh", ImVec2(-1,0))) {
+                igl::writeOBJ(data_root+"/good_mesh.obj", V_good_refine, F_good_refine);
+            }
+            if (ImGui::Button("Export feat file(dmat)", ImVec2(-2,0))){
+                igl::writeDMAT(data_root+"/good_feat.dmat", FL_good_refine);
             }
         }
     };
