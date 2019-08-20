@@ -17,7 +17,6 @@
 #include <CGAL/property_map.h>
 #include <iostream>
 #include <fstream>
-#include <igl/opengl/glfw/Viewer.h>
 #include <igl/read_triangle_mesh.h>
 #include <igl/copyleft/cgal/mesh_to_polyhedron.h>
 #include <igl/is_vertex_manifold.h>
