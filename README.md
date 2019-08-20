@@ -64,6 +64,7 @@ prob_mat, fl_good = pbc.project_face_labels(v_bad,f_bad.astype('int32'), fl_bad.
 mp.plot(v_good, f_good,fl_good[:,0], shading={"wireframe": True})
 ```
 ![](README_support/good_initial.png)
+
 This give the initial boundary condition for us to clean
 ```python
 fl_good_cut =pbc.refine_labels(v_good,f_good.astype('int32'),prob_mat,fl_good.astype('int32'),1)
