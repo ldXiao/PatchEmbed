@@ -2,6 +2,7 @@ cmake_minimum_required(VERSION 3.1)
 project(pybcclean)
 
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
+set(THIRD_PARTY_DIR ${CMAKE_CURRENT_SOURCE_DIR}/external/)
 
 # libigl
 option(LIBIGL_WITH_OPENGL            "Use OpenGL"         ON)
