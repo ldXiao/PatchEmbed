@@ -87,7 +87,7 @@ void update_states(std::string data_root){
     py::object py_bad_mesh_file =
             utlis.attr("get_bad_mesh")(data_root);
     bad_mesh_file = py_bad_mesh_file.cast<string>();
-    std::cout << "tetrhedralizing..."<< std::endl;
+    std::cout << "tetrahedralizing..."<< std::endl;
     py::object py_tet_file = utlis.attr("tetrahedralize_bad_mesh")(bad_mesh_file,"", stop_energy);
     tet_file = py_tet_file.cast<string>();
     py::object py_face_label_yml = utlis.attr("get_feat_file")(data_root);
