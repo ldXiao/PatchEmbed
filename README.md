@@ -70,6 +70,6 @@ This give the initial boundary condition for us to clean
 fl_good_cut =pbc.refine_labels(v_good,f_good.astype('int32'),prob_mat,fl_good.astype('int32'),1)
 mp.plot(v_good, f_good, fl_good_cut[:,0], shading={"wireframe":True})
 ```
-![](README_support/good_initial.png)
+![](README_support/good_cut.png)
 
 
