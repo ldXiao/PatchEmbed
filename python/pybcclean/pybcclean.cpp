@@ -1,5 +1,6 @@
 #include <pybind11/pybind11.h>
 #include "bcclean.h"
+#include <pybind11/eigen.h>
 
 int add(int i, int j) {
     return i + j;
@@ -9,7 +10,7 @@ namespace py = pybind11;
 
 PYBIND11_MODULE(pybcclean, m) {
     m.doc() = R"pbdoc(
-        Pybind11 example plugin
+        Pybind11 gen pybcclean 
         -----------------------
 
         .. currentmodule:: pybcclean
@@ -26,6 +27,8 @@ PYBIND11_MODULE(pybcclean, m) {
 
         Some other explanation about the add function.
     )pbdoc");
+
+    m.def("add_any", [](py::EigenDRef<Eigen::MatrixXd> x, int r, int c, double v) { x(r,c) += v; });
 
     m.def("subtract", [](int i, int j) { return i - j; }, R"pbdoc(
         Subtract two numbers
