@@ -64,7 +64,7 @@ PYBIND11_MODULE(pybcclean, m) {
         py::EigenDRef<Eigen::MatrixXi> F_bad,
         py::EigenDRef<Eigen::MatrixXi> FL_bad,
         py::EigenDRef<Eigen::MatrixXd> V_good, 
-        py::EigenDRef<Eigen::MatrixXi> F_good,
+        py::EigenDRef<Eigen::MatrixXi> F_good
         ) {
             Eigen::MatrixXd prob_mat;
             Eigen::MatrixXi FL_good;
@@ -88,11 +88,11 @@ PYBIND11_MODULE(pybcclean, m) {
         py::EigenDRef<Eigen::MatrixXd> V_good, 
         py::EigenDRef<Eigen::MatrixXi> F_good,
         py::EigenDRef<Eigen::MatrixXd> prob_mat,
-        py::EigenDRef<Eigen::MatrixXd> FL_good,
+        Eigen::MatrixXi& FL_good,
         double lambda_refine
     ){
-        Eigen::MatrixXi FL_good_cut = FL_good;
-        bcclean::refine_labels_graph_cut(V_good,F_good, prob_mat.transpose(), FL_good_cut, lambda_refine);
+        Eigen::MatrixXi FL_good_cut= FL_good;
+        bcclean::refine_labels_graph_cut(V_good,F_good, prob_mat.transpose(), FL_good_cut,lambda_refine);
         return FL_good_cut;
     },
     R"pbdoc(
