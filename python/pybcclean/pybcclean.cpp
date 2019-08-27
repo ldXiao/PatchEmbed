@@ -4,10 +4,6 @@
 #include "graphcut_cgal.h"
 #include <pybind11/eigen.h>
 
-int add(int i, int j) {
-    return i + j;
-}
-
 void project_face_labels(
     const Eigen::MatrixXd &V_bad, 
     const Eigen::MatrixXi &F_bad, 
@@ -25,9 +21,13 @@ void project_face_labels(
                 count_dict[FL_bad(i,0)]=1;
             }
         }
-        Eigen::MatrixXi VL_good;
+        Eigen::MatrixXi VL_good, FL_good_temp;
+        std::cout << "r1"<< std::endl;
         bcclean::LM_intersection_label_transport(V_bad,F_bad,FL_bad,V_good,F_good,VL_good);
+        std::cout << "r2"<< std::endl;
+        // bcclean::Barycenter_intersection_label_transport(V_bad,F_bad,FL_bad,V_good,F_good,FL_good);
         bcclean::vertex_label_vote_face_label(label_num, VL_good, F_good, FL_good, prob_mat);
+        std::cout << "r3"<< std::endl;
 }
 
 void refine_labels(
@@ -57,6 +57,18 @@ PYBIND11_MODULE(pybcclean, m) {
 
 
     m.def("add_any", [](py::EigenDRef<Eigen::MatrixXd> x, int r, int c, double v) { x(r,c) += v; });
+    m.def(
+        "nn_sample_label_transport",
+        [](
+        const Eigen::MatrixXd & S0,
+        const Eigen::MatrixXi & SL0,
+        const Eigen::MatrixXd & S1
+        ){
+            Eigen::MatrixXi SL1;
+            bcclean::NN_sample_label_transport(S0, S1, SL0, SL1);
+            return SL1;
+        }
+    );
     m.def(
         "project_face_labels",
         [](
