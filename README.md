@@ -1,6 +1,6 @@
 ## bcClean
 
-This project try to solve a practical problem many encounters when doing FEM over CAD models. It is ambiguous how to set the boundary condition after mesh repair/ mesh refine. This package provide a lib and UI to transport the boundary condition labels by either nearest neighbor or Euclidean projection followed by a clean up.
+This project try to solve a practical problem many encounter when doing FEM over CAD models. It is ambiguous how to set the boundary condition after mesh repair/ mesh refine. This package provide a lib and UI to transport the boundary condition labels by either nearest neighbor or Euclidean projection followed by a clean up.
 
 ### Installation
 To run the program, a python interpreter (>3.6) is required and python module yaml, wildmeshing, igl, numpy are necessary. We recommend using a separate anaconda env. To set up the prerequisite
