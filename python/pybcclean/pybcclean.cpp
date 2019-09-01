@@ -12,15 +12,16 @@ void project_face_labels(
     const Eigen::MatrixXi &F_good,
     Eigen::MatrixXi & FL_good,
     Eigen::MatrixXd & prob_mat){
-        int label_num = 0;
-        std::map<int, int> count_dict;
-        for(int i =0; i< FL_bad.rows(); ++i){
-            auto it = count_dict.find(FL_bad(i,0));
-            if(it == count_dict.end()){
-                label_num+=1;
-                count_dict[FL_bad(i,0)]=1;
-            }
-        }
+        // int label_num = 0;
+        // std::map<int, int> count_dict;
+        // for(int i =0; i< FL_bad.rows(); ++i){
+        //     auto it = count_dict.find(FL_bad(i,0));
+        //     if(it == count_dict.end()){
+        //         label_num+=1;
+        //         count_dict[FL_bad(i,0)]=1;
+        //     }
+        // }
+        int label_num = FL_bad.maxCoeff()+1;
         Eigen::MatrixXi VL_good, FL_good_temp;
         std::cout << "r1"<< std::endl;
         bcclean::LM_intersection_label_transport(V_bad,F_bad,FL_bad,V_good,F_good,VL_good);
@@ -74,7 +75,7 @@ PYBIND11_MODULE(pybcclean, m) {
         [](
         py::EigenDRef<Eigen::MatrixXd> V_bad, 
         py::EigenDRef<Eigen::MatrixXi> F_bad,
-        py::EigenDRef<Eigen::MatrixXi> FL_bad,
+        const Eigen::MatrixXi FL_bad,
         py::EigenDRef<Eigen::MatrixXd> V_good, 
         py::EigenDRef<Eigen::MatrixXi> F_good
         ) {
@@ -104,7 +105,7 @@ PYBIND11_MODULE(pybcclean, m) {
         double lambda_refine
     ){
         Eigen::MatrixXi FL_good_cut= FL_good;
-        bcclean::refine_labels_graph_cut(V_good,F_good, prob_mat.transpose(), FL_good_cut,lambda_refine);
+        bcclean::refine_labels_graph_cut(V_good, F_good, prob_mat.transpose(), FL_good_cut,lambda_refine);
         return FL_good_cut;
     },
     R"pbdoc(

@@ -47,6 +47,14 @@ void generate_sample_label(
             const std::map<int, std::vector<int> > &ETT,
             std::map<int, std::vector<int> > &dict);
 
+    void Barycenter_intersection_label_transport(
+        const Eigen::MatrixXd &V0,
+        const Eigen::MatrixXi & F0,
+        const Eigen::MatrixXi & FL0,
+        const Eigen::MatrixXd & V1,
+        const Eigen::MatrixXi & F1,
+        Eigen::MatrixXi & FL1);
+
     void NN_sample_label_vote_face_label(
             const int label_num,
             const Eigen::MatrixXi &I1,

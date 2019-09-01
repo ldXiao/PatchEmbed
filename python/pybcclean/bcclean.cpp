@@ -98,8 +98,11 @@ namespace bcclean {
         Eigen::MatrixXd R1=igl::embree::line_mesh_intersection(V1, N1, V0, F0);
         std::cout << "r5"<< std::endl;
         VL1= Eigen::MatrixXi::Constant(V1.rows(), 1, -1);
+        int short_mem = 0;
         for(int i =0; i < VL1.rows(); ++i){
-            VL1(i,0)= FL0(std::round(R1(i,0)),0);
+            int j = std::round(R1(i,0));
+            if(j==-1){VL1(i,0) = short_mem;}
+            else{VL1(i,0)= FL0(j,0); short_mem = FL0(j,0);}
         }
     }
 
@@ -163,9 +166,10 @@ namespace bcclean {
     ) {
         FL = Eigen::MatrixXi::Zero(F.rows(), 1);
         prob_mat = Eigen::MatrixXd::Constant(FL.rows(), label_num, 0.1 / label_num);
+        std::map<int, int> dict;
         for (int fidx = 0; fidx < F.rows(); ++fidx) {
             // int v0, v1, v2, l0, l1, l2;
-            std::map<int, int> dict;
+            dict.clear();
             for (int i = 0; i < 3; ++i) {
                 int vi = F(fidx, i);
                 int li = VL(vi, 0);

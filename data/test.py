@@ -87,11 +87,13 @@ def perturb_and_union(v_dict, f_dict, eps):
         count_f += len(f_temp)
     return new_v, new_f, new_fl
 
-file_root = os.path.dirname("2/00000006_d4fe04f0f5f84b52bd4f10e4_trimesh_001.obj")
+file_bench = "3/00000008_9b3d6a97e8de4aa193b81000_trimesh_000.obj"
+file_yml = "3/00000008_9b3d6a97e8de4aa193b81000_features_000.yml"
+file_root = os.path.dirname(file_bench)
 # wm.tetrahedralize("2/00000006_d4fe04f0f5f84b52bd4f10e4_trimesh_001.obj", file_root+"/"+"bench.mesh", stop_quality=7)
-fl_bench_file = parse_feat("2/00000006_d4fe04f0f5f84b52bd4f10e4_features_001.yml")
+fl_bench_file = parse_feat(file_yml)
 fl_bench = igl.read_dmat(fl_bench_file)
-v_bench, f_bench = igl.read_triangle_mesh("2/00000006_d4fe04f0f5f84b52bd4f10e4_trimesh_001.obj")
+v_bench, f_bench = igl.read_triangle_mesh(file_bench)
 v_ini, f_ini=igl.read_triangle_mesh("bench.mesh__sf.obj")
 prob_mat_ini, fl_ini_temp =pbc.project_face_labels(v_bench,f_bench.astype('int32'), fl_bench.astype('int32'),v_ini,f_ini.astype('int32'))
 fl_ini = pbc.refine_labels(v_ini, f_ini.astype('int32'), prob_mat_ini, fl_ini_temp.astype('int32'),1)
@@ -105,9 +107,10 @@ v_bad, f_bad, fl_bad = perturb_and_union(v_dict, f_dict, eps)
 eps_file_name = file_root+"/"+str(eps)+"pertb.obj"
 igl.write_obj(eps_file_name, v_bad, f_bad)
 v_good, f_good = igl.read_triangle_mesh(file_root+"/"+"out.mesh__sf.obj")
-print(0)
+print("py0")
+print("called")
 prob_mat, fl_good_proj = pbc.project_face_labels(v_bad, f_bad.astype('int32'), fl_bad[:,0].astype('int32'), v_good, f_good.astype('int32'))
 print("first")
-prob_mat, fl_good_proj = pbc.project_face_labels(v_bad, f_bad.astype('int32'), fl_bad[:,0].astype('int32'), v_good, f_good.astype('int32'))
+# prob_mat, fl_good_proj = pbc.project_face_labels(v_bad, f_bad.astype('int32'), fl_bad[:,0].astype('int32'), v_good, f_good.astype('int32'))
 print("second")
 # igl.write_dmat(file_root+"/"+"feat_cut.dmat",fl_good_proj)

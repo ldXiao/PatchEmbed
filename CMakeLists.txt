@@ -113,3 +113,7 @@ target_link_libraries(bcclean PUBLIC
 # Add your project files
 add_executable(bcclean_bin src/main.cpp)
 target_link_libraries(bcclean_bin bcclean pybind11::embed)
+
+# Add your project files
+add_executable(test_bin src/test.cpp)
+target_link_libraries(test_bin bcclean pybind11::embed)
