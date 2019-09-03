@@ -86,7 +86,8 @@ void generate_sample_label(
         int _total_label_num;
         int _occupied_label_num;
         std::map<int, int> _label_occupy_dict;
-        bool is_equal(const node & b);
+        bool of_same_type(const node & b);
+        bool at_same_position(const Eigen::MatrixXd & position);
         bool initialize(const int total_label_num, const Eigen::MatrixXd & position, const std::vector<int> labels);
     };
 
@@ -96,6 +97,22 @@ void generate_sample_label(
         const Eigen::MatrixXd &V, 
         const Eigen::MatrixXi &F,
         const Eigen::MatrixXi &FL);
+
+    void extract_label_patch_mesh(
+            const Eigen::MatrixXd& V, 
+            const Eigen::MatrixXi& F, 
+            const Eigen::MatrixXi&FL, 
+            const int lb_in, 
+            Eigen::MatrixXd& V_i, 
+            Eigen::MatrixXi& F_i);
+
+    void map_vertices_to_regular_polygon(
+            const Eigen::MatrixXd &V, 
+            const Eigen::MatrixXi & F, 
+            std::vector<node> & nodes, 
+            Eigen::VectorXi & bnd,
+            Eigen::MatrixXd & bnd_uv,
+            std::vector<node>& ordered_nodes);
 }
 
 
