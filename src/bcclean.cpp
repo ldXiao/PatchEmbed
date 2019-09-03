@@ -324,4 +324,41 @@ namespace bcclean {
             }
             return true;
     };
+
+    std::vector<std::vector<node>> build_label_nodes_list(
+        const Eigen::MatrixXd &V, 
+        const Eigen::MatrixXi &F,
+        const Eigen::MatrixXi &FL){
+            // return lb->vector<nodes> where the nodes are unodered for each patch
+            std::map<int, std::vector<int>> count_dict;
+            // vertx_index -> label_list
+            for(int fidx=0; fidx< F.rows(); ++fidx){
+                int lb = FL(fidx,0);
+                for(int i=0; i <3; ++i){
+                    int vi = F(fidx, i);
+                    auto & vect = count_dict[vi];
+                    auto it = std::find (vect.begin(), vect.end(), lb);
+                    if(it == vect.end()){
+                        std::cout<<"push0"<<vi<<","<<lb<<std::endl;
+                        vect.push_back(lb);
+                        std::cout<<vect.size()<<std::endl;
+                    }
+                }
+            }
+            int total_label_num = FL.maxCoeff()+1;
+            std::vector<std::vector<node>> result(total_label_num);
+            for(auto & [vi, vect]: count_dict){
+                std::sort(vect.begin(), vect.end());
+                if(vect.size()>2){
+                    Eigen::RowVector3d position = V.row(vi);
+                    node nd;
+                    nd.initialize(total_label_num, position, vect);
+                    for(int lb: vect){
+                        result[lb].push_back(nd);
+                        std::cout<< "push"<<std::endl;
+                    }
+                }
+            }
+            return result;
+        };
 }

@@ -9,6 +9,7 @@
 #include <Eigen/Core>
 #include <tuple>
 #include <iostream>
+#include <algorithm>
 namespace  bcclean {
 // helper function
 void generate_sample_color(
@@ -88,6 +89,14 @@ void generate_sample_label(
         bool is_equal(const node & b);
         bool initialize(const int total_label_num, const Eigen::MatrixXd & position, const std::vector<int> labels);
     };
+
+    
+
+    std::vector<std::vector<node>> build_label_nodes_list(
+        const Eigen::MatrixXd &V, 
+        const Eigen::MatrixXi &F,
+        const Eigen::MatrixXi &FL);
 }
+
 
 #endif //OTMAPPING_CUTGRAPH_H
