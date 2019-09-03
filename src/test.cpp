@@ -61,18 +61,8 @@ void project_face_labels(
 }
 
 int main(){
-    
-    igl::read_triangle_mesh("../data/test.obj", V_bad, F_bad);
-    igl::read_triangle_mesh("../data/test_good.obj", V_good, F_good);
-    igl::readDMAT("../data/test.dmat", FL_bad);
-    label_num = FL_bad.maxCoeff()+1;
-    // bcclean::LM_intersection_label_transport(
-    // V_bad,
-    // F_bad,
-    // FL_bad,
-    // V_good,
-    // F_good,
-    // VL_good);
-    // bcclean::vertex_label_vote_face_label(label_num, VL_good, F_good, FL_good, prob_mat);
-    project_face_labels(V_bad, F_bad, FL_bad, V_good, F_good, FL_good, prob_mat);
+    bcclean::node a;
+    Eigen::RowVector3d p(1,2,3);
+    std::vector<int> x(10);
+    a.initialize(10, p, x);
 }

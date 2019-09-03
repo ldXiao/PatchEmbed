@@ -1,7 +1,6 @@
 //
 // Created by Lind Xiao on 7/25/19.
 //
-
 #ifndef OTMAPPING_CUTGRAPH_H
 #define OTMAPPING_CUTGRAPH_H
 
@@ -9,6 +8,7 @@
 #include <map>
 #include <Eigen/Core>
 #include <tuple>
+#include <iostream>
 namespace  bcclean {
 // helper function
 void generate_sample_color(
@@ -77,9 +77,17 @@ void generate_sample_label(
     void set_Face_Edges(const Eigen::MatrixXi &F, Eigen::MatrixXi &E);
 
     void normalize_mesh(Eigen::MatrixXd & V_bad, Eigen::MatrixXd & V_good);
-
+    
     void build_patch_dict(const Eigen::MatrixXi &FL, std::map<int, std::vector<int> > & patch_dict);
-
+    class node {
+        public:
+        Eigen::MatrixXd _position;
+        int _total_label_num;
+        int _occupied_label_num;
+        std::map<int, int> _label_occupy_dict;
+        bool is_equal(const node & b);
+        bool initialize(const int total_label_num, const Eigen::MatrixXd & position, const std::vector<int> labels);
+    };
 }
 
 #endif //OTMAPPING_CUTGRAPH_H
