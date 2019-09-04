@@ -1,8 +1,8 @@
 //
 // Created by Lind Xiao on 7/25/19.
 //
-#ifndef OTMAPPING_CUTGRAPH_H
-#define OTMAPPING_CUTGRAPH_H
+    #ifndef OTMAPPING_CUTGRAPH_H
+    #define OTMAPPING_CUTGRAPH_H
 
 #include <vector>
 #include <map>
@@ -80,39 +80,6 @@ void generate_sample_label(
     void normalize_mesh(Eigen::MatrixXd & V_bad, Eigen::MatrixXd & V_good);
     
     void build_patch_dict(const Eigen::MatrixXi &FL, std::map<int, std::vector<int> > & patch_dict);
-    class node {
-        public:
-        Eigen::MatrixXd _position;
-        int _total_label_num;
-        int _occupied_label_num;
-        std::map<int, int> _label_occupy_dict;
-        bool of_same_type(const node & b);
-        bool at_same_position(const Eigen::MatrixXd & position);
-        bool initialize(const int total_label_num, const Eigen::MatrixXd & position, const std::vector<int> labels);
-    };
-
-    
-
-    std::vector<std::vector<node>> build_label_nodes_list(
-        const Eigen::MatrixXd &V, 
-        const Eigen::MatrixXi &F,
-        const Eigen::MatrixXi &FL);
-
-    void extract_label_patch_mesh(
-            const Eigen::MatrixXd& V, 
-            const Eigen::MatrixXi& F, 
-            const Eigen::MatrixXi&FL, 
-            const int lb_in, 
-            Eigen::MatrixXd& V_i, 
-            Eigen::MatrixXi& F_i);
-
-    void map_vertices_to_regular_polygon(
-            const Eigen::MatrixXd &V, 
-            const Eigen::MatrixXi & F, 
-            std::vector<node> & nodes, 
-            Eigen::VectorXi & bnd,
-            Eigen::MatrixXd & bnd_uv,
-            std::vector<node>& ordered_nodes);
 }
 
 

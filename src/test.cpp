@@ -17,7 +17,9 @@
 #include <imgui/imgui_internal.h>
 #include <Eigen/Core>
 #include "bcclean.h"
+#include "mapping_patch.h"
 #include "graphcut_cgal.h"
+#include "mapping_patch.h"
 #include <igl/upsample.h>
 #include <igl/random_points_on_mesh.h>
 #include <igl/jet.h>
@@ -29,6 +31,7 @@
 #include <cxxopts.hpp>
 #include <nlohmann/json.hpp>
 
+
 Eigen::MatrixXi F_bad, F_good;
 Eigen::MatrixXd V_bad, V_good;
 Eigen::MatrixXi FL_bad, VL_good, FL_good;
@@ -39,7 +42,7 @@ Eigen::MatrixXd V_uv;
 Eigen::MatrixXd V_i, bnd_uv;
 Eigen::MatrixXi F_i;
 Eigen::VectorXi bnd;
-int lb_in=20;
+int lb_in=3;
 std::vector<std::vector<bcclean::node>> vec;
 std::vector<bcclean::node> ordered_nodes;
 void project_face_labels(
@@ -75,11 +78,13 @@ bool key_down(igl::opengl::glfw::Viewer &viewer, unsigned char key, int modifier
             viewer.data().clear();
             lb_in+=1;
             lb_in %= 21;
-            bcclean::extract_label_patch_mesh(V_good, F_good, FL_good, lb_in,V_i, F_i);
-            viewer.data().set_mesh(V_i, F_i);
-            bcclean::map_vertices_to_regular_polygon(V_i, F_i, vec[lb_in], bnd, bnd_uv,ordered_nodes);
-            for(bcclean::node nd:ordered_nodes){
-                viewer.data().add_points(nd._position, Eigen::RowVector3d(1,1,1));
+            if(vec[lb_in].size()>3){
+                bcclean::extract_label_patch_mesh(V_good, F_good, FL_good, lb_in,V_i, F_i);
+                viewer.data().set_mesh(V_i, F_i);
+                bcclean::map_vertices_to_regular_polygon(V_i, F_i, vec[lb_in], bnd, bnd_uv,ordered_nodes);
+                for(bcclean::node nd:ordered_nodes){
+                    viewer.data().add_points(nd._position, Eigen::RowVector3d(1,1,1));
+                }
             }
             break;
         }
@@ -120,13 +125,13 @@ int main(){
     std::vector<std::vector<bcclean::node>> vec1 = vec;
     std::vector<bcclean::node> list = vec[lb_in];
     std::cout<< list.size()<< std::endl;
-    bcclean::map_vertices_to_regular_polygon(V_i, F_i, list, bnd, bnd_uv, ordered_nodes);
+    // bcclean::map_vertices_to_regular_polygon(V_i, F_i, list, bnd, bnd_uv, ordered_nodes);
     
-    igl::harmonic(V_i,F_i,bnd, bnd_uv, 1, V_uv);
+    // igl::harmonic(V_i,F_i,bnd, bnd_uv, 1, V_uv);
     viewer.callback_key_down = &key_down;
     
     viewer.data().set_mesh(V_i, F_i);
-    for(bcclean::node nd:ordered_nodes){
+    for(bcclean::node nd:list){
         viewer.data().add_points(nd._position, Eigen::RowVector3d(1,1,1));
     }
     viewer.launch();
