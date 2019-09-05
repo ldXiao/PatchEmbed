@@ -42,27 +42,39 @@ namespace bcclean{
             int label;
             int node_num;
             int total_label_num;
+            bool loop_direction=true;
             // global setting
-            Eigen::MatrixXd V_raw;
-            Eigen::MatrixXi F_raw;
-            Eigen::VectorXi bnd_raw;
+            Eigen::MatrixXd _V_raw;
+            Eigen::MatrixXi _F_raw;
+            Eigen::VectorXi _bnd_raw;
             //inputed raw mesh boundary degeneracy might exist
-            Eigen::MatrixXd V_ndg;
-            Eigen::MatrixXi F_ndg;
-            Eigen::VectorXi bnd_ndg;
+            Eigen::MatrixXd _V_ndg;
+            Eigen::MatrixXi _F_ndg;
+            Eigen::VectorXi _bnd_ndg; // boundary vertices indices in loop order
             // modified nondegenerate mesh use this mesh to project to X-Y plane
+            // temporarily, we use (_V_ndg, _F_ndg) for mapping only and don't split the corresponding tet mesh
+            // TODO add tet split info
             
-            Eigen::VectorXi V_bridge_raw2ndg;
-            Eigen::VectorXi F_bridge_raw2ndg;
-            Eigen::VectorXi V_bridge_ndg2raw;
-            Eigen::VectorXi F_bridge_ndg2raw;
+            Eigen::VectorXi _V_bridge_raw2ndg;
+            Eigen::VectorXi _F_bridge_raw2ndg;
+            Eigen::VectorXi _V_bridge_ndg2raw;
+            Eigen::VectorXi _F_bridge_ndg2raw;
             // internal correspondence relation in both directions
-            
 
-            std::map<int, node> ordered_nodes_list;
+            Eigen::MatrixXd _V_uv;
+            Eigen::MatrixXi _F_uv; // bnd_uv should be the same as bnd_ndg
+            Eigen::MatrixXd _bnd_uv; // bnd should be the same as bnd_ndg
+            // TODO remove ndg triple and preserve only uv ones
+
+            std::vector<int> _nails; // nail index on bnd will not change once initialized
+            std::map<int, node> _nails_nodes_dict; //nail index-> node map will not change once initialized
+            std::vector<int> _ccw_ordered_nails; // will totate or flip if two patch nodes list does not match
+                                                 // store ccw drawing sequence of nodes, store nails       
+            std::map<int, double> _edge_arc_ratio_list; //will change once initialized
             //contains the information index on bnd_ndg and the corresponding nodes
+            bool build_patch(const Eigen::MatrixXd &Vi, const Eigen::MatrixXi & Fi, std::vector<node> & nodes, int lb_in);
+            // void flip_loop_direction(); not yet implemented
 
-            void
     };
 }
 #endif //BCCLEAN_MAPPING_PATCH_H

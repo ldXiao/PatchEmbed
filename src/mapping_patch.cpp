@@ -6,6 +6,9 @@
 #include <igl/remove_unreferenced.h>
 #include <igl/boundary_loop.h>
 #include <igl/boundary_facets.h>
+#include <igl/list_to_matrix.h>
+#include <igl/vertex_triangle_adjacency.h>
+#include <iostream>
 #define PI 3.141592653
 
 namespace bcclean{
@@ -13,7 +16,6 @@ namespace bcclean{
         patch_dict.clear();
         for(int fidx =0 ; fidx < FL.rows(); fidx++){
             int patch_idx = FL(fidx,0);
-//            std::vector<int> chunk;
             auto it = patch_dict.find(patch_idx);
             if(it == patch_dict.end()){
                 std::vector<int> chunk;
@@ -53,6 +55,7 @@ namespace bcclean{
                     return false;
             }
     };
+    
     bool node::of_same_type(const node & b){
             if(_total_label_num != b._total_label_num){
                 return false;
@@ -100,7 +103,6 @@ namespace bcclean{
             int total_label_num = FL.maxCoeff()+1;
             std::vector<std::vector<node>> result(total_label_num);
             for(auto & [vi, vect]: count_dict){
-                std::sort(vect.begin(), vect.end());
                 if(vect.size()>2){
                     Eigen::RowVector3d position = V.row(vi);
                     node nd;
@@ -219,4 +221,183 @@ namespace bcclean{
                     }
                 }
         }
+    
+    bool no_consecutive_on_loop(int loop_len, std::vector<int> peaks){
+        if(peaks.size()<2){
+            return true;
+        }
+        bool res = true;
+        std::sort(peaks.begin(), peaks.end());
+        
+        for(int i =0; i<peaks.size();++i){
+            int curr = peaks[i];
+            int next = peaks[(i+1)%peaks.size()];
+            if((next-curr)==1){
+                res = false;
+                break;
+            }
+            if((next+loop_len-curr)==1){
+                res = false;
+                break;
+            }
+        }
+        return res;
+    }
+
+    bool split_ears(
+        const Eigen::MatrixXd & V, 
+        const Eigen::MatrixXi & F, 
+        const Eigen::VectorXi & bnd,
+        const std::vector<int> & nails,
+        Eigen::MatrixXd &NV,
+        Eigen::MatrixXi &NF,
+        Eigen::VectorXi &I,
+        Eigen::VectorXi &J){
+            // TODO improve performace use 
+            std::vector<int> degenerate_faces;
+            std::vector<int> degenerate_boundary_peaks;
+            for(int fidx=0; fidx< F.rows(); ++fidx){
+                std::vector<int> count_list;
+                for(int vinf; vinf <3; ++vinf){
+                    for(int shuttle=0; shuttle < bnd.rows();++shuttle){
+                        if(bnd[shuttle]==F(fidx,vinf)){
+                            count_list.push_back(bnd[shuttle]);
+                            break;
+                        }
+                    }
+                }
+                if(count_list.size()>2){
+                    // degenerate face detected
+                    int ear_peak = count_list[1];
+                    auto it = std::find(nails.begin(), nails.end(), ear_peak);
+                    if(it==nails.end()){
+                        degenerate_faces.push_back(fidx);
+                        // the count_list already store the order of triangle points in bnd push the middle one into the degenerate_boundary_peaks if it is not node
+                        degenerate_boundary_peaks.push_back(ear_peak);
+                    }
+                }
+            }
+            if(degenerate_faces.size()==0){
+                NV = V;
+                NF = F;
+                std::cout<< "no degenerate face detected"<<std::endl;
+                return true;
+            }
+            else{
+                // TODO add functions to deal with ear spliting
+                return false;
+            }
+        }
+    
+    
+    bool build_nails(const Eigen::MatrixXd & V, const Eigen::VectorXi & bnd, std::vector<node> & nodes, std::vector<int> & nails, std::map<int, node> & nails_node_dict){
+        int count = 0;
+        nails.clear();
+        nails_node_dict.clear();
+        for(int bnd_idx=0; bnd_idx<bnd.rows(); ++bnd_idx){
+            for(node & nd:nodes){
+                if(nd.at_same_position(V.row(bnd(bnd_idx)))){
+                    nails.push_back(bnd_idx);       
+                    nails_node_dict[bnd_idx]=nd;
+                }
+            }
+        }
+        if(nails.size()<3){
+            std::cout << "too few nodes, unable to map"<<std::endl;
+            return false;
+        }
+        return true;
+    }
+    
+    bool cyc_flip_mapping(
+        std::vector<node> & nodes, 
+        std::vector<node> & target_nodes, 
+        std::map<int,int> &mapping){
+            mapping.clear();
+            if(nodes.size()!=target_nodes.size()){
+                return false;
+            }
+            const int size = nodes.size();
+            for(int shift=0; shift < size; ++shift){
+                std::vector<int> match_list;
+                for(int node_idx=0; node_idx<size; ++node_idx){
+                    int target_node_idx = (node_idx+shift) % size;
+                    if(nodes[node_idx].of_same_type(target_nodes[target_node_idx])){
+                        match_list.push_back(target_node_idx);
+                    } else{
+                        break;
+                    }
+                }
+                if(match_list.size()==size){
+                    for(int i = 0; i< size; ++i){
+                        // initialize positive cyc
+                        mapping[i] = match_list[i];
+                    }
+                    return true;
+                }
+            }
+            for(int shift=0; shift < size; ++shift){
+                std::vector<int> match_list;
+                for(int node_idx=0; node_idx<size; ++node_idx){
+                    int target_node_idx = (size-node_idx+shift) % size;
+                    // negative loop
+                    if(nodes[node_idx].of_same_type(target_nodes[target_node_idx])){
+                        match_list.push_back(target_node_idx);
+                    } else{
+                        break;
+                    }
+                }
+                if(match_list.size()==size){
+                    for(int i = 0; i< size; ++i){
+                        // initialize positive cyc
+                        mapping[i] = match_list[i];
+                    }
+                    return true;
+                }
+            }
+            return false;
+
+    }
+
+    void reordering_arcs(
+        const Eigen::MatrixXd & V, 
+        const Eigen::VectorXi & bnd, 
+        const std::vector<int> & nails, 
+        const std::map<int, node> nails_node_dict, 
+        const std::vector<node> & target_nodes,
+        std::vector<int> & ccw_ordered_nails){
+            ccw_ordered_nails.clear();
+
+    }
+
+    bool mapping_patch::build_patch(const Eigen::MatrixXd &Vi, const Eigen::MatrixXi & Fi, std::vector<node> & nodes, int lb_in){
+        _V_raw = Vi;
+        _F_raw = Fi;
+        std::vector<std::vector<int> > L;
+        igl::boundary_loop(_F_raw, L);
+        if(L.size()!=1){
+            // input mesh is not isomorphic to disk
+            return false;
+        }
+        igl::list_to_matrix(L[0], _bnd_raw);
+        if(! build_nails(_V_raw, _bnd_raw, nodes, _nails, _nails_nodes_dict)){
+            std::cout << "not a canonical patch"<<std::endl;
+            return false;
+        }
+        {
+            Eigen::VectorXi I;
+            Eigen::VectorXi J;
+            if(!split_ears(_V_raw, _F_raw, _bnd_raw, _nails, _V_ndg, _F_ndg, I, J)){
+                std::cout << "ears_detected"<<std::endl;
+                return false;
+            }
+             _bnd_ndg = _bnd_raw;
+        }
+       
+
+        
+
+
+
+    }
 }
