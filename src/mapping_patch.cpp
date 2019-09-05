@@ -370,7 +370,8 @@ namespace bcclean{
 
     }
 
-    bool mapping_patch::build_patch(const Eigen::MatrixXd &Vi, const Eigen::MatrixXi & Fi, std::vector<node> & nodes, int lb_in){
+    bool mapping_patch::build_patch(
+        const Eigen::MatrixXd &Vi, const Eigen::MatrixXi & Fi, std::vector<node> & nodes, int lb_in){
         _V_raw = Vi;
         _F_raw = Fi;
         std::vector<std::vector<int> > L;
@@ -393,11 +394,5 @@ namespace bcclean{
             }
              _bnd_ndg = _bnd_raw;
         }
-       
-
-        
-
-
-
     }
 }

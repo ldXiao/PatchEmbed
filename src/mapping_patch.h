@@ -36,7 +36,10 @@ namespace bcclean{
         Eigen::VectorXi & bnd,
         Eigen::MatrixXd & bnd_uv,
         std::vector<node>& ordered_nodes);
-
+    bool cyc_flip_mapping(
+        std::vector<node> & nodes, 
+        std::vector<node> & target_nodes, 
+        std::map<int,int> &mapping);
     class mapping_patch{
         public:
             int label;

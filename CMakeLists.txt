@@ -118,4 +118,9 @@ target_link_libraries(bcclean_bin bcclean pybind11::embed)
 
 # Add your project files
 add_executable(test_bin src/test.cpp)
-target_link_libraries(test_bin bcclean pybind11::embed)
+target_link_libraries(test_bin bcclean)
+
+# Add your project files
+add_executable(testcyc_bin src/testcyc.cpp)
+target_link_libraries(testcyc_bin bcclean)
+
