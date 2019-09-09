@@ -9,7 +9,8 @@
 #include <igl/list_to_matrix.h>
 #include <igl/vertex_triangle_adjacency.h>
 #include <iostream>
-#define PI 3.141592653
+
+const double PI = 3.14159265358979323846;
 
 namespace bcclean{
     void build_patch_dict(const Eigen::MatrixXi &FL, std::map<int, std::vector<int> > & patch_dict){
@@ -314,6 +315,8 @@ namespace bcclean{
         std::vector<node> & target_nodes, 
         std::map<int,int> & mapping){
             /* tested */
+            /* would find the permutation between nodes and target_nodes 
+            which are product of cyclic permutation and reversing*/
             mapping.clear();
             if(nodes.size()!=target_nodes.size()){
                 return false;
@@ -350,7 +353,6 @@ namespace bcclean{
                 }
                 if(match_list.size()==size){
                     for(int i = 0; i< size; ++i){
-                        // initialize positive cyc
                         mapping[i]=match_list[i];
                     }
                     return true;
@@ -373,7 +375,8 @@ namespace bcclean{
             std::map<int,int> mapping;
             // cycl or flip mapping betweins nails if any
             if(cyc_flip_mapping(nodes, target_nodes, mapping)){
-                ccw_ordered_nails.reserve(mapping.size());
+                std::cout << mapping.size()<<"mapping size"<<std::endl;
+                ccw_ordered_nails.resize(mapping.size());
                 for(int i = 0; i< mapping.size();++i){
                     ccw_ordered_nails[mapping[i]]=nails[i];
                 }
@@ -412,38 +415,84 @@ namespace bcclean{
             if(second < first){reverse = true;}
             int curr_nail_idx = 0;
             int curr_idx = ccw_ordered_nails[curr_nail_idx];
+            std::vector<int> arc_idices;
             for(int count =0 ; count < bnd.rows(); ++count){
                 int next_nail_idx = _loop_next(ccw_ordered_nails.size(), curr_nail_idx, false);
                 int next_nail = ccw_ordered_nails[next_nail_idx];
                 int next_idx = _loop_next(bnd.rows(), curr_idx, reverse);
                 double len = (V.row(bnd(next_idx,0))-V.row(bnd(curr_idx,0))).norm();
                 edge_arc_ratio_list[curr_idx]=sum;
+                arc_idices.push_back(curr_idx);
+                curr_idx = next_idx;
                 if(next_idx!= next_nail){
                     sum += len;
                 }
                 else{
                     sum += len;
+                    curr_nail_idx = next_nail_idx;
+                    for(auto it = arc_idices.begin(); it != arc_idices.end(); ++it){
+                        int index = *it;
+                        edge_arc_ratio_list[index]/= sum;
+                        //quotient
+                    }
+                    arc_idices.clear();
+                    sum = 0;
                 }
             }
-            //quotient
+            
         }
 
     bool set_bnd_uv(
         const Eigen::VectorXi & bnd, 
-        std::vector<int> & ccw_ordered_nails,
-        Eigen::MatrixXd & bnd_uv);
+        const std::vector<int> & ccw_ordered_nails,
+        const std::map<int, double> & edge_arc_ratio_list,
+        Eigen::MatrixXd & bnd_uv){
+            int first = ccw_ordered_nails[0];
+            int second = ccw_ordered_nails[1];
+            bool reverse= false;
+            if(second < first){reverse = true;}
+            int start = ccw_ordered_nails[0];
+            int curr_nail_idx = 0;
+            int curr_idx = ccw_ordered_nails[curr_nail_idx];
+            bnd_uv.resize(bnd.rows(), 3);
+            for(int count =0 ; count < bnd.rows(); ++count){
+                int next_nail_idx = _loop_next(ccw_ordered_nails.size(), curr_nail_idx, false);
+                int next_nail = ccw_ordered_nails[next_nail_idx];
+                int next_idx = _loop_next(bnd.rows(), curr_idx, reverse);
+                double x, y;
+                double ratio = edge_arc_ratio_list.at(curr_idx);
+                double curr_theta = curr_nail_idx *2 * PI/ ccw_ordered_nails.size();
+                double next_theta = next_nail_idx *2 * PI/ ccw_ordered_nails.size();
+                x = (1-ratio)* std::cos(curr_theta) + ratio * std::cos(next_theta);
+                y = (1-ratio) * std::sin(curr_theta) + ratio * std::sin(next_theta);
+                bnd_uv.row(curr_idx) = Eigen::RowVector3d(x,y,0);
+                curr_idx = next_idx;
+                if(next_idx!= next_nail){
+                    continue;
+                }
+                else{
+                    curr_nail_idx = next_nail_idx;
+                }
+            }
+
+        }
 
     bool mapping_patch::build_patch(
-        const Eigen::MatrixXd &Vi, const Eigen::MatrixXi & Fi, std::vector<node> & nodes, int lb_in){
+        const Eigen::MatrixXd &Vi, 
+        const Eigen::MatrixXi & Fi, 
+        std::vector<node> & nodes, int lb_in){
+        std::cout << "1"<<std::endl;
         _V_raw = Vi;
         _F_raw = Fi;
         std::vector<std::vector<int> > L;
         igl::boundary_loop(_F_raw, L);
+        std::cout << "2"<<std::endl;
         if(L.size()!=1){
             // input mesh is not isomorphic to disk
             return false;
         }
         igl::list_to_matrix(L[0], _bnd_raw);
+        std::cout << "3"<<std::endl;
         if(! build_nails(_V_raw, _bnd_raw, nodes, _nails, _nails_nodes_dict)){
             std::cout << "not a canonical patch"<<std::endl;
             return false;
@@ -463,5 +512,9 @@ namespace bcclean{
              reordering_arcs(_bnd_ndg, _nails, _nails_nodes_dict, target_nodes, _ccw_ordered_nails);
              // initilize the arc numbeirng with itself.
         }
+
+        set_edge_arc_ratio_list(_V_ndg, _bnd_ndg, _nails, _ccw_ordered_nails, _edge_arc_ratio_list);
+        set_bnd_uv(_bnd_ndg, _ccw_ordered_nails, _edge_arc_ratio_list, _bnd_uv);
+        
     }
 }
