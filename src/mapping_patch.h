@@ -65,7 +65,7 @@ namespace bcclean{
             // internal correspondence relation in both directions
 
             Eigen::MatrixXd _V_uv;
-            Eigen::MatrixXi _F_uv; // bnd_uv should be the same as bnd_ndg
+            Eigen::MatrixXi _F_uv; // F_uv should be the same as F_ndg
             Eigen::MatrixXd _bnd_uv; // bnd should be the same as bnd_ndg
             // TODO remove ndg triple and preserve only uv ones
 

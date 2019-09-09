@@ -77,33 +77,32 @@ bool key_down(igl::opengl::glfw::Viewer &viewer, unsigned char key, int modifier
         case ']':{
             viewer.data().clear();
             lb_in+=1;
-            lb_in %= 21;
-            if(vec[lb_in].size()>3){
+            lb_in %= 14;
+            bcclean::mapping_patch mp;
+            
+            if(vec[lb_in].size()>=3){
                 bcclean::extract_label_patch_mesh(V_good, F_good, FL_good, lb_in,V_i, F_i);
-                viewer.data().set_mesh(V_i, F_i);
-                bcclean::map_vertices_to_regular_polygon(V_i, F_i, vec[lb_in], bnd, bnd_uv,ordered_nodes);
-                for(bcclean::node nd:ordered_nodes){
+                
+                
+                if(!mp.build_patch(V_i, F_i,vec[lb_in],lb_in)){return false;}
+                viewer.data().set_mesh(mp._V_uv, mp._F_uv);
+                for(int nail:mp._nails){
+                    bcclean::node nd = mp._nails_nodes_dict[nail];
                     viewer.data().add_points(nd._position, Eigen::RowVector3d(1,1,1));
                 }
             }
             break;
         }
-        case '1':{
-            viewer.data().clear();
-            igl::harmonic(V_i,F_i,bnd,bnd_uv,1,V_uv);
-            viewer.data().set_mesh(V_uv, F_i);
-            viewer.data().add_points(bnd_uv, Eigen::RowVector3d(1,1,1));
-            break;
-        }
+        
     }
     return false;
 }
 
 int main(){
     
-    igl::read_triangle_mesh("../data/test.obj", V_bad, F_bad);
-    igl::read_triangle_mesh("../data/test_good.obj", V_good, F_good);
-    igl::readDMAT("../data/test.dmat", FL_bad);
+    igl::read_triangle_mesh("../data/2/00000006_d4fe04f0f5f84b52bd4f10e4_trimesh_001.obj", V_bad, F_bad);
+    igl::read_triangle_mesh("../data/2/bench.mesh__sf.obj", V_good, F_good);
+    igl::readDMAT("../data/2/feat.dmat", FL_bad);
     label_num = FL_bad.maxCoeff()+1;
     bcclean::LM_intersection_label_transport(
     V_bad,
@@ -126,11 +125,12 @@ int main(){
     std::vector<bcclean::node> list = vec[lb_in];
     std::cout<< list.size()<< std::endl;
     // bcclean::map_vertices_to_regular_polygon(V_i, F_i, list, bnd, bnd_uv, ordered_nodes);
-    
+    bcclean::mapping_patch mp;
+    mp.build_patch(V_i, F_i,list,lb_in);
     // igl::harmonic(V_i,F_i,bnd, bnd_uv, 1, V_uv);
     viewer.callback_key_down = &key_down;
     
-    viewer.data().set_mesh(V_i, F_i);
+    viewer.data().set_mesh(mp._V_uv, mp._F_uv);
     for(bcclean::node nd:list){
         viewer.data().add_points(nd._position, Eigen::RowVector3d(1,1,1));
     }

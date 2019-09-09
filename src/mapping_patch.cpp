@@ -5,6 +5,7 @@
 #include <Eigen/Core>
 #include <igl/remove_unreferenced.h>
 #include <igl/boundary_loop.h>
+#include <igl/harmonic.h>
 #include <igl/boundary_facets.h>
 #include <igl/list_to_matrix.h>
 #include <igl/vertex_triangle_adjacency.h>
@@ -259,7 +260,7 @@ namespace bcclean{
             std::vector<int> degenerate_boundary_peaks;
             for(int fidx=0; fidx< F.rows(); ++fidx){
                 std::vector<int> count_list;
-                for(int vinf; vinf <3; ++vinf){
+                for(int vinf=0; vinf <3; ++vinf){
                     for(int shuttle=0; shuttle < bnd.rows();++shuttle){
                         if(bnd[shuttle]==F(fidx,vinf)){
                             count_list.push_back(bnd[shuttle]);
@@ -475,6 +476,15 @@ namespace bcclean{
                 }
             }
 
+    }
+
+    void to2d(const Eigen::MatrixXd & V,
+        const Eigen::MatrixXi & F,
+        const Eigen::VectorXi & bnd,
+        const Eigen::MatrixXd & bnd_uv,
+        Eigen::MatrixXd & V_uv){
+            // TODO add more choices to map to 2d and optimize
+            igl::harmonic(V, F, bnd, bnd_uv,1, V_uv);
         }
 
     bool mapping_patch::build_patch(
@@ -497,6 +507,7 @@ namespace bcclean{
             std::cout << "not a canonical patch"<<std::endl;
             return false;
         }
+        std::cout << "4"<<std::endl;
         {
             Eigen::VectorXi I;
             Eigen::VectorXi J;
@@ -504,17 +515,25 @@ namespace bcclean{
                 std::cout << "ears_detected"<<std::endl;
                 return false;
             }
+            std::cout << "5.0"<<std::endl;
              _bnd_ndg = _bnd_raw;
              std::vector<node> target_nodes;
              for(auto nl:_nails){
                  target_nodes.push_back(_nails_nodes_dict[nl]);
              }
+             std::cout << "5.1"<<std::endl;
              reordering_arcs(_bnd_ndg, _nails, _nails_nodes_dict, target_nodes, _ccw_ordered_nails);
              // initilize the arc numbeirng with itself.
+             std::cout << "5"<<std::endl;
         }
 
         set_edge_arc_ratio_list(_V_ndg, _bnd_ndg, _nails, _ccw_ordered_nails, _edge_arc_ratio_list);
+        std::cout << "6"<<std::endl;
         set_bnd_uv(_bnd_ndg, _ccw_ordered_nails, _edge_arc_ratio_list, _bnd_uv);
-        
+        std::cout << "7"<<std::endl;
+        to2d( _V_ndg, _F_ndg, _bnd_ndg, _bnd_uv, _V_uv);
+        std::cout << "8"<<std::endl;
+        _F_uv = _F_ndg;
+        return true;
     }
 }

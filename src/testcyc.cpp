@@ -1,6 +1,16 @@
 #include "mapping_patch.h"
 #include <Eigen/Core>
 #include <iostream>
+#include <map>
+#include <vector>
+#include <iostream>
+#include <igl/read_triangle_mesh.h>
+#include <igl/readDMAT.h>
+#include <igl/opengl/glfw/Viewer.h>
+#include "bcclean.h"
+#include "graphcut_cgal.h"
+#include <igl/readMSH.h>
+#include <igl/remove_unreferenced.h>
 int main(){
     bcclean::node a1,a2,a3, b1, b2, b3, b4;
     Eigen::RowVector3d x(1,0,0);
@@ -39,6 +49,7 @@ int main(){
     b2.initialize(5, z, l2);
     b3.initialize(5, x, l3);
     b4.initialize(5, w, l4);
+
 
     std::vector<bcclean::node> n1 {a1,a2,a3};
     std::vector<bcclean::node> n2 {b4, b3, b2, b1};
