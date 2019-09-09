@@ -312,7 +312,8 @@ namespace bcclean{
     bool cyc_flip_mapping(
         std::vector<node> & nodes, 
         std::vector<node> & target_nodes, 
-        std::map<int,int> &mapping){
+        std::map<int,int> & mapping){
+            /* tested */
             mapping.clear();
             if(nodes.size()!=target_nodes.size()){
                 return false;
@@ -331,7 +332,7 @@ namespace bcclean{
                 if(match_list.size()==size){
                     for(int i = 0; i< size; ++i){
                         // initialize positive cyc
-                        mapping[i] = match_list[i];
+                        mapping[i]=match_list[i];
                     }
                     return true;
                 }
@@ -350,25 +351,87 @@ namespace bcclean{
                 if(match_list.size()==size){
                     for(int i = 0; i< size; ++i){
                         // initialize positive cyc
-                        mapping[i] = match_list[i];
+                        mapping[i]=match_list[i];
                     }
                     return true;
                 }
             }
             return false;
-
     }
 
-    void reordering_arcs(
-        const Eigen::MatrixXd & V, 
+    bool reordering_arcs(
         const Eigen::VectorXi & bnd, 
         const std::vector<int> & nails, 
-        const std::map<int, node> nails_node_dict, 
-        const std::vector<node> & target_nodes,
+        std::map<int, node> nails_node_dict, 
+        std::vector<node> & target_nodes,
         std::vector<int> & ccw_ordered_nails){
             ccw_ordered_nails.clear();
-
+            std::vector<node> nodes;
+            for(auto nl:nails){
+                nodes.push_back(nails_node_dict[nl]);
+            }
+            std::map<int,int> mapping;
+            // cycl or flip mapping betweins nails if any
+            if(cyc_flip_mapping(nodes, target_nodes, mapping)){
+                ccw_ordered_nails.reserve(mapping.size());
+                for(int i = 0; i< mapping.size();++i){
+                    ccw_ordered_nails[mapping[i]]=nails[i];
+                }
+                return true;
+            }
+            return false;
     }
+
+    int _loop_next(int total, int curr, bool reverse){
+        if(curr>=total or curr < 0 or total < 1){
+            return -1;
+        }
+        if(reverse){
+            if (curr==0){
+                return total -1;
+            }
+            else{
+                return curr - 1;
+            }
+        }
+        else{
+            return (curr +1) % total;
+        }
+    }
+    void set_edge_arc_ratio_list(
+        const Eigen::MatrixXd & V,
+        const Eigen::VectorXi & bnd,
+        const std::vector<int> & nails,
+        std::vector<int> & ccw_ordered_nails,
+        std::map<int, double> & edge_arc_ratio_list){
+            edge_arc_ratio_list.clear();
+            int first = ccw_ordered_nails[0];
+            int second = ccw_ordered_nails[1];
+            bool reverse= false;
+            double sum = 0;
+            if(second < first){reverse = true;}
+            int curr_nail_idx = 0;
+            int curr_idx = ccw_ordered_nails[curr_nail_idx];
+            for(int count =0 ; count < bnd.rows(); ++count){
+                int next_nail_idx = _loop_next(ccw_ordered_nails.size(), curr_nail_idx, false);
+                int next_nail = ccw_ordered_nails[next_nail_idx];
+                int next_idx = _loop_next(bnd.rows(), curr_idx, reverse);
+                double len = (V.row(bnd(next_idx,0))-V.row(bnd(curr_idx,0))).norm();
+                edge_arc_ratio_list[curr_idx]=sum;
+                if(next_idx!= next_nail){
+                    sum += len;
+                }
+                else{
+                    sum += len;
+                }
+            }
+            //quotient
+        }
+
+    bool set_bnd_uv(
+        const Eigen::VectorXi & bnd, 
+        std::vector<int> & ccw_ordered_nails,
+        Eigen::MatrixXd & bnd_uv);
 
     bool mapping_patch::build_patch(
         const Eigen::MatrixXd &Vi, const Eigen::MatrixXi & Fi, std::vector<node> & nodes, int lb_in){
@@ -393,6 +456,12 @@ namespace bcclean{
                 return false;
             }
              _bnd_ndg = _bnd_raw;
+             std::vector<node> target_nodes;
+             for(auto nl:_nails){
+                 target_nodes.push_back(_nails_nodes_dict[nl]);
+             }
+             reordering_arcs(_bnd_ndg, _nails, _nails_nodes_dict, target_nodes, _ccw_ordered_nails);
+             // initilize the arc numbeirng with itself.
         }
     }
 }

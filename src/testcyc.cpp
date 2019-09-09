@@ -19,12 +19,12 @@ int main(){
     a1.initialize(4, x, l1);
     a2.initialize(4, y, l2);
     a3.initialize(4, z, l3);
-    b1.initialize(4, y, l2);
-    b2.initialize(4, z, l3);
-    b3.initialize(4, x, l1);
+    b1.initialize(4, y, l1);
+    b2.initialize(4, z, l2);
+    b3.initialize(4, x, l3);
 
     std::vector<bcclean::node> n1 {a1,a2,a3};
-    std::vector<bcclean::node> n2 {b1,b2,b3};
+    std::vector<bcclean::node> n2 {b3,b2, b1};
     std::map<int, int> mapping;
     std::cout<<bcclean::cyc_flip_mapping(n1, n2, mapping)<<std::endl;
     for(auto item:mapping){
