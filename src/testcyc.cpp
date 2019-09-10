@@ -11,6 +11,7 @@
 #include "graphcut_cgal.h"
 #include <igl/readMSH.h>
 #include <igl/remove_unreferenced.h>
+#include <igl/predicates/predicates.h>
 int main(){
     bcclean::node a1,a2,a3, b1, b2, b3, b4;
     Eigen::RowVector3d x(1,0,0);
@@ -59,4 +60,12 @@ int main(){
         std::cout << item.first<<", "<<item.second<<std::endl;
     }
     std::cout << mp._bnd_uv <<std::endl;
+     Eigen::MatrixXd V1(5,2);
+    V1 << 1, 0,
+         0, 1,
+         -1, 0,
+         0, -1,
+         0, 0;
+    std::cout <<igl::predicate::incircle(V1.row(0), V1.row(1), V1.row(2), V1.row(3))<<std::endl;
+
 }

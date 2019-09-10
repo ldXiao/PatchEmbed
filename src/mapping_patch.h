@@ -77,6 +77,7 @@ namespace bcclean{
             //contains the information index on bnd_ndg and the corresponding nodes
             bool build_patch(const Eigen::MatrixXd &Vi, const Eigen::MatrixXi & Fi, std::vector<node> & nodes, int lb_in);
             // void flip_loop_direction(); not yet implemented
+            bool adjust_fit_target(std::vector<node> & target_nodes);
 
     };
 }

@@ -15,7 +15,7 @@ download_project(
     SOURCE_DIR   ${CMAKE_CURRENT_SOURCE_DIR}/external/libigl
     DOWNLOAD_DIR ${CMAKE_CURRENT_SOURCE_DIR}/external/.cache/libigl
     GIT_REPOSITORY https://github.com/libigl/libigl.git
-    GIT_TAG       v2.1.0)
+    GIT_TAG       master)
 
 option(LIBIGL_USE_STATIC_LIBRARY "Use libigl as static library" OFF)
 option(LIBIGL_WITH_ANTTWEAKBAR       "Use AntTweakBar"    OFF)
@@ -33,6 +33,7 @@ option(LIBIGL_WITH_PNG               "Use PNG"            OFF)
 option(LIBIGL_WITH_PYTHON            "Use Python"         OFF)
 option(LIBIGL_WITH_TETGEN            "Use Tetgen"         OFF)
 option(LIBIGL_WITH_TRIANGLE          "Use Triangle"       OFF)
+option(LIBIGL_WITH_PREDICATES        "Use exact predicates" ON)
 option(LIBIGL_WITH_VIEWER            "Use OpenGL viewer"  ON)
 option(LIBIGL_WITH_XML               "Use XML"            OFF)
 find_package(LIBIGL REQUIRED QUIET)
@@ -109,9 +110,12 @@ target_link_libraries(bcclean PUBLIC
         igl::embree
         igl::opengl_glfw
         igl::opengl_glfw_imgui
+        igl::predicates
         cxxopts
         nanoflann
         )
+
+
 # Add your project files
 add_executable(bcclean_bin src/main.cpp)
 target_link_libraries(bcclean_bin bcclean pybind11::embed)

@@ -3,6 +3,7 @@
 #include <vector>
 #include <algorithm>
 #include <Eigen/Core>
+#include <Eigen/Sparse>
 #include <igl/remove_unreferenced.h>
 #include <igl/boundary_loop.h>
 #include <igl/harmonic.h>
@@ -536,5 +537,24 @@ namespace bcclean{
         std::cout << "8"<<std::endl;
         _F_uv = _F_ndg;
         return true;
+    }
+    bool mapping_patch::adjust_fit_target(std::vector<node> & target_nodes){
+        reordering_arcs(_bnd_ndg, _nails, _nails_nodes_dict, target_nodes, _ccw_ordered_nails);
+        set_edge_arc_ratio_list(_V_ndg, _bnd_ndg, _nails, _ccw_ordered_nails, _edge_arc_ratio_list);
+        set_bnd_uv(_bnd_ndg, _ccw_ordered_nails, _edge_arc_ratio_list, _bnd_uv);
+        to2d( _V_ndg, _F_ndg, _bnd_ndg, _bnd_uv, _V_uv);
+        _F_uv = _F_ndg;
+    }
+
+    bool inject_identity_uv(mapping_patch & source, mapping_patch & target, Eigen::SparseMatrix<double> & B,
+    Eigen::VectorXi & FI){
+        Eigen::MatrixXd SV_uv = (source._V_uv).block(0,0, source._V_uv.rows(), 2);
+        Eigen::MatrixXi SF_uv = source._F_uv;
+        Eigen::MatrixXd TV_uv = (target._V_uv).block(0,0,target._V_uv.rows(), 2);
+        Eigen::MatrixXi TF_uv = target._F_uv;
+        // both source and target are regurired to be mapped to convex regular polygon already.
+        std::vector<Eigen::Triplet<double> > B_triplets;
+        
+        return false;
     }
 }
