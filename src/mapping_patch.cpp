@@ -499,6 +499,7 @@ namespace bcclean{
         std::cout << "2"<<std::endl;
         if(L.size()!=1){
             // input mesh is not isomorphic to disk
+            std::cout << "not simply connected" << std::endl;
             return false;
         }
         igl::list_to_matrix(L[0], _bnd_raw);

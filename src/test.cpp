@@ -81,7 +81,7 @@ bool key_down(igl::opengl::glfw::Viewer &viewer, unsigned char key, int modifier
             bcclean::mapping_patch mp;
             
             if(vec[lb_in].size()>=3){
-                bcclean::extract_label_patch_mesh(V_good, F_good, FL_good, lb_in,V_i, F_i);
+                bcclean::extract_label_patch_mesh(V_bad, F_bad, FL_bad, lb_in,V_i, F_i);
                 
                 
                 if(!mp.build_patch(V_i, F_i,vec[lb_in],lb_in)){return false;}
@@ -113,13 +113,13 @@ int main(){
     VL_good);
     bcclean::vertex_label_vote_face_label(label_num, VL_good, F_good, FL_good, prob_mat);
     bcclean::refine_labels_graph_cut(V_good, F_good, prob_mat.transpose(), FL_good, 1);
-    vec = bcclean::build_label_nodes_list(V_good, F_good, FL_good);
+    vec = bcclean::build_label_nodes_list(V_bad, F_bad, FL_bad);
     
     
     for(auto p: vec){
         std::cout << p.size() <<std::endl;
     }
-    bcclean::extract_label_patch_mesh(V_good, F_good, FL_good, lb_in,V_i, F_i);
+    bcclean::extract_label_patch_mesh(V_bad, F_bad, FL_bad, lb_in,V_i, F_i);
     std::cout<<"extracted"<<std::endl;
     std::vector<std::vector<bcclean::node>> vec1 = vec;
     std::vector<bcclean::node> list = vec[lb_in];
