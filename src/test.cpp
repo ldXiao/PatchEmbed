@@ -1,8 +1,8 @@
 #include <map>
 #include <vector>
 #include <iostream>
-#include <pybind11/embed.h> // everything needed for embedding
-#include <pybind11/pybind11.h>
+// #include <pybind11/embed.h> // everything needed for embedding
+// #include <pybind11/pybind11.h>
 #include <igl/read_triangle_mesh.h>
 #include <igl/readDMAT.h>
 #include <igl/writeDMAT.h>

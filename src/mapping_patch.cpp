@@ -687,14 +687,34 @@ namespace bcclean{
                 target_next_bnd_idx = _loop_next(target_bnd.rows(), target_curr_bnd_idx, target_reversed);
                 double target_curr_ratio = target_edge_arc_ratio_list.at(target_curr_bnd_idx);
                 double target_next_ratio = target_edge_arc_ratio_list.at(target_next_bnd_idx);
-                if (target_next_ratio==0){
-                    target_next_ratio= 1.0; 
-                } else if(target_curr_ratio > target_next_ratio){
+                if (target_next_ratio == 0){
+                    target_next_ratio = 1.0; 
+                }
+                while(target_next_ratio<= source_curr_ratio){
+                    target_curr_bnd_idx = target_next_bnd_idx;
+                    target_next_bnd_idx = _loop_next(target_bnd.rows(), target_curr_bnd_idx, target_reversed);
+                    target_curr_ratio = target_edge_arc_ratio_list.at(target_curr_bnd_idx);
+                    target_next_ratio = target_edge_arc_ratio_list.at(target_next_bnd_idx);
+                    if (target_next_ratio == 0){
+                        target_next_ratio = 1.0; 
+                    }
+                }
+                std::vector<int> common_face_dict;
+                for(int fcurr : target_V2F[target_bnd(target_curr_bnd_idx)]){
+                    std::vector<int> next_faces=target_V2F[target_bnd(target_next_bnd_idx)];
+                    auto it = std::find(next_faces.begin(), next_faces.end(), fcurr);
+                    if(it != target_V2F[target_bnd(target_next_bnd_idx)].end()){
+                        common_face_dict.push_back(fcurr);
+                    }
+                }
+                if(common_face_dict.size()>1){
+                    std::cout << "error not a boundary edge"<<std::endl;
                     return false;
+                } else {
+                    FI(source_curr_bnd_idx)= common_face_dict[0];
+                    B_triplets.push_back(Eigen::Triplet<double>(source_bnd(source_curr_bnd_idx),target_bnd(target_curr_bnd_idx),1.0));
                 }
 
-
-                
             }
         }
         
