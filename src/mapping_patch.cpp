@@ -642,15 +642,16 @@ namespace bcclean{
         std::vector<std::vector<int> > target_V2F; // get the vertex-face adjacency in target;
         std::vector<std::vector<int> > target_V2FI; // vertex-index - to the 0-1-2 index corresponding to this vertex in face
         igl::vertex_triangle_adjacency(target._V_ndg, target_F, target_V2F, target_V2FI);
-        int source_start = source_ccw_ordered_nails.at(0);
-        int target_start = target_ccw_ordered_nails.at(0);
+        
         int source_nail_idx = 0;
         int target_nail_idx = source_nail_idx;
+        int source_start = source_ccw_ordered_nails.at(source_nail_idx);
+        int target_start = target_ccw_ordered_nails.at(target_nail_idx);
         int target_shift=0;
         const bool source_reversed = source_ccw_ordered_nails.at(0)> source_ccw_ordered_nails.at(1);
         const bool target_reversed = target_ccw_ordered_nails.at(0)> target_ccw_ordered_nails.at(1);
         int source_curr_bnd_idx = source_start;
-        int target_curr_bnd_idx,target_next_bnd_idx;
+        int target_curr_bnd_idx, target_next_bnd_idx;
         for(int count =0 ; count < source_bnd.rows(); ++ count){
             int source_next_bnd_idx = _loop_next(source_bnd.rows(), source_curr_bnd_idx, source_reversed);
             if(source_curr_bnd_idx == source_ccw_ordered_nails.at(source_nail_idx)){
@@ -677,26 +678,33 @@ namespace bcclean{
             } else {
                 double source_curr_ratio = source_edge_arc_ratio_list.at(source_curr_bnd_idx);
                 double source_next_ratio = source_edge_arc_ratio_list.at(source_next_bnd_idx);
-                if (source_next_ratio==0){
-                    source_next_ratio= 1.0; 
-                } else if(source_curr_ratio > source_next_ratio){
-                    return false;
+                if (source_next_bnd_idx == source_ccw_ordered_nails.at(
+                    (source_nail_idx+1) % source_ccw_ordered_nails.size())
+                    ){
+                    source_next_ratio = 1.0; 
                 }
                 target_curr_bnd_idx = target_ccw_ordered_nails[target_nail_idx];
                 // start with current target nail
                 target_next_bnd_idx = _loop_next(target_bnd.rows(), target_curr_bnd_idx, target_reversed);
                 double target_curr_ratio = target_edge_arc_ratio_list.at(target_curr_bnd_idx);
                 double target_next_ratio = target_edge_arc_ratio_list.at(target_next_bnd_idx);
-                if (target_next_ratio == 0){
+                if (target_next_bnd_idx == target_ccw_ordered_nails.at(
+                    (target_nail_idx+1) % target_ccw_ordered_nails.size())
+                    ){
                     target_next_ratio = 1.0; 
                 }
-                while(target_next_ratio<= source_curr_ratio){
+                while(true){
                     target_curr_bnd_idx = target_next_bnd_idx;
                     target_next_bnd_idx = _loop_next(target_bnd.rows(), target_curr_bnd_idx, target_reversed);
                     target_curr_ratio = target_edge_arc_ratio_list.at(target_curr_bnd_idx);
                     target_next_ratio = target_edge_arc_ratio_list.at(target_next_bnd_idx);
-                    if (target_next_ratio == 0){
-                        target_next_ratio = 1.0; 
+                    if (target_next_bnd_idx == target_ccw_ordered_nails.at(
+                    (target_nail_idx+1) % target_ccw_ordered_nails.size())
+                    ){
+                    target_next_ratio = 1.0; 
+                    }
+                    if(target_next_ratio> source_curr_ratio && target_curr_ratio <= source_curr_ratio){ 
+                        break;
                     }
                 }
                 std::vector<int> common_face_dict;
@@ -712,19 +720,18 @@ namespace bcclean{
                     return false;
                 } else {
                     FI(source_curr_bnd_idx)= common_face_dict[0];
-                    B_triplets.push_back(Eigen::Triplet<double>(source_bnd(source_curr_bnd_idx),target_bnd(target_curr_bnd_idx),1.0));
+                    double lambda = (source_curr_ratio-target_curr_ratio)/(target_next_ratio-target_curr_ratio);
+                    B_triplets.push_back(Eigen::Triplet<double>(source_bnd(source_curr_bnd_idx),target_bnd(target_curr_bnd_idx),1-lambda));
+                    B_triplets.push_back(Eigen::Triplet<double>(source_bnd(source_curr_bnd_idx),target_bnd(target_next_bnd_idx),lambda));
                 }
-
             }
+            if(source_next_bnd_idx == source_ccw_ordered_nails.at((source_nail_idx+1)%source_ccw_ordered_nails.size())){
+                source_nail_idx +=1;
+                target_nail_idx =source_nail_idx;
+            }
+            source_curr_bnd_idx = source_next_bnd_idx;
         }
-        
-        
-        
-        
-
-    
-        
-
+        return true;
     }
 
     bool inject_identity_uv(mapping_patch & source, mapping_patch & target, Eigen::SparseMatrix<double> & B,
