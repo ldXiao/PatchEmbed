@@ -84,5 +84,8 @@ namespace bcclean{
 
     bool project_check(mapping_patch & target, const Eigen::MatrixX2d & X2d, std::vector<Eigen::Triplet<double> > & B_triplets,
     Eigen::VectorXi & FI);
+    
+    bool inject_identity_uv(mapping_patch & source, mapping_patch & target, Eigen::SparseMatrix<double> & B,
+    Eigen::VectorXi & FI);
 }
 #endif //BCCLEAN_MAPPING_PATCH_H

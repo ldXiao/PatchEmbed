@@ -56,8 +56,18 @@ int main(){
 
     std::vector<bcclean::node> n1 {a1,a2,a3};
     std::vector<bcclean::node> n2 {b4, b3, b2, b1};
+    std::vector<bcclean::node> n3 {b3, b2, b1, b4};
     bcclean::mapping_patch mp;
+    bcclean::mapping_patch mp1;
     mp.build_patch(V, F, n2, 0);
+    mp1.build_patch(V, F, n3, 0);
+    std::map<int, int> mapping;
+    bcclean::cyc_flip_mapping(n2, n3, mapping);
+    mp1.adjust_fit_target(n2);
+    Eigen::SparseMatrix<double> Bmp(V.rows(), V.rows());
+    Eigen::VectorXi FImp;
+    
+
     for(auto item : mp._edge_arc_ratio_list){
         std::cout << item.first<<", "<<item.second<<std::endl;
     }
@@ -98,4 +108,10 @@ int main(){
     igl::vertex_triangle_adjacency(mp._V_raw, mp._F_raw, VF, VFi);
     int ida =0;
     std::cout << ida <<std::endl;
+    if(bcclean::inject_identity_uv(mp, mp1, Bmp, FImp)){
+        std::cout<< "---------------" << std::endl;
+        std::cout << Bmp <<std::endl;
+        std::cout<< "---------------" << std::endl;
+        std::cout << FImp << std::endl;
+    }
 }

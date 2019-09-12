@@ -609,7 +609,7 @@ namespace bcclean{
             bnd_dict(bnd(i))= 1;
         }
         I_int = Eigen::VectorXi::Constant(V.rows(), -1);
-        V_int  = Eigen::MatrixXd::Constant(V.rows(), 3, 0);
+        V_int  = Eigen::MatrixXd::Constant(V.rows(), 2, 0);
         int count = 0;
         for(int j =0; j < V.rows();++j){
             if(bnd_dict(j)==0){
@@ -742,16 +742,31 @@ namespace bcclean{
         const Eigen::MatrixXi & TF_uv = target._F_uv;
         // both source and target are regurired to be mapped to convex regular polygon already.
         FI = Eigen::VectorXi::Constant(source._V_uv.rows(), -1);
+        std::vector<Eigen::Triplet<double> > B_int_triplets;
+        std::vector<Eigen::Triplet<double> > B_bnd_triplets;
         std::vector<Eigen::Triplet<double> > B_triplets;
         Eigen::MatrixXd SV_int; // interior point vertices
         {
-            Eigen::VectorXi SI_int, FI_int;
+            Eigen::VectorXi SI_int, FI_int, FI_bnd;
             interior_vertices(SV_uv, source._bnd_ndg, SV_int, SI_int);
-            if(project_check(target, SV_int.block(0,0, SV_uv.rows(), 2), B_triplets, FI_int)){
+            if(project_check(target, SV_int.block(0,0, SV_int.rows(), 2), B_int_triplets, FI_int)){
                 for(int idx= 0; idx<SI_int.rows(); ++idx){
                     FI(SI_int(idx))= FI_int(idx);
                 }
             } else {return false;}
+            if(boundary_assign(source, target, B_bnd_triplets,FI_bnd)){
+                for(int idx= 0; idx<source._bnd_ndg.rows(); ++idx){
+                    FI(source._bnd_ndg(idx))= FI_bnd(idx);
+                }
+            }else {return false;}
+            B_triplets.reserve(B_bnd_triplets.size()+ B_int_triplets.size());
+            for(auto tplt_int: B_int_triplets){
+                B_triplets.push_back(tplt_int);
+            }
+            for(auto tplt_bnd: B_bnd_triplets){
+                B_bnd_triplets.push_back(tplt_bnd);
+            }
+            B.setFromTriplets(B_triplets.begin(), B_triplets.end());
         }
         return true;
     }
