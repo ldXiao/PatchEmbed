@@ -10,8 +10,10 @@
 #include <igl/boundary_facets.h>
 #include <igl/list_to_matrix.h>
 #include <igl/vertex_triangle_adjacency.h>
+#include <igl/predicates/predicates.h>
 #include <iostream>
 
+using Orientation=igl::predicates::Orientation;
 const double PI = 3.14159265358979323846;
 
 namespace bcclean{
@@ -544,17 +546,186 @@ namespace bcclean{
         set_bnd_uv(_bnd_ndg, _ccw_ordered_nails, _edge_arc_ratio_list, _bnd_uv);
         to2d( _V_ndg, _F_ndg, _bnd_ndg, _bnd_uv, _V_uv);
         _F_uv = _F_ndg;
+        return true;
+    }
+
+    bool project_check(mapping_patch & target, const Eigen::MatrixX2d & X2d, std::vector<Eigen::Triplet<double> > & B_triplets,
+    Eigen::VectorXi & FI){
+        B_triplets.clear();
+        const Eigen::MatrixXd & TV_uv  = (target._V_uv).block(0,0,target._V_uv.rows(), 2);
+        const Eigen::MatrixXi & TF_uv = target._F_uv;
+        FI = Eigen::VectorXi::Constant(X2d.rows(), -1);
+        int count = 0;
+        for(int xidx = 0; xidx < X2d.rows(); ++xidx){
+            Eigen::Vector2d x2d = X2d.row(xidx).transpose();
+            int x_target_fidx = -1;
+            Eigen::Vector2d a, b, c;
+            for(int fidx=0; fidx< TF_uv.rows(); ++fidx){
+                a = TV_uv.row(TF_uv.coeff(fidx,0)).transpose();
+                b = TV_uv.row(TF_uv.coeff(fidx,1)).transpose();
+                c = TV_uv.row(TF_uv.coeff(fidx,2)).transpose();
+                Orientation where = igl::predicates::incircle(a, b, c, x2d);
+                if(where != Orientation::OUTSIDE){
+                    // face located;
+                    // choose first face that cocircle or inside
+                    x_target_fidx = fidx;
+                    break;
+                }
+            }
+            if(x_target_fidx==-1){
+                std::cout << "lies outside the target_uv"<<std::endl;
+                FI(xidx)=-1;
+            }
+            else {
+                count +=1;
+                Eigen::Matrix2d A;
+                Eigen::Vector2d p,q;
+                // q = A * p
+                A.col(0)= a-b;
+                A.col(1) = c-b;
+                q = x2d -b;
+                p = A.fullPivLu().solve(q);
+                int va, vb, vc;
+                va =TF_uv.coeff(x_target_fidx,0);
+                vb= TF_uv.coeff(x_target_fidx,1);
+                vc = TF_uv.coeff(x_target_fidx,2);
+                B_triplets.push_back(Eigen::Triplet<double>(xidx, va, p(0)));
+                B_triplets.push_back(Eigen::Triplet<double>(xidx, vb, 1-p(0)-p(1)));
+                B_triplets.push_back(Eigen::Triplet<double>(xidx, vc, p(1)));
+                FI(xidx)=x_target_fidx;
+            }
+        }
+        if(count == X2d.rows()){
+            return true;
+        } else {
+            return false;
+        }
+
+    }
+
+    void interior_vertices(const Eigen::MatrixXd & V, const Eigen::VectorXi & bnd,Eigen::MatrixXd & V_int, Eigen::VectorXi & I_int){
+        Eigen::VectorXi bnd_dict = Eigen::VectorXi::Constant(V.rows(), 0);
+        for(int i = 0; i< bnd.rows(); ++i){
+            bnd_dict(bnd(i))= 1;
+        }
+        I_int = Eigen::VectorXi::Constant(V.rows(), -1);
+        V_int  = Eigen::MatrixXd::Constant(V.rows(), 3, 0);
+        int count = 0;
+        for(int j =0; j < V.rows();++j){
+            if(bnd_dict(j)==0){
+                I_int(count)= j;
+                V_int.row(count)= V.row(j);
+            }
+        }
+        I_int.conservativeResize(count);
+        V_int.conservativeResize(count, 3);
+    }
+
+    bool boundary_assign(mapping_patch& source, mapping_patch& target,  std::vector<Eigen::Triplet<double> > & B_triplets, Eigen::VectorXi & FI){
+        const Eigen::MatrixXi & source_F = source._F_ndg;
+        const Eigen::MatrixXi & target_F = target._F_ndg;
+        const Eigen::VectorXi & source_bnd = source._bnd_ndg;
+        B_triplets.clear();
+        B_triplets.reserve(source_bnd.rows());
+        FI = Eigen::VectorXi::Constant(source_bnd.rows(),-1);
+        const Eigen::VectorXi & target_bnd = target._bnd_ndg;
+        const std::vector<int> & source_nails = source._nails;
+        const std::vector<int> & target_nails = target._nails;
+        const std::vector<int> & source_ccw_ordered_nails = source._ccw_ordered_nails;
+        const std::vector<int> & target_ccw_ordered_nails = target._ccw_ordered_nails;
+        const std::map<int, double> & source_edge_arc_ratio_list = source._edge_arc_ratio_list;
+        const std::map<int, double> & target_edge_arc_ratio_list = target._edge_arc_ratio_list;
+        if(source_nails.size()!= target_nails.size()){
+            std::cout << "wront input, patch nodes nums do not agree" <<std::endl;
+            return false;
+        }
+        std::vector<std::vector<int> > target_V2F; // get the vertex-face adjacency in target;
+        std::vector<std::vector<int> > target_V2FI; // vertex-index - to the 0-1-2 index corresponding to this vertex in face
+        igl::vertex_triangle_adjacency(target._V_ndg, target_F, target_V2F, target_V2FI);
+        int source_start = source_ccw_ordered_nails.at(0);
+        int target_start = target_ccw_ordered_nails.at(0);
+        int source_nail_idx = 0;
+        int target_nail_idx = source_nail_idx;
+        int target_shift=0;
+        const bool source_reversed = source_ccw_ordered_nails.at(0)> source_ccw_ordered_nails.at(1);
+        const bool target_reversed = target_ccw_ordered_nails.at(0)> target_ccw_ordered_nails.at(1);
+        int source_curr_bnd_idx = source_start;
+        int target_curr_bnd_idx,target_next_bnd_idx;
+        for(int count =0 ; count < source_bnd.rows(); ++ count){
+            int source_next_bnd_idx = _loop_next(source_bnd.rows(), source_curr_bnd_idx, source_reversed);
+            if(source_curr_bnd_idx == source_ccw_ordered_nails.at(source_nail_idx)){
+                // it is a node should be placed in exactly the corresponding node
+                target_curr_bnd_idx =target_ccw_ordered_nails[target_nail_idx];
+                target_next_bnd_idx = _loop_next(target_bnd.rows(), target_curr_bnd_idx, target_reversed);
+                // find the triangle that contains the two vertices
+                std::vector<int> common_face_dict;
+                for(int fcurr : target_V2F[target_bnd(target_curr_bnd_idx)]){
+                    std::vector<int> next_faces=target_V2F[target_bnd(target_next_bnd_idx)];
+                    auto it = std::find(next_faces.begin(), next_faces.end(), fcurr);
+                    if(it != target_V2F[target_bnd(target_next_bnd_idx)].end()){
+                        common_face_dict.push_back(fcurr);
+                    }
+                }
+                if(common_face_dict.size()>1){
+                    std::cout << "error not a boundary edge"<<std::endl;
+                    return false;
+                } else {
+                    FI(source_curr_bnd_idx)= common_face_dict[0];
+                    B_triplets.push_back(Eigen::Triplet<double>(source_bnd(source_curr_bnd_idx),target_bnd(target_curr_bnd_idx),1.0));
+                }
+
+            } else {
+                double source_curr_ratio = source_edge_arc_ratio_list.at(source_curr_bnd_idx);
+                double source_next_ratio = source_edge_arc_ratio_list.at(source_next_bnd_idx);
+                if (source_next_ratio==0){
+                    source_next_ratio= 1.0; 
+                } else if(source_curr_ratio > source_next_ratio){
+                    return false;
+                }
+                target_curr_bnd_idx = target_ccw_ordered_nails[target_nail_idx];
+                // start with current target nail
+                target_next_bnd_idx = _loop_next(target_bnd.rows(), target_curr_bnd_idx, target_reversed);
+                double target_curr_ratio = target_edge_arc_ratio_list.at(target_curr_bnd_idx);
+                double target_next_ratio = target_edge_arc_ratio_list.at(target_next_bnd_idx);
+                if (target_next_ratio==0){
+                    target_next_ratio= 1.0; 
+                } else if(target_curr_ratio > target_next_ratio){
+                    return false;
+                }
+
+
+                
+            }
+        }
+        
+        
+        
+        
+
+    
+        
+
     }
 
     bool inject_identity_uv(mapping_patch & source, mapping_patch & target, Eigen::SparseMatrix<double> & B,
     Eigen::VectorXi & FI){
-        Eigen::MatrixXd SV_uv = (source._V_uv).block(0,0, source._V_uv.rows(), 2);
-        Eigen::MatrixXi SF_uv = source._F_uv;
-        Eigen::MatrixXd TV_uv = (target._V_uv).block(0,0,target._V_uv.rows(), 2);
-        Eigen::MatrixXi TF_uv = target._F_uv;
+        const Eigen::MatrixXd & SV_uv = (source._V_uv).block(0,0, source._V_uv.rows(), 2);
+        const Eigen::MatrixXi & SF_uv = source._F_uv;
+        const Eigen::MatrixXd & TV_uv = (target._V_uv).block(0,0,target._V_uv.rows(), 2);
+        const Eigen::MatrixXi & TF_uv = target._F_uv;
         // both source and target are regurired to be mapped to convex regular polygon already.
+        FI = Eigen::VectorXi::Constant(source._V_uv.rows(), -1);
         std::vector<Eigen::Triplet<double> > B_triplets;
-        
-        return false;
+        Eigen::MatrixXd SV_int; // interior point vertices
+        {
+            Eigen::VectorXi SI_int, FI_int;
+            interior_vertices(SV_uv, source._bnd_ndg, SV_int, SI_int);
+            if(project_check(target, SV_int.block(0,0, SV_uv.rows(), 2), B_triplets, FI_int)){
+                for(int idx= 0; idx<SI_int.rows(); ++idx){
+                    FI(SI_int(idx))= FI_int(idx);
+                }
+            } else {return false;}
+        }
+        return true;
     }
 }

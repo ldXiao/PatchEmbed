@@ -3,6 +3,7 @@
 #include <map>
 #include <vector>
 #include <Eigen/Core>
+#include <Eigen/Sparse>
 #include <tuple>
 namespace bcclean{
     class node {
@@ -80,5 +81,8 @@ namespace bcclean{
             bool adjust_fit_target(std::vector<node> & target_nodes);
 
     };
+
+    bool project_check(mapping_patch & target, const Eigen::MatrixX2d & X2d, std::vector<Eigen::Triplet<double> > & B_triplets,
+    Eigen::VectorXi & FI);
 }
 #endif //BCCLEAN_MAPPING_PATCH_H

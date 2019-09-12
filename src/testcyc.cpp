@@ -1,5 +1,6 @@
 #include "mapping_patch.h"
 #include <Eigen/Core>
+#include <Eigen/Sparse>
 #include <iostream>
 #include <map>
 #include <vector>
@@ -12,6 +13,7 @@
 #include <igl/readMSH.h>
 #include <igl/remove_unreferenced.h>
 #include <igl/predicates/predicates.h>
+#include <igl/vertex_triangle_adjacency.h>
 int main(){
     bcclean::node a1,a2,a3, b1, b2, b3, b4;
     Eigen::RowVector3d x(1,0,0);
@@ -61,11 +63,39 @@ int main(){
     }
     std::cout << mp._bnd_uv <<std::endl;
      Eigen::MatrixXd V1(5,2);
-    V1 << 1, 0,
-         0, 1,
-         -1, 0,
-         0, -1,
-         0, 0;
-    std::cout <<igl::predicate::incircle(V1.row(0), V1.row(1), V1.row(2), V1.row(3))<<std::endl;
-
+    V1 << 0.25, 0.25,
+         0.25, -0.25,
+         -0.25, 0.25,
+         -0.25, -0.25,
+         0, 0.1;
+    Eigen::Vector2d x1;
+    x1 << 0, 0.1;
+    Eigen::Vector2d x2;
+    x2 << -1, 0;
+    Eigen::Vector2d x3;
+    x3 << 0, 1;
+    Eigen::Vector2d x4;
+    x4 << 1, 0;
+    switch(igl::predicates::incircle(x1, x2, x3, x4)){
+        case igl::predicates::Orientation::INSIDE: std::cout << "inside" << std::endl; break;
+        case igl::predicates::Orientation::OUTSIDE: std::cout << "outside" << std::endl; break;
+    }
+    std::vector<Eigen::Triplet<double> > tp;
+    Eigen::SparseMatrix<double> B(5,5);
+    
+    Eigen::VectorXi FI;
+    bcclean::project_check(mp, V1, tp, FI);
+    B.setFromTriplets(tp.begin(), tp.end());
+    std::cout<< FI << std::endl;
+    std::cout<< "---------------" << std::endl;
+    std::cout<< mp._V_uv << std::endl;
+    std::cout<< mp._F_uv << std::endl;
+    std::cout<< "---------------" << std::endl;
+    std::cout<< B << std::endl;
+    
+    std::vector<std::vector<int> > VF;
+    std::vector<std::vector<int> > VFi;
+    igl::vertex_triangle_adjacency(mp._V_raw, mp._F_raw, VF, VFi);
+    int ida =0;
+    std::cout << ida <<std::endl;
 }
