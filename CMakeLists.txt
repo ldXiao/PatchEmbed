@@ -101,6 +101,10 @@ set(SOURCES
     src/kdtree_NN_Eigen.hpp
     src/mapping_patch.cpp
     src/mapping_patch.h
+    src/node.h
+    src/node.cpp
+    src/edge.h
+    src/edge.cpp
 )
 add_library(bcclean ${SOURCES})
 target_link_libraries(bcclean PUBLIC

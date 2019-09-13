@@ -5,18 +5,9 @@
 #include <Eigen/Core>
 #include <Eigen/Sparse>
 #include <tuple>
+#include "node.h"
+#include "edge.h"
 namespace bcclean{
-    class node {
-        public:
-        Eigen::MatrixXd _position;
-        int _total_label_num;
-        int _occupied_label_num;
-        std::map<int, int> _label_occupy_dict;
-        bool of_same_type(const node & b);
-        bool at_same_position(const Eigen::MatrixXd & position);
-        bool initialize(const int total_label_num, const Eigen::MatrixXd & position, const std::vector<int> labels);
-    };
-
     std::vector<std::vector<node>> build_label_nodes_list(
         const Eigen::MatrixXd &V, 
         const Eigen::MatrixXi &F,
