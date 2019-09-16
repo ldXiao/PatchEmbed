@@ -14,6 +14,7 @@
 #include <igl/remove_unreferenced.h>
 #include <igl/predicates/predicates.h>
 #include <igl/vertex_triangle_adjacency.h>
+#include "edge.h"
 int main(){
     bcclean::node a1,a2,a3, b1, b2, b3, b4;
     Eigen::RowVector3d x(1,0,0);
@@ -93,25 +94,29 @@ int main(){
     std::vector<Eigen::Triplet<double> > tp;
     Eigen::SparseMatrix<double> B(5,5);
     
-    Eigen::VectorXi FI;
-    bcclean::project_check(mp, V1, tp, FI);
-    B.setFromTriplets(tp.begin(), tp.end());
-    std::cout<< FI << std::endl;
-    std::cout<< "---------------" << std::endl;
-    std::cout<< mp._V_uv << std::endl;
-    std::cout<< mp._F_uv << std::endl;
-    std::cout<< "---------------" << std::endl;
-    std::cout<< B << std::endl;
+    // Eigen::VectorXi FI;
+    // bcclean::project_check(mp, V1, tp, FI);
+    // B.setFromTriplets(tp.begin(), tp.end());
+    // std::cout<< FI << std::endl;
+    // std::cout<< "---------------" << std::endl;
+    // std::cout<< mp._V_uv << std::endl;
+    // std::cout<< mp._F_uv << std::endl;
+    // std::cout<< "---------------" << std::endl;
+    // std::cout<< B << std::endl;
     
-    std::vector<std::vector<int> > VF;
-    std::vector<std::vector<int> > VFi;
-    igl::vertex_triangle_adjacency(mp._V_raw, mp._F_raw, VF, VFi);
-    int ida =0;
-    std::cout << ida <<std::endl;
-    if(bcclean::inject_identity_uv(mp, mp1, Bmp, FImp)){
-        std::cout<< "---------------" << std::endl;
-        std::cout << Bmp <<std::endl;
-        std::cout<< "---------------" << std::endl;
-        std::cout << FImp << std::endl;
-    }
+    // std::vector<std::vector<int> > VF;
+    // std::vector<std::vector<int> > VFi;
+    // igl::vertex_triangle_adjacency(mp._V_raw, mp._F_raw, VF, VFi);
+    // int ida =0;
+    // std::cout << ida <<std::endl;
+    // if(bcclean::inject_identity_uv(mp, mp1, Bmp, FImp)){
+    //     std::cout<< "---------------" << std::endl;
+    //     std::cout << Bmp <<std::endl;
+    //     std::cout<< "---------------" << std::endl;
+    //     std::cout << FImp << std::endl;
+    // }
+    // std::cout<< "---------------" << std::endl;
+    bcclean::pair_map<std::pair<int,int>, bcclean::node> aada; 
+    aada[std::pair<int,int>(1,2)]=a1;
+    std::cout <<aada[std::pair<int,int>(1,2)]._position <<std::endl;
 }

@@ -131,4 +131,7 @@ target_link_libraries(test_bin bcclean)
 # Add your project files
 add_executable(testcyc_bin src/testcyc.cpp)
 target_link_libraries(testcyc_bin bcclean)
+# Add your project files
+add_executable(discrapency_bin src/view_discrapency.cpp)
+target_link_libraries(discrapency_bin bcclean)
 
