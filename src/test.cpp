@@ -17,6 +17,7 @@
 #include <imgui/imgui_internal.h>
 #include <Eigen/Core>
 #include "bcclean.h"
+#include "edge.h"
 #include "mapping_patch.h"
 #include "graphcut_cgal.h"
 #include "mapping_patch.h"
@@ -30,6 +31,7 @@
 #include <nanoflann.hpp>
 #include <cxxopts.hpp>
 #include <nlohmann/json.hpp>
+#include <unordered_map>
 
 
 Eigen::MatrixXi F_bad, F_good;
@@ -113,26 +115,17 @@ int main(){
     VL_good);
     bcclean::vertex_label_vote_face_label(label_num, VL_good, F_good, FL_good, prob_mat);
     bcclean::refine_labels_graph_cut(V_good, F_good, prob_mat.transpose(), FL_good, 1);
-    vec = bcclean::build_label_nodes_list(V_bad, F_bad, FL_bad);
-    
-    
-    for(auto p: vec){
-        std::cout << p.size() <<std::endl;
-    }
-    bcclean::extract_label_patch_mesh(V_bad, F_bad, FL_bad, lb_in,V_i, F_i);
-    std::cout<<"extracted"<<std::endl;
-    std::vector<std::vector<bcclean::node>> vec1 = vec;
-    std::vector<bcclean::node> list = vec[lb_in];
-    std::cout<< list.size()<< std::endl;
-    // bcclean::map_vertices_to_regular_polygon(V_i, F_i, list, bnd, bnd_uv, ordered_nodes);
-    bcclean::mapping_patch mp;
-    mp.build_patch(V_i, F_i,list,lb_in);
-    // igl::harmonic(V_i,F_i,bnd, bnd_uv, 1, V_uv);
-    viewer.callback_key_down = &key_down;
-    
-    viewer.data().set_mesh(mp._V_uv, mp._F_uv);
-    for(bcclean::node nd:list){
-        viewer.data().add_points(nd._position, Eigen::RowVector3d(1,1,1));
-    }
+    // vec = bcclean::build_label_nodes_list(V_bad, F_bad, FL_bad);
+    std::vector<bcclean::edge> edge_list;
+    std::unordered_map<int, std::vector<int> > patch_edge;
+    std::map<int, std::vector<int> > vertices_label_list;
+    bcclean::build_vertex_label_list_dict(F_bad, FL_bad, label_num, vertices_label_list);
+    // bcclean::build_edge_list(V_bad, F_bad, FL_bad, label_num,edge_list, patch_edge);
+    // for(auto p: vertices_label_list){
+    //     for(auto q: p.second){
+    //         std::cout << q << " ";
+    //     }
+    //     std::cout <<"--------------"<<std::endl;
+    // }
     viewer.launch();
 }
