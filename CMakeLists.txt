@@ -127,6 +127,7 @@ target_link_libraries(bcclean_bin bcclean pybind11::embed)
 # Add your project files
 add_executable(test_bin src/test.cpp)
 target_link_libraries(test_bin bcclean)
+set_target_properties(test_bin PROPERTIES CXX_STANDARD 17)
 
 # Add your project files
 add_executable(testcyc_bin src/testcyc.cpp)
@@ -134,4 +135,3 @@ target_link_libraries(testcyc_bin bcclean)
 # Add your project files
 add_executable(discrapency_bin src/view_discrapency.cpp)
 target_link_libraries(discrapency_bin bcclean)
-

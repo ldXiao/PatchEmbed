@@ -129,7 +129,7 @@ namespace bcclean{
                 return true;
         }
     
-    bool build_vertex_label_list_dict( Eigen::MatrixXi&F, const Eigen::MatrixXi & FL, const size_t total_label_num, std::map<int, std::vector<int>> & vertex_label_list_dict){
+    bool build_vertex_label_list_dict( Eigen::MatrixXi&F, const Eigen::MatrixXi & FL, const size_t total_label_num, std::unordered_map<int, std::vector<int>> & vertex_label_list_dict){
         // vertex_label_list_dict store all the vertex_indx- label-list(ordered)
         vertex_label_list_dict.clear();
         
@@ -187,7 +187,7 @@ namespace bcclean{
         // edge list store all the edge uniquely in a vector
         // patch_edge_dict store the patch label -> list of edges in loop order
         // return lb->vector<nodes> where the nodes are unodered for each patch
-        std::map<int, std::vector<int>> vertex_label_list_dict;
+        std::unordered_map<int, std::vector<int>> vertex_label_list_dict;
         edge_list.clear();
         patch_edge_dict.clear();
         std::vector<std::vector<int>> VF; // vertex - face index list
@@ -413,4 +413,71 @@ namespace bcclean{
             viewer.data().add_edges(v_heads,v_tails, Eigen::RowVector3d(1,0,0));
         }
     };
+
+    bool simple_match_two_edges(const edge & edg0, const edge & edg1){
+        if(edg0._label_pair != edg1._label_pair){
+            return false;
+        } else{
+            if(edg0.head== -1 && edg1.tail==-1){
+                if (edg1.head==-1 && edg1.tail==-1){
+                    return true;
+                }
+                else {
+                    return false;
+                }
+            }
+            else {
+                return false;
+            }
+        }
+    };
+
+    void build_pair_edge_list(const std::vector<edge> & edge_list, pair_map<std::pair<int,int>, std::vector<int> > & pair_edge_list_dict){
+        int edge_idx =0;
+        for(auto & edg: edge_list){
+            std::pair<int, int>  curr_pair = edg._label_pair;
+            pair_edge_list_dict[curr_pair].push_back(edge_idx);
+            edge_idx +=1;
+        }
+    }
+
+    void match_pair_edge_list_dicts(
+        const pair_map<std::pair<int,int>, std::vector<int> > & pair_edge_list_dict0, 
+        const pair_map<std::pair<int,int>, std::vector<int> > & pair_edge_list_dict1 ,
+        std::vector<edge> & edge_list0,
+        std::vector<edge> & edge_list1
+    ){
+        for(edge & edg: edge_list0){
+            std::pair<int, int> curr_pair=edg._label_pair;
+            int pair_count0=pair_edge_list_dict0.at(curr_pair).size();
+            int pair_count1=0;
+            auto it=pair_edge_list_dict1.find(curr_pair);
+            if(it== pair_edge_list_dict1.end()){
+                pair_count1 = -1;
+            } else{
+                pair_count1=pair_edge_list_dict1.at(curr_pair).size();
+            }
+            if(pair_count0!= pair_count1){
+                edg.matched = false;
+            } else {
+                edg.matched = true;
+            }
+        }
+        for(edge & edg: edge_list1){
+            std::pair<int, int> curr_pair=edg._label_pair;
+            int pair_count1=pair_edge_list_dict1.at(curr_pair).size();
+            int pair_count0=0;
+            auto it=pair_edge_list_dict0.find(curr_pair);
+            if(it== pair_edge_list_dict0.end()){
+                pair_count0 = -1;
+            } else{
+                pair_count0=pair_edge_list_dict0.at(curr_pair).size();
+            }
+            if(pair_count0!= pair_count1){
+                edg.matched = false;
+            } else {
+                edg.matched = true;
+            }
+        }
+    }
 }

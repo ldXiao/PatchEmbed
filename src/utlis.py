@@ -37,7 +37,6 @@ def parse_feat(in_feat_file_name, out_file_body="feat"):
         for face_id in surface["face_indices"]:
             face_label_dict[face_id] = label
             count +=1
-
     with open(out_file_rel_dir, 'w') as f:
         f.write("1"+" "+str(count)+"\n")
         for item in sorted(face_label_dict.keys()):
