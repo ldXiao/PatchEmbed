@@ -5,11 +5,72 @@
 #include <igl/remove_unreferenced.h>
 #include <igl/boundary_loop.h>
 #include <igl/vertex_triangle_adjacency.h>
+#include <igl/opengl/glfw/Viewer.h>
+#include <igl/list_to_matrix.h>
 #include <algorithm>
 #include <utility>
 namespace bcclean{
+    bool _match_two_loops(std::vector<int> loop_a, std::vector<int> loop_b){
+        if(loop_a.size()!= loop_b.size()){return false;}
+        int n = loop_a.size();
+        int head_a = loop_a[0];
+        int start_b = 0;
+        bool found = false;
+        bool reversed = true;
+        bool match_vertices = true;
+        for(auto b_num: loop_b){
+            if(b_num == head_a){
+                found = true;
+                break;
+            }
+            start_b+=1;
+        }
+        if(!found){return false;}
+        if(n==1){return true;}
+        {
+            int neck_a = loop_a[1];
+            int neck_b1 = loop_b[(start_b+1)% n];
+            int neck_b2 = loop_b[(start_b-1+n)%n];
+            if(neck_a == neck_b1){
+                reversed = false;
+            } else if(neck_a == neck_b2){
+                reversed = true;
+            } else {
+                return false;
+            }
+        }
+        
+        for(int offset =0; offset <n ; ++offset){
+            int na = loop_a[offset];
+            int nb;
+            {
+            if(!reversed){nb = loop_b[(start_b+offset)%n];}
+            else{nb = loop_b[(start_b-offset+n)%n];}
+            }
+            if(na !=nb){
+                match_vertices= false;
+                break;
+            }
+        }
+        return match_vertices;
+
+    }
+
     Edge_Compare_Result edge::compare_edge(edge b){
         if(b._label_pair == _label_pair){
+            if(b.head == -1 && b.tail == -1){
+                // b is a loop
+                if(head == -1 && head == -1){
+                    // this edge is also a loop
+                    // continue to compare
+                    if(b._edge_vertices.size()!= _edge_vertices.size()){
+                        return Edge_Compare_Result::SAME_TYPE;
+                    } else{
+                        if(_match_two_loops(_edge_vertices, b._edge_vertices)){return Edge_Compare_Result::IDENTICAL;}
+                        else return Edge_Compare_Result::SAME_TYPE;
+                    }
+                } else return Edge_Compare_Result::NON_MATCH;
+            }
             bool match_node = (b.head == head) && (b.tail == tail);
             bool anti_match_node = (b.head == tail) && (b.tail == head);
             if(match_node || anti_match_node){
@@ -158,6 +219,10 @@ namespace bcclean{
                 // for each loop detect the first node to set as a starting head of first edge
                 int start = -1;
                 int count = 0;
+                for(auto sss: loop){
+                                    std::cout << I_i(sss) << ' ';
+                                }
+                std::cout << "-----loop"<<std::endl;
                 std::vector<edge> patch_local_edges;
                 for(auto v_idx:loop){
                     int v_idx_raw = I_i(v_idx);
@@ -184,7 +249,7 @@ namespace bcclean{
                     patch_local_edges.push_back(edg);
                 } else {
                     // start node detect, loop over all edges to push into pathc_local_edges
-                    std::vector<int> curr_path = {start};
+                    std::vector<int> curr_path = {I_i(loop[start])};
                     for(int offset =1; offset < loop.size()+1;++offset){
                         int loop_idx  = (start + offset) % loop.size();
                         int v_idx = loop[loop_idx];
@@ -201,6 +266,10 @@ namespace bcclean{
                                 edg._edge_vertices = curr_path;
                                 int va  = edg._edge_vertices[0];
                                 int vb  = edg._edge_vertices[1];
+                                for(auto sss: curr_path){
+                                    std::cout << sss << ' ';
+                                }
+                                std::cout << "-----"<<std::endl;
                                 edg._label_pair = adjacent2vertex2labels(FL, VF, va, vb);
                                 patch_local_edges.push_back(edg);
                             }
@@ -315,5 +384,33 @@ namespace bcclean{
                 }
             }
         }
-    }
+    };
+
+    void plot_edge(igl::opengl::glfw::Viewer & viewer, const Eigen::MatrixXd & V, const Eigen::VectorXi &FL, const edge & edg){
+        Eigen::MatrixXd C_edg, v_heads, v_tails;
+        Eigen::VectorXi EDG, heads, tails, EL;
+        igl::list_to_matrix(edg._edge_vertices, EDG);
+        heads = EDG.head(EDG.rows()-1);
+        tails = EDG.tail(EDG.rows()-1);
+        v_heads=igl::slice(V, heads, 1);
+        v_tails=igl::slice(V, tails, 1);
+        if(edg.matched){
+            // set the color to be alternating the label color;
+            int lb0 = edg._label_pair.first;
+            int lb1 = edg._label_pair.second;
+            EL = Eigen::VectorXi::Constant(EDG.rows(), 0);
+            for(int i =0; i<EL.rows();++i){
+                if( i % 2==0){
+                    EL(i)=lb0;
+                }
+                else EL(i)=lb1;
+            }
+            int label_num = FL.maxCoeff()+1;
+            igl::jet(EL, 0, label_num-1, C_edg);
+            viewer.data().add_edges(v_heads, v_tails, C_edg);
+        } else{
+            // if matched
+            viewer.data().add_edges(v_heads,v_tails, Eigen::RowVector3d(1,0,0));
+        }
+    };
 }

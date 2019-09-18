@@ -14,6 +14,7 @@
 #include <igl/unproject_onto_mesh.h>
 #include <igl/embree/line_mesh_intersection.h>
 #include <imgui/imgui.h>
+#include <igl/jet.h>
 #include <imgui/imgui_internal.h>
 #include <Eigen/Core>
 #include "bcclean.h"
@@ -119,13 +120,20 @@ int main(){
     std::vector<bcclean::edge> edge_list;
     std::unordered_map<int, std::vector<int> > patch_edge;
     std::map<int, std::vector<int> > vertices_label_list;
+    Eigen::MatrixXd C_bad;
+    igl::jet(FL_bad, 0, label_num-1, C_bad);
+    viewer.core.show_overlay_depth = false;
+    viewer.data().set_mesh(V_bad, F_bad);
+    viewer.data().set_colors(C_bad);
+   
     bcclean::build_vertex_label_list_dict(F_bad, FL_bad, label_num, vertices_label_list);
-    // bcclean::build_edge_list(V_bad, F_bad, FL_bad, label_num,edge_list, patch_edge);
-    // for(auto p: vertices_label_list){
-    //     for(auto q: p.second){
-    //         std::cout << q << " ";
-    //     }
-    //     std::cout <<"--------------"<<std::endl;
-    // }
+    bcclean::build_edge_list(V_bad, F_bad, FL_bad, label_num, edge_list, patch_edge);
+    for(auto p: edge_list){
+        bcclean::plot_edge(viewer, V_bad, FL_bad, p);
+        for(auto q: p._edge_vertices){
+            std::cout << q << ' ';
+        }
+        std::cout <<"---------------------------"<<std::endl;
+    }
     viewer.launch();
 }
