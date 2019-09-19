@@ -53,7 +53,7 @@ std::vector<bcclean::edge> edge_list_bad, edge_list_good;
 std::unordered_map<int, std::vector<int> > patch_edge_bad, patch_edge_good;
 std::unordered_map<int, std::vector<int> > vertices_label_list_bad, vertices_label_list_good;
 Eigen::MatrixXd C_bad, C_good;
-bool visual_bad=true;
+bool visual_bad=false;
 void project_face_labels(
     const Eigen::MatrixXd &V_bad, 
     const Eigen::MatrixXi &F_bad, 
@@ -125,7 +125,9 @@ int main(int argc, char *argv[]){
     }
     
 
-
+    /*-----------------------------------------
+    for json
+    */
     cxxopts::Options options("CutGraph", "One line description of MyProgram");
     options.add_options()
             ("j, json", "json storing parameters", cxxopts::value<std::string>());
@@ -138,7 +140,11 @@ int main(int argc, char *argv[]){
         std::cout <<"the json parameters are" << param_json << std::endl;
         data_root = param_json["data_root"];
     }
+    /*-----------------------------------------
+    for pybind
+    */
 
+    py::scoped_interpreter guard{};
     py::module sys = py::module::import("sys");
     py::module os = py::module::import("os");
     sys.attr("path").attr("append")("../src");
@@ -148,31 +154,31 @@ int main(int argc, char *argv[]){
     py::object py_bad_mesh_file =
             utlis.attr("get_bad_mesh")(data_root);
     bad_mesh_file = py_bad_mesh_file.cast<string>();
-    std::cout << "tetrahedralizing..."<< std::endl;
-    py::object py_face_label_yml = utlis.attr("get_feat_file")(data_root);
-    face_label_yml = py_face_label_yml.cast<string>();
-    py::object py_face_label_dmat = utlis.attr("parse_feat")(face_label_yml);
-    face_label_dmat = py_face_label_dmat.cast<string>();
-    good_mesh_file = data_root + "/"+"good.mesh_sf.obj";
-
+    // py::object py_face_label_yml = utlis.attr("get_feat_file")(data_root);
+    // face_label_yml = py_face_label_yml.cast<string>();
+    // py::object py_face_label_dmat = utlis.attr("parse_feat")(face_label_yml);
+    // face_label_dmat = py_face_label_dmat.cast<string>();
+    good_mesh_file = data_root + "/"+"good.mesh__sf.obj";
+    face_label_dmat = data_root + "/"+ "feat.dmat";
     igl::read_triangle_mesh(bad_mesh_file, V_bad, F_bad);
     igl::read_triangle_mesh(good_mesh_file, V_good, F_good);
     igl::readDMAT(face_label_dmat, FL_bad);
     label_num = FL_bad.maxCoeff()+1;
-    bcclean::LM_intersection_label_transport(
-    V_bad,
-    F_bad,
-    FL_bad,
-    V_good,
-    F_good,
-    VL_good);
-    bcclean::vertex_label_vote_face_label(label_num, VL_good, F_good, FL_good, prob_mat);
+    // bcclean::LM_intersection_label_transport(
+    // V_bad,
+    // F_bad,
+    // FL_bad,
+    // V_good,
+    // F_good,
+    // VL_good);
+    // bcclean::vertex_label_vote_face_label(label_num, VL_good, F_good, FL_good, prob_mat);
+    bcclean::refine_proj_vote(V_bad, F_bad, FL_bad, V_good, F_good, label_num, 2, FL_good, prob_mat);
     bcclean::refine_labels_graph_cut(V_good, F_good, prob_mat.transpose(), FL_good, 1);
     // vec = bcclean::build_label_nodes_list(V_bad, F_bad, FL_bad);
     
-    igl::jet(FL_bad, 0, label_num-1, C_bad);
-    igl::jet(FL_good, 0, label_num-1, C_good);
-    viewer.data().show_overlay_depth = false;
+    igl::jet(FL_bad.unaryExpr([](const int x) { return x%8; }), 0, 8, C_bad);
+    igl::jet(FL_good.unaryExpr([](const int x) { return x%8; }), 0, 8, C_good);
+    viewer.data().show_overlay_depth = true;
     viewer.data().set_mesh(V_bad, F_bad);
     viewer.data().set_colors(C_bad);
    

@@ -151,7 +151,7 @@ namespace bcclean {
             }
             std::vector< std::map<int, int> > F_label_dict;
             for(int nfidx=0; nfidx < NF.rows(); ++ nfidx){
-                int fidx = nfidx % modu;
+                int fidx = (int) nfidx / modu;
                 if(F_label_dict.size()< fidx+1){
                     F_label_dict.push_back(std::map<int, int>());
                 } else{
@@ -165,7 +165,7 @@ namespace bcclean {
                 }
             }
             int fid =0;
-            prob_mat = Eigen::MatrixXd::Constant(F1.rows(), label_num, 0.5 / label_num);
+            prob_mat = Eigen::MatrixXd::Constant(F1.rows(), label_num, 0.05 / label_num);
             for(auto mp: F_label_dict){
                 int target_lb = -1;
                 int target_lb_count = 0;
@@ -175,6 +175,7 @@ namespace bcclean {
                         target_lb_count= item.second;
                     }
                     prob_mat(fid, item.first) = 0.95 * (item.second / modu);
+                    // std::cout << "prob_mat"<<0.95 * (item.second / modu)<< std::endl;
                 }
                 fid+=1;
             }
