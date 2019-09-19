@@ -174,7 +174,7 @@ namespace bcclean {
                         target_lb = item.first;
                         target_lb_count= item.second;
                     }
-                    prob_mat(fid, item.first) = 0.95 * (item.second / modu);
+                    prob_mat(fid, item.first) = 0.95 * (double(item.second)/double(modu));
                     // std::cout << "prob_mat"<<0.95 * (item.second / modu)<< std::endl;
                 }
                 fid+=1;

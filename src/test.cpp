@@ -173,6 +173,7 @@ int main(int argc, char *argv[]){
     // VL_good);
     // bcclean::vertex_label_vote_face_label(label_num, VL_good, F_good, FL_good, prob_mat);
     bcclean::refine_proj_vote(V_bad, F_bad, FL_bad, V_good, F_good, label_num, 2, FL_good, prob_mat);
+    std::cout << prob_mat<<std::endl;
     bcclean::refine_labels_graph_cut(V_good, F_good, prob_mat.transpose(), FL_good, 1);
     // vec = bcclean::build_label_nodes_list(V_bad, F_bad, FL_bad);
     
