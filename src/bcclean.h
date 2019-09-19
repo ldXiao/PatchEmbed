@@ -38,6 +38,15 @@ void generate_sample_label(
             const Eigen::MatrixXd & V1,
             const Eigen::MatrixXi & F1,
             Eigen::MatrixXi & VL1);
+    
+    void refine_proj_vote(
+        const Eigen::MatrixXd &V0,
+            const Eigen::MatrixXi & F0,
+            const Eigen::MatrixXi & FL0,
+            const Eigen::MatrixXd & V1,
+            const Eigen::MatrixXi & F1,
+            Eigen::MatrixXi & FL1
+    );
 
     void construct_face_sample_dictionary(
             const Eigen::MatrixXi &I1,

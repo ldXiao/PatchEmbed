@@ -1,7 +1,7 @@
 #include <map>
 #include <vector>
 #include <iostream>
-#include <filesystem>
+
 // #include <pybind11/embed.h> // everything needed for embedding
 // #include <pybind11/pybind11.h>
 #include <igl/read_triangle_mesh.h>
@@ -36,7 +36,7 @@
 #include <nlohmann/json.hpp>
 #include <unordered_map>
 
-std::filesystem::path aas;
+
 Eigen::MatrixXi F_bad, F_good;
 Eigen::MatrixXd V_bad, V_good;
 Eigen::MatrixXi FL_bad, VL_good, FL_good;
