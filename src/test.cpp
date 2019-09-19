@@ -2,8 +2,8 @@
 #include <vector>
 #include <iostream>
 
-// #include <pybind11/embed.h> // everything needed for embedding
-// #include <pybind11/pybind11.h>
+#include <pybind11/embed.h> // everything needed for embedding
+#include <pybind11/pybind11.h>
 #include <igl/read_triangle_mesh.h>
 #include <igl/readDMAT.h>
 #include <igl/writeDMAT.h>
@@ -48,8 +48,12 @@ Eigen::MatrixXd V_i, bnd_uv;
 Eigen::MatrixXi F_i;
 Eigen::VectorXi bnd;
 int lb_in=3;
-std::vector<std::vector<bcclean::node>> vec;
-std::vector<bcclean::node> ordered_nodes;
+bcclean::pair_map<std::pair<int,int>,std::vector<int>>  pair_edge_list_dict_bad, pair_edge_list_dict_good;
+std::vector<bcclean::edge> edge_list_bad, edge_list_good;
+std::unordered_map<int, std::vector<int> > patch_edge_bad, patch_edge_good;
+std::unordered_map<int, std::vector<int> > vertices_label_list_bad, vertices_label_list_good;
+Eigen::MatrixXd C_bad, C_good;
+bool visual_bad=true;
 void project_face_labels(
     const Eigen::MatrixXd &V_bad, 
     const Eigen::MatrixXi &F_bad, 
@@ -69,10 +73,11 @@ void project_face_labels(
         }
         Eigen::MatrixXi VL_good, FL_good_temp;
         std::cout << "r1"<< std::endl;
-        bcclean::LM_intersection_label_transport(V_bad,F_bad,FL_bad,V_good,F_good,VL_good);
+        // bcclean::LM_intersection_label_transport(V_bad,F_bad,FL_bad,V_good,F_good,VL_good);
         std::cout << "r2"<< std::endl;
         // bcclean::Barycenter_intersection_label_transport(V_bad,F_bad,FL_bad,V_good,F_good,FL_good);
-        bcclean::vertex_label_vote_face_label(label_num, VL_good, F_good, FL_good, prob_mat);
+        // bcclean::vertex_label_vote_face_label(label_num, VL_good, F_good, FL_good, prob_mat);
+        bcclean::refine_proj_vote(V_bad, F_bad, FL_bad, V_good, F_good, label_num, 2, FL_good, prob_mat);
         std::cout << "r3"<< std::endl;
 }
 bool key_down(igl::opengl::glfw::Viewer &viewer, unsigned char key, int modifier) {
@@ -80,34 +85,79 @@ bool key_down(igl::opengl::glfw::Viewer &viewer, unsigned char key, int modifier
     using namespace std;
     switch(key) {
         case ']':{
-            viewer.data().clear();
-            lb_in+=1;
-            lb_in %= 14;
-            bcclean::mapping_patch mp;
-            
-            if(vec[lb_in].size()>=3){
-                bcclean::extract_label_patch_mesh(V_bad, F_bad, FL_bad, lb_in,V_i, F_i);
+            if(visual_bad){
+                viewer.data().clear();
+                igl::jet(FL_bad, 0, label_num-1, C_bad);
+                igl::jet(FL_good, 0, label_num-1, C_good);
+                viewer.data().show_overlay_depth = false;
+                viewer.data().set_mesh(V_bad, F_bad);
+                viewer.data().set_colors(C_bad);
                 
-                
-                if(!mp.build_patch(V_i, F_i,vec[lb_in],lb_in)){return false;}
-                viewer.data().set_mesh(mp._V_uv, mp._F_uv);
-                for(int nail:mp._nails){
-                    bcclean::node nd = mp._nails_nodes_dict[nail];
-                    viewer.data().add_points(nd._position, Eigen::RowVector3d(1,1,1));
+                for(auto p: edge_list_bad){
+                bcclean::plot_edge(viewer, V_bad, FL_bad, p);
                 }
+                visual_bad = !visual_bad;
+            } else {
+                viewer.data().clear();
+                viewer.data().show_overlay_depth = false;
+                viewer.data().set_mesh(V_good, F_good);
+                viewer.data().set_colors(C_good);
+                
+                for(auto p: edge_list_good){
+                bcclean::plot_edge(viewer, V_good, FL_good, p);
+                }
+                visual_bad = !visual_bad;
             }
-            break;
         }
-        
+            break;
     }
     return false;
 }
+std::string data_root;
 
-int main(){
+using json = nlohmann::json;
+int main(int argc, char *argv[]){
+    using namespace std;
+    namespace py = pybind11;
+    if (argc < 2) {
+        std::cout << "Usage cutmeshtest_bin --file mesh.obj --n sample_num --cut" << std::endl;
+        exit(0);
+    }
     
-    igl::read_triangle_mesh("../data/2/00000006_d4fe04f0f5f84b52bd4f10e4_trimesh_001.obj", V_bad, F_bad);
-    igl::read_triangle_mesh("../data/2/good.mesh__sf.obj", V_good, F_good);
-    igl::readDMAT("../data/2/feat.dmat", FL_bad);
+
+
+    cxxopts::Options options("CutGraph", "One line description of MyProgram");
+    options.add_options()
+            ("j, json", "json storing parameters", cxxopts::value<std::string>());
+    auto args = options.parse(argc, argv);
+    // Load a mesh in OBJ format
+    json param_json;
+    {
+        std::ifstream temp(args["json"].as<std::string>());
+        param_json = json::parse(temp);
+        std::cout <<"the json parameters are" << param_json << std::endl;
+        data_root = param_json["data_root"];
+    }
+
+    py::module sys = py::module::import("sys");
+    py::module os = py::module::import("os");
+    sys.attr("path").attr("append")("../src");
+    py::module utlis = py::module::import("utlis");
+    // handle and generate all the necessary files
+    std::string bad_mesh_file, good_mesh_file, face_label_dmat, face_label_yml;
+    py::object py_bad_mesh_file =
+            utlis.attr("get_bad_mesh")(data_root);
+    bad_mesh_file = py_bad_mesh_file.cast<string>();
+    std::cout << "tetrahedralizing..."<< std::endl;
+    py::object py_face_label_yml = utlis.attr("get_feat_file")(data_root);
+    face_label_yml = py_face_label_yml.cast<string>();
+    py::object py_face_label_dmat = utlis.attr("parse_feat")(face_label_yml);
+    face_label_dmat = py_face_label_dmat.cast<string>();
+    good_mesh_file = data_root + "/"+"good.mesh_sf.obj";
+
+    igl::read_triangle_mesh(bad_mesh_file, V_bad, F_bad);
+    igl::read_triangle_mesh(good_mesh_file, V_good, F_good);
+    igl::readDMAT(face_label_dmat, FL_bad);
     label_num = FL_bad.maxCoeff()+1;
     bcclean::LM_intersection_label_transport(
     V_bad,
@@ -119,10 +169,7 @@ int main(){
     bcclean::vertex_label_vote_face_label(label_num, VL_good, F_good, FL_good, prob_mat);
     bcclean::refine_labels_graph_cut(V_good, F_good, prob_mat.transpose(), FL_good, 1);
     // vec = bcclean::build_label_nodes_list(V_bad, F_bad, FL_bad);
-    std::vector<bcclean::edge> edge_list_bad, edge_list_good;
-    std::unordered_map<int, std::vector<int> > patch_edge_bad, patch_edge_good;
-    std::unordered_map<int, std::vector<int> > vertices_label_list_bad, vertices_label_list_good;
-    Eigen::MatrixXd C_bad, C_good;
+    
     igl::jet(FL_bad, 0, label_num-1, C_bad);
     igl::jet(FL_good, 0, label_num-1, C_good);
     viewer.data().show_overlay_depth = false;
@@ -133,8 +180,6 @@ int main(){
     bcclean::build_vertex_label_list_dict(F_good, FL_good, label_num, vertices_label_list_good);
     bcclean::build_edge_list(V_bad, F_bad, FL_bad, label_num, edge_list_bad, patch_edge_bad);
     bcclean::build_edge_list(V_good, F_good, FL_good, label_num, edge_list_good, patch_edge_good);
-    
-    bcclean::pair_map<std::pair<int,int>,std::vector<int>>  pair_edge_list_dict_bad, pair_edge_list_dict_good;
     bcclean::build_pair_edge_list(edge_list_bad, pair_edge_list_dict_bad);
     bcclean::build_pair_edge_list(edge_list_good, pair_edge_list_dict_good);
     bcclean::match_pair_edge_list_dicts(
@@ -143,12 +188,13 @@ int main(){
         edge_list_bad,
         edge_list_good
     );
-    for(auto p: edge_list_good){
-        bcclean::plot_edge(viewer, V_good, FL_good, p);
+    for(auto p: edge_list_bad){
+        bcclean::plot_edge(viewer, V_bad, FL_bad, p);
         for(auto q: p._edge_vertices){
             std::cout << q << ' ';
         }
         std::cout <<"---------------------------"<<std::endl;
     }
+    viewer.callback_key_down = &key_down;
     viewer.launch();
 }

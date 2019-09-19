@@ -45,7 +45,10 @@ void generate_sample_label(
             const Eigen::MatrixXi & FL0,
             const Eigen::MatrixXd & V1,
             const Eigen::MatrixXi & F1,
-            Eigen::MatrixXi & FL1
+            const int label_num,
+            const int subdiv,
+            Eigen::MatrixXi & FL1,
+            Eigen::MatrixXd & prob_mat
     );
 
     void construct_face_sample_dictionary(
