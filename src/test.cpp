@@ -87,8 +87,8 @@ bool key_down(igl::opengl::glfw::Viewer &viewer, unsigned char key, int modifier
         case ']':{
             if(visual_bad){
                 viewer.data().clear();
-                igl::jet(FL_bad, 0, label_num-1, C_bad);
-                igl::jet(FL_good, 0, label_num-1, C_good);
+                igl::jet(FL_bad.unaryExpr([](const int x) { return x%8; }), 0, 8, C_bad);
+                igl::jet(FL_good.unaryExpr([](const int x) { return x%8; }), 0, 8, C_good);
                 viewer.data().show_overlay_depth = false;
                 viewer.data().set_mesh(V_bad, F_bad);
                 viewer.data().set_colors(C_bad);

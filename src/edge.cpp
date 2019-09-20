@@ -222,7 +222,9 @@ namespace bcclean{
                 for(auto sss: loop){
                                     std::cout << I_i(sss) << ' ';
                                 }
+                
                 std::cout << "-----loop"<<std::endl;
+                if(loop.size()>1){
                 std::vector<edge> patch_local_edges;
                 for(auto v_idx:loop){
                     int v_idx_raw = I_i(v_idx);
@@ -308,6 +310,7 @@ namespace bcclean{
                     patch_edge_dict[lb_i].push_back(local_indices_list[i]);
                 }
             }
+            }
         }
         return true;
     }
@@ -349,6 +352,7 @@ namespace bcclean{
                         start = count;
                         break;
                     }
+                    count +=1;
                 }
                 if(start == -1){
                     // this loop has no node

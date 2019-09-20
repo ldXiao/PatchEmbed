@@ -166,6 +166,7 @@ namespace bcclean {
             }
             int fid =0;
             prob_mat = Eigen::MatrixXd::Constant(F1.rows(), label_num, 0.05 / label_num);
+            FL1  = Eigen::MatrixXi::Constant(F1.rows(), 1, 1);
             for(auto mp: F_label_dict){
                 int target_lb = -1;
                 int target_lb_count = 0;
@@ -174,8 +175,11 @@ namespace bcclean {
                         target_lb = item.first;
                         target_lb_count= item.second;
                     }
-                    prob_mat(fid, item.first) = 0.95 * (double(item.second)/double(modu));
+                    prob_mat(fid, item.first) = 0.95 * (double(item.second+1)/double(modu));
                     // std::cout << "prob_mat"<<0.95 * (item.second / modu)<< std::endl;
+                }
+                if(target_lb!=-1){
+                    FL1(fid,0)= target_lb;
                 }
                 fid+=1;
             }

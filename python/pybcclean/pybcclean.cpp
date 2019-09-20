@@ -10,6 +10,8 @@ void project_face_labels(
     const Eigen::MatrixXi &FL_bad,
     const Eigen::MatrixXd &V_good,
     const Eigen::MatrixXi &F_good,
+    const int label_num,
+    const int subdiv,
     Eigen::MatrixXi & FL_good,
     Eigen::MatrixXd & prob_mat){
         // int label_num = 0;
@@ -21,14 +23,14 @@ void project_face_labels(
         //         count_dict[FL_bad(i,0)]=1;
         //     }
         // }
-        int label_num = FL_bad.maxCoeff()+1;
         Eigen::MatrixXi VL_good, FL_good_temp;
         std::cout << "r1"<< std::endl;
-        bcclean::LM_intersection_label_transport(V_bad,F_bad,FL_bad,V_good,F_good,VL_good);
+        // bcclean::LM_intersection_label_transport(V_bad,F_bad,FL_bad,V_good,F_good,VL_good);
+        // std::cout << "r2"<< std::endl;
+        // // bcclean::Barycenter_intersection_label_transport(V_bad,F_bad,FL_bad,V_good,F_good,FL_good);
+        // bcclean::vertex_label_vote_face_label(label_num, VL_good, F_good, FL_good, prob_mat);
+        bcclean::refine_proj_vote(V_bad,F_bad,FL_bad, V_good, F_good, label_num, subdiv,FL_good, prob_mat);
         std::cout << "r2"<< std::endl;
-        // bcclean::Barycenter_intersection_label_transport(V_bad,F_bad,FL_bad,V_good,F_good,FL_good);
-        bcclean::vertex_label_vote_face_label(label_num, VL_good, F_good, FL_good, prob_mat);
-        std::cout << "r3"<< std::endl;
 }
 
 void refine_labels(

@@ -1,14 +1,15 @@
 //
 // Created by Lind Xiao on 7/25/19.
 //
-
-#ifndef OTMAPPING_CUTGRAPH_H
-#define OTMAPPING_CUTGRAPH_H
+    #ifndef OTMAPPING_CUTGRAPH_H
+    #define OTMAPPING_CUTGRAPH_H
 
 #include <vector>
 #include <map>
 #include <Eigen/Core>
 #include <tuple>
+#include <iostream>
+#include <algorithm>
 namespace  bcclean {
 // helper function
 void generate_sample_color(
@@ -37,6 +38,18 @@ void generate_sample_label(
             const Eigen::MatrixXd & V1,
             const Eigen::MatrixXi & F1,
             Eigen::MatrixXi & VL1);
+    
+    void refine_proj_vote(
+        const Eigen::MatrixXd &V0,
+            const Eigen::MatrixXi & F0,
+            const Eigen::MatrixXi & FL0,
+            const Eigen::MatrixXd & V1,
+            const Eigen::MatrixXi & F1,
+            const int label_num,
+            const int subdiv,
+            Eigen::MatrixXi & FL1,
+            Eigen::MatrixXd & prob_mat
+    );
 
     void construct_face_sample_dictionary(
             const Eigen::MatrixXi &I1,
@@ -77,9 +90,9 @@ void generate_sample_label(
     void set_Face_Edges(const Eigen::MatrixXi &F, Eigen::MatrixXi &E);
 
     void normalize_mesh(Eigen::MatrixXd & V_bad, Eigen::MatrixXd & V_good);
-
+    
     void build_patch_dict(const Eigen::MatrixXi &FL, std::map<int, std::vector<int> > & patch_dict);
-
 }
+
 
 #endif //OTMAPPING_CUTGRAPH_H

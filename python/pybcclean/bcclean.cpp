@@ -3,6 +3,7 @@
 //
 
 #include "bcclean.h"
+#include "kdtree_NN_Eigen.hpp"
 #include <Eigen/Core>
 #include <iostream>
 #include <map>
@@ -12,11 +13,16 @@
 #include <igl/sparse.h>
 #include <igl/embree/line_mesh_intersection.h>
 #include <igl/per_vertex_normals.h>
+#include <igl/harmonic.h>
+#include <igl/boundary_loop.h>
+#include <igl/remove_unreferenced.h>
+#include <igl/upsample.h>
 #include <random>
 #include <vector>
 #include <map>
 #include <cmath>
-#include "kdtree_NN_Eigen.hpp"
+
+
 
 namespace bcclean {
 
@@ -116,6 +122,69 @@ namespace bcclean {
             } else {
                 dict[I1(i, 0)] = std::vector<int>();
             }
+        }
+    }
+
+    void refine_proj_vote(
+        const Eigen::MatrixXd &V0,
+            const Eigen::MatrixXi & F0,
+            const Eigen::MatrixXi & FL0,
+            const Eigen::MatrixXd & V1,
+            const Eigen::MatrixXi & F1,
+            const int label_num,
+            const int subdiv,
+            Eigen::MatrixXi & FL1,
+            Eigen::MatrixXd & prob_mat
+    ){
+        try{
+            Eigen::MatrixXd NV;
+            Eigen::MatrixXi NF, NFL, NVL;
+            // FI is used to trace
+            igl::upsample(V1, F1, NV, NF, subdiv);
+            //if subdiv==1 fi face in F1 will be corresponds to 4 * fi +0, 4 * fi +1,4 * fi +2, 4 * fi +3 faces in NF
+            // reversely for general nf in NF, it corresponds to face nf % pow(4, subdiv) in F1
+            size_t modu = std::pow(4, subdiv);
+            LM_intersection_label_transport(V0, F0, FL0, NV, NF, NVL);
+            {
+                Eigen::MatrixXd prob_mat_temp;
+                vertex_label_vote_face_label(label_num, NVL, NF, NFL, prob_mat_temp);
+            }
+            std::vector< std::map<int, int> > F_label_dict;
+            for(int nfidx=0; nfidx < NF.rows(); ++ nfidx){
+                int fidx = (int) nfidx / modu;
+                if(F_label_dict.size()< fidx+1){
+                    F_label_dict.push_back(std::map<int, int>());
+                } else{
+                    int nfl = NFL(nfidx,0);
+                    auto it =F_label_dict[fidx].find(nfl);
+                    if(it == F_label_dict[fidx].end()){
+                        F_label_dict[fidx][nfl]=1;
+                    } else{
+                        F_label_dict[fidx][nfl]+=1;
+                    }
+                }
+            }
+            int fid =0;
+            prob_mat = Eigen::MatrixXd::Constant(F1.rows(), label_num, 0.05 / label_num);
+            FL1  = Eigen::MatrixXi::Constant(F1.rows(), 1, 1);
+            for(auto mp: F_label_dict){
+                int target_lb = -1;
+                int target_lb_count = 0;
+                for(auto item : mp){
+                    if(item.second >target_lb_count){
+                        target_lb = item.first;
+                        target_lb_count= item.second;
+                    }
+                    prob_mat(fid, item.first) = 0.95 * (double(item.second+1)/double(modu));
+                    // std::cout << "prob_mat"<<0.95 * (item.second / modu)<< std::endl;
+                }
+                if(target_lb!=-1){
+                    FL1(fid,0)= target_lb;
+                }
+                fid+=1;
+            }
+        } catch(...){
+            std::cout << "upsample fails" <<std::endl;
         }
     }
 
@@ -264,22 +333,5 @@ namespace bcclean {
         V_bad * 5/ diag_lenth;
         V_good.rowwise() -= bb_center;
         V_good * 5/ diag_lenth;
-    }
-
-    void build_patch_dict(const Eigen::MatrixXi &FL, std::map<int, std::vector<int> > & patch_dict){
-        patch_dict.clear();
-        for(int fidx =0 ; fidx < FL.rows(); fidx++){
-            int patch_idx = FL(fidx,0);
-//            std::vector<int> chunk;
-            auto it = patch_dict.find(patch_idx);
-            if(it == patch_dict.end()){
-                std::vector<int> chunk;
-                chunk.push_back(fidx);
-                patch_dict[patch_idx]= chunk;
-            }
-            else{
-                patch_dict[patch_idx].push_back(fidx);
-            }
-        }
     }
 }
