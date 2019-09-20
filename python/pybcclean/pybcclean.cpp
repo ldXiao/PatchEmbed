@@ -78,12 +78,14 @@ PYBIND11_MODULE(pybcclean, m) {
         py::EigenDRef<Eigen::MatrixXd> V_bad, 
         py::EigenDRef<Eigen::MatrixXi> F_bad,
         const Eigen::MatrixXi FL_bad,
+        int label_num,
+        int subdiv,
         py::EigenDRef<Eigen::MatrixXd> V_good, 
         py::EigenDRef<Eigen::MatrixXi> F_good
         ) {
             Eigen::MatrixXd prob_mat;
             Eigen::MatrixXi FL_good;
-            project_face_labels(V_bad, F_bad, FL_bad, V_good, F_good, FL_good, prob_mat);
+            project_face_labels(V_bad, F_bad, FL_bad, V_good, F_good, label_num, subdiv, FL_good, prob_mat);
             return py::make_tuple(prob_mat, FL_good);
         },
         R"pbdoc(

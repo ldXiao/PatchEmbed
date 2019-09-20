@@ -58,7 +58,7 @@ class CMakeBuild(build_ext):
 
 setup(
     name='pybcclean',
-    version='0.0.1',
+    version='0.0.2',
     author='Lind Xiao',
     author_email='xld704@gmail.com',
     description='A test project using pybind11 and CMake',

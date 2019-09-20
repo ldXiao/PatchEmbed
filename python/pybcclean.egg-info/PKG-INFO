@@ -1,6 +1,6 @@
 Metadata-Version: 1.0
 Name: pybcclean
-Version: 0.0.1
+Version: 0.0.2
 Summary: A test project using pybind11 and CMake
 Home-page: UNKNOWN
 Author: Lind Xiao
