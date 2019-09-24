@@ -25,9 +25,13 @@ set(BCCLEAN_SOURCES
     pybcclean/bcclean.cpp
     pybcclean/bcclean.h
     pybcclean/kdtree_NN_Eigen.hpp
+    pybcclean/edge.h
+    pybcclean/edge.cpp
+    # pybcclean/node.h
+    # pybcclean/node.cpp
 )
 add_library(bcclean_lib ${BCCLEAN_SOURCES})
-target_link_libraries(bcclean_lib PUBLIC igl::core igl::cgal igl::embree nanoflann)
+target_link_libraries(bcclean_lib PUBLIC igl::opengl_glfw igl::core igl::cgal igl::embree nanoflann)
 
 
 #binding modules

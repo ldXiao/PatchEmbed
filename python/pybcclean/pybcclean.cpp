@@ -1,8 +1,15 @@
 #include <pybind11/pybind11.h>
 #include <map>
+#include <unordered_map>
+#include <algorithm>
+#include <vector>
+#include <utility>
 #include "bcclean.h"
+#include "edge.h"
 #include "graphcut_cgal.h"
+#include <igl/boundary_loop.h>
 #include <pybind11/eigen.h>
+#include <pybind11/stl.h>
 
 void project_face_labels(
     const Eigen::MatrixXd &V_bad, 
@@ -42,6 +49,31 @@ void refine_labels(
     bcclean::refine_labels_graph_cut(V_good,F_good, prob_mat.transpose(), FL_good, lambda_refine);
 }
 
+class Node{
+    public:
+        int vidx;
+        std::vector<int> labels;
+        void initialize(const int vidx_, const std::vector<int> & labels_){
+            vidx = vidx_;
+            labels = labels_;
+            std::sort(labels.begin(), labels.end());
+        }
+};
+
+class Edge{
+    public:
+        int head;
+        int tail;
+        std::vector<int> vertices_list;
+        std::pair<int, int> label_pair;
+        void initialize(const int head_, const int tail_, const std::pair<int,int> & label_pair_, std::vector<int> vertices_list_){
+            head = head_;
+            tail = tail_;
+            label_pair = label_pair_;
+            vertices_list = vertices_list_;
+        }
+};
+
 namespace py = pybind11;
 
 PYBIND11_MODULE(pybcclean, m) {
@@ -57,21 +89,6 @@ PYBIND11_MODULE(pybcclean, m) {
            add
            subtract
     )pbdoc";
-
-
-    m.def("add_any", [](py::EigenDRef<Eigen::MatrixXd> x, int r, int c, double v) { x(r,c) += v; });
-    m.def(
-        "nn_sample_label_transport",
-        [](
-        const Eigen::MatrixXd & S0,
-        const Eigen::MatrixXi & SL0,
-        const Eigen::MatrixXd & S1
-        ){
-            Eigen::MatrixXi SL1;
-            bcclean::NN_sample_label_transport(S0, S1, SL0, SL1);
-            return SL1;
-        }
-    );
     m.def(
         "project_face_labels",
         [](
@@ -123,6 +140,73 @@ PYBIND11_MODULE(pybcclean, m) {
         return FL_good_cut, # F_good x 1, contain #label
         )pbdoc"
     );
+
+    py::class_<Node>(m, "Node")
+        .def(py::init<>())
+        .def_readwrite("vidx", &Node::vidx)
+        .def_readwrite("labels", &Node::labels);
+
+    py::class_<Edge>(m, "Edge")
+        .def(py::init<>())
+        .def_readwrite("head", &Edge::head)
+        .def_readwrite("tail", &Edge::tail)
+        .def_readwrite("label_pair", &Edge::label_pair)
+        .def_readwrite("vertices_list", &Edge::vertices_list);
+    
+    m.def("build_edge_list",
+    [](const Eigen::MatrixXd V, const Eigen::MatrixXi F, const Eigen::MatrixXi & FL, const int total_label_num){
+        std::vector<bcclean::edge> edge_list;
+        std::vector<Edge> Edge_list;
+        std::unordered_map<int, std::vector<int> > patch_edge_dict;
+        bcclean::build_edge_list(V, F, FL, total_label_num, edge_list, patch_edge_dict);
+        
+        for(auto edg: edge_list){
+            Edge EDG;
+            EDG.initialize(edg.head, edg.tail, edg._label_pair, edg._edge_vertices);
+            Edge_list.push_back(EDG);
+        }
+        return py::make_tuple(Edge_list, patch_edge_dict)
+        ;},
+        R"pbdoc(
+        detect return a list of nodes
+        V: numpy array of #V x 3,
+        F: numpy array of #F x 3,
+        FL: numpy array of #F x1,
+        label_num: total number of labels
+        return  tuple(edge_list: list(Edge), patch_edge_dict: dict{label:list(edge_indx)})
+        )pbdoc"
+    );
+
+    m.def("build_node_list",
+    [](const Eigen::MatrixXi F, const Eigen::MatrixXi & FL, const int total_label_num){
+        std::unordered_map<int, std::vector<int> > vertex_label_list_dict;
+        std::vector<Node> node_list;
+        bcclean::build_vertex_label_list_dict(F, FL, total_label_num, vertex_label_list_dict);
+        for(auto item: vertex_label_list_dict){
+            if(item.second.size()>2){
+                Node nd;
+                nd.initialize(item.first,item.second);
+                node_list.push_back(nd);
+            }
+        }
+        return node_list;
+    },
+    R"pbdoc(
+        detect return a list of nodes
+        F: numpy array of #F x 3,
+        FL: numpy array of #F x1,
+        return  list(Node), list of Node
+        )pbdoc"
+    );
+
+    m.def("boundary_loops",
+    [](const Eigen::MatrixXi & F){
+        std::vector<std::vector<int> > L;
+        igl::boundary_loop(F, L);
+        return L;
+    });
+    
+
     
 
 #ifdef VERSION_INFO

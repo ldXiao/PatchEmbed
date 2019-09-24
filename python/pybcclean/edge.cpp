@@ -224,7 +224,7 @@ namespace bcclean{
                                 }
                 
                 std::cout << "-----loop"<<std::endl;
-                if(loop.size()>1){
+                if(loop.size()>2){
                 std::vector<edge> patch_local_edges;
                 for(auto v_idx:loop){
                     int v_idx_raw = I_i(v_idx);
@@ -233,6 +233,7 @@ namespace bcclean{
                         start = count;
                         break;
                     }
+                    count +=1;
                 }
                 // after the above loop start is either -1 or the index on loop
                 if(start == -1){
