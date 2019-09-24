@@ -302,7 +302,7 @@ namespace bcclean{
                     }
                     inserts.push_back(insert);
                     local_indices_list.push_back(final_idx);
-                    count_local+=1;
+                    if(insert){count_local+=1;}
                 }
                 for(int i=0; i < inserts.size();++i){
                     if(inserts[i]){
