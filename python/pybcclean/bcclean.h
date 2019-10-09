@@ -11,6 +11,8 @@
 #include <iostream>
 #include <algorithm>
 namespace  bcclean {
+
+void reorient( const Eigen::MatrixXd &V,  const Eigen::MatrixXi & F, Eigen::MatrixXi & FF, Eigen::VectorXi & I );
 // helper function
 void generate_sample_color(
         const Eigen::MatrixXd &FC,

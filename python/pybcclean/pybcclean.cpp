@@ -141,6 +141,18 @@ PYBIND11_MODULE(pybcclean, m) {
         )pbdoc"
     );
 
+    m.def("reorient",
+        [](
+           py::EigenDRef<Eigen::MatrixXd> V, 
+           py::EigenDRef<Eigen::MatrixXi> F 
+        ){
+            Eigen::MatrixXi FF;
+            Eigen::VectorXi I;
+            bcclean::reorient(V, F, FF, I);
+            return py::make_tuple(FF, I);
+        }
+    );
+
     py::class_<Node>(m, "Node")
         .def(py::init<>())
         .def_readwrite("vidx", &Node::vidx)

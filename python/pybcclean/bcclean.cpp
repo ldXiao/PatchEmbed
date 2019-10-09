@@ -12,6 +12,7 @@
 #include <igl/triangle_triangle_adjacency.h>
 #include <igl/sparse.h>
 #include <igl/embree/line_mesh_intersection.h>
+#include <igl/embree/reorient_facets_raycast.h>
 #include <igl/per_vertex_normals.h>
 #include <igl/harmonic.h>
 #include <igl/boundary_loop.h>
@@ -25,6 +26,9 @@
 
 
 namespace bcclean {
+    void reorient(const Eigen::MatrixXd &  V, const Eigen::MatrixXi & F, Eigen::MatrixXi & FF, Eigen::VectorXi & I ){
+        igl::embree::reorient_facets_raycast(V, F, FF, I);
+    }
 
     void generate_sample_color(
             const Eigen::MatrixXd &FC,
