@@ -27,5 +27,5 @@ namespace bcclean
         // finally we wan to make sure each patch contains only one loop
         // and the loop is not self-touching
    };
-   void CollectPathes(std::map<int, patch> & patch_dict);
+   void CollectPatches();
 } // namespace nam bcclean

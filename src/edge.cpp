@@ -139,7 +139,7 @@ namespace bcclean{
                 int vi = F(fidx, i);
                 auto jt = vertex_label_list_dict.find(vi);
                 if(jt == vertex_label_list_dict.end()){
-                    std::cout << "pushed"<<std::endl;
+                    // std::cout << "pushed"<<std::endl;
                     vertex_label_list_dict[vi]=std::vector<int>();
                     // vertex_label_list_dict[vi].clear();
                 }

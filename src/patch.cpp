@@ -1,5 +1,6 @@
 #include "patch.h"
 #include "planar_cut_simply_connect.h"
+#include "patch_cut_relabel.h"
 #include <unordered_map>
 #include <igl/boundary_loop.h>
 #include <igl/remove_unreferenced.h>
@@ -23,7 +24,7 @@ namespace bcclean{
         std::unordered_map<int, std::vector<int> > patch_edge_dict;
         bcclean::build_edge_list(Vbase, Fbase, FL, total_label_num, edge_list, patch_edge_dict);
         // initialize edge_list
-        std::__1::unordered_map<int, std::__1::vector<int>> _vertex_label_list_dict;
+        std::unordered_map<int, std::vector<int>> _vertex_label_list_dict;
         bcclean::build_vertex_label_list_dict(Fbase, FL, total_label_num, _vertex_label_list_dict);
         for(auto item: _vertex_label_list_dict){
             if(item.second.size()>2){
@@ -35,14 +36,14 @@ namespace bcclean{
         }
     }
 
-    void CollectPathes(std::map<int,patch> & patch_dict){
+    void CollectPatches(){
         // this function must be called after SetSattics
         // check all set otherwise exit with failure
-        patch_dict.clear();
         if(patch::total_label_num<=0){
             std::cout  << "Static members not initialized abort" <<std::endl;
             exit(EXIT_FAILURE);
         }
+        std::cout << "1" << std::endl;
         // else do 
         std::map<int, int> label_count_dict;
         std::map<int, Eigen::MatrixXi> label_faces_dict;
@@ -52,21 +53,23 @@ namespace bcclean{
             label_faces_dict[lb] = Eigen::MatrixXi::Zero(patch::Fbase.rows(),3);
             label_FI_dict[lb] = Eigen::VectorXi::Zero(patch::Fbase.rows());
         }
-
+        std::cout << "2" << std::endl;
         for(int fidx =0 ; fidx < patch::FL.rows(); ++fidx){
             int lb = patch::FL(fidx);
             label_faces_dict[lb].row(label_count_dict[lb])=patch::Fbase.row(fidx);
             label_FI_dict[lb](label_count_dict[lb])= fidx;
             label_count_dict[lb]+=1;
         }
-
+        std::cout << "3" << std::endl;
         for(int lb = 0; lb < patch::total_label_num; ++lb){
             label_faces_dict[lb].conservativeResize(label_count_dict[lb],3);
             label_FI_dict[lb].conservativeResize(label_count_dict[lb]);
         }
-        
+        std::cout << "4" << std::endl;
+        int total_label_num_dummy =patch::total_label_num;
         for(int lb =0; lb < patch::total_label_num; ++ lb){
             patch pat;
+            std::cout  <<"lb" << lb << std::endl;
             Eigen::MatrixXi Fraw;
             Eigen::MatrixXd Vraw;
             Eigen::VectorXi I;
@@ -86,11 +89,14 @@ namespace bcclean{
             
             if(boundary_loops.size()>1){
                 std::vector<bool> VCuts;
+                std::cout << "ob" << lb << std::endl;
                 planar_cut_simply_connect(Vraw, Fraw, boundary_loops, VCuts);
+                std::cout << "ob1" << lb << std::endl;
+                Eigen::VectorXi FL_mod_copy =patch::FL_mod;
+                patch_cut_relabel(Fraw, label_FI_dict[lb], VCuts, FL_mod_copy, patch::FL_mod, total_label_num_dummy);
             }
             //
         }
-
-                
+        patch::total_label_num = total_label_num_dummy;
     }
 }
