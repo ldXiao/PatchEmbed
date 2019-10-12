@@ -5,11 +5,12 @@
 #include <iostream>
 namespace bcclean{
         bool node::initialize(
-        const int total_label_num, 
+        const int total_label_num,
+        const int vidx, 
         const Eigen::MatrixXd & position, 
         const std::vector<int> labels){
             _total_label_num = total_label_num;
-            _occupied_label_num = 0;
+            _occupied_label_num = vidx;
             for(int i =0; i< _total_label_num; ++i){
                 _label_occupy_dict[i]=0;
             }

@@ -21,9 +21,8 @@
 #include <Eigen/Core>
 #include "bcclean.h"
 #include "edge.h"
-#include "mapping_patch.h"
 #include "graphcut_cgal.h"
-#include "mapping_patch.h"
+#include "patch.h"
 #include <igl/upsample.h>
 #include <igl/random_points_on_mesh.h>
 #include <igl/jet.h>
@@ -164,44 +163,7 @@ int main(int argc, char *argv[]){
     igl::read_triangle_mesh(good_mesh_file, V_good, F_good);
     igl::readDMAT(face_label_dmat, FL_bad);
     label_num = FL_bad.maxCoeff()+1;
-    // bcclean::LM_intersection_label_transport(
-    // V_bad,
-    // F_bad,
-    // FL_bad,
-    // V_good,
-    // F_good,
-    // VL_good);
-    // bcclean::vertex_label_vote_face_label(label_num, VL_good, F_good, FL_good, prob_mat);
-    bcclean::refine_proj_vote(V_bad, F_bad, FL_bad, V_good, F_good, label_num, 2, FL_good, prob_mat);
-    std::cout << prob_mat<<std::endl;
-    bcclean::refine_labels_graph_cut(V_good, F_good, prob_mat.transpose(), FL_good, 1);
-    // vec = bcclean::build_label_nodes_list(V_bad, F_bad, FL_bad);
-    
-    igl::jet(FL_bad.unaryExpr([](const int x) { return x%8; }), 0, 8, C_bad);
-    igl::jet(FL_good.unaryExpr([](const int x) { return x%8; }), 0, 8, C_good);
-    viewer.data().show_overlay_depth = true;
-    viewer.data().set_mesh(V_bad, F_bad);
-    viewer.data().set_colors(C_bad);
-   
-    bcclean::build_vertex_label_list_dict(F_bad, FL_bad, label_num, vertices_label_list_bad);
-    bcclean::build_vertex_label_list_dict(F_good, FL_good, label_num, vertices_label_list_good);
-    bcclean::build_edge_list(V_bad, F_bad, FL_bad, label_num, edge_list_bad, patch_edge_bad);
-    bcclean::build_edge_list(V_good, F_good, FL_good, label_num, edge_list_good, patch_edge_good);
-    bcclean::build_pair_edge_list(edge_list_bad, pair_edge_list_dict_bad);
-    bcclean::build_pair_edge_list(edge_list_good, pair_edge_list_dict_good);
-    bcclean::match_pair_edge_list_dicts(
-        pair_edge_list_dict_bad, 
-        pair_edge_list_dict_good,
-        edge_list_bad,
-        edge_list_good
-    );
-    for(auto p: edge_list_bad){
-        bcclean::plot_edge(viewer, V_bad, FL_bad, p);
-        for(auto q: p._edge_vertices){
-            std::cout << q << ' ';
-        }
-        std::cout <<"---------------------------"<<std::endl;
-    }
-    viewer.callback_key_down = &key_down;
-    viewer.launch();
+    bcclean::patch pat;
+    bcclean::patch::SetStatics(V_bad, F_bad, FL_bad, label_num);
+    return 0;
 }

@@ -12,7 +12,7 @@ namespace bcclean{
         std::map<int, int> _label_occupy_dict;
         bool of_same_type(const node & b);
         bool at_same_position(const Eigen::MatrixXd & position);
-        bool initialize(const int total_label_num, const Eigen::MatrixXd & position, const std::vector<int> labels);
+        bool initialize(const int total_label_num, const int vidx, const Eigen::MatrixXd & position, const std::vector<int> labels);
     };
 }
 #endif //BCCLEAN_NODE_H

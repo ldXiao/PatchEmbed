@@ -180,7 +180,7 @@ PYBIND11_MODULE(pybcclean, m) {
         return py::make_tuple(Edge_list, patch_edge_dict)
         ;},
         R"pbdoc(
-        detect return a list of nodes
+        detect return a list of edges 
         V: numpy array of #V x 3,
         F: numpy array of #F x 3,
         FL: numpy array of #F x1,

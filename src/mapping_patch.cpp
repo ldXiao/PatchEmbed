@@ -61,7 +61,7 @@ namespace bcclean{
                 if(vect.size()>2){
                     Eigen::RowVector3d position = V.row(vi);
                     node nd;
-                    nd.initialize(total_label_num, position, vect);
+                    nd.initialize(total_label_num,vi, position, vect);
                     for(int lb: vect){
                         result[lb].push_back(nd);
                         std::cout<< "push"<<std::endl;

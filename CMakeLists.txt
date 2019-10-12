@@ -105,6 +105,12 @@ set(SOURCES
     src/node.cpp
     src/edge.h
     src/edge.cpp
+    src/patch.h 
+    src/patch.cpp
+    src/planar_cut_simply_connect.h 
+    src/planar_cut_simply_connect.cpp 
+    src/patch_cut_relabel.h 
+    src/patch_cut_relabel.cpp 
 )
 add_library(bcclean ${SOURCES})
 target_link_libraries(bcclean PUBLIC
@@ -135,3 +141,6 @@ target_link_libraries(testcyc_bin bcclean)
 # Add your project files
 add_executable(discrapency_bin src/view_discrapency.cpp)
 target_link_libraries(discrapency_bin bcclean)
+
+add_executable(testpatch_bin src/testpatch.cpp)
+target_link_libraries(testpatch_bin bcclean)
