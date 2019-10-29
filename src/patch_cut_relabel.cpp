@@ -2,7 +2,7 @@
 #include <igl/triangle_triangle_adjacency.h>
 #include <queue>
 namespace bcclean{
-    void patch_cut_relabel(const Eigen::MatrixXi & Fraw, const Eigen::VectorXi FI, const std::vector<bool> & VCuts, const Eigen::VectorXi & FL, Eigen::VectorXi & FL_mod, int & total_label_num){
+    void patch_cut_relabel(const Eigen::MatrixXi & Fraw, const Eigen::VectorXi FI, const std::vector<bool> & VCuts, const std::vector<std::vector<bool> > & TCuts, const Eigen::VectorXi & FL, Eigen::VectorXi & FL_mod, int & total_label_num){
         assert(total_label_num == FL.maxCoeff()+1);
         FL_mod = FL;
         int ini_label = FL(FI(0));
@@ -28,13 +28,14 @@ namespace bcclean{
                 Eigen::RowVector3i adjs = TT.row(cur_face);
                 for(int j =0 ; j <3 ; ++j){
                     int face_j = adjs(j);
-                    int vidx, vidy;
-                    vidx = Fraw(cur_face, j);
-                    vidy  = Fraw(cur_face, (j+1)%3);
-                    if(!(VCuts[vidx] && VCuts[vidy])){
+                    // int vidx, vidy;
+                    // vidx = Fraw(cur_face, j);
+                    // vidy  = Fraw(cur_face, (j+1)%3);
+                    if(!TCuts[cur_face][j]){
                         // the edge is not in VCuts
                         if(PatchL(face_j)== -1){
                             // not visited before;
+                            PatchL(face_j) = CC;
                             search_queue.push(face_j);
                         }
                     }
@@ -58,6 +59,9 @@ namespace bcclean{
                 FL_mod(FI(frawidx)) = total_label_num + PatchL(frawidx); 
             }
         }
-        total_label_num+= CC;
+        
+        total_label_num+= (CC+1);
+        std::cout << "patch " << ini_label << "cut into " << CC+1 << "pieces" << std::endl;
+        std::cout << PatchL << std::endl;
     }
 }

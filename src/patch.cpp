@@ -43,7 +43,6 @@ namespace bcclean{
             std::cout  << "Static members not initialized abort" <<std::endl;
             exit(EXIT_FAILURE);
         }
-        std::cout << "1" << std::endl;
         // else do 
         std::map<int, int> label_count_dict;
         std::map<int, Eigen::MatrixXi> label_faces_dict;
@@ -53,19 +52,16 @@ namespace bcclean{
             label_faces_dict[lb] = Eigen::MatrixXi::Zero(patch::Fbase.rows(),3);
             label_FI_dict[lb] = Eigen::VectorXi::Zero(patch::Fbase.rows());
         }
-        std::cout << "2" << std::endl;
         for(int fidx =0 ; fidx < patch::FL.rows(); ++fidx){
             int lb = patch::FL(fidx);
             label_faces_dict[lb].row(label_count_dict[lb])=patch::Fbase.row(fidx);
             label_FI_dict[lb](label_count_dict[lb])= fidx;
             label_count_dict[lb]+=1;
         }
-        std::cout << "3" << std::endl;
         for(int lb = 0; lb < patch::total_label_num; ++lb){
             label_faces_dict[lb].conservativeResize(label_count_dict[lb],3);
             label_FI_dict[lb].conservativeResize(label_count_dict[lb]);
         }
-        std::cout << "4" << std::endl;
         int total_label_num_dummy =patch::total_label_num;
         for(int lb =0; lb < patch::total_label_num; ++ lb){
             patch pat;
@@ -89,11 +85,18 @@ namespace bcclean{
             
             if(boundary_loops.size()>1){
                 std::vector<bool> VCuts;
-                std::cout << "ob" << lb << std::endl;
-                planar_cut_simply_connect(Vraw, Fraw, boundary_loops, VCuts);
-                std::cout << "ob1" << lb << std::endl;
+                std::vector<std::vector<bool> > TCuts;
+                std::cout << "label" << lb << "has " << boundary_loops.size() <<"loops"<< std::endl;
+                for(auto p : boundary_loops){
+                    for(auto vi: p){
+                        std::cout << vi << " ";
+                    }
+                    // std::cout << "loop" << std::endl;
+                }
+                planar_cut_simply_connect(Vraw, Fraw, boundary_loops, VCuts, TCuts);
+                // std::cout << "ob1" << lb << std::endl;
                 Eigen::VectorXi FL_mod_copy =patch::FL_mod;
-                patch_cut_relabel(Fraw, label_FI_dict[lb], VCuts, FL_mod_copy, patch::FL_mod, total_label_num_dummy);
+                patch_cut_relabel(Fraw, label_FI_dict[lb], VCuts, TCuts, FL_mod_copy, patch::FL_mod, total_label_num_dummy);
             }
             //
         }
