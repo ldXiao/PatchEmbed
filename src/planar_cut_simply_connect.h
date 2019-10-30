@@ -26,9 +26,9 @@ namespace bcclean{
             int & vupidx,
             int & vdownidx)
         {
-
-            std::vector<int> inter;
-            std::set_intersection(VF[uidx].begin(), VF[uidx].end(), VF[vidx].begin(), VF[vidx].end(), std::back_inserter(inter));
+            std::vector<int> inter(VF[uidx].size()+ VF[vidx].size());
+            auto it = std::set_intersection(VF[uidx].begin(), VF[uidx].end(), VF[vidx].begin(), VF[vidx].end(), inter.begin());
+            inter.resize(it-inter.begin());
             if(inter.size()!=2) return false; // there should be always only two triangles
             
             // choose  the triangle that has positive orientation on u -> v
@@ -437,8 +437,9 @@ namespace bcclean{
             for(int loop_idx=0; loop_idx < loop.size(); ++loop_idx){
                 int uidx = loop[loop_idx];
                 int vidx = loop[(loop_idx+1)%loop.size()];
-                std::vector<int> inter;
-                std::set_intersection(VF[uidx].begin(), VF[uidx].end(), VF[vidx].begin(), VF[vidx].end(), std::back_inserter(inter));
+                std::vector<int> inter(VF[uidx].size()+ VF[vidx].size());
+                auto it = std::set_intersection(VF[uidx].begin(), VF[uidx].end(), VF[vidx].begin(), VF[vidx].end(), inter.begin());
+                inter.resize(it-inter.begin());
                 // there should be only one comman adjacent triangle for boundary vertices
                 for(auto trg: inter){
                     for(int edgpos =0; edgpos < 3 ; ++edgpos){
@@ -446,11 +447,9 @@ namespace bcclean{
                         int vvidx = F(trg, (edgpos+1)%3);
                         if(uuidx == uidx && vvidx == vidx){
                             TCuts[trg][edgpos] = true;
-                            break;
                         }
                         if(uuidx == vidx && vvidx == uidx){
                             TCuts[trg][edgpos] = true;
-                            break;
                         }
                     }
                 }
@@ -519,6 +518,7 @@ namespace bcclean{
             }
             int cur  = tail;
             std::vector<int> records;
+            igl::vertex_triangle_adjacency(V, F, VF, VFi); // update VF
             while(cur != -1){
                 // root not reach, go on back search
                 records.push_back(cur);
@@ -533,8 +533,9 @@ namespace bcclean{
             for(int rc_idx=0; rc_idx < records.size()-1; ++rc_idx){
                 int uidx = records[rc_idx];
                 int vidx = records[(rc_idx+1)%records.size()];
-                std::vector<int> inter;
-                std::set_intersection(VF[uidx].begin(), VF[uidx].end(), VF[vidx].begin(), VF[vidx].end(), std::back_inserter(inter));
+                std::vector<int> inter(VF[uidx].size()+ VF[vidx].size());
+                auto it = std::set_intersection(VF[uidx].begin(), VF[uidx].end(), VF[vidx].begin(), VF[vidx].end(), inter.begin());
+                inter.resize(it-inter.begin());
                 // there should be only one comman adjacent triangle for boundary vertices
                 for(auto trg: inter){
                     for(int edgpos =0; edgpos < 3 ; ++edgpos){
@@ -542,11 +543,11 @@ namespace bcclean{
                         int vvidx = F(trg, (edgpos+1)% 3);
                         if(uuidx == uidx && vvidx == vidx){
                             TCuts[trg][edgpos] = true;
-                            break;
+                            // break;
                         }
                         if(uuidx == vidx && vvidx == uidx){
                             TCuts[trg][edgpos] = true;
-                            break;
+                            // break;
                         }
                     }
                 }

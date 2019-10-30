@@ -29,6 +29,9 @@ namespace bcclean{
                 Eigen::RowVector3i adjs = TT.row(cur_face);
                 for(int j =0 ; j <3 ; ++j){
                     int face_j = adjs(j);
+                    if(face_j == -1) {
+                        continue;
+                    }
                     // int vidx, vidy;
                     // vidx = Fraw(cur_face, j);
                     // vidy  = Fraw(cur_face, (j+1)%3);
