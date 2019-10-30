@@ -8,8 +8,10 @@ namespace bcclean
     class patch{
         // all the patches is assumed to be planar
         public:
-        static Eigen::MatrixXd Vbase;
-        static Eigen::MatrixXi Fbase;
+        static Eigen::MatrixXd Vbase; // the input whole mesh V
+        static Eigen::MatrixXi Fbase; // the input whole mesh F
+        static Eigen::MatrixXd V_mod; // the output whole mesh V_mod
+        static Eigen::MatrixXi F_mod; // the output whole mesh F_mod
         static std::vector<node> node_list; // list of all nodes
         static std::vector<edge> edge_list; // list of all edges;
         static int total_label_num;

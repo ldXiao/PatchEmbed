@@ -2,14 +2,15 @@
 #include <igl/triangle_triangle_adjacency.h>
 #include <queue>
 namespace bcclean{
-    void patch_cut_relabel(const Eigen::MatrixXi & Fraw, const Eigen::VectorXi FI, const std::vector<bool> & VCuts, const std::vector<std::vector<bool> > & TCuts, const Eigen::VectorXi & FL, Eigen::VectorXi & FL_mod, int & total_label_num){
+    void patch_cut_relabel(const Eigen::MatrixXi & Fraw, const Eigen::VectorXi & FI, const std::vector<bool> & VCuts, const std::vector<std::vector<bool> > & TCuts, const Eigen::VectorXi & FL, Eigen::VectorXi & FL_mod, int & total_label_num)
+    {
         assert(total_label_num == FL.maxCoeff()+1);
         FL_mod = FL;
         int ini_label = FL(FI(0));
-        Eigen::VectorXi PatchL = Eigen::VectorXi::Zero(Fraw.rows());
-        for(int frawidx =0 ; frawidx < Fraw.rows(); ++frawidx){
-            PatchL(frawidx) = -1;
-        }
+        Eigen::VectorXi PatchL = Eigen::VectorXi::Constant(Fraw.rows(), -1);
+        // for(int frawidx =0 ; frawidx < Fraw.rows(); ++frawidx){
+        //     PatchL(frawidx) = -1;
+        // }
         Eigen::MatrixXi TT, TTi;
         igl::triangle_triangle_adjacency(Fraw, TT, TTi);
         // start with face 0 use TT and TTi info to get connected components
@@ -56,12 +57,12 @@ namespace bcclean{
             if(PatchL(frawidx)==0){
                 FL_mod(FI(frawidx))= ini_label;
             } else {
-                FL_mod(FI(frawidx)) = total_label_num + PatchL(frawidx); 
+                FL_mod(FI(frawidx)) = total_label_num + PatchL(frawidx) -1; 
             }
         }
         
-        total_label_num+= (CC+1);
+        total_label_num+= CC;
         std::cout << "patch " << ini_label << "cut into " << CC+1 << "pieces" << std::endl;
-        std::cout << PatchL << std::endl;
+        // std::cout << PatchL << std::endl;
     }
 }

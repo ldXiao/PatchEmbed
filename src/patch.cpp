@@ -9,6 +9,8 @@ namespace bcclean{
     // because they are intrinsically not part of thec class
     Eigen::MatrixXd patch::Vbase;
     Eigen::MatrixXi patch::Fbase;
+    Eigen::MatrixXd patch::V_mod;
+    Eigen::MatrixXi patch::F_mod;
     std::vector<node> patch::node_list; // list of all nodes
     std::vector<edge> patch::edge_list; // list of all edges;
     int patch::total_label_num;
@@ -39,16 +41,17 @@ namespace bcclean{
     void CollectPatches(){
         // this function must be called after SetSattics
         // check all set otherwise exit with failure
+        // when collecting the patches , it could split the edges whose two nodes are on boundaries while itself is not part of boundary
         if(patch::total_label_num<=0){
-            std::cout  << "Static members not initialized abort" <<std::endl;
+            std::cout << "Static members not initialized, abort" <<std::endl;
             exit(EXIT_FAILURE);
         }
         // else do 
-        std::map<int, int> label_count_dict;
+        std::map<int, int> label_count_dict; // count how many faces are there in a label patch recorded for resizing only
         std::map<int, Eigen::MatrixXi> label_faces_dict;
         std::map<int, Eigen::VectorXi> label_FI_dict;
         for(int lb = 0; lb < patch::total_label_num; ++lb){
-            label_count_dict[lb] =0 ;
+            label_count_dict[lb] =0;
             label_faces_dict[lb] = Eigen::MatrixXi::Zero(patch::Fbase.rows(),3);
             label_FI_dict[lb] = Eigen::VectorXi::Zero(patch::Fbase.rows());
         }
@@ -62,14 +65,14 @@ namespace bcclean{
             label_faces_dict[lb].conservativeResize(label_count_dict[lb],3);
             label_FI_dict[lb].conservativeResize(label_count_dict[lb]);
         }
-        int total_label_num_dummy =patch::total_label_num;
+        int total_label_num_dummy = patch::total_label_num;
         for(int lb =0; lb < patch::total_label_num; ++ lb){
             patch pat;
             std::cout  <<"lb" << lb << std::endl;
             Eigen::MatrixXi Fraw;
             Eigen::MatrixXd Vraw;
-            Eigen::VectorXi I;
-            igl::remove_unreferenced(patch::Vbase, label_faces_dict[lb], Vraw, Fraw, I);
+            Eigen::VectorXi I, J;
+            igl::remove_unreferenced(patch::Vbase, label_faces_dict[lb], Vraw, Fraw, I, J);
 
             // check Vraw, Fraw is a manifold
             // check the number of boundary loops of the manifold
@@ -78,7 +81,7 @@ namespace bcclean{
             pat.Fraw = Fraw;
             pat.FI = label_FI_dict[lb];
             pat.label = lb;
-            pat.VI = I; // VI()
+            pat.VI = J; // VI()
             std::vector<std::vector<int > > boundary_loops;
             igl::boundary_loop(Fraw, boundary_loops);
 
@@ -93,10 +96,10 @@ namespace bcclean{
                     }
                     // std::cout << "loop" << std::endl;
                 }
-                planar_cut_simply_connect(Vraw, Fraw, boundary_loops, VCuts, TCuts);
+                planar_cut_simply_connect(Vraw, Fraw, patch::Vbase, patch::Fbase, pat.VI, pat.FI, patch::FL_mod, boundary_loops, VCuts, TCuts);
                 // std::cout << "ob1" << lb << std::endl;
                 Eigen::VectorXi FL_mod_copy =patch::FL_mod;
-                patch_cut_relabel(Fraw, label_FI_dict[lb], VCuts, TCuts, FL_mod_copy, patch::FL_mod, total_label_num_dummy);
+                patch_cut_relabel(Fraw, pat.FI, VCuts, TCuts, FL_mod_copy, patch::FL_mod, total_label_num_dummy);
             }
             //
         }

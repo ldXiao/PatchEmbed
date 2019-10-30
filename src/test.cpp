@@ -167,8 +167,8 @@ int main(int argc, char *argv[]){
     bcclean::patch::SetStatics(V_bad, F_bad, FL_bad, label_num);
     std::map<int, bcclean::patch> patch_dict;
     bcclean::CollectPatches();
-    viewer.data().set_mesh(V_bad, F_bad);
-    igl::jet(bcclean::patch::FL_mod,0, label_num-1, C_bad);
+    viewer.data().set_mesh(bcclean::patch::Vbase, bcclean::patch::Fbase);
+    igl::jet(bcclean::patch::FL_mod,0, bcclean::patch::total_label_num-1, C_bad);
     igl::writeDMAT("../test.dmat", bcclean::patch::FL_mod );
     viewer.data().set_colors(C_bad);
     viewer.launch();
