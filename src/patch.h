@@ -1,3 +1,5 @@
+#ifndef BCCLEAN_PATCH_H
+#define BCCLEAN_PATCH_H
 #include <Eigen/Core>
 #include <vector>
 #include <map>
@@ -31,3 +33,5 @@ namespace bcclean
    };
    void CollectPatches();
 } // namespace nam bcclean
+
+#endif // BCCLEAN_PATCH_H

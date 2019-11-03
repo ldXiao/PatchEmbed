@@ -17,12 +17,14 @@
 #include <igl/embree/line_mesh_intersection.h>
 #include <imgui/imgui.h>
 #include <igl/jet.h>
+#include <igl/writeOBJ.h>
 #include <imgui/imgui_internal.h>
 #include <Eigen/Core>
 #include "bcclean.h"
 #include "edge.h"
 #include "graphcut_cgal.h"
 #include "patch.h"
+#include "Match_Maker.h"
 #include <igl/upsample.h>
 #include <igl/random_points_on_mesh.h>
 #include <igl/jet.h>
@@ -35,10 +37,12 @@
 #include <nlohmann/json.hpp>
 #include <unordered_map>
 
-
 Eigen::MatrixXi F_bad, F_good;
 Eigen::MatrixXd V_bad, V_good;
-Eigen::MatrixXi FL_bad, VL_good, FL_good;
+Eigen::MatrixXi FL_bad, VL_good;
+Eigen::VectorXi II, JJ;
+std::vector<int> dots;
+Eigen::VectorXi FL_good;
 Eigen::MatrixXd prob_mat;
 int label_num;
 igl::opengl::glfw::Viewer viewer;
@@ -53,6 +57,7 @@ std::unordered_map<int, std::vector<int> > patch_edge_bad, patch_edge_good;
 std::unordered_map<int, std::vector<int> > vertices_label_list_bad, vertices_label_list_good;
 Eigen::MatrixXd C_bad, C_good;
 bool visual_bad=false;
+int psat= 2;
 void project_face_labels(
     const Eigen::MatrixXd &V_bad, 
     const Eigen::MatrixXi &F_bad, 
@@ -86,11 +91,11 @@ bool key_down(igl::opengl::glfw::Viewer &viewer, unsigned char key, int modifier
         case ']':{
             if(visual_bad){
                 viewer.data().clear();
-                igl::jet(FL_bad.unaryExpr([](const int x) { return x%8; }), 0, 8, C_bad);
-                igl::jet(FL_good.unaryExpr([](const int x) { return x%8; }), 0, 8, C_good);
+                // igl::jet(FL_bad.unaryExpr([](const int x) { return x%8; }), 0, 8, C_bad);
+                // igl::jet(FL_good.unaryExpr([](const int x) { return x%8; }), 0, 8, C_good);
                 viewer.data().show_overlay_depth = false;
-                viewer.data().set_mesh(V_bad, F_bad);
-                viewer.data().set_colors(C_bad);
+                viewer.data().set_mesh(V_good, F_good);
+                // viewer.data().set_colors(C_bad);
                 
                 for(auto p: edge_list_bad){
                 bcclean::plot_edge(viewer, V_bad, FL_bad, p);
@@ -107,8 +112,23 @@ bool key_down(igl::opengl::glfw::Viewer &viewer, unsigned char key, int modifier
                 }
                 visual_bad = !visual_bad;
             }
-        }
             break;
+        }
+    case '=':{
+        psat += 1;
+        Eigen::MatrixXd V_good_copy = V_good;
+        Eigen::MatrixXi F_good_copy = F_good;
+        Eigen::VectorXi FL_good_copy = FL_good;
+        bcclean::trace_and_label(bcclean::patch::Vbase, bcclean::patch::Fbase, bcclean::patch::FL_mod, V_good_copy, F_good_copy, FL_good_copy, dots, psat, II, JJ);
+        viewer.data().clear();
+        viewer.data().set_mesh(V_good_copy, F_good_copy);
+        Eigen::MatrixXd head, tail;
+        igl::slice(V_good_copy, II, 1, head);
+        igl::slice(V_good_copy, JJ, 1,tail);
+        viewer.data().add_edges(head, tail , Eigen::RowVector3d(1,0,0));
+        break;
+    }
+            
     }
     return false;
 }
@@ -123,7 +143,6 @@ int main(int argc, char *argv[]){
         exit(0);
     }
     
-
     /*-----------------------------------------
     for json
     */
@@ -138,6 +157,7 @@ int main(int argc, char *argv[]){
         param_json = json::parse(temp);
         std::cout <<"the json parameters are" << param_json << std::endl;
         data_root = param_json["data_root"];
+        psat = param_json["pause"];
     }
     /*-----------------------------------------
     for pybind
@@ -167,10 +187,15 @@ int main(int argc, char *argv[]){
     bcclean::patch::SetStatics(V_bad, F_bad, FL_bad, label_num);
     std::map<int, bcclean::patch> patch_dict;
     bcclean::CollectPatches();
-    viewer.data().set_mesh(bcclean::patch::Vbase, bcclean::patch::Fbase);
-    igl::jet(bcclean::patch::FL_mod,0, bcclean::patch::total_label_num-1, C_bad);
-    igl::writeDMAT("../test.dmat", bcclean::patch::FL_mod );
-    viewer.data().set_colors(C_bad);
+    viewer.data().set_mesh(V_good, F_good);
+    viewer.callback_key_down = & key_down;
     viewer.launch();
+    // bcclean::trace_and_label(bcclean::patch::Vbase, bcclean::patch::Fbase, bcclean::patch::FL_mod, V_good, F_good, FL_good, dots, viewer);
+    
+    igl::jet(bcclean::patch::FL_mod,0, bcclean::patch::total_label_num-1, C_bad);
+    igl::writeDMAT(data_root +"/test.dmat", bcclean::patch::FL_mod );
+    igl::writeOBJ(data_root + "/test.obj", bcclean::patch::Vbase, bcclean::patch::Fbase);
+    // viewer.data().set_colors(C_bad);
+    
     return 0;
 }

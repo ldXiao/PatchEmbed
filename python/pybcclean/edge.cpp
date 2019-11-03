@@ -56,7 +56,7 @@ namespace bcclean{
 
     }
 
-    Edge_Compare_Result edge::compare_edge(edge b){
+    Edge_Compare_Result edge::_compare_edge(edge b){
         if(b._label_pair == _label_pair){
             if(b.head == -1 && b.tail == -1){
                 // b is a loop
@@ -290,7 +290,7 @@ namespace bcclean{
                     int count_glob =0;
                     int final_idx = -1;
                     for(edge & edg1: edge_list){
-                        if(edg.compare_edge(edg1)==Edge_Compare_Result::IDENTICAL){
+                        if(edg._compare_edge(edg1)==Edge_Compare_Result::IDENTICAL){
                             insert = false;
                             final_idx = count_glob;
                             break;

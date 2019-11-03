@@ -29,7 +29,7 @@ namespace bcclean{
         std::pair<int, int> _label_pair; // lab1, lab2, where lab1 < lab2;
         std::vector<int> _edge_vertices;
         bool matched = true;
-        Edge_Compare_Result compare_edge(edge b);
+        Edge_Compare_Result _compare_edge(edge b);
     };
     bool build_edge_dict(const Eigen::MatrixXd& V, Eigen::MatrixXi&F, const  Eigen::VectorXi & FL, const  size_t total_label_num, pair_map<std::pair<int,int>, std::vector<edge> > & edge_dict);
     bool build_vertex_label_list_dict(const Eigen::MatrixXi&F, const Eigen::MatrixXi & FL, const size_t total_label_num, std::unordered_map<int, std::vector<int>> & vertex_label_list_dict);

@@ -1,3 +1,4 @@
 {
-    "data_root": "../../bcclean_jupyters/data/24" 
+    "data_root": "../../bcclean_jupyters/data/2",
+    "pause": 20
 }
