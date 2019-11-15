@@ -50,12 +50,13 @@ namespace bcclean{
     );
     
 
-    void splits_detect(
+    bool splits_detect(
         const Eigen::MatrixXi & F,
         const Eigen::MatrixXi & TT, // triangle-triangle adjacency
+        const std::vector<int> & node_list,
         const std::vector<bool> & VCuts, // indicate whether a vertex is on the boundary
         const std::vector<std::vector<bool> > & TCuts, // indicate whether wich edge of a face is on the boundary
-        std::map<std::pair<int, int>, int > & splits
+        std::pair<int, int> & splits
     );
 
 
@@ -70,7 +71,7 @@ namespace bcclean{
         int & vdownidx);
 
     void splits_update(
-        const std::map<std::pair<int, int>, int> & splits,
+        const std::pair<int, int> & splits,
         Eigen::MatrixXd & Vraw, // raw mesh
         Eigen::MatrixXi & Fraw,
         std::vector<bool> & VCuts, // indicate whether a vertex is on the boundary
@@ -88,7 +89,8 @@ namespace bcclean{
         std::vector<int> & dots,
         int pause_at,
         Eigen::VectorXi & II,
-        Eigen::VectorXi & JJ
+        Eigen::VectorXi & JJ,
+        std::vector<int> & node_list_extern
     );
     
 }

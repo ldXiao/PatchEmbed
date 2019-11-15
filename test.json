@@ -1,4 +1,6 @@
 {
-    "data_root": "../../bcclean_jupyters/data/2",
-    "pause": 20
+    "data_root": "../../bcclean_jupyters/data/6",
+    "pause": 15,
+    "iden": false,
+    "upsp": 1
 }

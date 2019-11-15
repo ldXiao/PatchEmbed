@@ -3,9 +3,8 @@
 #include <igl/slice.h>
 #include <utility>
 namespace bcclean {
-    void silence_vertices1(std::vector<std::vector<int > > & VV, std::vector<bool> & VCuts, const std::vector<int> & silent_indices){
+    void silence_vertices1(std::vector<std::vector<int > > & VV, const std::vector<int> & silent_indices){
         for(auto index : silent_indices){
-            VCuts[index] = true;
             VV[index].clear();
             for(auto & adjs: VV){
                 adjs.erase(std::remove(adjs.begin(), adjs.end(), index), adjs.end());
@@ -111,17 +110,176 @@ namespace bcclean {
         
         
     }
+    void sector_silence_list(
+        const Eigen::MatrixXi & F,
+        const std::map<int, std::vector<int> > & node_edge_dict,
+        const std::map<int, std::vector<bool> > & node_edge_visit_dict,
+        const std::vector<std::vector<int> > & TEdges,
+        const std::map<int, std::vector<int> > & CC_node_face_dict, 
+        const int& source,
+        const int& cur_edge,
+        std::vector<int> & temp_silence_list
+    )
+    {
+        /*
+                assume we are dealling with edge e0
+                for a source assume  Counter clockwisely there are edges (ei, ebf, ek, e0, ebh) and ebf, and ebh are already set. We need to silence the faces in the sector spanned by ebh - ebf
+            */
 
-    // void update_local_sector(
-    //     const std::vector<std::vector<int> > & VV, 
-    //     const std::map<int , std::vector<bool> > & node_edge_visit_dict,
-    //     const std::map<int, std::vector<int> > & node_edge_dict,
-    //     const int curr_node,
-    //     const int curr_edge,
+            // step 1 determin ebf and ebh
+            int ebf, ebh; 
+            // ebf is the right most edge in CC order to the left of e0
+            // ebh is the left most edge in CC order to the right of e0
+            // step 1.1 determine the position of e0
+            int e0pos =0;
+            for(auto ex : node_edge_dict.at(source))
+            {
+                if(ex != cur_edge)
+                {
+                    e0pos += 1;
+                } 
+                else
+                {
+                    break;
+                }   
+            }
 
-    //     std::vector<std::vector<int> > & VV_temp){
+            // step 1.2 determine the position of ebf
             
-    //     }
+            int ebfpos = e0pos;
+            bool find_ebf = false;
+            int CCsize  = node_edge_visit_dict.at(source).size();
+            for(int ii =0; ii < CCsize; ++ii)
+            {
+                ebfpos =(e0pos - ii + CCsize) % CCsize;
+                if(node_edge_visit_dict.at(source)[ebfpos])
+                {
+                    find_ebf = true;
+                    break;
+                }
+            }
+            // similarly determine the position of ebh
+            int ebhpos = e0pos;
+            bool find_ebh = false;
+            for(int ii =0; ii < CCsize; ++ii)
+            {
+                ebhpos =(e0pos + ii) % CCsize;
+                if(node_edge_visit_dict.at(source)[ebhpos])
+                {
+                    find_ebh = true;
+                    break;
+                }
+            }
+            if( !find_ebf || !find_ebh)
+            {
+                return; // no other occupied edges
+            }
+            if(ebfpos == ebhpos) {
+                return; // only one occupied edges
+            }
+            ebf = node_edge_dict.at(source)[ebfpos];
+            ebh = node_edge_dict.at(source)[ebhpos];
+            
+             // currently occupied edge less than one nothing to go further
+
+            // the sector is spanned CC wisely from ebh to ebf
+            int sector_start = -1;
+            for(auto fidx: CC_node_face_dict.at(source))
+            {
+                sector_start += 1;
+                int e_pos = -1;
+                for(auto v_pos: {0, 1, 2})
+                {
+                    if(F(fidx, v_pos) == source)
+                    {
+                        e_pos = v_pos;
+                        break;
+                    }
+                }
+                // check the out edge of the triangle fidx in TEdges
+                // e_pos = v_pos
+                if(TEdges[fidx][e_pos]== ebh) // sector start with ebh
+                {
+                    break;
+                }
+            }
+
+            // current setor_start store the starting index of faces in CC_node_face_dict[source]
+            for(int ff =0 ; ff < CC_node_face_dict.at(source).size() ; ++ff)
+            {
+                int secface = (sector_start + ff) %CC_node_face_dict.at(source).size() ;
+                int e_pos = -1;
+                for(auto v_pos: {0, 1, 2})
+                {
+                    if(F(CC_node_face_dict.at(source)[secface], v_pos) == source)
+                    {
+                        e_pos = v_pos;
+                        break;
+                    }
+                }
+                if(TEdges[CC_node_face_dict.at(source)[secface]][(e_pos+2)%3]== ebf) // sector end with ebf
+                {
+                    break;
+                }
+                 
+                    
+                temp_silence_list.push_back(F(CC_node_face_dict.at(source)[secface], (e_pos+2)%3));
+                
+                
+            }
+    }
+
+    void update_local_sector(
+        const std::vector<std::vector<int> > & VV, 
+        const Eigen::MatrixXi & F,
+        const std::map<int , std::vector<bool> > & node_edge_visit_dict,
+        const std::map<int, std::vector<int> > & node_edge_dict,
+        const std::vector<std::vector<int> > & TEdges,
+        const std::map<int, std::vector<int> > & CC_node_face_dict, 
+        const int& source,
+        const int& target,
+        const int& cur_edge,
+        std::vector<std::vector<int> > & VV_temp){
+            VV_temp = VV; // copy VV into VV_temp
+
+            {
+                // set silence all other nodes in VV_temp
+                std::vector<int> node_list;
+                for(auto item: node_edge_dict)
+                {
+                    if(item.first != source && item.first != target)
+                    {
+                        node_list.push_back(item.first);
+                    }
+                }
+
+                silence_vertices1(VV_temp, node_list);
+            }
+            
+            // deal with the sector of source first
+            std::vector<int> temp_silence_list;
+            sector_silence_list(
+                F,
+                node_edge_dict, 
+                node_edge_visit_dict, 
+                TEdges, 
+                CC_node_face_dict, 
+                source, 
+                cur_edge, 
+                temp_silence_list);
+
+            // deal with the sctor of target
+            sector_silence_list(
+                F,
+                node_edge_dict, 
+                node_edge_visit_dict, 
+                TEdges, 
+                CC_node_face_dict, 
+                target,
+                cur_edge, 
+                temp_silence_list);
+            silence_vertices1(VV_temp, temp_silence_list);
+        }
 
     bool dijkstra_trace(
         const std::vector<std::vector<int> > & VV,
@@ -153,35 +311,67 @@ namespace bcclean {
     }
 
 
-    void splits_detect(
+    bool splits_detect(
         const Eigen::MatrixXi & F,
         const Eigen::MatrixXi & TT, // triangle-triangle adjacency
-        const std::vector<bool> & VCuts, // indicate whether a vertex is on the boundary
-        const std::vector<std::vector<bool> > & TCuts, // indicate whether wich edge of a face is on the boundary
-        std::map<std::pair<int, int>, int > & splits
+        const std::vector<int> & node_list,
+        const std::vector<std::vector<int> > & VEdges, // indicate whether a vertex is on the boundary
+        const std::vector<std::vector<int> > & TEdges, // indicate whether wich edge of a face is on the boundary
+        std::pair<int, int> & splits
     )
     {
         // splits stores pairs of adjacent vertices indices that need to be splited
         // indiced into F
-        splits.clear();
+
         // loop over all faces
+        bool add = false;
         for(int fidx=0; fidx < F.rows(); ++fidx){
             for(int edge_idx=0; edge_idx < 3; ++ edge_idx){
                 int v0 = F(fidx, edge_idx);
                 int v1 = F(fidx, (edge_idx+1) % 3);
-                if(VCuts[v0] && VCuts[v1] && !TCuts[fidx][edge_idx]){
+                bool nodefind0 = (std::find(node_list.begin(), node_list.end(), v0)!= node_list.end());
+                bool nodefind1 = (std::find(node_list.begin(), node_list.end(), v1)!= node_list.end());
+
+                // if at both them are node and the connecting edge is not on the cut split them
+                if(nodefind0 && nodefind1 && (TEdges[fidx][edge_idx]== -1))
+                {
                     int cofidx = TT(fidx, edge_idx);
                     assert(cofidx != -1);
                     if(cofidx != -1){
-                        int vl = std::min(v0, v1);
-                        int vg = std::max(v0, v1);
-                        splits[std::make_pair(vl, vg)] = 1;
+                        add = true;
                     }
-                    // make sure each pair of indices are only pushed onece
+                }
+                // if one of them is node and the other is on cut
+                else if((nodefind0 && VEdges[v1].size() !=0) ||(nodefind1 && VEdges[v0].size()!=0))
+                {
+                    if(TEdges[fidx][edge_idx]== -1)
+                    {
+                        int cofidx = TT(fidx, edge_idx);
+                        assert(cofidx != -1);
+                        if(cofidx != -1){
+                            add = true;
+                        }
+                    }
+                }
+                // ff both of them are on cut and the line connecting them are not on cut
+                else if((VEdges[v0].size() !=0) && (VEdges[v1].size() !=0) && (TEdges[fidx][edge_idx]== -1)){
+                    int cofidx = TT(fidx, edge_idx);
+                    assert(cofidx != -1);
+                    if(cofidx != -1){
+                        add = true;
+                    }
+                    // make sure each pair of indices are only pushed once
+                }
+                if(add)
+                {
+                    int vl = std::min(v0, v1);
+                    int vg = std::max(v0, v1);
+                    splits=std::make_pair(vl, vg);
+                    return true;
                 }
             }
         }
-        return;
+        return false;
         
     }
 
@@ -242,11 +432,11 @@ namespace bcclean {
     }
 
     void splits_update(
-        const std::map<std::pair<int, int>, int> & splits,
+        const std::pair<int, int> & splits,
         Eigen::MatrixXd & Vraw, // raw mesh
         Eigen::MatrixXi & Fraw,
-        std::vector<bool> & VCuts, // indicate whether a vertex is on the boundary
-        std::vector<std::vector<bool> > & TCuts,
+        std::vector<std::vector<int> > & VEdges, // indicate whether a vertex is on the boundary
+        std::vector<std::vector<int> > & TEdges,
         std::vector<std::vector<int> > & VV // adjacency list on Fraw, posibly some ofthem has been silenced
     )
     {
@@ -257,10 +447,10 @@ namespace bcclean {
         
         everytime split two faces and create four smaller triangles add two of them to the end of Fraw Fbase
 
-        also add the face mapping and cut info into the end of FI, VCuts, TCuts
+        also add the face mapping and cut info into the end of FI, VEdges, TEdges
         */
 
-        const int task_num = splits.size();
+        const int task_num = 1;
         // each split task will increace face num by 2 and vertices num by 1
         const int nF_num_raw = task_num * 2 + Fraw.rows();
         const int nV_num_raw = task_num + Vraw.rows();
@@ -272,18 +462,18 @@ namespace bcclean {
         nFraw.block(0, 0, Fraw.rows(), 3) = Fraw;
 
 
-        std::vector<bool> nVCuts(nV_num_raw); // indicate whether a vertex is on the boundary
-        std::vector<std::vector<bool> > nTCuts(nF_num_raw);
+        std::vector<std::vector<int> > nVEdges(nV_num_raw); // indicate whether a vertex is on the boundary
+        std::vector<std::vector<int> > nTEdges(nF_num_raw);
         VV.resize(nV_num_raw);
         for(int count =0; count <nV_num_raw; ++ count)
         {
-            if(count < VCuts.size()) nVCuts[count] = VCuts[count];
-            else nVCuts[count] = false;
+            if(count < VEdges.size()) nVEdges[count] = VEdges[count];
+            else nVEdges[count] = std::vector<int>();
         }
         for(int fcount = 0; fcount  < nF_num_raw; ++fcount)
         {   
-            if(fcount < TCuts.size()) nTCuts[fcount] = TCuts[fcount];
-            else nTCuts[fcount] = {false, false, false};
+            if(fcount < TEdges.size()) nTEdges[fcount] = TEdges[fcount];
+            else nTEdges[fcount] = {-1, -1, -1};
         }
         std::vector<std::vector<int > > nVF_raw;// #V list of lists of incident faces (adjacency list)
         // the naming indicates that they are to be updated by hand in each loop
@@ -297,163 +487,158 @@ namespace bcclean {
         // after  spliting each edge, the info in splits needs not to be updated because
         // splitting does not change initial indices of existing vertices
         int task_count = 0;
-        for(auto item: splits){
-            int uidx_raw = item.first.first;
-            int vidx_raw = item.first.second;
-            int widx_raw = Vraw.rows() + task_count;
-            Eigen::RowVector3d  wpos = (Vraw.row(uidx_raw)+Vraw.row(vidx_raw))/2;
-            nVraw.row(widx_raw) = wpos;
-            // they are two representations of an identical vertex
-            
-
-
-
-
-
-
-
-            // decide the adj configurations
-            /* decide up and down faces vertices
-               vup
-              /   \
-             / fup \
-            u ----- v
-             \fdown/
-              \   /
-                vdown
-
-                both triangle oriented outward the screen
-             */
-
-            int fupidx_raw, fdownidx_raw;
-            int vupidx_raw, vdownidx_raw;
-            determin_adj_configure1(
-                nFraw, nVF_raw, uidx_raw, vidx_raw,
-                fupidx_raw, fdownidx_raw, vupidx_raw, vdownidx_raw
-            );
-            // decide the indices of existing triangles and vertces
-
-            
-
-
-            // create new triangles
-
-            /* 
-                    vup
-                   / | \
-                  /  |  \
-                 / f1|f0 \
-                /    |    \
-               u-----w ----v
-                \    |    /
-                 \ f2| f3/
-                  \  |  /
-                   \ | /
-                    vdown
-            */
-            int f0idx_raw, f1idx_raw, f2idx_raw, f3idx_raw;
-            f0idx_raw = fupidx_raw;
-            f2idx_raw = fdownidx_raw;
-            f1idx_raw = Fraw.rows() + 2 * task_count;
-            f3idx_raw = f1idx_raw + 1;
-            // update TCuts before updating nFraw
-            //  poseone updates of nFraw after TCuts because Tcuts relies on Fraw
-            // update nVCuts
-            // only one vertices is added
-            nVCuts[widx_raw] = false;
-
-
-
-            // update nTCuts
-            std::map<std::pair<int,int> , bool> nTCuts_record;
-            // store cut info of all 5 edges of fupidx_raw, and fdownidx_raw in nTCuts resulted from last loop
-            for(int edgepos =0 ; edgepos < 3 ; ++edgepos){
-                for(auto updown: {fupidx_raw, fdownidx_raw}){
-                    int uu = nFraw(updown, edgepos);
-                    int vv = nFraw(updown, (edgepos+1)%3);
-                    int vl = std::min(uu,vv);
-                    int vg = std::max(uu, vv);
-                    nTCuts_record[std::make_pair(vl, vg)] = nTCuts[updown][edgepos];
-                }
-            }
-            std::pair<int, int> key; 
-            key = std::make_pair(std::min(vidx_raw, vupidx_raw), std::max(vidx_raw, vupidx_raw));
-            nTCuts[f0idx_raw] = {false, nTCuts_record[key], false};
-
-            key = std::make_pair(std::min(uidx_raw, vupidx_raw), std::max(uidx_raw, vupidx_raw));
-            nTCuts[f1idx_raw] = {false, nTCuts_record[key], false};
-
-            key = std::make_pair(std::min(uidx_raw, vdownidx_raw), std::max(uidx_raw, vdownidx_raw));
-            nTCuts[f2idx_raw] = {false, nTCuts_record[key], false};
-
-            key = std::make_pair(std::min(vidx_raw, vdownidx_raw), std::max(vidx_raw, vdownidx_raw));
-            nTCuts[f3idx_raw] = {false, nTCuts_record[key], false};
-            
-
-
-            // update nFraw the faces with correct orientation
-            nFraw.row(f0idx_raw) = Eigen::RowVector3i(widx_raw, vidx_raw, vupidx_raw);
-            nFraw.row(f1idx_raw) = Eigen::RowVector3i(widx_raw, vupidx_raw, uidx_raw);
-            nFraw.row(f2idx_raw) = Eigen::RowVector3i(widx_raw, uidx_raw, vdownidx_raw);
-            nFraw.row(f3idx_raw) = Eigen::RowVector3i(widx_raw, vdownidx_raw, vidx_raw);
-            
+        int uidx_raw = splits.first;
+        int vidx_raw = splits.second;
+        int widx_raw = Vraw.rows() + task_count;
+        Eigen::RowVector3d  wpos = (Vraw.row(uidx_raw)+Vraw.row(vidx_raw))/2;
+        nVraw.row(widx_raw) = wpos;
+        // they are two representations of an identical vertex
         
 
 
-            
-            // update nVFs VV the connectivitity info
-            // update nVF_raw;
-            /*  only have to deal with f1 f3 becase they are new faces
-                    vup
-                   / | \
-                  /  |  \
-                 / f1|f0 \
-                /    |    \
-               u-----w ----v
-                \    |    /
-                 \ f2| f3/
-                  \  |  /
-                   \ | /
-                    vdown
+
+
+
+
+
+        // decide the adj configurations
+        /* decide up and down faces vertices
+            vup
+            /   \
+          / fup \
+        u ----- v
+          \fdown/
+            \   /
+            vdown
+
+            both triangle oriented outward the screen
             */
-            nVF_raw.resize(nV_num_raw);
-            
-            nVF_raw[vidx_raw].push_back(f3idx_raw);
-            nVF_raw[vidx_raw].erase(std::remove(nVF_raw[vidx_raw].begin(), nVF_raw[vidx_raw].end(), f2idx_raw), nVF_raw[vidx_raw].end()); 
 
-            nVF_raw[vupidx_raw].push_back(f1idx_raw);
+        int fupidx_raw, fdownidx_raw;
+        int vupidx_raw, vdownidx_raw;
+        determin_adj_configure1(
+            nFraw, nVF_raw, uidx_raw, vidx_raw,
+            fupidx_raw, fdownidx_raw, vupidx_raw, vdownidx_raw
+        );
+        // decide the indices of existing triangles and vertices
 
-            nVF_raw[uidx_raw].push_back(f1idx_raw);
-            nVF_raw[uidx_raw].erase(std::remove(nVF_raw[uidx_raw].begin(), nVF_raw[uidx_raw].end(), f0idx_raw), nVF_raw[uidx_raw].end());
-
-            nVF_raw[vdownidx_raw].push_back(f3idx_raw);
-            nVF_raw[widx_raw] = {vidx_raw, vupidx_raw, uidx_raw, vdownidx_raw};
+        
 
 
+        // create new triangles
 
-            for(auto idx_raw: {vidx_raw, vupidx_raw, uidx_raw, vdownidx_raw}){
-                if(VV[idx_raw].size()!=0){
-                    // idx_raw has not been silenced add connection
-                    VV[idx_raw].push_back(widx_raw);
-                    VV[widx_raw].push_back(idx_raw);
-                }
+        /* 
+                vup
+                / | \
+                /  |  \
+              / f1|f0 \
+            /    |    \
+            u-----w ----v
+            \    |    /
+                \ f2| f3/
+                \  |  /
+                \ | /
+                vdown
+        */
+        int f0idx_raw, f1idx_raw, f2idx_raw, f3idx_raw;
+        f0idx_raw = fupidx_raw;
+        f2idx_raw = fdownidx_raw;
+        f1idx_raw = Fraw.rows();
+        f3idx_raw = f1idx_raw + 1;
+        
+        nVEdges[widx_raw] = std::vector<int>();
+
+
+
+        // update nTEdges
+        std::map<std::pair<int,int> , int> nTEdges_record;
+        // store cut info of all 5 edges of fupidx_raw, and fdownidx_raw in nTEdges resulted from last loop
+        for(int edgepos =0 ; edgepos < 3 ; ++edgepos){
+            for(auto updown: {fupidx_raw, fdownidx_raw}){
+                int uu = nFraw(updown, edgepos);
+                int vv = nFraw(updown, (edgepos+1)%3);
+                int vl = std::min(uu,vv);
+                int vg = std::max(uu, vv);
+                nTEdges_record[std::make_pair(vl, vg)] = nTEdges[updown][edgepos];
             }
-
-            // also silence the connection between vidx_raw and uidx_raw
-            // if one of them are silenced no need to further remove the other
-            VV[vidx_raw].erase(std::remove(VV[vidx_raw].begin(), VV[vidx_raw].end(), uidx_raw), VV[vidx_raw].end()); 
-            VV[uidx_raw].erase(std::remove(VV[uidx_raw].begin(), VV[uidx_raw].end(), vidx_raw), VV[uidx_raw].end());
-
-            // the above two lines will do nothing if they find nothing
-
-            task_count += 1; // finishes one task
         }
+        std::pair<int, int> key; 
+        key = std::make_pair(std::min(vidx_raw, vupidx_raw), std::max(vidx_raw, vupidx_raw));
+        nTEdges[f0idx_raw] = {-1, nTEdges_record[key], -1};
+
+        key = std::make_pair(std::min(uidx_raw, vupidx_raw), std::max(uidx_raw, vupidx_raw));
+        nTEdges[f1idx_raw] = {-1, nTEdges_record[key], -1};
+
+        key = std::make_pair(std::min(uidx_raw, vdownidx_raw), std::max(uidx_raw, vdownidx_raw));
+        nTEdges[f2idx_raw] = {-1, nTEdges_record[key], -1};
+
+        key = std::make_pair(std::min(vidx_raw, vdownidx_raw), std::max(vidx_raw, vdownidx_raw));
+        nTEdges[f3idx_raw] = {-1, nTEdges_record[key], -1};
+        
+
+
+        // update nFraw the faces with correct orientation
+        nFraw.row(f0idx_raw) = Eigen::RowVector3i(widx_raw, vidx_raw, vupidx_raw);
+        nFraw.row(f1idx_raw) = Eigen::RowVector3i(widx_raw, vupidx_raw, uidx_raw);
+        nFraw.row(f2idx_raw) = Eigen::RowVector3i(widx_raw, uidx_raw, vdownidx_raw);
+        nFraw.row(f3idx_raw) = Eigen::RowVector3i(widx_raw, vdownidx_raw, vidx_raw);
+        
+    
+
+
+        
+        // update nVFs VV the connectivitity info
+        // update nVF_raw;
+        /*  only have to deal with f1 f3 becase they are new faces
+                vup
+                / | \
+              /  |  \
+             / f1|f0 \
+            /    |    \
+            u-----w ----v
+            \    |    /
+             \ f2| f3/
+              \  |  /
+                \ | /
+                vdown
+        */
+        nVF_raw.resize(nV_num_raw);
+        
+        nVF_raw[vidx_raw].push_back(f3idx_raw);
+        nVF_raw[vidx_raw].erase(std::remove(nVF_raw[vidx_raw].begin(), nVF_raw[vidx_raw].end(), f2idx_raw), nVF_raw[vidx_raw].end()); 
+
+        nVF_raw[vupidx_raw].push_back(f1idx_raw);
+
+        nVF_raw[uidx_raw].push_back(f1idx_raw);
+        nVF_raw[uidx_raw].erase(std::remove(nVF_raw[uidx_raw].begin(), nVF_raw[uidx_raw].end(), f0idx_raw), nVF_raw[uidx_raw].end());
+
+        nVF_raw[vdownidx_raw].push_back(f3idx_raw);
+        nVF_raw[widx_raw] = {vidx_raw, vupidx_raw, uidx_raw, vdownidx_raw};
+
+
+
+        for(auto idx_raw: {vidx_raw, vupidx_raw, uidx_raw, vdownidx_raw}){
+
+            // idx_raw has not been silenced add connection
+            VV[idx_raw].push_back(widx_raw);
+            VV[widx_raw].push_back(idx_raw);
+            // add all coonection into VV and silence the cuts afterwards
+        }
+
+        // also silence the connection between vidx_raw and uidx_raw
+        // if one of them are silenced no need to further remove the other
+        VV[vidx_raw].erase(std::remove(VV[vidx_raw].begin(), VV[vidx_raw].end(), uidx_raw), VV[vidx_raw].end()); 
+        VV[uidx_raw].erase(std::remove(VV[uidx_raw].begin(), VV[uidx_raw].end(), vidx_raw), VV[uidx_raw].end());
+
+        // the above two lines will do nothing if they find nothing
+
+
 
 
         Vraw = nVraw;
         Fraw = nFraw;
-        VCuts = nVCuts;
-        TCuts = nTCuts;
+        VEdges = nVEdges;
+        TEdges = nTEdges;
     }
 
     void trace_and_label(
@@ -466,11 +651,13 @@ namespace bcclean {
         std::vector<int> & dots,
         int pause_at, 
         Eigen::VectorXi & II,
-        Eigen::VectorXi & JJ
+        Eigen::VectorXi & JJ,
+        std::vector<int> & node_list_extern
     )
     {
         II.resize(0);
         JJ.resize(0);
+        node_list_extern.clear();
         int run_count = 0;
         // Randomize Seed
         srand(static_cast<unsigned int>(time(nullptr)));
@@ -497,24 +684,27 @@ namespace bcclean {
             }
         }
 
-        int edg_idx =0;
+        
         std::map<int, std::vector<int> > node_edgepool_dict;
-        for(auto edg:edge_list)
         {
-            int head= edg.head;
-            int tail=edg.tail;
-            assert(head != tail); // both are nodes
-            assert(edg._edge_vertices.size()>1);
-            for(auto ht:{head, tail})
+            int edg_idx =0;
+            for(auto edg:edge_list)
             {
-                auto it = std::find(node_edgepool_dict[ht].begin(), node_edgepool_dict[ht].end(), edg_idx);
-                if(it == node_edgepool_dict[ht].end())
+                int head= edg.head;
+                int tail=edg.tail;
+                assert(head != tail); // both are nodes
+                assert(edg._edge_vertices.size()>1);
+                for(auto ht:{head, tail})
                 {
-                    // push it into list
-                    node_edgepool_dict[ht].push_back(edg_idx);
+                    auto it = std::find(node_edgepool_dict[ht].begin(), node_edgepool_dict[ht].end(), edg_idx);
+                    if(it == node_edgepool_dict[ht].end())
+                    {
+                        // push it into list
+                        node_edgepool_dict[ht].push_back(edg_idx);
+                    }
                 }
+                edg_idx +=1;
             }
-            edg_idx +=1;
         }
 
         // the resulting node_edgepool_dict will be non-orderd but will be used later for counter clockwise ordered dictionary
@@ -588,9 +778,14 @@ namespace bcclean {
         kd_tree_Eigen<double> kdt(V_good.cols(),std::cref(V_good),10);
         kdt.index->buildIndex();
         std::map<int, int> node_imge_dict;
+        std::vector<int> node_list_good;
         bcclean::proj_node(V_bad, F_bad, node_list_bad, V_good, F_good, node_imge_dict);
         
-
+        for(auto item:node_imge_dict)
+        {
+            node_list_good.push_back(item.second);
+        }
+        node_list_extern = node_list_good;
         std::vector<int> sorted_node_list_bad = node_list_bad;
         std::map<int , std::vector<bool> > node_edge_visit_dict;
         std::sort(sorted_node_list_bad.begin(), sorted_node_list_bad.end(), [node_edge_dict](int nda, int ndb){return (node_edge_dict.at(nda).size() > node_edge_dict.at(ndb).size());});
@@ -602,7 +797,7 @@ namespace bcclean {
             }
         }
 
-        // we will use only adjacency list VV, bool lists VCuts, TCuts
+        // we will use only adjacency list VV, bool lists VEdges, TEdges
         // initializations
         std::vector<std::vector<int> > VV_good, VF_good;
         igl::adjacency_list(F_good, VV_good);
@@ -611,34 +806,35 @@ namespace bcclean {
             igl::vertex_triangle_adjacency(V_good, F_good, VF_good, VFi_good);
 
         }
-        std::vector<bool> VCuts_good(V_good.rows());
-        std::vector<std::vector<bool> > TCuts_good(F_good.rows());
+        std::vector<std::vector<int> > VEdges_good(V_good.rows());
+        std::vector<std::vector<int> > TEdges_good(F_good.rows());
         for(int count =0; count <V_good.rows(); ++ count)
         {
-            VCuts_good[count] = false;
+            VEdges_good[count] = std::vector<int>();
         }
         for(int fcount = 0; fcount  < F_good.rows(); ++fcount)
         {   
-            TCuts_good[fcount] = {false, false, false};
+            TEdges_good[fcount] = {-1, -1, -1};
         }
         // start with the nodes with largest valance and deal with the edge starting with this node in counter clock order
         int ecount =0;
         std::map<std::pair<int, int>, int> rr_dict;
         II = Eigen::VectorXi::Constant(3* F_good.rows(),0);
         JJ = II;
+        std::vector<int> total_silence_list;
         for(auto nd: sorted_node_list_bad)
         {
             // Main loop for tracing
             int edg_nd = -1; // the indices of target edge in node_edge_dict[nd]
 
             for (auto edge_idx: node_edge_dict[nd]){
-                run_count+=1;
                 if(run_count==pause_at) return;
                 edg_nd +=1;
                 if(node_edge_visit_dict[nd][edg_nd])
                 {
                     continue;
                 }
+                run_count+=1;
 
                 Eigen::MatrixXi TT_good;
                 igl::triangle_triangle_adjacency(F_good, TT_good);
@@ -655,14 +851,38 @@ namespace bcclean {
                 assert(target != -1); 
 
                 std::vector<double> Weights;
-                // TODO update local sector
+                // update local sector
+                // (a) create CC_node_face_list
+                std::map<int, std::vector<int> > CC_node_face_dict;
+                std::vector<std::vector<int > > VV_temp;
+                CC_faces_per_node(V_good, F_good, {source, target}, CC_node_face_dict);
+                {
+                    std::map<int, std::vector<bool> > node_edge_visit_dict_temp;
+                    std::map<int, std::vector<int> > node_edge_dict_temp;
+                    for(auto item: node_edge_dict)
+                    {
+                        node_edge_dict_temp[node_imge_dict.at(item.first)] = node_edge_dict.at(item.first);
+                        node_edge_visit_dict_temp[node_imge_dict.at(item.first)] = node_edge_visit_dict.at(item.first);
+                    }
+                    update_local_sector(
+                        VV_good, 
+                        F_good, 
+                        node_edge_visit_dict_temp, 
+                        node_edge_dict_temp,
+                        TEdges_good,
+                        CC_node_face_dict,
+                        source,
+                        target,
+                        edge_idx,
+                        VV_temp);
+                }
                 setWeights(V_good, V_bad, edg, 10, 1,  Weights);
                 // the Weights is vertex based
 
                 
-                // dijkstra_trace(....,VCuts, TCuts);
+                // dijkstra_trace(....,VEdges, TEdges);
                 std::vector<int> path;
-                dijkstra_trace(VV_good, source, target, Weights, path);
+                dijkstra_trace(VV_temp, source, target, Weights, path);
                 std::vector<int> path_records(path.size()-2);
                 
                 for(int p =0 ; p < path.size()-2; ++p)
@@ -671,10 +891,19 @@ namespace bcclean {
                 }
 
 
-                // path update VV VCut
-                silence_vertices1(VV_good, VCuts_good, path_records);
-                // path updates TCuts
-                // set the triangle edges in cuts to be true
+                // path update VV
+                silence_vertices1(VV_good,path_records);
+                for(auto rec: path_records)
+                {
+                    total_silence_list.push_back(rec);
+                }
+                //path update VEdges
+                for(auto vidx:path_records){
+                    VEdges_good[vidx].push_back(edge_idx);
+                }
+
+                // path updates TEdges
+                // setf the triangle edges in cuts to be true
                 for(int rc_idx=0; rc_idx < path.size()-1; ++rc_idx){
                     int uidx = path[rc_idx];
                     int vidx = path[(rc_idx+1)%path.size()];
@@ -687,11 +916,11 @@ namespace bcclean {
                             int uuidx = F_good(trg, edgpos);
                             int vvidx = F_good(trg, (edgpos+1)% 3);
                             if(uuidx == uidx && vvidx == vidx){
-                                TCuts_good[trg][edgpos] = true;
+                                TEdges_good[trg][edgpos] = edge_idx;//1457-1459 1587 1588 2189 2371 2373 2374 2716 2742 1794 2712 3046 3047
                                 // break;
                             }
                             if(uuidx == vidx && vvidx == uidx){
-                                TCuts_good[trg][edgpos] = true;
+                                TEdges_good[trg][edgpos] = edge_idx;
                                 // break;
                             }
                         }
@@ -701,23 +930,26 @@ namespace bcclean {
 
 
                 // splits_detect
-                std::map<std::pair<int, int>, int> splits;
-                splits_detect(F_good, TT_good, VCuts_good, TCuts_good, splits);
+                std::pair<int, int> splits;
+                while(splits_detect(F_good, TT_good, node_list_good,VEdges_good, TEdges_good, splits))
+                {
+                    
 
-
-                // splits_update
-                splits_update(splits, V_good, F_good, VCuts_good, TCuts_good, VV_good);
-                
+                    // splits_update
+                    splits_update(splits, V_good, F_good, VEdges_good, TEdges_good, VV_good);
+                    igl::triangle_triangle_adjacency(F_good, TT_good);
+                }
+                silence_vertices1(VV_good, total_silence_list);
                 // update the view for debug
                 int fcount = 0;
-                for(auto Ti : TCuts_good){
+                for(auto Ti : TEdges_good){
                     for(auto ei: {0,1,2})
                     {
-                        if(Ti[ei])
+                        if(Ti[ei]!=-1)
                         {
                             std::pair<int, int> pair = std::make_pair(
-                                    std::min(F_good(fcount, ei),F_good(fcount , (ei+1)%3)), 
-                                    std::max(F_good(fcount, ei),F_good(fcount , (ei+1)%3)));
+                                    std::min(F_good(fcount, ei), F_good(fcount , (ei+1)%3)), 
+                                    std::max(F_good(fcount, ei), F_good(fcount , (ei+1)%3)));
                             if(rr_dict.find(pair) == rr_dict.end()
                             ){
                                 rr_dict[pair] = 1;
@@ -745,7 +977,8 @@ namespace bcclean {
                 }
             }
 
-            silence_vertices1(VV_good, VCuts_good, {nd});
+            silence_vertices1(VV_good,{node_imge_dict[nd]});
+            // total_silence_list.push_back(nd);
         }
         II.conservativeResize(ecount);
         JJ.conservativeResize(ecount);
