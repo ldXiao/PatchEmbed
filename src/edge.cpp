@@ -207,7 +207,7 @@ namespace bcclean{
             Eigen::MatrixXd V_i;
             Eigen::MatrixXi F_i;
             Eigen::VectorXi I_i;
-            extract_patch_mesh(V, F, FL, lb_i,V_i, F_i, I_i);
+            extract_patch_mesh(V, F, FL, lb_i, V_i, F_i, I_i);
             std::vector<std::vector<int> > L;
             igl::boundary_loop(F_i, L);
             if(L.size()!=1){
