@@ -42,7 +42,6 @@ Eigen::MatrixXi F_bad, F_good;
 Eigen::MatrixXd V_bad, V_good;
 Eigen::MatrixXi FL_bad, VL_good;
 Eigen::VectorXi II, JJ;
-std::vector<int> dots;
 Eigen::VectorXi FL_good;
 Eigen::MatrixXd prob_mat;
 int label_num;
@@ -58,8 +57,6 @@ std::unordered_map<int, std::vector<int> > patch_edge_bad, patch_edge_good;
 std::unordered_map<int, std::vector<int> > vertices_label_list_bad, vertices_label_list_good;
 Eigen::MatrixXd C_bad, C_good;
 bool visual_bad=false;
-int asdasdaads = 40;
-int* psat= & asdasdaads;
 bool iden = false;
 int upsp = 0;
 std::vector<int> node_list_extern;
@@ -120,17 +117,12 @@ bool key_down(igl::opengl::glfw::Viewer &viewer, unsigned char key, int modifier
             break;
         }
     case '=':{
-        *psat += 1;
         Eigen::MatrixXd V_good_copy = V_good;
         Eigen::MatrixXi F_good_copy = F_good;
         Eigen::VectorXi FL_good_copy = FL_good;
-        bcclean::trace_and_label(bcclean::patch::Vbase, bcclean::patch::Fbase, bcclean::patch::FL_mod, V_good_copy, F_good_copy, FL_good_copy, dots, *psat, II, JJ, node_list_extern);
+        bcclean::MatchMaker::trace_and_label(bcclean::patch::Vbase, bcclean::patch::Fbase, bcclean::patch::FL_mod, V_good_copy, F_good_copy, FL_good_copy);
         viewer.data().clear();
         viewer.data().set_mesh(V_good_copy, F_good_copy);
-        for(auto nd: node_list_extern)
-        {
-            viewer.data().add_label(V_good_copy.row(nd), std::to_string(nd));
-        }
         Eigen::MatrixXd head, tail;
         igl::slice(V_good_copy, II, 1, head);
         igl::slice(V_good_copy, JJ, 1,tail);
@@ -166,7 +158,6 @@ int main(int argc, char *argv[]){
         param_json = json::parse(temp);
         std::cout <<"the json parameters are" << param_json << std::endl;
         data_root = param_json["data_root"];
-        *psat = param_json["pause"];
         iden = param_json["iden"];
         upsp = param_json["upsp"];
     }

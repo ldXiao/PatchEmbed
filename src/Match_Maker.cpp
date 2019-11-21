@@ -1,12 +1,21 @@
 #include "Match_Maker.h"
 #include "proj_node.h"
 #include <igl/slice.h>
+#include <igl/writeOBJ.h>
+#include <igl/writeDMAT.h>
 #include <utility>
+#include <nlohmann/json.hpp>
 namespace bcclean {
-    void silence_vertices1(std::vector<std::vector<int > > & VV, const std::vector<int> & silent_indices){
-        for(auto index : silent_indices){
+namespace MatchMaker{
+    using json = nlohmann::json;
+
+    void silence_vertices1(std::vector<std::vector<int > > & VV, const std::vector<int> & silent_indices)
+    {
+        for(auto index : silent_indices)
+        {
             VV[index].clear();
-            for(auto & adjs: VV){
+            for(auto & adjs: VV)
+            {
                 adjs.erase(std::remove(adjs.begin(), adjs.end(), index), adjs.end());
             }
         }
@@ -110,6 +119,7 @@ namespace bcclean {
         
         
     }
+
     void sector_silence_list(
         const Eigen::MatrixXi & F,
         const std::map<int, std::vector<int> > & node_edge_dict,
@@ -239,47 +249,50 @@ namespace bcclean {
         const int& source,
         const int& target,
         const int& cur_edge,
-        std::vector<std::vector<int> > & VV_temp){
-            VV_temp = VV; // copy VV into VV_temp
+        std::vector<std::vector<int> > & VV_temp
+    )
+    {
+        VV_temp = VV; // copy VV into VV_temp
 
+        {
+            // set silence all other nodes in VV_temp
+            std::vector<int> node_list;
+            for(auto item: node_edge_dict)
             {
-                // set silence all other nodes in VV_temp
-                std::vector<int> node_list;
-                for(auto item: node_edge_dict)
+                if(item.first != source && item.first != target)
                 {
-                    if(item.first != source && item.first != target)
-                    {
-                        node_list.push_back(item.first);
-                    }
+                    node_list.push_back(item.first);
                 }
-
-                silence_vertices1(VV_temp, node_list);
             }
-            
-            // deal with the sector of source first
-            std::vector<int> temp_silence_list;
-            sector_silence_list(
-                F,
-                node_edge_dict, 
-                node_edge_visit_dict, 
-                TEdges, 
-                CC_node_face_dict, 
-                source, 
-                cur_edge, 
-                temp_silence_list);
 
-            // deal with the sctor of target
-            sector_silence_list(
-                F,
-                node_edge_dict, 
-                node_edge_visit_dict, 
-                TEdges, 
-                CC_node_face_dict, 
-                target,
-                cur_edge, 
-                temp_silence_list);
-            silence_vertices1(VV_temp, temp_silence_list);
+            silence_vertices1(VV_temp, node_list);
         }
+        
+        // deal with the sector of source first
+        std::vector<int> temp_silence_list;
+        sector_silence_list(
+            F,
+            node_edge_dict, 
+            node_edge_visit_dict, 
+            TEdges, 
+            CC_node_face_dict, 
+            source, 
+            cur_edge, 
+            temp_silence_list);
+
+        // deal with the sctor of target
+        sector_silence_list(
+            F,
+            node_edge_dict, 
+            node_edge_visit_dict, 
+            TEdges, 
+            CC_node_face_dict, 
+            target,
+            cur_edge, 
+            temp_silence_list);
+        silence_vertices1(VV_temp, temp_silence_list);
+    }
+
 
     bool dijkstra_trace(
         const std::vector<std::vector<int> > & VV,
@@ -311,7 +324,7 @@ namespace bcclean {
     }
 
 
-    bool splits_detect(
+    bool split_detect(
         const Eigen::MatrixXi & F,
         const Eigen::MatrixXi & TT, // triangle-triangle adjacency
         const std::vector<int> & node_list,
@@ -495,12 +508,6 @@ namespace bcclean {
         // they are two representations of an identical vertex
         
 
-
-
-
-
-
-
         // decide the adj configurations
         /* decide up and down faces vertices
             vup
@@ -535,8 +542,8 @@ namespace bcclean {
             /    |    \
             u-----w ----v
             \    |    /
-                \ f2| f3/
-                \  |  /
+             \ f2| f3/
+              \  |  /
                 \ | /
                 vdown
         */
@@ -591,7 +598,7 @@ namespace bcclean {
         // update nVF_raw;
         /*  only have to deal with f1 f3 becase they are new faces
                 vup
-                / | \
+               / | \
               /  |  \
              / f1|f0 \
             /    |    \
@@ -647,17 +654,11 @@ namespace bcclean {
         const Eigen::VectorXi & FL_bad,
         Eigen::MatrixXd & V_good,
         Eigen::MatrixXi & F_good,
-        Eigen::VectorXi & FL_good,
-        std::vector<int> & dots,
-        int pause_at, 
-        Eigen::VectorXi & II,
-        Eigen::VectorXi & JJ,
-        std::vector<int> & node_list_extern
+        Eigen::VectorXi & FL_good
     )
     {
-        II.resize(0);
-        JJ.resize(0);
-        node_list_extern.clear();
+        std::map<int, int> edge_order_map; // store and maintain the order of added edges {order: edge_dx}
+        std::map<int, std::vector<int> > edge_path_map; // {edge_idx, path}
         int run_count = 0;
         // Randomize Seed
         srand(static_cast<unsigned int>(time(nullptr)));
@@ -785,7 +786,6 @@ namespace bcclean {
         {
             node_list_good.push_back(item.second);
         }
-        node_list_extern = node_list_good;
         std::vector<int> sorted_node_list_bad = node_list_bad;
         std::map<int , std::vector<bool> > node_edge_visit_dict;
         std::sort(sorted_node_list_bad.begin(), sorted_node_list_bad.end(), [node_edge_dict](int nda, int ndb){return (node_edge_dict.at(nda).size() > node_edge_dict.at(ndb).size());});
@@ -817,10 +817,6 @@ namespace bcclean {
             TEdges_good[fcount] = {-1, -1, -1};
         }
         // start with the nodes with largest valance and deal with the edge starting with this node in counter clock order
-        int ecount =0;
-        std::map<std::pair<int, int>, int> rr_dict;
-        II = Eigen::VectorXi::Constant(3* F_good.rows(),0);
-        JJ = II;
         std::vector<int> total_silence_list;
         for(auto nd: sorted_node_list_bad)
         {
@@ -828,7 +824,6 @@ namespace bcclean {
             int edg_nd = -1; // the indices of target edge in node_edge_dict[nd]
 
             for (auto edge_idx: node_edge_dict[nd]){
-                if(run_count==pause_at) return;
                 edg_nd +=1;
                 if(node_edge_visit_dict[nd][edg_nd])
                 {
@@ -929,9 +924,9 @@ namespace bcclean {
 
 
 
-                // splits_detect
+                // split_detect
                 std::pair<int, int> splits;
-                while(splits_detect(F_good, TT_good, node_list_good,VEdges_good, TEdges_good, splits))
+                while(split_detect(F_good, TT_good, node_list_good,VEdges_good, TEdges_good, splits))
                 {
                     
 
@@ -940,30 +935,40 @@ namespace bcclean {
                     igl::triangle_triangle_adjacency(F_good, TT_good);
                 }
                 silence_vertices1(VV_good, total_silence_list);
-                // update the view for debug
-                int fcount = 0;
-                for(auto Ti : TEdges_good){
-                    for(auto ei: {0,1,2})
-                    {
-                        if(Ti[ei]!=-1)
-                        {
-                            std::pair<int, int> pair = std::make_pair(
-                                    std::min(F_good(fcount, ei), F_good(fcount , (ei+1)%3)), 
-                                    std::max(F_good(fcount, ei), F_good(fcount , (ei+1)%3)));
-                            if(rr_dict.find(pair) == rr_dict.end()
-                            ){
-                                rr_dict[pair] = 1;
-                                II(ecount) = pair.first;
-                                JJ(ecount) = pair.second;
-                                ecount += 1;
-                            }
-                        }
-                    }
-                    fcount += 1 ;
+                // // update the view for debug
+                // int triangle_count = 0;
+                // for(auto Ti : TEdges_good){
+                //     for(auto ei: {0,1,2})
+                //     {
+                //         if(Ti[ei]!=-1)
+                //         {
+                //             std::pair<int, int> pair = std::make_pair(
+                //                     std::min(F_good(triangle_count, ei), F_good(triangle_count , (ei+1)%3)), 
+                //                     std::max(F_good(triangle_count, ei), F_good(triangle_count , (ei+1)%3)));
+                //             if(rr_dict.find(pair) == rr_dict.end()
+                //             ){
+                //                 rr_dict[pair] = 1;
+                //                 IJ(ecount,0) = pair.first;
+                //                 IJ(ecount,1) = pair.second;
+                //                 ecount += 1;
+                //             }
+                //         }
+                //     }
+                //     triangle_count += 1 ;
+                // }
+
+                json path_json;
+                edge_order_map[run_count] = edge_idx;
+                edge_path_map[edge_idx] = path;
+                for(auto item: edge_order_map)
+                {
+                    path_json[std::to_string(item.second)] = edge_path_map[item.second];   
                 }
-                // Eigen::RowVector3d Red(1, 0, 0);
-                // viewer.data().add_edges(igl::slice(V_good, II), igl::slice(V_good, JJ), Red);
-                // viewer.launch();
+                std::ofstream file;
+                file.open("../debug_paths.json");
+                file << path_json;
+
+                igl::writeOBJ("../debug_mesh.obj", V_good, F_good);
 
                 // update visit_dict or loop condition update
                 node_edge_visit_dict[nd][edg_nd] = true;
@@ -980,8 +985,7 @@ namespace bcclean {
             silence_vertices1(VV_good,{node_imge_dict[nd]});
             // total_silence_list.push_back(nd);
         }
-        II.conservativeResize(ecount);
-        JJ.conservativeResize(ecount);
-       
+        
     }
+}
 }

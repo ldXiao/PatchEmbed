@@ -19,8 +19,7 @@
 #include <cmath>
 
 namespace bcclean{
-
-
+namespace MatchMaker{
     void silence_vertices1(std::vector<std::vector<int > > & VV, std::vector<bool> & VCuts, const std::vector<int> & silent_indices);
 
    
@@ -50,7 +49,7 @@ namespace bcclean{
     );
     
 
-    bool splits_detect(
+    bool split_detect(
         const Eigen::MatrixXi & F,
         const Eigen::MatrixXi & TT, // triangle-triangle adjacency
         const std::vector<int> & node_list,
@@ -85,14 +84,9 @@ namespace bcclean{
         const Eigen::VectorXi & FL_bad,
         Eigen::MatrixXd & V_good,
         Eigen::MatrixXi & F_good,
-        Eigen::VectorXi & FL_good,
-        std::vector<int> & dots,
-        int pause_at,
-        Eigen::VectorXi & II,
-        Eigen::VectorXi & JJ,
-        std::vector<int> & node_list_extern
+        Eigen::VectorXi & FL_good
     );
-    
+}
 }
 
 #endif // BCCLEAN_DIJKSTAR_TRACING_H
