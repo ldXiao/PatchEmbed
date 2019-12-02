@@ -654,7 +654,8 @@ namespace MatchMaker{
         const Eigen::VectorXi & FL_bad,
         Eigen::MatrixXd & V_good,
         Eigen::MatrixXi & F_good,
-        Eigen::VectorXi & FL_good
+        Eigen::VectorXi & FL_good,
+        int & kk
     )
     {
         std::map<int, int> edge_order_map; // store and maintain the order of added edges {order: edge_dx}
@@ -789,6 +790,14 @@ namespace MatchMaker{
         std::vector<int> sorted_node_list_bad = node_list_bad;
         std::map<int , std::vector<bool> > node_edge_visit_dict;
         std::sort(sorted_node_list_bad.begin(), sorted_node_list_bad.end(), [node_edge_dict](int nda, int ndb){return (node_edge_dict.at(nda).size() > node_edge_dict.at(ndb).size());});
+        // shift sorted_node_list by kk
+        std::vector<int> sorted_node_list_bad_copy = sorted_node_list_bad;
+        int sss = sorted_node_list_bad.size();
+        for(int jj =0; jj < sss; ++jj)
+        {
+            sorted_node_list_bad[jj] = sorted_node_list_bad_copy[(jj+kk)%sss];
+        }
+        // remove all the above one finish the true implementation
         for(auto nd: sorted_node_list_bad)
         {
             for(auto q: node_edge_dict[nd])
@@ -796,6 +805,7 @@ namespace MatchMaker{
                 node_edge_visit_dict[nd].push_back(false);
             }
         }
+
 
         // we will use only adjacency list VV, bool lists VEdges, TEdges
         // initializations

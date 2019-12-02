@@ -59,6 +59,8 @@ Eigen::MatrixXd C_bad, C_good;
 bool visual_bad=false;
 bool iden = false;
 int upsp = 0;
+int keyb = 0;
+int* key=&keyb;
 std::vector<int> node_list_extern;
 void project_face_labels(
     const Eigen::MatrixXd &V_bad, 
@@ -120,7 +122,7 @@ bool key_down(igl::opengl::glfw::Viewer &viewer, unsigned char key, int modifier
         Eigen::MatrixXd V_good_copy = V_good;
         Eigen::MatrixXi F_good_copy = F_good;
         Eigen::VectorXi FL_good_copy = FL_good;
-        bcclean::MatchMaker::trace_and_label(bcclean::patch::Vbase, bcclean::patch::Fbase, bcclean::patch::FL_mod, V_good_copy, F_good_copy, FL_good_copy);
+        bcclean::MatchMaker::trace_and_label(bcclean::patch::Vbase, bcclean::patch::Fbase, bcclean::patch::FL_mod, V_good_copy, F_good_copy, FL_good_copy, keyb);
         viewer.data().clear();
         viewer.data().set_mesh(V_good_copy, F_good_copy);
         Eigen::MatrixXd head, tail;
@@ -160,6 +162,7 @@ int main(int argc, char *argv[]){
         data_root = param_json["data_root"];
         iden = param_json["iden"];
         upsp = param_json["upsp"];
+        *key = param_json["key"];
     }
     /*-----------------------------------------
     for pybind

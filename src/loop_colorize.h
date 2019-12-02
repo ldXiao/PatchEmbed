@@ -1,6 +1,6 @@
 #ifndef BCCLEAN_LOOP_COLORIZE_H
 #define BCCLEAN_LOOP_COLORIZE_H
-#include <Eige/Core>
+#include <Eigen/Core>
 #include <vector>
 #include <igl/vertex_triangle_adjacency.h> 
 namespace bcclean
