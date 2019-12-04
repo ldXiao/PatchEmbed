@@ -6,13 +6,15 @@
 #include <algorithm>
 #include "kdtree_NN_Eigen.hpp"
 #include <igl/barycentric_to_global.h>
+#include <igl/triangle_triangle_adjacency.h>
 namespace bcclean {
 
     int insertV_baryCord(
         const std::vector<int> & node_list,
         Eigen::MatrixXd & baryentry,
         Eigen::MatrixXd & V,
-        Eigen::MatrixXi & F
+        Eigen::MatrixXi & F,
+        Eigen::VectorXi & FL
     )
     {
         int fidx = std::round(baryentry(0,0));
@@ -87,6 +89,7 @@ namespace bcclean {
             nV.row(V.rows()) = nVentry;
             nvidx = V.rows();
             Eigen::MatrixXi nF = Eigen::MatrixXi::Zero(F.rows()+2,3);
+            FL.conservativeResize(F.rows()+2);
             nF.block(0,0,F.rows(),3) = F;
             /*
                 v0
@@ -98,6 +101,8 @@ namespace bcclean {
             nF.row(fidx) = Eigen::RowVector3i(v0, v1, nvidx);
             nF.row(F.rows()) = Eigen::RowVector3i(v1, v2, nvidx);
             nF.row(F.rows()+1) = Eigen::RowVector3i(v2, v0, nvidx);
+            FL(F.rows()) = FL(fidx);
+            FL(F.rows()+1) = FL(fidx);
             F = nF;
             
             V = nV;
@@ -148,8 +153,9 @@ namespace bcclean {
         {
             if(std::round(RR(jj,0))!= -1)
             {
+                Eigen::VectorXi FL_temp;
                 Eigen::MatrixXd bc = RR.row(jj);
-                int nvidx = insertV_baryCord(node_list_good, bc, Vgood, Fgood);
+                int nvidx = insertV_baryCord(node_list_good, bc, Vgood, Fgood, FL_temp);
                 node_map[node_list_bad[jj]] = nvidx;
                 node_list_good.push_back(nvidx);
             } 
@@ -175,5 +181,40 @@ namespace bcclean {
             }
         }
 
+    }
+
+    void proj_node_loop(
+        const Eigen::MatrixXd & Vbad,
+        const Eigen::MatrixXi & Fbad,
+        const int node_bad, // indices into Vbad
+        Eigen::MatrixXd & Vgood,
+        Eigen::MatrixXi & Fgood,
+        const Eigen::VectorXi & FL_good,
+        const std::map<int, bool> & V_intact_dict,
+        int node_good
+    )
+    {
+        std::vector<int> node_list_good;
+        Eigen::MatrixXd node_normal;
+        Eigen::MatrixXd node_v;
+        {
+            Eigen::MatrixXd N;
+            igl::per_vertex_normals(Vbad, Fbad, N);
+            //
+            // slice the N into node_normal;
+            node_normal=Eigen::MatrixXd::Zero(1, 3);
+            node_v=Eigen::MatrixXd::Zero(1, 3);
+            int nd_count = 0;
+            int nd = node_bad;
+            node_normal.row(nd_count) = N.row(nd);
+            node_v.row(nd_count) = Vbad.row(nd);
+        } 
+        Eigen::MatrixXd Vgood_copy = Vgood;
+
+        Eigen::MatrixXd RR = igl::embree::line_mesh_intersection(node_v, node_normal, Vgood, Fgood);
+        // if R(j,0) == -1, it means that normal does not intersect with good mesh
+        assert(RR(0,0) != -1);
+        int root_face = RR(0,0);
+        
     }
 }

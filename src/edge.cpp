@@ -316,6 +316,149 @@ namespace bcclean{
         return true;
     }
 
+    bool build_edge_list_loop(const Eigen::MatrixXd& V, const Eigen::MatrixXi&F, const Eigen::MatrixXi & FL, const size_t total_label_num, std::vector<edge> & edge_list, std::unordered_map<int, std::vector<int> > & patch_edge_dict,
+    std::unordered_map<int, std::vector<bool> > & patch_edgedirec_dict){
+        // edge list store all the edge uniquely in a vector
+        // patch_edge_dict store the patch label -> list of edges in loop order
+        // return lb->vector<nodes> where the nodes are unodered for each patch
+        std::unordered_map<int, std::vector<int>> vertex_label_list_dict;
+        edge_list.clear();
+        patch_edge_dict.clear();
+        patch_edgedirec_dict.clear();
+        std::vector<std::vector<int>> VF; // vertex - face index list
+        {
+            std::vector<std::vector<int>> VFi;
+            igl::vertex_triangle_adjacency(V, F, VF,VFi);
+        }
+        // reinitialize
+        // vertx_index -> label_list
+        if(! build_vertex_label_list_dict(F, FL, total_label_num, vertex_label_list_dict)){
+            return false;
+        }
+        for(int lb_i=0; lb_i < total_label_num; ++lb_i){
+
+            patch_edge_dict[lb_i] = std::vector<int>();
+            // loop for each patch
+            Eigen::MatrixXd V_i;
+            Eigen::MatrixXi F_i;
+            Eigen::VectorXi I_i;
+            extract_patch_mesh(V, F, FL, lb_i, V_i, F_i, I_i);
+            std::vector<std::vector<int> > L;
+            igl::boundary_loop(F_i, L);
+            if(L.size()!=1){
+                // input mesh is not isomorphic to disk
+                std::cout << "not simply connected" << std::endl;
+                std::cout << L.size()<< " loops detected, treated separately" << std::endl;
+            }
+            for(auto loop : L){
+                // for each loop detect the first node to set as a starting head of first edge
+                int start = -1;
+                int count = 0;
+                for(auto sss: loop){
+                                    std::cout << I_i(sss) << ' ';
+                                }
+                
+                std::cout << "-----loop"<<std::endl;
+                if(loop.size()>2){
+                std::vector<edge> patch_local_edges;
+                for(auto v_idx:loop){
+                    int v_idx_raw = I_i(v_idx);
+                    if(vertex_label_list_dict[v_idx_raw].size() > 2){
+                        //detected a node and set it to be start;
+                        start = count;
+                        break;
+                    }
+                    count +=1;
+                }
+                // after the above loop start is either -1 or the index on loop
+                if(start == -1){
+                    // this loop has no node
+                    edge edg;
+                    edg.head = -1;
+                    edg.tail = -1;
+                    edg.total_label_num = total_label_num;
+                    std::vector<int> edge_vertices;
+                    for(auto p: loop){edge_vertices.push_back(I_i(p));}
+                    // p is an index on V_i use I_i to source back to V
+                    edg._edge_vertices = edge_vertices;
+                    int va  = edge_vertices[0];
+                    int vb  = edge_vertices[1];
+                    edg._label_pair = _adjacent2vertex2labels(FL, VF, va, vb);
+                    patch_local_edges.push_back(edg);
+                } else {
+                    // start node detect, loop over all edges to push into pathc_local_edges
+                    std::vector<int> curr_path = {I_i(loop[start])};
+                    for(int offset =1; offset < loop.size()+1;++offset){
+                        int loop_idx  = (start + offset) % loop.size();
+                        int v_idx = loop[loop_idx];
+                        int v_idx_raw = I_i(v_idx);
+                        if(vertex_label_list_dict[v_idx_raw].size() > 2){
+                            //detected a node and set it to be tail curr_path;
+                            curr_path.push_back(v_idx_raw);
+                            // a full path is detected , constuct the corresponding edge;
+                            {
+                                edge edg;
+                                edg.head =curr_path[0];  
+                                edg.tail = v_idx_raw;
+                                edg.total_label_num = total_label_num;
+                                edg._edge_vertices = curr_path;
+                                int va  = edg._edge_vertices[0];
+                                int vb  = edg._edge_vertices[1];
+                                for(auto sss: curr_path){
+                                    std::cout << sss << ' ';
+                                }
+                                std::cout << "-----"<<std::endl;
+                                edg._label_pair = _adjacent2vertex2labels(FL, VF, va, vb);
+                                patch_local_edges.push_back(edg);
+                            }
+                            curr_path.clear();
+                        }
+                        curr_path.push_back(v_idx_raw);
+                    }
+                }
+                
+                std::vector<bool> inserts;
+                std::vector<bool> local_direc_list; // store whether the direction of final edge is correct in this path
+                std::vector<int> local_indices_list; // store the final edge indices in this patch
+                int count_local = 0;
+                for(edge & edg: patch_local_edges){
+                    bool insert = true;
+                    bool correc_direc = true;
+                    int count_glob =0;
+                    int final_idx = -1;
+                    for(edge & edg1: edge_list){
+                        if(edg._compare_edge(edg1)==Edge_Compare_Result::IDENTICAL){
+                            insert = false;
+                            if(edg.head != edg1.head)
+                            {
+                                correc_direc = false;
+                            }
+                            final_idx = count_glob;
+                            break;
+                        }
+                        count_glob +=1;
+                    }
+                    if(final_idx==-1){
+                        final_idx = count_local+ edge_list.size();
+                    }
+                    inserts.push_back(insert);
+                    local_direc_list.push_back(correc_direc);
+                    local_indices_list.push_back(final_idx);
+                    if(insert){count_local+=1;}
+                }
+                for(int i=0; i < inserts.size();++i){
+                    if(inserts[i]){
+                        edge_list.push_back(patch_local_edges[i]);
+                    }
+                    patch_edge_dict[lb_i].push_back(local_indices_list[i]);
+                    patch_edgedirec_dict[lb_i].push_back(local_direc_list[i]);
+                }
+            }
+            }
+        }
+        return true;
+    }
+
 
 
     void plot_edge(igl::opengl::glfw::Viewer & viewer, const Eigen::MatrixXd & V, const Eigen::VectorXi &FL, const edge & edg){

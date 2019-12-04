@@ -1,10 +1,12 @@
 #include "Match_Maker.h"
 #include "proj_node.h"
+#include "loop_colorize.h"
 #include <igl/slice.h>
 #include <igl/writeOBJ.h>
 #include <igl/writeDMAT.h>
 #include <utility>
 #include <nlohmann/json.hpp>
+
 namespace bcclean {
 namespace MatchMaker{
     using json = nlohmann::json;
@@ -668,9 +670,10 @@ namespace MatchMaker{
 
         // PART 0 GET THE FRAME ON BAD MESH
         std::vector<bcclean::edge> edge_list;
-        std::unordered_map<int, std::vector<int> > patch_edge_dict; 
+        std::unordered_map<int, std::vector<int> > patch_edge_dict;
+        std::unordered_map<int, std::vector<bool> > patch_edge_direction_dict;
         // label -> list(edge_idx) map indices into edge_list
-        build_edge_list(V_bad, F_bad, FL_bad, total_label_num, edge_list, patch_edge_dict);
+        build_edge_list_loop(V_bad, F_bad, FL_bad, total_label_num, edge_list, patch_edge_dict, patch_edge_direction_dict);
 
         // we can assume that  all nodes have valance more than 3
         std::vector<int> node_list_bad;
@@ -945,27 +948,6 @@ namespace MatchMaker{
                     igl::triangle_triangle_adjacency(F_good, TT_good);
                 }
                 silence_vertices1(VV_good, total_silence_list);
-                // // update the view for debug
-                // int triangle_count = 0;
-                // for(auto Ti : TEdges_good){
-                //     for(auto ei: {0,1,2})
-                //     {
-                //         if(Ti[ei]!=-1)
-                //         {
-                //             std::pair<int, int> pair = std::make_pair(
-                //                     std::min(F_good(triangle_count, ei), F_good(triangle_count , (ei+1)%3)), 
-                //                     std::max(F_good(triangle_count, ei), F_good(triangle_count , (ei+1)%3)));
-                //             if(rr_dict.find(pair) == rr_dict.end()
-                //             ){
-                //                 rr_dict[pair] = 1;
-                //                 IJ(ecount,0) = pair.first;
-                //                 IJ(ecount,1) = pair.second;
-                //                 ecount += 1;
-                //             }
-                //         }
-                //     }
-                //     triangle_count += 1 ;
-                // }
 
                 json path_json;
                 edge_order_map[run_count] = edge_idx;
@@ -995,6 +977,46 @@ namespace MatchMaker{
             silence_vertices1(VV_good,{node_imge_dict[nd]});
             // total_silence_list.push_back(nd);
         }
+        std::vector<std::vector<int> > finalVF, finalVFi;
+        FL_good = Eigen::VectorXi::Constant(F_good.rows(),-1);
+        igl::vertex_triangle_adjacency(V_good, F_good, finalVF, finalVFi);
+        for(auto item: patch_edge_dict)
+        {
+            int lb = item.first;
+            int edge_idx = item.second[0];
+            bool correct_direction = patch_edge_direction_dict[lb][0];
+            int va = edge_path_map[edge_idx][0];
+            int vb = edge_path_map[edge_idx][1];
+            std::vector<int> fas = finalVF.at(va);
+            std::vector<int> fbs = finalVF.at(vb);
+            std::vector<int> inter(10);
+            std::vector<int>::iterator it;
+            it=std::set_intersection (fas.begin(),fas.end(), fbs.begin(), fbs.end(), inter.begin());
+            inter.resize(it-inter.begin());
+            int fa = inter[0];
+            int fb = inter[1];
+            bool fa_on_left = false;
+            int seed_face = -1;
+            for(auto feidx:{0,1,2})
+            {
+                if(F_good(fa,feidx) == va && F_good(fa, (feidx +1)% 3) == vb)
+                {
+                    fa_on_left = true;
+                    break;
+                }
+            }
+            if(correct_direction == fa_on_left)
+            {
+                seed_face = fa;
+            }
+            else 
+            {
+                seed_face = fb;
+            }
+            loop_colorize(V_good, F_good, TEdges_good, seed_face, lb, FL_good);
+        }
+        igl::writeDMAT("FL_final.dmat", FL_good);
+        
         
     }
 }

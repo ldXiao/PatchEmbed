@@ -115,6 +115,8 @@ set(SOURCES
     src/proj_node.cpp
     src/loop_colorize.h
     src/loop_colorize.cpp
+    src/Match_Maker_Loop.h 
+    src/Match_Maker_Loop.cpp
 )
 add_library(bcclean ${SOURCES})
 target_link_libraries(bcclean PUBLIC

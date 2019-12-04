@@ -24,6 +24,7 @@ namespace bcclean{
         FL_mod = FL;
         total_label_num =total_label_num_in;
         std::unordered_map<int, std::vector<int> > patch_edge_dict;
+        std::unordered_map<int, std::vector<bool> > patch_edge_direc_dict;
         bcclean::build_edge_list(Vbase, Fbase, FL, total_label_num, edge_list, patch_edge_dict);
         // initialize edge_list
         std::unordered_map<int, std::vector<int>> _vertex_label_list_dict;
