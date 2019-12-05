@@ -1,0 +1,8 @@
+INFO  time: initialize in 1.26s
+WARN  no build tool detected in workspace '/Users/vector_cat/gits/bcClean'. The most common cause for this problem is that the editor was opened in the wrong working directory, for example if you use sbt then the workspace directory should contain build.sbt. 
+Dec 05, 2019 10:36:37 AM org.eclipse.lsp4j.jsonrpc.services.GenericEndpoint notify
+INFO: Unsupported notification method: $/setTraceNotification
+Dec 05, 2019 10:36:37 AM org.eclipse.lsp4j.jsonrpc.services.GenericEndpoint notify
+INFO: Unsupported notification method: $/setTraceNotification
+Dec 05, 2019 10:39:55 AM org.eclipse.lsp4j.jsonrpc.services.GenericEndpoint notify
+INFO: Unsupported notification method: $/setTraceNotification

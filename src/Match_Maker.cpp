@@ -853,10 +853,15 @@ namespace MatchMaker{
                 edge edg = edge_list[edge_idx];
                 int target =-1;
                 int target_bad = -1;
-                if(edg.head == nd){target_bad = edg.tail; target = node_imge_dict[target_bad];}
-                if(edg.tail == nd){target_bad= edg.head; target= node_imge_dict[edg.head];}
-                int source = node_imge_dict[nd];
-                assert(target != -1); 
+                int source_bad = -1;
+                // if(edg.head == nd){target_bad = edg.tail; target = node_imge_dict[target_bad];}
+                // if(edg.tail == nd){target_bad= edg.head; target= node_imge_dict[edg.head];}
+                // int source = node_imge_dict[nd];
+                int source = node_imge_dict[edg.head];
+                source_bad = edg.head;
+                target = node_imge_dict[edg.tail];
+                target_bad = edg.tail;
+                assert(target != -1 && source != -1); 
 
                 std::vector<double> Weights;
                 // update local sector
@@ -972,6 +977,15 @@ namespace MatchMaker{
                     }
                     pos +=1;
                 }
+                pos = 0;
+                for(auto sedge_idx: node_edge_dict[source_bad]){
+                    if(sedge_idx == edge_idx)
+                    {
+                        node_edge_visit_dict[source_bad][pos]=true;
+                    }
+                    pos +=1;
+                } 
+
             }
 
             silence_vertices1(VV_good,{node_imge_dict[nd]});
@@ -1005,7 +1019,7 @@ namespace MatchMaker{
                     break;
                 }
             }
-            if(correct_direction == fa_on_left)
+            if(correct_direction != fa_on_left)
             {
                 seed_face = fa;
             }
@@ -1015,7 +1029,7 @@ namespace MatchMaker{
             }
             loop_colorize(V_good, F_good, TEdges_good, seed_face, lb, FL_good);
         }
-        igl::writeDMAT("FL_final.dmat", FL_good);
+        igl::writeDMAT("../FL_final.dmat", FL_good);
         
         
     }

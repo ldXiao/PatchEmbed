@@ -1,0 +1,2654 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXAggregateTarget section */
+		4C43CAE5B4344D30A5CFF499 /* uninstall */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = 67B7695413564E35AA53E59D /* Build configuration list for PBXAggregateTarget "uninstall" */;
+			buildPhases = (
+				B637B07883D54CE394E11244 /* CMake Rules */,
+			);
+			dependencies = (
+				6ED39FE3EACE422CB74F0947 /* PBXTargetDependency */,
+			);
+			name = uninstall;
+			productName = uninstall;
+		};
+		5631A3BB9033480AA1604560 /* package */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = 561B862E37AB42AEAE0076B7 /* Build configuration list for PBXAggregateTarget "package" */;
+			buildPhases = (
+				94A484D5F8F34126A152A2DB /* CMake PostBuild Rules */,
+			);
+			dependencies = (
+				CDD2C33AA1D947B2947181B0 /* PBXTargetDependency */,
+			);
+			name = package;
+			productName = package;
+		};
+		570D34DCDC95462681C81F77 /* ZERO_CHECK */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = 3C639551C9CF4DDA9DF134B6 /* Build configuration list for PBXAggregateTarget "ZERO_CHECK" */;
+			buildPhases = (
+				99E8589E8641402982C18A79 /* CMake Rules */,
+			);
+			dependencies = (
+			);
+			name = ZERO_CHECK;
+			productName = ZERO_CHECK;
+		};
+		5761ACF60F514ECC9D7A025F /* install */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = C33A74DBF55B42C5A84367EC /* Build configuration list for PBXAggregateTarget "install" */;
+			buildPhases = (
+				B24A349244DC4D89B8305E27 /* CMake PostBuild Rules */,
+			);
+			dependencies = (
+				C6ED8FE497CC4FC4ADA338FF /* PBXTargetDependency */,
+			);
+			name = install;
+			productName = install;
+		};
+		69A09D42AD5D4A3DB9CF8DCC /* ALL_BUILD */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = 3BEC91B28266461CAA588AFA /* Build configuration list for PBXAggregateTarget "ALL_BUILD" */;
+			buildPhases = (
+				D60FBDEFCD064690B417503F /* CMake Rules */,
+			);
+			dependencies = (
+				49737DE67DA943D1862550D9 /* PBXTargetDependency */,
+				F5371F7240F943C9BBAA4F5F /* PBXTargetDependency */,
+				2F13FCE5FDD047ACA42C3167 /* PBXTargetDependency */,
+				4962B6DEB5A747BA93C43AE2 /* PBXTargetDependency */,
+				0509BFFB2E774ABB86C173EE /* PBXTargetDependency */,
+				C5CD8BA964FA4D84AFAC330C /* PBXTargetDependency */,
+				D8D50087A7C24E3290E3BFAC /* PBXTargetDependency */,
+				3C69E9A3F20244998649D0BE /* PBXTargetDependency */,
+			);
+			name = ALL_BUILD;
+			productName = ALL_BUILD;
+		};
+		8877F7358DBB4DDCBD06BEB3 /* RUN_TESTS */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = AD22BB52AFC043F7A4E45959 /* Build configuration list for PBXAggregateTarget "RUN_TESTS" */;
+			buildPhases = (
+				1041ACE25658424E8469564A /* CMake PostBuild Rules */,
+			);
+			dependencies = (
+			);
+			name = RUN_TESTS;
+			productName = RUN_TESTS;
+		};
+/* End PBXAggregateTarget section */
+
+/* Begin PBXBuildFile section */
+		03B93A45F9254F728EA2DCAA /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/common/algorithms/parallel_map.cpp */ = {isa = PBXBuildFile; fileRef = B53B174BAA664B469573A27B /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/common/algorithms/parallel_map.cpp */; };
+		084BD74A5E8E4937BE3DBB3D /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/kernels/subdiv/catmullclark_coefficients.cpp */ = {isa = PBXBuildFile; fileRef = 3C07B8D9CF124E2EA49ADB92 /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/kernels/subdiv/catmullclark_coefficients.cpp */; };
+		0A233816823D42C0B917B8A6 /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/kernels/subdiv/subdivpatch1base.cpp */ = {isa = PBXBuildFile; fileRef = 74CE723C260049D38B718CB5 /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/kernels/subdiv/subdivpatch1base.cpp */; };
+		0C93B3C719474C9280DEF04A /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/kernels/common/scene_instance.cpp */ = {isa = PBXBuildFile; fileRef = 51157AC4481C499AB1ADC026 /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/kernels/common/scene_instance.cpp */; };
+		0D47FF90579348679557CD0A /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/common/algorithms/parallel_for_for.cpp */ = {isa = PBXBuildFile; fileRef = 11D7C4FE5FBF473A8CEF70AC /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/common/algorithms/parallel_for_for.cpp */; };
+		10A3B9851BE34895A248F373 /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/common/algorithms/parallel_sort.cpp */ = {isa = PBXBuildFile; fileRef = A1A130CB32674C4682E296CB /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/common/algorithms/parallel_sort.cpp */; };
+		11A8032AC2614317846B30F3 /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/kernels/common/scene_line_segments.cpp */ = {isa = PBXBuildFile; fileRef = 986EDB55E71645008DF47A84 /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/kernels/common/scene_line_segments.cpp */; };
+		12D5F02CB87844AB87D226FE /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/common/sys/barrier.cpp */ = {isa = PBXBuildFile; fileRef = 15578D7388A9494192AD4782 /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/common/sys/barrier.cpp */; };
+		1E91A91426504E44B126E017 /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/kernels/common/scene_curves.cpp */ = {isa = PBXBuildFile; fileRef = 05CE64D040A341B6ADD8D3C5 /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/kernels/common/scene_curves.cpp */; };
+		22894FDECCB14E849B802419 /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/kernels/bvh/bvh_builder.cpp */ = {isa = PBXBuildFile; fileRef = D195E36939EB462B9C60DAA4 /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/kernels/bvh/bvh_builder.cpp */; };
+		2368B329DE2A443B83359D8A /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/common/lexers/tokenstream.cpp */ = {isa = PBXBuildFile; fileRef = 8B0E2B1A83FD4DC7A39B9FEC /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/common/lexers/tokenstream.cpp */; };
+		24226F36310F4D3CB24075CD /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/common/simd/CMakeLists.txt */ = {isa = PBXBuildFile; fileRef = AEE760D4A0DB4CAD92F73879 /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/common/simd/CMakeLists.txt */; };
+		289C27F4D17242949BFAF5B0 /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/kernels/builders/primrefgen.cpp */ = {isa = PBXBuildFile; fileRef = C7DEEB9D7F334183ACF4A810 /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/kernels/builders/primrefgen.cpp */; };
+		2A6CE7DC01F44909BD956C09 /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/kernels/bvh/bvh_builder_hair.cpp */ = {isa = PBXBuildFile; fileRef = 0BC7A6353DE4436F87B9B669 /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/kernels/bvh/bvh_builder_hair.cpp */; };
+		2EC93D00E4A44B04BD5733E9 /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/common/math/CMakeLists.txt */ = {isa = PBXBuildFile; fileRef = A642D2AED80C4FED856C475E /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/common/math/CMakeLists.txt */; };
+		329334973CD34AB7B890D526 /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/kernels/bvh/bvh_rotate.cpp */ = {isa = PBXBuildFile; fileRef = CBF49312F5B340FA8B4B0EEF /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/kernels/bvh/bvh_rotate.cpp */; };
+		384F10A66DD446869FC5B30F /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/common/sys/filename.cpp */ = {isa = PBXBuildFile; fileRef = E1F5C646D72744F89383C783 /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/common/sys/filename.cpp */; };
+		38A583273CD648C7BDFA5214 /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/kernels/common/device.cpp */ = {isa = PBXBuildFile; fileRef = A9120E9C87804FFAA0FE5A34 /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/kernels/common/device.cpp */; };
+		3944ED4116E4449F967E4E74 /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/kernels/bvh/bvh_builder_sah.cpp */ = {isa = PBXBuildFile; fileRef = 5DC3FE6F97484D629B25F719 /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/kernels/bvh/bvh_builder_sah.cpp */; };
+		3F642CAF59CE4C76A243D494 /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/common/lexers/CMakeLists.txt */ = {isa = PBXBuildFile; fileRef = E976CF38F7AF4B4F8862609A /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/common/lexers/CMakeLists.txt */; };
+		401F5DD549FA49DB81D6EF3D /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/kernels/common/rtcore.cpp */ = {isa = PBXBuildFile; fileRef = EFA6FF4CE01E4B8C89824A88 /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/kernels/common/rtcore.cpp */; };
+		425A86CCD1D946108EEF698C /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/common/sys/string.cpp */ = {isa = PBXBuildFile; fileRef = 82955A0898BF414E88F41069 /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/common/sys/string.cpp */; };
+		42BEEE0A09ED4A578BDE85CB /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/kernels/geometry/instance_intersector.cpp */ = {isa = PBXBuildFile; fileRef = 79DAEDD5E63C47A38BB6EA39 /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/kernels/geometry/instance_intersector.cpp */; };
+		450AE22D191549A4956E0CA7 /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/kernels/common/scene_grid_mesh.cpp */ = {isa = PBXBuildFile; fileRef = 402B9780DD1B4113AF528E01 /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/kernels/common/scene_grid_mesh.cpp */; };
+		47B39241C6B54803AAEAE1B8 /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/kernels/bvh/bvh_statistics.cpp */ = {isa = PBXBuildFile; fileRef = 97662FAE62DF47F3A2E59677 /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/kernels/bvh/bvh_statistics.cpp */; };
+		48A852FAEE884BA1B5BAC14F /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/kernels/common/acceln.cpp */ = {isa = PBXBuildFile; fileRef = 6250275FAAD94A20BD7B580B /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/kernels/common/acceln.cpp */; };
+		59518EDEEB4C4A19BA89144B /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/kernels/bvh/bvh4_factory.cpp */ = {isa = PBXBuildFile; fileRef = B5B935DADCC14EEC81F692FD /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/kernels/bvh/bvh4_factory.cpp */; };
+		5C6C694E757C47E1B2C21BFF /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/common/sys/condition.cpp */ = {isa = PBXBuildFile; fileRef = EE9B612A10DC48018EB910A9 /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/common/sys/condition.cpp */; };
+		62FF1735F43A41F5A419F4EA /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/common/tasking/taskschedulerinternal.cpp */ = {isa = PBXBuildFile; fileRef = 1809BCBA6D4D4C6AB4DD435E /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/common/tasking/taskschedulerinternal.cpp */; };
+		64E8B5769B1B46F182C726D2 /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/common/sys/thread.cpp */ = {isa = PBXBuildFile; fileRef = 594885F769FF417392AD52A5 /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/common/sys/thread.cpp */; };
+		6844DD1579634BCFB056FAF5 /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/kernels/embree.rc */ = {isa = PBXBuildFile; fileRef = CC7BC5FDBAB54EC495F09581 /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/kernels/embree.rc */; };
+		6B5122E00ED5474184BC4480 /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/common/lexers/stringstream.cpp */ = {isa = PBXBuildFile; fileRef = 6C6BE0704F184C70BCE54D1C /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/common/lexers/stringstream.cpp */; };
+		6BAC75A3588A4C1B8E3DE992 /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/common/algorithms/CMakeLists.txt */ = {isa = PBXBuildFile; fileRef = 6B131C874EB0427A979063FA /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/common/algorithms/CMakeLists.txt */; };
+		6BECBDF2F6854660A215EDDE /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/kernels/bvh/bvh_intersector_stream_filters.cpp */ = {isa = PBXBuildFile; fileRef = 0907751FE6A94A409159E1CF /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/kernels/bvh/bvh_intersector_stream_filters.cpp */; };
+		6D478A86740A4DD58C4E894A /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/kernels/bvh/bvh_builder_morton.cpp */ = {isa = PBXBuildFile; fileRef = 7603A6EEDE8A403898266A80 /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/kernels/bvh/bvh_builder_morton.cpp */; };
+		7105190D04454129801BE294 /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/common/algorithms/parallel_filter.cpp */ = {isa = PBXBuildFile; fileRef = 556E11B2421E4C5A8089623C /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/common/algorithms/parallel_filter.cpp */; };
+		7207BB1ED4FB48CA950AD2BE /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/kernels/geometry/curve_intersector_virtual.cpp */ = {isa = PBXBuildFile; fileRef = 51E7A9B1C5294F88ACBD9EC0 /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/kernels/geometry/curve_intersector_virtual.cpp */; };
+		7BF06C5DCB8B4C83B2395AC8 /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/common/sys/CMakeLists.txt */ = {isa = PBXBuildFile; fileRef = 0B366DE9A3E9493BAD4E0A80 /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/common/sys/CMakeLists.txt */; };
+		7C7E916631DF40348837924E /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/kernels/common/stat.cpp */ = {isa = PBXBuildFile; fileRef = C00E3F204E104B57A961D13E /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/kernels/common/stat.cpp */; };
+		80122CBD237340E18A62A2F6 /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/common/simd/sse.cpp */ = {isa = PBXBuildFile; fileRef = F355B020555C4EF99C275EA9 /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/common/simd/sse.cpp */; };
+		82728A69B5D443B2A9EE0170 /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/kernels/bvh/bvh_builder_hair_mb.cpp */ = {isa = PBXBuildFile; fileRef = 149AEECDC4F648B9BB202D9F /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/kernels/bvh/bvh_builder_hair_mb.cpp */; };
+		82F4882A59F343C0803CFAD6 /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/kernels/common/scene_subdiv_mesh.cpp */ = {isa = PBXBuildFile; fileRef = E40C99D5CD5E48E68B8853AD /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/kernels/common/scene_subdiv_mesh.cpp */; };
+		86437C42C32D4FFD8F552B13 /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/kernels/common/alloc.cpp */ = {isa = PBXBuildFile; fileRef = 3FABDED77A51459FB44C6C7B /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/kernels/common/alloc.cpp */; };
+		86D4CBB5581B42E7AC2C01BE /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/common/algorithms/parallel_partition.cpp */ = {isa = PBXBuildFile; fileRef = 657967E627424CA39AEB7ED4 /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/common/algorithms/parallel_partition.cpp */; };
+		8B56C8EB9DB74FB5894FC687 /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/kernels/bvh/bvh_builder_subdiv.cpp */ = {isa = PBXBuildFile; fileRef = 9A69272DF17344ACB2BC325E /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/kernels/bvh/bvh_builder_subdiv.cpp */; };
+		8B635DDF9A0D4EC6A744D7A2 /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/kernels/common/scene_user_geometry.cpp */ = {isa = PBXBuildFile; fileRef = A8746B333EB24B62BB818418 /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/kernels/common/scene_user_geometry.cpp */; };
+		8C8C6B9F92BF403284EEBFAB /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/kernels/common/scene_quad_mesh.cpp */ = {isa = PBXBuildFile; fileRef = 03377FA2439E4039BBF54705 /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/kernels/common/scene_quad_mesh.cpp */; };
+		8E16073289BE467EBD60F3A0 /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/kernels/bvh/bvh_refit.cpp */ = {isa = PBXBuildFile; fileRef = 7CBAC31319C64BB380E8E38A /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/kernels/bvh/bvh_refit.cpp */; };
+		9499D94CCFF148B3BD37367F /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/common/math/constants.cpp */ = {isa = PBXBuildFile; fileRef = AFF64167083A4DCB9BB06AE5 /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/common/math/constants.cpp */; };
+		9895E321239B478CB04537A1 /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/kernels/bvh/bvh_intersector_stream_bvh4.cpp */ = {isa = PBXBuildFile; fileRef = 78C107512A464251B2AD5FFE /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/kernels/bvh/bvh_intersector_stream_bvh4.cpp */; };
+		99A5A70FB0E446B29FCD8CB7 /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/kernels/common/state.cpp */ = {isa = PBXBuildFile; fileRef = BD6F030B94DF4A6FBE552A7E /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/kernels/common/state.cpp */; };
+		9B1F65E753344DF5B9295AE7 /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/common/sys/sysinfo.cpp */ = {isa = PBXBuildFile; fileRef = 6B7F75A628474309B872A1C0 /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/common/sys/sysinfo.cpp */; };
+		9D0A8F8FF23E4E18946D466F /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/kernels/geometry/primitive4.cpp */ = {isa = PBXBuildFile; fileRef = C68B5998ABF24F80B4C7AEDA /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/kernels/geometry/primitive4.cpp */; };
+		9F01B0515B52480F805B5ECA /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/kernels/bvh/bvh_builder_sah_mb.cpp */ = {isa = PBXBuildFile; fileRef = BD534C60F04546F798A96EC7 /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/kernels/bvh/bvh_builder_sah_mb.cpp */; };
+		A0785838870D451BA497FCB2 /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/kernels/bvh/bvh.cpp */ = {isa = PBXBuildFile; fileRef = 29C3B54357184FAB8A25B554 /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/kernels/bvh/bvh.cpp */; };
+		A6F24AAA4EF74F8DB202EF7F /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/kernels/common/rtcore_builder.cpp */ = {isa = PBXBuildFile; fileRef = 1B6C599EDEE543BCA9FABF34 /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/kernels/common/rtcore_builder.cpp */; };
+		AE9E120678414FB19E8864E8 /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/kernels/subdiv/tessellation_cache.cpp */ = {isa = PBXBuildFile; fileRef = F9B6564E94064BF4941CC2CF /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/kernels/subdiv/tessellation_cache.cpp */; };
+		AF6E822F819148CA81FC7BD2 /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/common/algorithms/parallel_for.cpp */ = {isa = PBXBuildFile; fileRef = 186CC8B8DD5D4993948804F6 /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/common/algorithms/parallel_for.cpp */; };
+		AFF1CA5BC09E4FD092D239F6 /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/common/sys/library.cpp */ = {isa = PBXBuildFile; fileRef = 54D4836798F149D0AAA200A4 /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/common/sys/library.cpp */; };
+		B3CAF694AFAC49AE9CE3EBD1 /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/common/tasking/CMakeLists.txt */ = {isa = PBXBuildFile; fileRef = 20042BF6EC9D4C1EA016D558 /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/common/tasking/CMakeLists.txt */; };
+		BD5AA0EDE57A4285AFB866DD /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/kernels/common/scene.cpp */ = {isa = PBXBuildFile; fileRef = DD58FFD6521B4FB38D7747F4 /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/kernels/common/scene.cpp */; };
+		BD8A2651F2624F07AEDA009E /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/kernels/common/scene_points.cpp */ = {isa = PBXBuildFile; fileRef = 02AFE0D29D98407CA1D25553 /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/kernels/common/scene_points.cpp */; };
+		BF59264465EC43E596A5DB27 /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/kernels/common/accelset.cpp */ = {isa = PBXBuildFile; fileRef = 5D4E39AD212543D9BC57602E /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/kernels/common/accelset.cpp */; };
+		C23FC09720284E408277991F /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/kernels/common/geometry.cpp */ = {isa = PBXBuildFile; fileRef = DD41286CACAA4F488020BEEE /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/kernels/common/geometry.cpp */; };
+		C47DB6E76BFC4581BB56A0AE /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/common/sys/alloc.cpp */ = {isa = PBXBuildFile; fileRef = 2D4301AB5A924E0A805A8A34 /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/common/sys/alloc.cpp */; };
+		C76A90E9CB8C4F2D91A8A12B /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/kernels/geometry/grid_soa.cpp */ = {isa = PBXBuildFile; fileRef = 4E84299D55414CEEB71A173D /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/kernels/geometry/grid_soa.cpp */; };
+		CAA0713EFF424914B1FB01C1 /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/kernels/subdiv/bezier_curve.cpp */ = {isa = PBXBuildFile; fileRef = C213E387FCB14398A28B8181 /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/kernels/subdiv/bezier_curve.cpp */; };
+		CDB3A1B1D51543B78F365BD5 /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/kernels/bvh/bvh_builder_sah_spatial.cpp */ = {isa = PBXBuildFile; fileRef = FA5311C8724C4E8F8DBDA26F /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/kernels/bvh/bvh_builder_sah_spatial.cpp */; };
+		CEA2359BFCAC4CFEA521A513 /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/common/algorithms/parallel_for_for_prefix_sum.cpp */ = {isa = PBXBuildFile; fileRef = 1104EC29BDEB4D8B9B7B056F /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/common/algorithms/parallel_for_for_prefix_sum.cpp */; };
+		D0B2FB0062274034A2381D58 /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/kernels/subdiv/bspline_curve.cpp */ = {isa = PBXBuildFile; fileRef = 9C6F5E8A41934112A4B1CB3A /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/kernels/subdiv/bspline_curve.cpp */; };
+		D20C6D68F4EA469992802640 /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/common/sys/mutex.cpp */ = {isa = PBXBuildFile; fileRef = 45713AC24E0A4140AC6904D2 /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/common/sys/mutex.cpp */; };
+		D90EF30114FF483AB6905E50 /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/kernels/bvh/bvh_intersector_hybrid4_bvh4.cpp */ = {isa = PBXBuildFile; fileRef = 566499E3CA444DB899C4287A /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/kernels/bvh/bvh_intersector_hybrid4_bvh4.cpp */; };
+		D944AE4469B946EA8D4A3410 /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/kernels/CMakeLists.txt */ = {isa = PBXBuildFile; fileRef = E2E9D9094CD64624B716B936 /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/kernels/CMakeLists.txt */; };
+		DEB345D5125643679E3036C4 /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/common/algorithms/parallel_prefix_sum.cpp */ = {isa = PBXBuildFile; fileRef = 44C0D79C266540E6B2DAA554 /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/common/algorithms/parallel_prefix_sum.cpp */; };
+		E0BA03A3DA044ACF81A4F5BE /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/kernels/subdiv/subdivpatch1base_eval.cpp */ = {isa = PBXBuildFile; fileRef = 2FF2F3DAFB3F45A3AC3B6EEA /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/kernels/subdiv/subdivpatch1base_eval.cpp */; };
+		E2D9FE61560146D3A45F56B7 /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/kernels/common/scene_triangle_mesh.cpp */ = {isa = PBXBuildFile; fileRef = B4D5FB4AC85C44FC87F749F3 /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/kernels/common/scene_triangle_mesh.cpp */; };
+		E37BDE2192334F66AEE483DE /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/common/algorithms/parallel_reduce.cpp */ = {isa = PBXBuildFile; fileRef = 9B068B1CD141480EB63548C7 /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/common/algorithms/parallel_reduce.cpp */; };
+		E5B20AA135254D00917764AC /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/common/algorithms/parallel_set.cpp */ = {isa = PBXBuildFile; fileRef = 903C0C88840144F7AD13E7A7 /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/common/algorithms/parallel_set.cpp */; };
+		E62B922399D541FC81233694 /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/common/sys/regression.cpp */ = {isa = PBXBuildFile; fileRef = 19D6676A9DA346AEB3276C5E /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/common/sys/regression.cpp */; };
+		EFD21267BAE843C8BDE99655 /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/kernels/bvh/bvh_builder_twolevel.cpp */ = {isa = PBXBuildFile; fileRef = CA1F009F7C514BC5B804CEEB /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/kernels/bvh/bvh_builder_twolevel.cpp */; };
+		FE0FB73194704C73BE2A6A64 /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/kernels/bvh/bvh_intersector1_bvh4.cpp */ = {isa = PBXBuildFile; fileRef = 1D45B0667F614EBABC1692F3 /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/kernels/bvh/bvh_intersector1_bvh4.cpp */; };
+		FFFEE0169B90422EA7CFAC14 /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/kernels/bvh/bvh8_factory.cpp */ = {isa = PBXBuildFile; fileRef = 2D875C730C394F5F81EBBB9F /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/kernels/bvh/bvh8_factory.cpp */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXBuildStyle section */
+		4AE17D1705A84A7A951401A2 /* RelWithDebInfo */ = {
+			isa = PBXBuildStyle;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+			};
+			name = RelWithDebInfo;
+		};
+		75994499B9C1438989F1AE25 /* MinSizeRel */ = {
+			isa = PBXBuildStyle;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+			};
+			name = MinSizeRel;
+		};
+		E83A0E3BBE8443E58844C775 /* Release */ = {
+			isa = PBXBuildStyle;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+			};
+			name = Release;
+		};
+		FC47492C0CC946AF86FE27E9 /* Debug */ = {
+			isa = PBXBuildStyle;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+			};
+			name = Debug;
+		};
+/* End PBXBuildStyle section */
+
+/* Begin PBXContainerItemProxy section */
+		0BCED0355D1B43D38A89F526 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0BB5F60BD1CC43C0800BCA20 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 0CFC07097D5947D0A785CF83;
+			remoteInfo = sys;
+		};
+		1F532F0222FB4CE8B0E47039 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0BB5F60BD1CC43C0800BCA20 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 0CFC07097D5947D0A785CF83;
+			remoteInfo = sys;
+		};
+		468EDDD81021426780B00616 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0BB5F60BD1CC43C0800BCA20 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 3CD3808C3B0E471790786B47;
+			remoteInfo = lexers;
+		};
+		4FA236CA4DC64835A0D3DDEF /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0BB5F60BD1CC43C0800BCA20 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = F077266F9F474CBC99A97A90;
+			remoteInfo = algorithms;
+		};
+		5390F29FDAA5478DBD735CFC /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0BB5F60BD1CC43C0800BCA20 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 12CC548891ED4C5EAACBE215;
+			remoteInfo = embree;
+		};
+		616CA3D6935B41E6BD2096E6 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0BB5F60BD1CC43C0800BCA20 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 025BC06B0E914865835072C2;
+			remoteInfo = tasking;
+		};
+		811D74BB455E4DD0BBEE6249 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0BB5F60BD1CC43C0800BCA20 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 064F787BF0A54E9090AA47AF;
+			remoteInfo = simd;
+		};
+		97132BFFF6AD449CA29C689C /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0BB5F60BD1CC43C0800BCA20 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 69A09D42AD5D4A3DB9CF8DCC;
+			remoteInfo = ALL_BUILD;
+		};
+		ACB4A5566CD54D93BDEBE2C2 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0BB5F60BD1CC43C0800BCA20 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 064F787BF0A54E9090AA47AF;
+			remoteInfo = simd;
+		};
+		BBC2AE86ED1846339F68A071 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0BB5F60BD1CC43C0800BCA20 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 69A09D42AD5D4A3DB9CF8DCC;
+			remoteInfo = ALL_BUILD;
+		};
+		BC15F9C822D441B08E616AE2 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0BB5F60BD1CC43C0800BCA20 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 3CD3808C3B0E471790786B47;
+			remoteInfo = lexers;
+		};
+		BE7A1DD5070349E7B434F0C4 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0BB5F60BD1CC43C0800BCA20 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 659FB9FE9E274F7BB0018D5E;
+			remoteInfo = math;
+		};
+		C3A4A353A54241DABE155A06 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0BB5F60BD1CC43C0800BCA20 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 0CFC07097D5947D0A785CF83;
+			remoteInfo = sys;
+		};
+		D749B86739844B1BB96E78B7 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0BB5F60BD1CC43C0800BCA20 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 570D34DCDC95462681C81F77;
+			remoteInfo = ZERO_CHECK;
+		};
+		E7F942381FEA442E856DB6F5 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0BB5F60BD1CC43C0800BCA20 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 659FB9FE9E274F7BB0018D5E;
+			remoteInfo = math;
+		};
+		E90AE9F9C4F548C1B490300F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0BB5F60BD1CC43C0800BCA20 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 570D34DCDC95462681C81F77;
+			remoteInfo = ZERO_CHECK;
+		};
+		EDDF532A26FD4CCB898BD9F9 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0BB5F60BD1CC43C0800BCA20 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 659FB9FE9E274F7BB0018D5E;
+			remoteInfo = math;
+		};
+		F3CA1C77E7054396A18EFF64 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0BB5F60BD1CC43C0800BCA20 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 025BC06B0E914865835072C2;
+			remoteInfo = tasking;
+		};
+		FACB078B8DCE4F69B4B34882 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0BB5F60BD1CC43C0800BCA20 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = F077266F9F474CBC99A97A90;
+			remoteInfo = algorithms;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		02AFE0D29D98407CA1D25553 /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/kernels/common/scene_points.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 4; name = scene_points.cpp; path = kernels/common/scene_points.cpp; sourceTree = SOURCE_ROOT; };
+		03377FA2439E4039BBF54705 /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/kernels/common/scene_quad_mesh.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 4; name = scene_quad_mesh.cpp; path = kernels/common/scene_quad_mesh.cpp; sourceTree = SOURCE_ROOT; };
+		05CE64D040A341B6ADD8D3C5 /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/kernels/common/scene_curves.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 4; name = scene_curves.cpp; path = kernels/common/scene_curves.cpp; sourceTree = SOURCE_ROOT; };
+		0907751FE6A94A409159E1CF /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/kernels/bvh/bvh_intersector_stream_filters.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 4; name = bvh_intersector_stream_filters.cpp; path = kernels/bvh/bvh_intersector_stream_filters.cpp; sourceTree = SOURCE_ROOT; };
+		0B366DE9A3E9493BAD4E0A80 /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/common/sys/CMakeLists.txt */ = {isa = PBXFileReference; explicitFileType = sourcecode.text; fileEncoding = 4; name = CMakeLists.txt; path = common/sys/CMakeLists.txt; sourceTree = SOURCE_ROOT; };
+		0BC7A6353DE4436F87B9B669 /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/kernels/bvh/bvh_builder_hair.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 4; name = bvh_builder_hair.cpp; path = kernels/bvh/bvh_builder_hair.cpp; sourceTree = SOURCE_ROOT; };
+		1104EC29BDEB4D8B9B7B056F /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/common/algorithms/parallel_for_for_prefix_sum.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 4; name = parallel_for_for_prefix_sum.cpp; path = common/algorithms/parallel_for_for_prefix_sum.cpp; sourceTree = SOURCE_ROOT; };
+		11D7C4FE5FBF473A8CEF70AC /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/common/algorithms/parallel_for_for.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 4; name = parallel_for_for.cpp; path = common/algorithms/parallel_for_for.cpp; sourceTree = SOURCE_ROOT; };
+		14072E8EE35B48889FF372DF /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/CMakeLists.txt */ = {isa = PBXFileReference; explicitFileType = sourcecode.text; fileEncoding = 4; name = CMakeLists.txt; path = CMakeLists.txt; sourceTree = SOURCE_ROOT; };
+		149AEECDC4F648B9BB202D9F /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/kernels/bvh/bvh_builder_hair_mb.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 4; name = bvh_builder_hair_mb.cpp; path = kernels/bvh/bvh_builder_hair_mb.cpp; sourceTree = SOURCE_ROOT; };
+		15578D7388A9494192AD4782 /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/common/sys/barrier.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 4; name = barrier.cpp; path = common/sys/barrier.cpp; sourceTree = SOURCE_ROOT; };
+		1809BCBA6D4D4C6AB4DD435E /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/common/tasking/taskschedulerinternal.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 4; name = taskschedulerinternal.cpp; path = common/tasking/taskschedulerinternal.cpp; sourceTree = SOURCE_ROOT; };
+		186CC8B8DD5D4993948804F6 /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/common/algorithms/parallel_for.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 4; name = parallel_for.cpp; path = common/algorithms/parallel_for.cpp; sourceTree = SOURCE_ROOT; };
+		19D6676A9DA346AEB3276C5E /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/common/sys/regression.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 4; name = regression.cpp; path = common/sys/regression.cpp; sourceTree = SOURCE_ROOT; };
+		1A2D81FC7DEB44E3906AF2CA /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/CMakeLists.txt */ = {isa = PBXFileReference; explicitFileType = sourcecode.text; fileEncoding = 4; name = CMakeLists.txt; path = CMakeLists.txt; sourceTree = SOURCE_ROOT; };
+		1B6C599EDEE543BCA9FABF34 /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/kernels/common/rtcore_builder.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 4; name = rtcore_builder.cpp; path = kernels/common/rtcore_builder.cpp; sourceTree = SOURCE_ROOT; };
+		1D45B0667F614EBABC1692F3 /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/kernels/bvh/bvh_intersector1_bvh4.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 4; name = bvh_intersector1_bvh4.cpp; path = kernels/bvh/bvh_intersector1_bvh4.cpp; sourceTree = SOURCE_ROOT; };
+		20042BF6EC9D4C1EA016D558 /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/common/tasking/CMakeLists.txt */ = {isa = PBXFileReference; explicitFileType = sourcecode.text; fileEncoding = 4; name = CMakeLists.txt; path = common/tasking/CMakeLists.txt; sourceTree = SOURCE_ROOT; };
+		29C3B54357184FAB8A25B554 /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/kernels/bvh/bvh.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 4; name = bvh.cpp; path = kernels/bvh/bvh.cpp; sourceTree = SOURCE_ROOT; };
+		2D4301AB5A924E0A805A8A34 /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/common/sys/alloc.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 4; name = alloc.cpp; path = common/sys/alloc.cpp; sourceTree = SOURCE_ROOT; };
+		2D875C730C394F5F81EBBB9F /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/kernels/bvh/bvh8_factory.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 4; name = bvh8_factory.cpp; path = kernels/bvh/bvh8_factory.cpp; sourceTree = SOURCE_ROOT; };
+		2FF2F3DAFB3F45A3AC3B6EEA /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/kernels/subdiv/subdivpatch1base_eval.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 4; name = subdivpatch1base_eval.cpp; path = kernels/subdiv/subdivpatch1base_eval.cpp; sourceTree = SOURCE_ROOT; };
+		3C07B8D9CF124E2EA49ADB92 /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/kernels/subdiv/catmullclark_coefficients.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 4; name = catmullclark_coefficients.cpp; path = kernels/subdiv/catmullclark_coefficients.cpp; sourceTree = SOURCE_ROOT; };
+		3FABDED77A51459FB44C6C7B /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/kernels/common/alloc.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 4; name = alloc.cpp; path = kernels/common/alloc.cpp; sourceTree = SOURCE_ROOT; };
+		402B9780DD1B4113AF528E01 /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/kernels/common/scene_grid_mesh.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 4; name = scene_grid_mesh.cpp; path = kernels/common/scene_grid_mesh.cpp; sourceTree = SOURCE_ROOT; };
+		44C0D79C266540E6B2DAA554 /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/common/algorithms/parallel_prefix_sum.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 4; name = parallel_prefix_sum.cpp; path = common/algorithms/parallel_prefix_sum.cpp; sourceTree = SOURCE_ROOT; };
+		45713AC24E0A4140AC6904D2 /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/common/sys/mutex.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 4; name = mutex.cpp; path = common/sys/mutex.cpp; sourceTree = SOURCE_ROOT; };
+		4E84299D55414CEEB71A173D /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/kernels/geometry/grid_soa.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 4; name = grid_soa.cpp; path = kernels/geometry/grid_soa.cpp; sourceTree = SOURCE_ROOT; };
+		51157AC4481C499AB1ADC026 /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/kernels/common/scene_instance.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 4; name = scene_instance.cpp; path = kernels/common/scene_instance.cpp; sourceTree = SOURCE_ROOT; };
+		51E7A9B1C5294F88ACBD9EC0 /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/kernels/geometry/curve_intersector_virtual.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 4; name = curve_intersector_virtual.cpp; path = kernels/geometry/curve_intersector_virtual.cpp; sourceTree = SOURCE_ROOT; };
+		54D4836798F149D0AAA200A4 /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/common/sys/library.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 4; name = library.cpp; path = common/sys/library.cpp; sourceTree = SOURCE_ROOT; };
+		556E11B2421E4C5A8089623C /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/common/algorithms/parallel_filter.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 4; name = parallel_filter.cpp; path = common/algorithms/parallel_filter.cpp; sourceTree = SOURCE_ROOT; };
+		566499E3CA444DB899C4287A /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/kernels/bvh/bvh_intersector_hybrid4_bvh4.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 4; name = bvh_intersector_hybrid4_bvh4.cpp; path = kernels/bvh/bvh_intersector_hybrid4_bvh4.cpp; sourceTree = SOURCE_ROOT; };
+		5940DF63DF1945C292250F60 /* simd */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = libsimd.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		594885F769FF417392AD52A5 /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/common/sys/thread.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 4; name = thread.cpp; path = common/sys/thread.cpp; sourceTree = SOURCE_ROOT; };
+		5D4E39AD212543D9BC57602E /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/kernels/common/accelset.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 4; name = accelset.cpp; path = kernels/common/accelset.cpp; sourceTree = SOURCE_ROOT; };
+		5DC3FE6F97484D629B25F719 /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/kernels/bvh/bvh_builder_sah.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 4; name = bvh_builder_sah.cpp; path = kernels/bvh/bvh_builder_sah.cpp; sourceTree = SOURCE_ROOT; };
+		6250275FAAD94A20BD7B580B /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/kernels/common/acceln.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 4; name = acceln.cpp; path = kernels/common/acceln.cpp; sourceTree = SOURCE_ROOT; };
+		657967E627424CA39AEB7ED4 /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/common/algorithms/parallel_partition.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 4; name = parallel_partition.cpp; path = common/algorithms/parallel_partition.cpp; sourceTree = SOURCE_ROOT; };
+		67A5FDEBC6684298AFC1F05C /* math */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = libmath.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		6B131C874EB0427A979063FA /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/common/algorithms/CMakeLists.txt */ = {isa = PBXFileReference; explicitFileType = sourcecode.text; fileEncoding = 4; name = CMakeLists.txt; path = common/algorithms/CMakeLists.txt; sourceTree = SOURCE_ROOT; };
+		6B7F75A628474309B872A1C0 /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/common/sys/sysinfo.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 4; name = sysinfo.cpp; path = common/sys/sysinfo.cpp; sourceTree = SOURCE_ROOT; };
+		6C6BE0704F184C70BCE54D1C /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/common/lexers/stringstream.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 4; name = stringstream.cpp; path = common/lexers/stringstream.cpp; sourceTree = SOURCE_ROOT; };
+		6E856FD072F3400092578976 /* algorithms */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = libalgorithms.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		74CE723C260049D38B718CB5 /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/kernels/subdiv/subdivpatch1base.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 4; name = subdivpatch1base.cpp; path = kernels/subdiv/subdivpatch1base.cpp; sourceTree = SOURCE_ROOT; };
+		7603A6EEDE8A403898266A80 /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/kernels/bvh/bvh_builder_morton.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 4; name = bvh_builder_morton.cpp; path = kernels/bvh/bvh_builder_morton.cpp; sourceTree = SOURCE_ROOT; };
+		78C107512A464251B2AD5FFE /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/kernels/bvh/bvh_intersector_stream_bvh4.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 4; name = bvh_intersector_stream_bvh4.cpp; path = kernels/bvh/bvh_intersector_stream_bvh4.cpp; sourceTree = SOURCE_ROOT; };
+		79DAEDD5E63C47A38BB6EA39 /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/kernels/geometry/instance_intersector.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 4; name = instance_intersector.cpp; path = kernels/geometry/instance_intersector.cpp; sourceTree = SOURCE_ROOT; };
+		7CBAC31319C64BB380E8E38A /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/kernels/bvh/bvh_refit.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 4; name = bvh_refit.cpp; path = kernels/bvh/bvh_refit.cpp; sourceTree = SOURCE_ROOT; };
+		82955A0898BF414E88F41069 /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/common/sys/string.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 4; name = string.cpp; path = common/sys/string.cpp; sourceTree = SOURCE_ROOT; };
+		8B0E2B1A83FD4DC7A39B9FEC /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/common/lexers/tokenstream.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 4; name = tokenstream.cpp; path = common/lexers/tokenstream.cpp; sourceTree = SOURCE_ROOT; };
+		903C0C88840144F7AD13E7A7 /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/common/algorithms/parallel_set.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 4; name = parallel_set.cpp; path = common/algorithms/parallel_set.cpp; sourceTree = SOURCE_ROOT; };
+		97662FAE62DF47F3A2E59677 /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/kernels/bvh/bvh_statistics.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 4; name = bvh_statistics.cpp; path = kernels/bvh/bvh_statistics.cpp; sourceTree = SOURCE_ROOT; };
+		986EDB55E71645008DF47A84 /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/kernels/common/scene_line_segments.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 4; name = scene_line_segments.cpp; path = kernels/common/scene_line_segments.cpp; sourceTree = SOURCE_ROOT; };
+		9A69272DF17344ACB2BC325E /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/kernels/bvh/bvh_builder_subdiv.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 4; name = bvh_builder_subdiv.cpp; path = kernels/bvh/bvh_builder_subdiv.cpp; sourceTree = SOURCE_ROOT; };
+		9B068B1CD141480EB63548C7 /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/common/algorithms/parallel_reduce.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 4; name = parallel_reduce.cpp; path = common/algorithms/parallel_reduce.cpp; sourceTree = SOURCE_ROOT; };
+		9BD4C0E41715410F8ADF9DEE /* lexers */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = liblexers.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		9C6F5E8A41934112A4B1CB3A /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/kernels/subdiv/bspline_curve.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 4; name = bspline_curve.cpp; path = kernels/subdiv/bspline_curve.cpp; sourceTree = SOURCE_ROOT; };
+		A1A130CB32674C4682E296CB /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/common/algorithms/parallel_sort.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 4; name = parallel_sort.cpp; path = common/algorithms/parallel_sort.cpp; sourceTree = SOURCE_ROOT; };
+		A642D2AED80C4FED856C475E /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/common/math/CMakeLists.txt */ = {isa = PBXFileReference; explicitFileType = sourcecode.text; fileEncoding = 4; name = CMakeLists.txt; path = common/math/CMakeLists.txt; sourceTree = SOURCE_ROOT; };
+		A8746B333EB24B62BB818418 /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/kernels/common/scene_user_geometry.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 4; name = scene_user_geometry.cpp; path = kernels/common/scene_user_geometry.cpp; sourceTree = SOURCE_ROOT; };
+		A9120E9C87804FFAA0FE5A34 /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/kernels/common/device.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 4; name = device.cpp; path = kernels/common/device.cpp; sourceTree = SOURCE_ROOT; };
+		AEE760D4A0DB4CAD92F73879 /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/common/simd/CMakeLists.txt */ = {isa = PBXFileReference; explicitFileType = sourcecode.text; fileEncoding = 4; name = CMakeLists.txt; path = common/simd/CMakeLists.txt; sourceTree = SOURCE_ROOT; };
+		AFF64167083A4DCB9BB06AE5 /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/common/math/constants.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 4; name = constants.cpp; path = common/math/constants.cpp; sourceTree = SOURCE_ROOT; };
+		B4D5FB4AC85C44FC87F749F3 /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/kernels/common/scene_triangle_mesh.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 4; name = scene_triangle_mesh.cpp; path = kernels/common/scene_triangle_mesh.cpp; sourceTree = SOURCE_ROOT; };
+		B53B174BAA664B469573A27B /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/common/algorithms/parallel_map.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 4; name = parallel_map.cpp; path = common/algorithms/parallel_map.cpp; sourceTree = SOURCE_ROOT; };
+		B5B935DADCC14EEC81F692FD /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/kernels/bvh/bvh4_factory.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 4; name = bvh4_factory.cpp; path = kernels/bvh/bvh4_factory.cpp; sourceTree = SOURCE_ROOT; };
+		B8EA80AC1A8E4BA0BFD430EA /* sys */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = libsys.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		BB84DE1EAF4E4F318E76576E /* tasking */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = libtasking.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		BD534C60F04546F798A96EC7 /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/kernels/bvh/bvh_builder_sah_mb.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 4; name = bvh_builder_sah_mb.cpp; path = kernels/bvh/bvh_builder_sah_mb.cpp; sourceTree = SOURCE_ROOT; };
+		BD6F030B94DF4A6FBE552A7E /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/kernels/common/state.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 4; name = state.cpp; path = kernels/common/state.cpp; sourceTree = SOURCE_ROOT; };
+		C00E3F204E104B57A961D13E /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/kernels/common/stat.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 4; name = stat.cpp; path = kernels/common/stat.cpp; sourceTree = SOURCE_ROOT; };
+		C213E387FCB14398A28B8181 /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/kernels/subdiv/bezier_curve.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 4; name = bezier_curve.cpp; path = kernels/subdiv/bezier_curve.cpp; sourceTree = SOURCE_ROOT; };
+		C68B5998ABF24F80B4C7AEDA /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/kernels/geometry/primitive4.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 4; name = primitive4.cpp; path = kernels/geometry/primitive4.cpp; sourceTree = SOURCE_ROOT; };
+		C7DEEB9D7F334183ACF4A810 /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/kernels/builders/primrefgen.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 4; name = primrefgen.cpp; path = kernels/builders/primrefgen.cpp; sourceTree = SOURCE_ROOT; };
+		CA1F009F7C514BC5B804CEEB /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/kernels/bvh/bvh_builder_twolevel.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 4; name = bvh_builder_twolevel.cpp; path = kernels/bvh/bvh_builder_twolevel.cpp; sourceTree = SOURCE_ROOT; };
+		CBF49312F5B340FA8B4B0EEF /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/kernels/bvh/bvh_rotate.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 4; name = bvh_rotate.cpp; path = kernels/bvh/bvh_rotate.cpp; sourceTree = SOURCE_ROOT; };
+		CC7BC5FDBAB54EC495F09581 /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/kernels/embree.rc */ = {isa = PBXFileReference; explicitFileType = sourcecode; fileEncoding = 4; name = embree.rc; path = kernels/embree.rc; sourceTree = SOURCE_ROOT; };
+		D195E36939EB462B9C60DAA4 /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/kernels/bvh/bvh_builder.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 4; name = bvh_builder.cpp; path = kernels/bvh/bvh_builder.cpp; sourceTree = SOURCE_ROOT; };
+		DBA9D23FC00D44909A15D89F /* embree */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = libembree3.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		DD41286CACAA4F488020BEEE /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/kernels/common/geometry.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 4; name = geometry.cpp; path = kernels/common/geometry.cpp; sourceTree = SOURCE_ROOT; };
+		DD58FFD6521B4FB38D7747F4 /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/kernels/common/scene.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 4; name = scene.cpp; path = kernels/common/scene.cpp; sourceTree = SOURCE_ROOT; };
+		E1F5C646D72744F89383C783 /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/common/sys/filename.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 4; name = filename.cpp; path = common/sys/filename.cpp; sourceTree = SOURCE_ROOT; };
+		E2E9D9094CD64624B716B936 /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/kernels/CMakeLists.txt */ = {isa = PBXFileReference; explicitFileType = sourcecode.text; fileEncoding = 4; name = CMakeLists.txt; path = kernels/CMakeLists.txt; sourceTree = SOURCE_ROOT; };
+		E40C99D5CD5E48E68B8853AD /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/kernels/common/scene_subdiv_mesh.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 4; name = scene_subdiv_mesh.cpp; path = kernels/common/scene_subdiv_mesh.cpp; sourceTree = SOURCE_ROOT; };
+		E976CF38F7AF4B4F8862609A /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/common/lexers/CMakeLists.txt */ = {isa = PBXFileReference; explicitFileType = sourcecode.text; fileEncoding = 4; name = CMakeLists.txt; path = common/lexers/CMakeLists.txt; sourceTree = SOURCE_ROOT; };
+		EE9B612A10DC48018EB910A9 /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/common/sys/condition.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 4; name = condition.cpp; path = common/sys/condition.cpp; sourceTree = SOURCE_ROOT; };
+		EFA6FF4CE01E4B8C89824A88 /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/kernels/common/rtcore.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 4; name = rtcore.cpp; path = kernels/common/rtcore.cpp; sourceTree = SOURCE_ROOT; };
+		F355B020555C4EF99C275EA9 /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/common/simd/sse.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 4; name = sse.cpp; path = common/simd/sse.cpp; sourceTree = SOURCE_ROOT; };
+		F9B6564E94064BF4941CC2CF /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/kernels/subdiv/tessellation_cache.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 4; name = tessellation_cache.cpp; path = kernels/subdiv/tessellation_cache.cpp; sourceTree = SOURCE_ROOT; };
+		FA5311C8724C4E8F8DBDA26F /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/kernels/bvh/bvh_builder_sah_spatial.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 4; name = bvh_builder_sah_spatial.cpp; path = kernels/bvh/bvh_builder_sah_spatial.cpp; sourceTree = SOURCE_ROOT; };
+/* End PBXFileReference section */
+
+/* Begin PBXGroup section */
+		00A06F6068B64B5E87DB5082 /* common */ = {
+			isa = PBXGroup;
+			children = (
+				FE6433729D83481EB38CC26B /* sys */,
+				3B3E27E3726E47848332CA00 /* math */,
+				CFA7C7B107404FCEBDBBA2E0 /* simd */,
+				DA874D10C6444A3DB982DF67 /* lexers */,
+				DF5F72A7395D4350994CB3F3 /* tasking */,
+				D2429B2082C6423689488FC8 /* algorithms */,
+			);
+			name = common;
+			sourceTree = "<group>";
+		};
+		069456534A444680BDA8CDF8 /* builders */ = {
+			isa = PBXGroup;
+			children = (
+				C7DEEB9D7F334183ACF4A810 /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/kernels/builders/primrefgen.cpp */,
+			);
+			name = builders;
+			sourceTree = "<group>";
+		};
+		0EA49DCF2E48495081BDC069 /* CMakePredefinedTargets */ = {
+			isa = PBXGroup;
+			children = (
+				9757A31405C040689F0DF8EE /* uninstall */,
+			);
+			name = CMakePredefinedTargets;
+			sourceTree = "<group>";
+		};
+		374C96B7C4B94942ACC3AEEA /* embree */ = {
+			isa = PBXGroup;
+			children = (
+				B65C58CAA07843C59ACB7200 /* Source Files */,
+				E2E9D9094CD64624B716B936 /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/kernels/CMakeLists.txt */,
+				CC7BC5FDBAB54EC495F09581 /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/kernels/embree.rc */,
+			);
+			name = embree;
+			sourceTree = "<group>";
+		};
+		3B3E27E3726E47848332CA00 /* math */ = {
+			isa = PBXGroup;
+			children = (
+				F1073F1DF7D447ED8485D5A0 /* Source Files */,
+				A642D2AED80C4FED856C475E /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/common/math/CMakeLists.txt */,
+			);
+			name = math;
+			sourceTree = "<group>";
+		};
+		455276B5B13B4F54B6D6B099 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				6E856FD072F3400092578976 /* algorithms */,
+				DBA9D23FC00D44909A15D89F /* embree */,
+				9BD4C0E41715410F8ADF9DEE /* lexers */,
+				67A5FDEBC6684298AFC1F05C /* math */,
+				5940DF63DF1945C292250F60 /* simd */,
+				B8EA80AC1A8E4BA0BFD430EA /* sys */,
+				BB84DE1EAF4E4F318E76576E /* tasking */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		4AF352811C2847A8805D3910 /* CMake Rules */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = "CMake Rules";
+			sourceTree = "<group>";
+		};
+		5C9FFC01B9EF4154986C96EB /* Source Files */ = {
+			isa = PBXGroup;
+			children = (
+				F355B020555C4EF99C275EA9 /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/common/simd/sse.cpp */,
+			);
+			name = "Source Files";
+			sourceTree = "<group>";
+		};
+		6FFEF8EE00D849FCBECED08E /* CMake Rules */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = "CMake Rules";
+			sourceTree = "<group>";
+		};
+		70C71CF41A694EC28954C436 = {
+			isa = PBXGroup;
+			children = (
+				0EA49DCF2E48495081BDC069 /* CMakePredefinedTargets */,
+				B9051F8C161448588DDA4E72 /* ALL_BUILD */,
+				00A06F6068B64B5E87DB5082 /* common */,
+				D4D4BDB0B9D14DACBF0CDD8F /* kernels */,
+				455276B5B13B4F54B6D6B099 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		7894CBE151014323943C8564 /* geometry */ = {
+			isa = PBXGroup;
+			children = (
+				51E7A9B1C5294F88ACBD9EC0 /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/kernels/geometry/curve_intersector_virtual.cpp */,
+				4E84299D55414CEEB71A173D /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/kernels/geometry/grid_soa.cpp */,
+				79DAEDD5E63C47A38BB6EA39 /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/kernels/geometry/instance_intersector.cpp */,
+				C68B5998ABF24F80B4C7AEDA /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/kernels/geometry/primitive4.cpp */,
+			);
+			name = geometry;
+			sourceTree = "<group>";
+		};
+		9757A31405C040689F0DF8EE /* uninstall */ = {
+			isa = PBXGroup;
+			children = (
+				6FFEF8EE00D849FCBECED08E /* CMake Rules */,
+				14072E8EE35B48889FF372DF /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/CMakeLists.txt */,
+			);
+			name = uninstall;
+			sourceTree = "<group>";
+		};
+		A6D5E3BF5EEB40C7AAE2884D /* Source Files */ = {
+			isa = PBXGroup;
+			children = (
+				6C6BE0704F184C70BCE54D1C /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/common/lexers/stringstream.cpp */,
+				8B0E2B1A83FD4DC7A39B9FEC /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/common/lexers/tokenstream.cpp */,
+			);
+			name = "Source Files";
+			sourceTree = "<group>";
+		};
+		ACD72A5AB68C46FC8F4B0CFB /* Source Files */ = {
+			isa = PBXGroup;
+			children = (
+				1809BCBA6D4D4C6AB4DD435E /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/common/tasking/taskschedulerinternal.cpp */,
+			);
+			name = "Source Files";
+			sourceTree = "<group>";
+		};
+		B65C58CAA07843C59ACB7200 /* Source Files */ = {
+			isa = PBXGroup;
+			children = (
+				C012C4FC686E4C239AD33E0A /* common */,
+				7894CBE151014323943C8564 /* geometry */,
+				069456534A444680BDA8CDF8 /* builders */,
+				29C3B54357184FAB8A25B554 /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/kernels/bvh/bvh.cpp */,
+				B5B935DADCC14EEC81F692FD /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/kernels/bvh/bvh4_factory.cpp */,
+				2D875C730C394F5F81EBBB9F /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/kernels/bvh/bvh8_factory.cpp */,
+				D195E36939EB462B9C60DAA4 /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/kernels/bvh/bvh_builder.cpp */,
+				0BC7A6353DE4436F87B9B669 /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/kernels/bvh/bvh_builder_hair.cpp */,
+				149AEECDC4F648B9BB202D9F /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/kernels/bvh/bvh_builder_hair_mb.cpp */,
+				7603A6EEDE8A403898266A80 /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/kernels/bvh/bvh_builder_morton.cpp */,
+				5DC3FE6F97484D629B25F719 /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/kernels/bvh/bvh_builder_sah.cpp */,
+				BD534C60F04546F798A96EC7 /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/kernels/bvh/bvh_builder_sah_mb.cpp */,
+				FA5311C8724C4E8F8DBDA26F /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/kernels/bvh/bvh_builder_sah_spatial.cpp */,
+				9A69272DF17344ACB2BC325E /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/kernels/bvh/bvh_builder_subdiv.cpp */,
+				CA1F009F7C514BC5B804CEEB /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/kernels/bvh/bvh_builder_twolevel.cpp */,
+				1D45B0667F614EBABC1692F3 /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/kernels/bvh/bvh_intersector1_bvh4.cpp */,
+				566499E3CA444DB899C4287A /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/kernels/bvh/bvh_intersector_hybrid4_bvh4.cpp */,
+				78C107512A464251B2AD5FFE /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/kernels/bvh/bvh_intersector_stream_bvh4.cpp */,
+				0907751FE6A94A409159E1CF /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/kernels/bvh/bvh_intersector_stream_filters.cpp */,
+				7CBAC31319C64BB380E8E38A /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/kernels/bvh/bvh_refit.cpp */,
+				CBF49312F5B340FA8B4B0EEF /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/kernels/bvh/bvh_rotate.cpp */,
+				97662FAE62DF47F3A2E59677 /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/kernels/bvh/bvh_statistics.cpp */,
+				C213E387FCB14398A28B8181 /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/kernels/subdiv/bezier_curve.cpp */,
+				9C6F5E8A41934112A4B1CB3A /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/kernels/subdiv/bspline_curve.cpp */,
+				3C07B8D9CF124E2EA49ADB92 /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/kernels/subdiv/catmullclark_coefficients.cpp */,
+				74CE723C260049D38B718CB5 /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/kernels/subdiv/subdivpatch1base.cpp */,
+				2FF2F3DAFB3F45A3AC3B6EEA /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/kernels/subdiv/subdivpatch1base_eval.cpp */,
+				F9B6564E94064BF4941CC2CF /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/kernels/subdiv/tessellation_cache.cpp */,
+			);
+			name = "Source Files";
+			sourceTree = "<group>";
+		};
+		B78EEF78DBCB481CBFF7AD33 /* Source Files */ = {
+			isa = PBXGroup;
+			children = (
+				2D4301AB5A924E0A805A8A34 /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/common/sys/alloc.cpp */,
+				15578D7388A9494192AD4782 /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/common/sys/barrier.cpp */,
+				EE9B612A10DC48018EB910A9 /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/common/sys/condition.cpp */,
+				E1F5C646D72744F89383C783 /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/common/sys/filename.cpp */,
+				54D4836798F149D0AAA200A4 /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/common/sys/library.cpp */,
+				45713AC24E0A4140AC6904D2 /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/common/sys/mutex.cpp */,
+				19D6676A9DA346AEB3276C5E /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/common/sys/regression.cpp */,
+				82955A0898BF414E88F41069 /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/common/sys/string.cpp */,
+				6B7F75A628474309B872A1C0 /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/common/sys/sysinfo.cpp */,
+				594885F769FF417392AD52A5 /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/common/sys/thread.cpp */,
+			);
+			name = "Source Files";
+			sourceTree = "<group>";
+		};
+		B9051F8C161448588DDA4E72 /* ALL_BUILD */ = {
+			isa = PBXGroup;
+			children = (
+				4AF352811C2847A8805D3910 /* CMake Rules */,
+				1A2D81FC7DEB44E3906AF2CA /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/CMakeLists.txt */,
+			);
+			name = ALL_BUILD;
+			sourceTree = "<group>";
+		};
+		C012C4FC686E4C239AD33E0A /* common */ = {
+			isa = PBXGroup;
+			children = (
+				6250275FAAD94A20BD7B580B /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/kernels/common/acceln.cpp */,
+				5D4E39AD212543D9BC57602E /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/kernels/common/accelset.cpp */,
+				3FABDED77A51459FB44C6C7B /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/kernels/common/alloc.cpp */,
+				A9120E9C87804FFAA0FE5A34 /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/kernels/common/device.cpp */,
+				DD41286CACAA4F488020BEEE /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/kernels/common/geometry.cpp */,
+				EFA6FF4CE01E4B8C89824A88 /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/kernels/common/rtcore.cpp */,
+				1B6C599EDEE543BCA9FABF34 /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/kernels/common/rtcore_builder.cpp */,
+				DD58FFD6521B4FB38D7747F4 /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/kernels/common/scene.cpp */,
+				05CE64D040A341B6ADD8D3C5 /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/kernels/common/scene_curves.cpp */,
+				402B9780DD1B4113AF528E01 /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/kernels/common/scene_grid_mesh.cpp */,
+				51157AC4481C499AB1ADC026 /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/kernels/common/scene_instance.cpp */,
+				986EDB55E71645008DF47A84 /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/kernels/common/scene_line_segments.cpp */,
+				02AFE0D29D98407CA1D25553 /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/kernels/common/scene_points.cpp */,
+				03377FA2439E4039BBF54705 /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/kernels/common/scene_quad_mesh.cpp */,
+				E40C99D5CD5E48E68B8853AD /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/kernels/common/scene_subdiv_mesh.cpp */,
+				B4D5FB4AC85C44FC87F749F3 /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/kernels/common/scene_triangle_mesh.cpp */,
+				A8746B333EB24B62BB818418 /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/kernels/common/scene_user_geometry.cpp */,
+				C00E3F204E104B57A961D13E /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/kernels/common/stat.cpp */,
+				BD6F030B94DF4A6FBE552A7E /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/kernels/common/state.cpp */,
+			);
+			name = common;
+			sourceTree = "<group>";
+		};
+		CFA7C7B107404FCEBDBBA2E0 /* simd */ = {
+			isa = PBXGroup;
+			children = (
+				5C9FFC01B9EF4154986C96EB /* Source Files */,
+				AEE760D4A0DB4CAD92F73879 /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/common/simd/CMakeLists.txt */,
+			);
+			name = simd;
+			sourceTree = "<group>";
+		};
+		D2429B2082C6423689488FC8 /* algorithms */ = {
+			isa = PBXGroup;
+			children = (
+				F856CCE7E665469290265F61 /* Source Files */,
+				6B131C874EB0427A979063FA /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/common/algorithms/CMakeLists.txt */,
+			);
+			name = algorithms;
+			sourceTree = "<group>";
+		};
+		D4D4BDB0B9D14DACBF0CDD8F /* kernels */ = {
+			isa = PBXGroup;
+			children = (
+				374C96B7C4B94942ACC3AEEA /* embree */,
+			);
+			name = kernels;
+			sourceTree = "<group>";
+		};
+		DA874D10C6444A3DB982DF67 /* lexers */ = {
+			isa = PBXGroup;
+			children = (
+				A6D5E3BF5EEB40C7AAE2884D /* Source Files */,
+				E976CF38F7AF4B4F8862609A /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/common/lexers/CMakeLists.txt */,
+			);
+			name = lexers;
+			sourceTree = "<group>";
+		};
+		DF5F72A7395D4350994CB3F3 /* tasking */ = {
+			isa = PBXGroup;
+			children = (
+				ACD72A5AB68C46FC8F4B0CFB /* Source Files */,
+				20042BF6EC9D4C1EA016D558 /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/common/tasking/CMakeLists.txt */,
+			);
+			name = tasking;
+			sourceTree = "<group>";
+		};
+		F1073F1DF7D447ED8485D5A0 /* Source Files */ = {
+			isa = PBXGroup;
+			children = (
+				AFF64167083A4DCB9BB06AE5 /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/common/math/constants.cpp */,
+			);
+			name = "Source Files";
+			sourceTree = "<group>";
+		};
+		F856CCE7E665469290265F61 /* Source Files */ = {
+			isa = PBXGroup;
+			children = (
+				556E11B2421E4C5A8089623C /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/common/algorithms/parallel_filter.cpp */,
+				186CC8B8DD5D4993948804F6 /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/common/algorithms/parallel_for.cpp */,
+				11D7C4FE5FBF473A8CEF70AC /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/common/algorithms/parallel_for_for.cpp */,
+				1104EC29BDEB4D8B9B7B056F /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/common/algorithms/parallel_for_for_prefix_sum.cpp */,
+				B53B174BAA664B469573A27B /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/common/algorithms/parallel_map.cpp */,
+				657967E627424CA39AEB7ED4 /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/common/algorithms/parallel_partition.cpp */,
+				44C0D79C266540E6B2DAA554 /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/common/algorithms/parallel_prefix_sum.cpp */,
+				9B068B1CD141480EB63548C7 /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/common/algorithms/parallel_reduce.cpp */,
+				903C0C88840144F7AD13E7A7 /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/common/algorithms/parallel_set.cpp */,
+				A1A130CB32674C4682E296CB /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/common/algorithms/parallel_sort.cpp */,
+			);
+			name = "Source Files";
+			sourceTree = "<group>";
+		};
+		FE6433729D83481EB38CC26B /* sys */ = {
+			isa = PBXGroup;
+			children = (
+				B78EEF78DBCB481CBFF7AD33 /* Source Files */,
+				0B366DE9A3E9493BAD4E0A80 /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/common/sys/CMakeLists.txt */,
+			);
+			name = sys;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		025BC06B0E914865835072C2 /* tasking */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 698ABB1961DA42AFB7CD0A22 /* Build configuration list for PBXNativeTarget "tasking" */;
+			buildPhases = (
+				2BEA8177455F4DE8A2E2D70A /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = tasking;
+			productName = tasking;
+			productReference = BB84DE1EAF4E4F318E76576E /* tasking */;
+			productType = "com.apple.product-type.library.static";
+		};
+		064F787BF0A54E9090AA47AF /* simd */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 448DC6A82D614AB6A39A1E12 /* Build configuration list for PBXNativeTarget "simd" */;
+			buildPhases = (
+				A144A4855EF1464D89A1B8A5 /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = simd;
+			productName = simd;
+			productReference = 5940DF63DF1945C292250F60 /* simd */;
+			productType = "com.apple.product-type.library.static";
+		};
+		0CFC07097D5947D0A785CF83 /* sys */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 27CF8B2A2BC24BBA91C21B51 /* Build configuration list for PBXNativeTarget "sys" */;
+			buildPhases = (
+				F91388DDDA914F73AEC9B3C5 /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = sys;
+			productName = sys;
+			productReference = B8EA80AC1A8E4BA0BFD430EA /* sys */;
+			productType = "com.apple.product-type.library.static";
+		};
+		12CC548891ED4C5EAACBE215 /* embree */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C87137E51CE9461CADA022C5 /* Build configuration list for PBXNativeTarget "embree" */;
+			buildPhases = (
+				0203D2B343D84929808DBCC2 /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				8597952B00E141AD9E7E8326 /* PBXTargetDependency */,
+				1778BC3187F746E5AA32B37C /* PBXTargetDependency */,
+				8D73957F375D4056981452AC /* PBXTargetDependency */,
+				B7C3D3F4012A499CBBCDEA6D /* PBXTargetDependency */,
+				84B7F5ADEFE247F49849D454 /* PBXTargetDependency */,
+				AC3F9B7EC3274475A8D4112C /* PBXTargetDependency */,
+			);
+			name = embree;
+			productName = embree;
+			productReference = DBA9D23FC00D44909A15D89F /* embree */;
+			productType = "com.apple.product-type.library.static";
+		};
+		3CD3808C3B0E471790786B47 /* lexers */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 6A38D5A3C1BA4C7AAFE1397C /* Build configuration list for PBXNativeTarget "lexers" */;
+			buildPhases = (
+				E16E0F8C03E04F959FD38740 /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				14EECE81E17A49B7952F2998 /* PBXTargetDependency */,
+				E9B29F1231F6451080955284 /* PBXTargetDependency */,
+			);
+			name = lexers;
+			productName = lexers;
+			productReference = 9BD4C0E41715410F8ADF9DEE /* lexers */;
+			productType = "com.apple.product-type.library.static";
+		};
+		659FB9FE9E274F7BB0018D5E /* math */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 52020C8481B74A0E85ED3E19 /* Build configuration list for PBXNativeTarget "math" */;
+			buildPhases = (
+				5D38B2B5E6F44BD1B16F6FDD /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = math;
+			productName = math;
+			productReference = 67A5FDEBC6684298AFC1F05C /* math */;
+			productType = "com.apple.product-type.library.static";
+		};
+		F077266F9F474CBC99A97A90 /* algorithms */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 1221050F311E4995A384E7BC /* Build configuration list for PBXNativeTarget "algorithms" */;
+			buildPhases = (
+				D0420B92E23245669CEC3C6B /* Sources */,
+				0EE52ED2D6F94B6BA6EF0006 /* CMake PostBuild Rules */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = algorithms;
+			productName = algorithms;
+			productReference = 6E856FD072F3400092578976 /* algorithms */;
+			productType = "com.apple.product-type.library.static";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		0BB5F60BD1CC43C0800BCA20 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = YES;
+				LastUpgradeCheck = 1120;
+			};
+			buildConfigurationList = 55D9D8E56CD24EE6A056AF74 /* Build configuration list for PBXProject "embree3" */;
+			buildSettings = {
+			};
+			buildStyles = (
+				FC47492C0CC946AF86FE27E9 /* Debug */,
+				E83A0E3BBE8443E58844C775 /* Release */,
+				75994499B9C1438989F1AE25 /* MinSizeRel */,
+				4AE17D1705A84A7A951401A2 /* RelWithDebInfo */,
+			);
+			compatibilityVersion = "Xcode 3.2";
+			hasScannedForEncodings = 0;
+			mainGroup = 70C71CF41A694EC28954C436;
+			projectDirPath = ../../external/libigl/external/embree;
+			projectRoot = "";
+			targets = (
+				69A09D42AD5D4A3DB9CF8DCC /* ALL_BUILD */,
+				8877F7358DBB4DDCBD06BEB3 /* RUN_TESTS */,
+				570D34DCDC95462681C81F77 /* ZERO_CHECK */,
+				F077266F9F474CBC99A97A90 /* algorithms */,
+				12CC548891ED4C5EAACBE215 /* embree */,
+				5761ACF60F514ECC9D7A025F /* install */,
+				3CD3808C3B0E471790786B47 /* lexers */,
+				659FB9FE9E274F7BB0018D5E /* math */,
+				5631A3BB9033480AA1604560 /* package */,
+				064F787BF0A54E9090AA47AF /* simd */,
+				0CFC07097D5947D0A785CF83 /* sys */,
+				025BC06B0E914865835072C2 /* tasking */,
+				4C43CAE5B4344D30A5CFF499 /* uninstall */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		0EE52ED2D6F94B6BA6EF0006 /* CMake PostBuild Rules */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			name = "CMake PostBuild Rules";
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "make -C /Users/vector_cat/gits/bcClean/Xcode/embree/common/algorithms -f /Users/vector_cat/gits/bcClean/Xcode/embree/common/algorithms/CMakeScripts/algorithms_postBuildPhase.make$CONFIGURATION all";
+			showEnvVarsInLog = 0;
+		};
+		1041ACE25658424E8469564A /* CMake PostBuild Rules */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			name = "CMake PostBuild Rules";
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "make -C /Users/vector_cat/gits/bcClean/Xcode/embree -f /Users/vector_cat/gits/bcClean/Xcode/embree/CMakeScripts/RUN_TESTS_postBuildPhase.make$CONFIGURATION all";
+			showEnvVarsInLog = 0;
+		};
+		1C06443FF98344B599B5825B = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# shell script goes here
+exit 0";
+			showEnvVarsInLog = 0;
+		};
+		38EC747E9CE3427D80FB2812 = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# shell script goes here
+exit 0";
+			showEnvVarsInLog = 0;
+		};
+		5BBC782D53144A8C81FB05B3 = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# shell script goes here
+exit 0";
+			showEnvVarsInLog = 0;
+		};
+		924F1D9F866741B5B2545641 = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# shell script goes here
+exit 0";
+			showEnvVarsInLog = 0;
+		};
+		94A484D5F8F34126A152A2DB /* CMake PostBuild Rules */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			name = "CMake PostBuild Rules";
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "make -C /Users/vector_cat/gits/bcClean/Xcode/embree -f /Users/vector_cat/gits/bcClean/Xcode/embree/CMakeScripts/package_postBuildPhase.make$CONFIGURATION all";
+			showEnvVarsInLog = 0;
+		};
+		99E8589E8641402982C18A79 /* CMake Rules */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			name = "CMake Rules";
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "make -C /Users/vector_cat/gits/bcClean/Xcode/embree -f /Users/vector_cat/gits/bcClean/Xcode/embree/CMakeScripts/ZERO_CHECK_cmakeRulesBuildPhase.make$CONFIGURATION all";
+			showEnvVarsInLog = 0;
+		};
+		A098C598A5B84662ACCC4EE8 = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# shell script goes here
+exit 0";
+			showEnvVarsInLog = 0;
+		};
+		B24A349244DC4D89B8305E27 /* CMake PostBuild Rules */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			name = "CMake PostBuild Rules";
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "make -C /Users/vector_cat/gits/bcClean/Xcode/embree -f /Users/vector_cat/gits/bcClean/Xcode/embree/CMakeScripts/install_postBuildPhase.make$CONFIGURATION all";
+			showEnvVarsInLog = 0;
+		};
+		B637B07883D54CE394E11244 /* CMake Rules */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			name = "CMake Rules";
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "make -C /Users/vector_cat/gits/bcClean/Xcode/embree -f /Users/vector_cat/gits/bcClean/Xcode/embree/CMakeScripts/uninstall_cmakeRulesBuildPhase.make$CONFIGURATION all";
+			showEnvVarsInLog = 0;
+		};
+		BC2ECEE719A640F589A4A11B = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# shell script goes here
+exit 0";
+			showEnvVarsInLog = 0;
+		};
+		D60FBDEFCD064690B417503F /* CMake Rules */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			name = "CMake Rules";
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "make -C /Users/vector_cat/gits/bcClean/Xcode/embree -f /Users/vector_cat/gits/bcClean/Xcode/embree/CMakeScripts/ALL_BUILD_cmakeRulesBuildPhase.make$CONFIGURATION all";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		0203D2B343D84929808DBCC2 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				289C27F4D17242949BFAF5B0 /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/kernels/builders/primrefgen.cpp */,
+				A0785838870D451BA497FCB2 /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/kernels/bvh/bvh.cpp */,
+				59518EDEEB4C4A19BA89144B /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/kernels/bvh/bvh4_factory.cpp */,
+				FFFEE0169B90422EA7CFAC14 /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/kernels/bvh/bvh8_factory.cpp */,
+				22894FDECCB14E849B802419 /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/kernels/bvh/bvh_builder.cpp */,
+				2A6CE7DC01F44909BD956C09 /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/kernels/bvh/bvh_builder_hair.cpp */,
+				82728A69B5D443B2A9EE0170 /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/kernels/bvh/bvh_builder_hair_mb.cpp */,
+				6D478A86740A4DD58C4E894A /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/kernels/bvh/bvh_builder_morton.cpp */,
+				3944ED4116E4449F967E4E74 /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/kernels/bvh/bvh_builder_sah.cpp */,
+				9F01B0515B52480F805B5ECA /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/kernels/bvh/bvh_builder_sah_mb.cpp */,
+				CDB3A1B1D51543B78F365BD5 /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/kernels/bvh/bvh_builder_sah_spatial.cpp */,
+				8B56C8EB9DB74FB5894FC687 /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/kernels/bvh/bvh_builder_subdiv.cpp */,
+				EFD21267BAE843C8BDE99655 /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/kernels/bvh/bvh_builder_twolevel.cpp */,
+				FE0FB73194704C73BE2A6A64 /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/kernels/bvh/bvh_intersector1_bvh4.cpp */,
+				D90EF30114FF483AB6905E50 /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/kernels/bvh/bvh_intersector_hybrid4_bvh4.cpp */,
+				9895E321239B478CB04537A1 /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/kernels/bvh/bvh_intersector_stream_bvh4.cpp */,
+				6BECBDF2F6854660A215EDDE /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/kernels/bvh/bvh_intersector_stream_filters.cpp */,
+				8E16073289BE467EBD60F3A0 /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/kernels/bvh/bvh_refit.cpp */,
+				329334973CD34AB7B890D526 /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/kernels/bvh/bvh_rotate.cpp */,
+				47B39241C6B54803AAEAE1B8 /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/kernels/bvh/bvh_statistics.cpp */,
+				48A852FAEE884BA1B5BAC14F /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/kernels/common/acceln.cpp */,
+				BF59264465EC43E596A5DB27 /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/kernels/common/accelset.cpp */,
+				86437C42C32D4FFD8F552B13 /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/kernels/common/alloc.cpp */,
+				38A583273CD648C7BDFA5214 /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/kernels/common/device.cpp */,
+				C23FC09720284E408277991F /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/kernels/common/geometry.cpp */,
+				401F5DD549FA49DB81D6EF3D /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/kernels/common/rtcore.cpp */,
+				A6F24AAA4EF74F8DB202EF7F /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/kernels/common/rtcore_builder.cpp */,
+				BD5AA0EDE57A4285AFB866DD /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/kernels/common/scene.cpp */,
+				1E91A91426504E44B126E017 /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/kernels/common/scene_curves.cpp */,
+				450AE22D191549A4956E0CA7 /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/kernels/common/scene_grid_mesh.cpp */,
+				0C93B3C719474C9280DEF04A /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/kernels/common/scene_instance.cpp */,
+				11A8032AC2614317846B30F3 /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/kernels/common/scene_line_segments.cpp */,
+				BD8A2651F2624F07AEDA009E /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/kernels/common/scene_points.cpp */,
+				8C8C6B9F92BF403284EEBFAB /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/kernels/common/scene_quad_mesh.cpp */,
+				82F4882A59F343C0803CFAD6 /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/kernels/common/scene_subdiv_mesh.cpp */,
+				E2D9FE61560146D3A45F56B7 /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/kernels/common/scene_triangle_mesh.cpp */,
+				8B635DDF9A0D4EC6A744D7A2 /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/kernels/common/scene_user_geometry.cpp */,
+				7C7E916631DF40348837924E /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/kernels/common/stat.cpp */,
+				99A5A70FB0E446B29FCD8CB7 /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/kernels/common/state.cpp */,
+				7207BB1ED4FB48CA950AD2BE /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/kernels/geometry/curve_intersector_virtual.cpp */,
+				C76A90E9CB8C4F2D91A8A12B /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/kernels/geometry/grid_soa.cpp */,
+				42BEEE0A09ED4A578BDE85CB /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/kernels/geometry/instance_intersector.cpp */,
+				9D0A8F8FF23E4E18946D466F /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/kernels/geometry/primitive4.cpp */,
+				CAA0713EFF424914B1FB01C1 /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/kernels/subdiv/bezier_curve.cpp */,
+				D0B2FB0062274034A2381D58 /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/kernels/subdiv/bspline_curve.cpp */,
+				084BD74A5E8E4937BE3DBB3D /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/kernels/subdiv/catmullclark_coefficients.cpp */,
+				0A233816823D42C0B917B8A6 /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/kernels/subdiv/subdivpatch1base.cpp */,
+				E0BA03A3DA044ACF81A4F5BE /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/kernels/subdiv/subdivpatch1base_eval.cpp */,
+				AE9E120678414FB19E8864E8 /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/kernels/subdiv/tessellation_cache.cpp */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		2BEA8177455F4DE8A2E2D70A /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				62FF1735F43A41F5A419F4EA /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/common/tasking/taskschedulerinternal.cpp */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		5D38B2B5E6F44BD1B16F6FDD /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9499D94CCFF148B3BD37367F /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/common/math/constants.cpp */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A144A4855EF1464D89A1B8A5 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				80122CBD237340E18A62A2F6 /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/common/simd/sse.cpp */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D0420B92E23245669CEC3C6B /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7105190D04454129801BE294 /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/common/algorithms/parallel_filter.cpp */,
+				AF6E822F819148CA81FC7BD2 /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/common/algorithms/parallel_for.cpp */,
+				0D47FF90579348679557CD0A /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/common/algorithms/parallel_for_for.cpp */,
+				CEA2359BFCAC4CFEA521A513 /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/common/algorithms/parallel_for_for_prefix_sum.cpp */,
+				03B93A45F9254F728EA2DCAA /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/common/algorithms/parallel_map.cpp */,
+				86D4CBB5581B42E7AC2C01BE /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/common/algorithms/parallel_partition.cpp */,
+				DEB345D5125643679E3036C4 /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/common/algorithms/parallel_prefix_sum.cpp */,
+				E37BDE2192334F66AEE483DE /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/common/algorithms/parallel_reduce.cpp */,
+				E5B20AA135254D00917764AC /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/common/algorithms/parallel_set.cpp */,
+				10A3B9851BE34895A248F373 /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/common/algorithms/parallel_sort.cpp */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E16E0F8C03E04F959FD38740 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6B5122E00ED5474184BC4480 /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/common/lexers/stringstream.cpp */,
+				2368B329DE2A443B83359D8A /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/common/lexers/tokenstream.cpp */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F91388DDDA914F73AEC9B3C5 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C47DB6E76BFC4581BB56A0AE /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/common/sys/alloc.cpp */,
+				12D5F02CB87844AB87D226FE /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/common/sys/barrier.cpp */,
+				5C6C694E757C47E1B2C21BFF /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/common/sys/condition.cpp */,
+				384F10A66DD446869FC5B30F /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/common/sys/filename.cpp */,
+				AFF1CA5BC09E4FD092D239F6 /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/common/sys/library.cpp */,
+				D20C6D68F4EA469992802640 /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/common/sys/mutex.cpp */,
+				E62B922399D541FC81233694 /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/common/sys/regression.cpp */,
+				425A86CCD1D946108EEF698C /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/common/sys/string.cpp */,
+				9B1F65E753344DF5B9295AE7 /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/common/sys/sysinfo.cpp */,
+				64E8B5769B1B46F182C726D2 /* /Users/vector_cat/gits/bcClean/external/libigl/external/embree/common/sys/thread.cpp */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		0509BFFB2E774ABB86C173EE /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 3CD3808C3B0E471790786B47 /* lexers */;
+			targetProxy = BC15F9C822D441B08E616AE2 /* PBXContainerItemProxy */;
+		};
+		14EECE81E17A49B7952F2998 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 0CFC07097D5947D0A785CF83 /* sys */;
+			targetProxy = C3A4A353A54241DABE155A06 /* PBXContainerItemProxy */;
+		};
+		1778BC3187F746E5AA32B37C /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 659FB9FE9E274F7BB0018D5E /* math */;
+			targetProxy = E7F942381FEA442E856DB6F5 /* PBXContainerItemProxy */;
+		};
+		2F13FCE5FDD047ACA42C3167 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 659FB9FE9E274F7BB0018D5E /* math */;
+			targetProxy = EDDF532A26FD4CCB898BD9F9 /* PBXContainerItemProxy */;
+		};
+		3C69E9A3F20244998649D0BE /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 12CC548891ED4C5EAACBE215 /* embree */;
+			targetProxy = 5390F29FDAA5478DBD735CFC /* PBXContainerItemProxy */;
+		};
+		4962B6DEB5A747BA93C43AE2 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 064F787BF0A54E9090AA47AF /* simd */;
+			targetProxy = ACB4A5566CD54D93BDEBE2C2 /* PBXContainerItemProxy */;
+		};
+		49737DE67DA943D1862550D9 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 570D34DCDC95462681C81F77 /* ZERO_CHECK */;
+			targetProxy = E90AE9F9C4F548C1B490300F /* PBXContainerItemProxy */;
+		};
+		6ED39FE3EACE422CB74F0947 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 570D34DCDC95462681C81F77 /* ZERO_CHECK */;
+			targetProxy = D749B86739844B1BB96E78B7 /* PBXContainerItemProxy */;
+		};
+		84B7F5ADEFE247F49849D454 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 025BC06B0E914865835072C2 /* tasking */;
+			targetProxy = 616CA3D6935B41E6BD2096E6 /* PBXContainerItemProxy */;
+		};
+		8597952B00E141AD9E7E8326 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 0CFC07097D5947D0A785CF83 /* sys */;
+			targetProxy = 0BCED0355D1B43D38A89F526 /* PBXContainerItemProxy */;
+		};
+		8D73957F375D4056981452AC /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 064F787BF0A54E9090AA47AF /* simd */;
+			targetProxy = 811D74BB455E4DD0BBEE6249 /* PBXContainerItemProxy */;
+		};
+		AC3F9B7EC3274475A8D4112C /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = F077266F9F474CBC99A97A90 /* algorithms */;
+			targetProxy = 4FA236CA4DC64835A0D3DDEF /* PBXContainerItemProxy */;
+		};
+		B7C3D3F4012A499CBBCDEA6D /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 3CD3808C3B0E471790786B47 /* lexers */;
+			targetProxy = 468EDDD81021426780B00616 /* PBXContainerItemProxy */;
+		};
+		C5CD8BA964FA4D84AFAC330C /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 025BC06B0E914865835072C2 /* tasking */;
+			targetProxy = F3CA1C77E7054396A18EFF64 /* PBXContainerItemProxy */;
+		};
+		C6ED8FE497CC4FC4ADA338FF /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 69A09D42AD5D4A3DB9CF8DCC /* ALL_BUILD */;
+			targetProxy = 97132BFFF6AD449CA29C689C /* PBXContainerItemProxy */;
+		};
+		CDD2C33AA1D947B2947181B0 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 69A09D42AD5D4A3DB9CF8DCC /* ALL_BUILD */;
+			targetProxy = BBC2AE86ED1846339F68A071 /* PBXContainerItemProxy */;
+		};
+		D8D50087A7C24E3290E3BFAC /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = F077266F9F474CBC99A97A90 /* algorithms */;
+			targetProxy = FACB078B8DCE4F69B4B34882 /* PBXContainerItemProxy */;
+		};
+		E9B29F1231F6451080955284 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 659FB9FE9E274F7BB0018D5E /* math */;
+			targetProxy = BE7A1DD5070349E7B434F0C4 /* PBXContainerItemProxy */;
+		};
+		F5371F7240F943C9BBAA4F5F /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 0CFC07097D5947D0A785CF83 /* sys */;
+			targetProxy = 1F532F0222FB4CE8B0E47039 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		11072213F82F461C9274B85F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'");
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				INSTALL_PATH = "";
+				OTHER_LDFLAGS = " ";
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = uninstall;
+				SECTORDER_FLAGS = "";
+				SYMROOT = /Users/vector_cat/gits/bcClean/Xcode/embree;
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("-Wmost","-Wno-four-char-constants","-Wno-unknown-pragmas","$(inherited)");
+			};
+			name = Release;
+		};
+		113FFB27A33F4237A905D18E /* RelWithDebInfo */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'");
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				INSTALL_PATH = "";
+				OTHER_LDFLAGS = " ";
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = install;
+				SECTORDER_FLAGS = "";
+				SYMROOT = /Users/vector_cat/gits/bcClean/Xcode/embree;
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("-Wmost","-Wno-four-char-constants","-Wno-unknown-pragmas","$(inherited)");
+			};
+			name = RelWithDebInfo;
+		};
+		127391E92B0F43B599028E24 /* MinSizeRel */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'");
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				INSTALL_PATH = "";
+				OTHER_LDFLAGS = " ";
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = ALL_BUILD;
+				SECTORDER_FLAGS = "";
+				SYMROOT = /Users/vector_cat/gits/bcClean/Xcode/embree;
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("-Wmost","-Wno-four-char-constants","-Wno-unknown-pragmas","$(inherited)");
+			};
+			name = MinSizeRel;
+		};
+		1744F8996D524DE292B4FF68 /* RelWithDebInfo */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.15.sdk;
+				SYMROOT = /Users/vector_cat/gits/bcClean/Xcode/embree/build;
+			};
+			name = RelWithDebInfo;
+		};
+		1C0C9B38F50940E2918C4691 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				CONFIGURATION_BUILD_DIR = /Users/vector_cat/gits/bcClean/Xcode/embree/Release;
+				EXECUTABLE_PREFIX = lib;
+				EXECUTABLE_SUFFIX = .a;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 3;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'",TASKING_INTERNAL,EMBREE_TARGET_SSE2);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				INSTALL_PATH = "";
+				LIBRARY_STYLE = STATIC;
+				OTHER_CPLUSPLUSFLAGS = " -Wall -Wformat -Wformat-security -fPIC -std=c++11 -fvisibility=hidden -fvisibility-inlines-hidden -fno-strict-aliasing -fno-tree-vectorize -mmacosx-version-min=10.7 -stdlib=libc++  -DNDEBUG     -D_FORTIFY_SOURCE=2  -msse2  ";
+				OTHER_LIBTOOLFLAGS = " ";
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = tasking;
+				SECTORDER_FLAGS = "";
+				SYMROOT = /Users/vector_cat/gits/bcClean/Xcode/embree/common/tasking;
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("-Wmost","-Wno-four-char-constants","-Wno-unknown-pragmas","$(inherited)");
+			};
+			name = Release;
+		};
+		1E18DC9D03E343329C3B5E45 /* MinSizeRel */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				CONFIGURATION_BUILD_DIR = "/Users/vector_cat/gits/bcClean/Xcode/embree/common/algorithms/embree3.build/MinSizeRel/algorithms.build/Objects-normal/";
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = s;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'",TASKING_INTERNAL,EMBREE_TARGET_SSE2);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				INSTALL_PATH = "";
+				LIBRARY_STYLE = STATIC;
+				OTHER_CPLUSPLUSFLAGS = " -Wall -Wformat -Wformat-security -fPIC -std=c++11 -fvisibility=hidden -fvisibility-inlines-hidden -fno-strict-aliasing -fno-tree-vectorize -mmacosx-version-min=10.7 -stdlib=libc++     -DNDEBUG  -msse2  ";
+				OTHER_LIBTOOLFLAGS = " ";
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = algorithms;
+				SECTORDER_FLAGS = "";
+				SYMROOT = /Users/vector_cat/gits/bcClean/Xcode/embree/common/algorithms;
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("-Wmost","-Wno-four-char-constants","-Wno-unknown-pragmas","$(inherited)");
+			};
+			name = MinSizeRel;
+		};
+		2954BF14C1694007BF3324D0 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				CONFIGURATION_BUILD_DIR = /Users/vector_cat/gits/bcClean/Xcode/embree/Debug;
+				EXECUTABLE_PREFIX = lib;
+				EXECUTABLE_SUFFIX = .a;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 2;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'",TASKING_INTERNAL,EMBREE_TARGET_SSE2);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				INSTALL_PATH = "";
+				LIBRARY_STYLE = STATIC;
+				OTHER_CPLUSPLUSFLAGS = " -Wall -Wformat -Wformat-security -fPIC -std=c++11 -fvisibility=hidden -fvisibility-inlines-hidden -fno-strict-aliasing -fno-tree-vectorize -mmacosx-version-min=10.7 -stdlib=libc++  -DDEBUG -DTBB_USE_DEBUG         -msse2  ";
+				OTHER_LIBTOOLFLAGS = " ";
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = math;
+				SECTORDER_FLAGS = "";
+				SYMROOT = /Users/vector_cat/gits/bcClean/Xcode/embree/common/math;
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("-Wmost","-Wno-four-char-constants","-Wno-unknown-pragmas","$(inherited)");
+			};
+			name = Debug;
+		};
+		29CFC8EDE0834CC2806AA4EC /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.15.sdk;
+				SYMROOT = /Users/vector_cat/gits/bcClean/Xcode/embree/build;
+			};
+			name = Release;
+		};
+		2EF387897CF2427BA6E7D882 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'");
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				INSTALL_PATH = "";
+				OTHER_LDFLAGS = " ";
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = ZERO_CHECK;
+				SECTORDER_FLAGS = "";
+				SYMROOT = /Users/vector_cat/gits/bcClean/Xcode/embree;
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("-Wmost","-Wno-four-char-constants","-Wno-unknown-pragmas","$(inherited)");
+			};
+			name = Debug;
+		};
+		3E6188FB15C74DA893BFD793 /* MinSizeRel */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'");
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				INSTALL_PATH = "";
+				OTHER_LDFLAGS = " ";
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = RUN_TESTS;
+				SECTORDER_FLAGS = "";
+				SYMROOT = /Users/vector_cat/gits/bcClean/Xcode/embree;
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("-Wmost","-Wno-four-char-constants","-Wno-unknown-pragmas","$(inherited)");
+			};
+			name = MinSizeRel;
+		};
+		4024EEC0298C408BA634E9AB /* MinSizeRel */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'");
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				INSTALL_PATH = "";
+				OTHER_LDFLAGS = " ";
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = install;
+				SECTORDER_FLAGS = "";
+				SYMROOT = /Users/vector_cat/gits/bcClean/Xcode/embree;
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("-Wmost","-Wno-four-char-constants","-Wno-unknown-pragmas","$(inherited)");
+			};
+			name = MinSizeRel;
+		};
+		447B2CFC96204C719CB89C9E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				CONFIGURATION_BUILD_DIR = /Users/vector_cat/gits/bcClean/Xcode/embree/Debug;
+				EXECUTABLE_PREFIX = lib;
+				EXECUTABLE_SUFFIX = .a;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 2;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'",TASKING_INTERNAL,EMBREE_TARGET_SSE2);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				INSTALL_PATH = "";
+				LIBRARY_STYLE = STATIC;
+				OTHER_CPLUSPLUSFLAGS = " -Wall -Wformat -Wformat-security -fPIC -std=c++11 -fvisibility=hidden -fvisibility-inlines-hidden -fno-strict-aliasing -fno-tree-vectorize -mmacosx-version-min=10.7 -stdlib=libc++  -DDEBUG -DTBB_USE_DEBUG         -msse2  ";
+				OTHER_LIBTOOLFLAGS = " ";
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = simd;
+				SECTORDER_FLAGS = "";
+				SYMROOT = /Users/vector_cat/gits/bcClean/Xcode/embree/common/simd;
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("-Wmost","-Wno-four-char-constants","-Wno-unknown-pragmas","$(inherited)");
+			};
+			name = Debug;
+		};
+		50F4B25ED40D42ECB946A161 /* MinSizeRel */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				CONFIGURATION_BUILD_DIR = /Users/vector_cat/gits/bcClean/Xcode/embree/MinSizeRel;
+				EXECUTABLE_PREFIX = lib;
+				EXECUTABLE_SUFFIX = .a;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = s;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'",TASKING_INTERNAL,EMBREE_TARGET_SSE2);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				INSTALL_PATH = "";
+				LIBRARY_STYLE = STATIC;
+				OTHER_CPLUSPLUSFLAGS = " -Wall -Wformat -Wformat-security -fPIC -std=c++11 -fvisibility=hidden -fvisibility-inlines-hidden -fno-strict-aliasing -fno-tree-vectorize -mmacosx-version-min=10.7 -stdlib=libc++     -DNDEBUG  -msse2  ";
+				OTHER_LIBTOOLFLAGS = " ";
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = simd;
+				SECTORDER_FLAGS = "";
+				SYMROOT = /Users/vector_cat/gits/bcClean/Xcode/embree/common/simd;
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("-Wmost","-Wno-four-char-constants","-Wno-unknown-pragmas","$(inherited)");
+			};
+			name = MinSizeRel;
+		};
+		55E8152F9756400EAAEEFF5E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				CONFIGURATION_BUILD_DIR = /Users/vector_cat/gits/bcClean/Xcode/embree/Debug;
+				EXECUTABLE_PREFIX = lib;
+				EXECUTABLE_SUFFIX = .a;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 2;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'",TASKING_INTERNAL,EMBREE_TARGET_SSE2);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				INSTALL_PATH = "";
+				LIBRARY_STYLE = STATIC;
+				OTHER_CPLUSPLUSFLAGS = " -Wall -Wformat -Wformat-security -fPIC -std=c++11 -fvisibility=hidden -fvisibility-inlines-hidden -fno-strict-aliasing -fno-tree-vectorize -mmacosx-version-min=10.7 -stdlib=libc++  -DDEBUG -DTBB_USE_DEBUG         -msse2  ";
+				OTHER_LIBTOOLFLAGS = " ";
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = lexers;
+				SECTORDER_FLAGS = "";
+				SYMROOT = /Users/vector_cat/gits/bcClean/Xcode/embree/common/lexers;
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("-Wmost","-Wno-four-char-constants","-Wno-unknown-pragmas","$(inherited)");
+			};
+			name = Debug;
+		};
+		5F58DAFA1BD9436897A85832 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				CONFIGURATION_BUILD_DIR = /Users/vector_cat/gits/bcClean/Xcode/embree/Release;
+				EXECUTABLE_PREFIX = lib;
+				EXECUTABLE_SUFFIX = .a;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 3;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'",TASKING_INTERNAL,EMBREE_TARGET_SSE2);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				INSTALL_PATH = "";
+				LIBRARY_STYLE = STATIC;
+				OTHER_CPLUSPLUSFLAGS = " -Wall -Wformat -Wformat-security -fPIC -std=c++11 -fvisibility=hidden -fvisibility-inlines-hidden -fno-strict-aliasing -fno-tree-vectorize -mmacosx-version-min=10.7 -stdlib=libc++  -DNDEBUG     -D_FORTIFY_SOURCE=2  -msse2  ";
+				OTHER_LIBTOOLFLAGS = " ";
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = sys;
+				SECTORDER_FLAGS = "";
+				SYMROOT = /Users/vector_cat/gits/bcClean/Xcode/embree/common/sys;
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("-Wmost","-Wno-four-char-constants","-Wno-unknown-pragmas","$(inherited)");
+			};
+			name = Release;
+		};
+		615FD7AEF2934888920682FA /* MinSizeRel */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'");
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				INSTALL_PATH = "";
+				OTHER_LDFLAGS = " ";
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = uninstall;
+				SECTORDER_FLAGS = "";
+				SYMROOT = /Users/vector_cat/gits/bcClean/Xcode/embree;
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("-Wmost","-Wno-four-char-constants","-Wno-unknown-pragmas","$(inherited)");
+			};
+			name = MinSizeRel;
+		};
+		67752A44F8594227B32C67AF /* RelWithDebInfo */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				CONFIGURATION_BUILD_DIR = "/Users/vector_cat/gits/bcClean/Xcode/embree/common/algorithms/embree3.build/RelWithDebInfo/algorithms.build/Objects-normal/";
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 3;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'",TASKING_INTERNAL,EMBREE_TARGET_SSE2);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				INSTALL_PATH = "";
+				LIBRARY_STYLE = STATIC;
+				OTHER_CPLUSPLUSFLAGS = " -Wall -Wformat -Wformat-security -fPIC -std=c++11 -fvisibility=hidden -fvisibility-inlines-hidden -fno-strict-aliasing -fno-tree-vectorize -mmacosx-version-min=10.7 -stdlib=libc++  -DDEBUG -DTBB_USE_DEBUG        -D_FORTIFY_SOURCE=2  -msse2  ";
+				OTHER_LIBTOOLFLAGS = " ";
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = algorithms;
+				SECTORDER_FLAGS = "";
+				SYMROOT = /Users/vector_cat/gits/bcClean/Xcode/embree/common/algorithms;
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("-Wmost","-Wno-four-char-constants","-Wno-unknown-pragmas","$(inherited)");
+			};
+			name = RelWithDebInfo;
+		};
+		67CD9FCFFC1541DE870A5A7C /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'");
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				INSTALL_PATH = "";
+				OTHER_LDFLAGS = " ";
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = package;
+				SECTORDER_FLAGS = "";
+				SYMROOT = /Users/vector_cat/gits/bcClean/Xcode/embree;
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("-Wmost","-Wno-four-char-constants","-Wno-unknown-pragmas","$(inherited)");
+			};
+			name = Release;
+		};
+		6CF4CED70F6241BEAE4FB953 /* MinSizeRel */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'");
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				INSTALL_PATH = "";
+				OTHER_LDFLAGS = " ";
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = package;
+				SECTORDER_FLAGS = "";
+				SYMROOT = /Users/vector_cat/gits/bcClean/Xcode/embree;
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("-Wmost","-Wno-four-char-constants","-Wno-unknown-pragmas","$(inherited)");
+			};
+			name = MinSizeRel;
+		};
+		724C2494E36747CDA7E706A5 /* RelWithDebInfo */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				CONFIGURATION_BUILD_DIR = /Users/vector_cat/gits/bcClean/Xcode/embree/RelWithDebInfo;
+				EXECUTABLE_PREFIX = lib;
+				EXECUTABLE_SUFFIX = .a;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 3;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'",TASKING_INTERNAL,EMBREE_TARGET_SSE2);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				INSTALL_PATH = "";
+				LIBRARY_STYLE = STATIC;
+				OTHER_CPLUSPLUSFLAGS = " -Wall -Wformat -Wformat-security -fPIC -std=c++11 -fvisibility=hidden -fvisibility-inlines-hidden -fno-strict-aliasing -fno-tree-vectorize -mmacosx-version-min=10.7 -stdlib=libc++  -DDEBUG -DTBB_USE_DEBUG        -D_FORTIFY_SOURCE=2  -msse2  ";
+				OTHER_LIBTOOLFLAGS = " ";
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = sys;
+				SECTORDER_FLAGS = "";
+				SYMROOT = /Users/vector_cat/gits/bcClean/Xcode/embree/common/sys;
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("-Wmost","-Wno-four-char-constants","-Wno-unknown-pragmas","$(inherited)");
+			};
+			name = RelWithDebInfo;
+		};
+		760BF021BD964395881B5226 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'");
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				INSTALL_PATH = "";
+				OTHER_LDFLAGS = " ";
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = package;
+				SECTORDER_FLAGS = "";
+				SYMROOT = /Users/vector_cat/gits/bcClean/Xcode/embree;
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("-Wmost","-Wno-four-char-constants","-Wno-unknown-pragmas","$(inherited)");
+			};
+			name = Debug;
+		};
+		79CE085DB4B748C29D3F6166 /* MinSizeRel */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				CONFIGURATION_BUILD_DIR = /Users/vector_cat/gits/bcClean/Xcode/embree/MinSizeRel;
+				EXECUTABLE_PREFIX = lib;
+				EXECUTABLE_SUFFIX = .a;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = s;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'",TASKING_INTERNAL,EMBREE_TARGET_SSE2);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				INSTALL_PATH = "";
+				LIBRARY_STYLE = STATIC;
+				OTHER_CPLUSPLUSFLAGS = " -Wall -Wformat -Wformat-security -fPIC -std=c++11 -fvisibility=hidden -fvisibility-inlines-hidden -fno-strict-aliasing -fno-tree-vectorize -mmacosx-version-min=10.7 -stdlib=libc++     -DNDEBUG  -msse2  ";
+				OTHER_LIBTOOLFLAGS = " ";
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = sys;
+				SECTORDER_FLAGS = "";
+				SYMROOT = /Users/vector_cat/gits/bcClean/Xcode/embree/common/sys;
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("-Wmost","-Wno-four-char-constants","-Wno-unknown-pragmas","$(inherited)");
+			};
+			name = MinSizeRel;
+		};
+		7C67FAE3845340DC939EB9AF /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'");
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				INSTALL_PATH = "";
+				OTHER_LDFLAGS = " ";
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = ZERO_CHECK;
+				SECTORDER_FLAGS = "";
+				SYMROOT = /Users/vector_cat/gits/bcClean/Xcode/embree;
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("-Wmost","-Wno-four-char-constants","-Wno-unknown-pragmas","$(inherited)");
+			};
+			name = Release;
+		};
+		7ED20B6F09D44A5DA4F729A0 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				CONFIGURATION_BUILD_DIR = "/Users/vector_cat/gits/bcClean/Xcode/embree/common/algorithms/embree3.build/Release/algorithms.build/Objects-normal/";
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 3;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'",TASKING_INTERNAL,EMBREE_TARGET_SSE2);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				INSTALL_PATH = "";
+				LIBRARY_STYLE = STATIC;
+				OTHER_CPLUSPLUSFLAGS = " -Wall -Wformat -Wformat-security -fPIC -std=c++11 -fvisibility=hidden -fvisibility-inlines-hidden -fno-strict-aliasing -fno-tree-vectorize -mmacosx-version-min=10.7 -stdlib=libc++  -DNDEBUG     -D_FORTIFY_SOURCE=2  -msse2  ";
+				OTHER_LIBTOOLFLAGS = " ";
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = algorithms;
+				SECTORDER_FLAGS = "";
+				SYMROOT = /Users/vector_cat/gits/bcClean/Xcode/embree/common/algorithms;
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("-Wmost","-Wno-four-char-constants","-Wno-unknown-pragmas","$(inherited)");
+			};
+			name = Release;
+		};
+		82D159B0A1144A229D15DC31 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				CONFIGURATION_BUILD_DIR = /Users/vector_cat/gits/bcClean/Xcode/embree/Debug;
+				EXECUTABLE_PREFIX = lib;
+				EXECUTABLE_SUFFIX = .a;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 2;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'",TASKING_INTERNAL,EMBREE_TARGET_SSE2);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				INSTALL_PATH = "";
+				LIBRARY_STYLE = STATIC;
+				OTHER_CPLUSPLUSFLAGS = " -Wall -Wformat -Wformat-security -fPIC -std=c++11 -fvisibility=hidden -fvisibility-inlines-hidden -fno-strict-aliasing -fno-tree-vectorize -mmacosx-version-min=10.7 -stdlib=libc++  -DDEBUG -DTBB_USE_DEBUG         -msse2  ";
+				OTHER_LIBTOOLFLAGS = " ";
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = sys;
+				SECTORDER_FLAGS = "";
+				SYMROOT = /Users/vector_cat/gits/bcClean/Xcode/embree/common/sys;
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("-Wmost","-Wno-four-char-constants","-Wno-unknown-pragmas","$(inherited)");
+			};
+			name = Debug;
+		};
+		847E5239FF2047508A1C20BB /* RelWithDebInfo */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'");
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				INSTALL_PATH = "";
+				OTHER_LDFLAGS = " ";
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = RUN_TESTS;
+				SECTORDER_FLAGS = "";
+				SYMROOT = /Users/vector_cat/gits/bcClean/Xcode/embree;
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("-Wmost","-Wno-four-char-constants","-Wno-unknown-pragmas","$(inherited)");
+			};
+			name = RelWithDebInfo;
+		};
+		879E7CB1D3EF4893A45A0DB1 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				CONFIGURATION_BUILD_DIR = /Users/vector_cat/gits/bcClean/Xcode/embree/Debug;
+				EXECUTABLE_PREFIX = lib;
+				EXECUTABLE_SUFFIX = .a;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 2;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'",EMBREE_LOWEST_ISA,TASKING_INTERNAL,EMBREE_TARGET_SSE2);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				INSTALL_PATH = "";
+				LIBRARY_STYLE = STATIC;
+				OTHER_CPLUSPLUSFLAGS = " -Wall -Wformat -Wformat-security -fPIC -std=c++11 -fvisibility=hidden -fvisibility-inlines-hidden -fno-strict-aliasing -fno-tree-vectorize -mmacosx-version-min=10.7 -stdlib=libc++  -DDEBUG -DTBB_USE_DEBUG        -msse2  ";
+				OTHER_LIBTOOLFLAGS = " /Users/vector_cat/gits/bcClean/Xcode/embree/common/algorithms/$(PROJECT_NAME).build/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/algorithms.build/Objects-normal/x86_64/parallel_for.o /Users/vector_cat/gits/bcClean/Xcode/embree/common/algorithms/$(PROJECT_NAME).build/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/algorithms.build/Objects-normal/x86_64/parallel_reduce.o /Users/vector_cat/gits/bcClean/Xcode/embree/common/algorithms/$(PROJECT_NAME).build/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/algorithms.build/Objects-normal/x86_64/parallel_prefix_sum.o /Users/vector_cat/gits/bcClean/Xcode/embree/common/algorithms/$(PROJECT_NAME).build/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/algorithms.build/Objects-normal/x86_64/parallel_for_for.o /Users/vector_cat/gits/bcClean/Xcode/embree/common/algorithms/$(PROJECT_NAME).build/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/algorithms.build/Objects-normal/x86_64/parallel_for_for_prefix_sum.o /Users/vector_cat/gits/bcClean/Xcode/embree/common/algorithms/$(PROJECT_NAME).build/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/algorithms.build/Objects-normal/x86_64/parallel_partition.o /Users/vector_cat/gits/bcClean/Xcode/embree/common/algorithms/$(PROJECT_NAME).build/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/algorithms.build/Objects-normal/x86_64/parallel_sort.o /Users/vector_cat/gits/bcClean/Xcode/embree/common/algorithms/$(PROJECT_NAME).build/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/algorithms.build/Objects-normal/x86_64/parallel_set.o /Users/vector_cat/gits/bcClean/Xcode/embree/common/algorithms/$(PROJECT_NAME).build/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/algorithms.build/Objects-normal/x86_64/parallel_map.o /Users/vector_cat/gits/bcClean/Xcode/embree/common/algorithms/$(PROJECT_NAME).build/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/algorithms.build/Objects-normal/x86_64/parallel_filter.o";
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = embree3;
+				SECTORDER_FLAGS = "";
+				SYMROOT = /Users/vector_cat/gits/bcClean/Xcode/embree/kernels;
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("-Wmost","-Wno-four-char-constants","-Wno-unknown-pragmas","$(inherited)");
+			};
+			name = Debug;
+		};
+		87A018DC51C448F296260872 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				CONFIGURATION_BUILD_DIR = /Users/vector_cat/gits/bcClean/Xcode/embree/Release;
+				EXECUTABLE_PREFIX = lib;
+				EXECUTABLE_SUFFIX = .a;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 3;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'",TASKING_INTERNAL,EMBREE_TARGET_SSE2);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				INSTALL_PATH = "";
+				LIBRARY_STYLE = STATIC;
+				OTHER_CPLUSPLUSFLAGS = " -Wall -Wformat -Wformat-security -fPIC -std=c++11 -fvisibility=hidden -fvisibility-inlines-hidden -fno-strict-aliasing -fno-tree-vectorize -mmacosx-version-min=10.7 -stdlib=libc++  -DNDEBUG     -D_FORTIFY_SOURCE=2  -msse2  ";
+				OTHER_LIBTOOLFLAGS = " ";
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = lexers;
+				SECTORDER_FLAGS = "";
+				SYMROOT = /Users/vector_cat/gits/bcClean/Xcode/embree/common/lexers;
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("-Wmost","-Wno-four-char-constants","-Wno-unknown-pragmas","$(inherited)");
+			};
+			name = Release;
+		};
+		92878FE6F84F44D694A1F531 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'");
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				INSTALL_PATH = "";
+				OTHER_LDFLAGS = " ";
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = RUN_TESTS;
+				SECTORDER_FLAGS = "";
+				SYMROOT = /Users/vector_cat/gits/bcClean/Xcode/embree;
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("-Wmost","-Wno-four-char-constants","-Wno-unknown-pragmas","$(inherited)");
+			};
+			name = Debug;
+		};
+		9346538589AD4BA1B9BBD4FA /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'");
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				INSTALL_PATH = "";
+				OTHER_LDFLAGS = " ";
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = uninstall;
+				SECTORDER_FLAGS = "";
+				SYMROOT = /Users/vector_cat/gits/bcClean/Xcode/embree;
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("-Wmost","-Wno-four-char-constants","-Wno-unknown-pragmas","$(inherited)");
+			};
+			name = Debug;
+		};
+		96191EFC43F844A9AE41DCC4 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.15.sdk;
+				SYMROOT = /Users/vector_cat/gits/bcClean/Xcode/embree/build;
+			};
+			name = Debug;
+		};
+		9D8AB1044DC04B0FB2553FEA /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'");
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				INSTALL_PATH = "";
+				OTHER_LDFLAGS = " ";
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = install;
+				SECTORDER_FLAGS = "";
+				SYMROOT = /Users/vector_cat/gits/bcClean/Xcode/embree;
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("-Wmost","-Wno-four-char-constants","-Wno-unknown-pragmas","$(inherited)");
+			};
+			name = Debug;
+		};
+		AEA36EB2A05A4A60812950AC /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				CONFIGURATION_BUILD_DIR = /Users/vector_cat/gits/bcClean/Xcode/embree/Release;
+				EXECUTABLE_PREFIX = lib;
+				EXECUTABLE_SUFFIX = .a;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 3;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'",EMBREE_LOWEST_ISA,TASKING_INTERNAL,EMBREE_TARGET_SSE2);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				INSTALL_PATH = "";
+				LIBRARY_STYLE = STATIC;
+				OTHER_CPLUSPLUSFLAGS = " -Wall -Wformat -Wformat-security -fPIC -std=c++11 -fvisibility=hidden -fvisibility-inlines-hidden -fno-strict-aliasing -fno-tree-vectorize -mmacosx-version-min=10.7 -stdlib=libc++  -DNDEBUG     -D_FORTIFY_SOURCE=2 -msse2  ";
+				OTHER_LIBTOOLFLAGS = " /Users/vector_cat/gits/bcClean/Xcode/embree/common/algorithms/$(PROJECT_NAME).build/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/algorithms.build/Objects-normal/x86_64/parallel_for.o /Users/vector_cat/gits/bcClean/Xcode/embree/common/algorithms/$(PROJECT_NAME).build/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/algorithms.build/Objects-normal/x86_64/parallel_reduce.o /Users/vector_cat/gits/bcClean/Xcode/embree/common/algorithms/$(PROJECT_NAME).build/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/algorithms.build/Objects-normal/x86_64/parallel_prefix_sum.o /Users/vector_cat/gits/bcClean/Xcode/embree/common/algorithms/$(PROJECT_NAME).build/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/algorithms.build/Objects-normal/x86_64/parallel_for_for.o /Users/vector_cat/gits/bcClean/Xcode/embree/common/algorithms/$(PROJECT_NAME).build/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/algorithms.build/Objects-normal/x86_64/parallel_for_for_prefix_sum.o /Users/vector_cat/gits/bcClean/Xcode/embree/common/algorithms/$(PROJECT_NAME).build/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/algorithms.build/Objects-normal/x86_64/parallel_partition.o /Users/vector_cat/gits/bcClean/Xcode/embree/common/algorithms/$(PROJECT_NAME).build/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/algorithms.build/Objects-normal/x86_64/parallel_sort.o /Users/vector_cat/gits/bcClean/Xcode/embree/common/algorithms/$(PROJECT_NAME).build/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/algorithms.build/Objects-normal/x86_64/parallel_set.o /Users/vector_cat/gits/bcClean/Xcode/embree/common/algorithms/$(PROJECT_NAME).build/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/algorithms.build/Objects-normal/x86_64/parallel_map.o /Users/vector_cat/gits/bcClean/Xcode/embree/common/algorithms/$(PROJECT_NAME).build/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/algorithms.build/Objects-normal/x86_64/parallel_filter.o";
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = embree3;
+				SECTORDER_FLAGS = "";
+				SYMROOT = /Users/vector_cat/gits/bcClean/Xcode/embree/kernels;
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("-Wmost","-Wno-four-char-constants","-Wno-unknown-pragmas","$(inherited)");
+			};
+			name = Release;
+		};
+		AF8444E721A34038BD4FA1E1 /* MinSizeRel */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				CONFIGURATION_BUILD_DIR = /Users/vector_cat/gits/bcClean/Xcode/embree/MinSizeRel;
+				EXECUTABLE_PREFIX = lib;
+				EXECUTABLE_SUFFIX = .a;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = s;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'",TASKING_INTERNAL,EMBREE_TARGET_SSE2);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				INSTALL_PATH = "";
+				LIBRARY_STYLE = STATIC;
+				OTHER_CPLUSPLUSFLAGS = " -Wall -Wformat -Wformat-security -fPIC -std=c++11 -fvisibility=hidden -fvisibility-inlines-hidden -fno-strict-aliasing -fno-tree-vectorize -mmacosx-version-min=10.7 -stdlib=libc++     -DNDEBUG  -msse2  ";
+				OTHER_LIBTOOLFLAGS = " ";
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = math;
+				SECTORDER_FLAGS = "";
+				SYMROOT = /Users/vector_cat/gits/bcClean/Xcode/embree/common/math;
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("-Wmost","-Wno-four-char-constants","-Wno-unknown-pragmas","$(inherited)");
+			};
+			name = MinSizeRel;
+		};
+		B5734273EE184557B536A8EF /* MinSizeRel */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				CONFIGURATION_BUILD_DIR = /Users/vector_cat/gits/bcClean/Xcode/embree/MinSizeRel;
+				EXECUTABLE_PREFIX = lib;
+				EXECUTABLE_SUFFIX = .a;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = s;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'",TASKING_INTERNAL,EMBREE_TARGET_SSE2);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				INSTALL_PATH = "";
+				LIBRARY_STYLE = STATIC;
+				OTHER_CPLUSPLUSFLAGS = " -Wall -Wformat -Wformat-security -fPIC -std=c++11 -fvisibility=hidden -fvisibility-inlines-hidden -fno-strict-aliasing -fno-tree-vectorize -mmacosx-version-min=10.7 -stdlib=libc++     -DNDEBUG  -msse2  ";
+				OTHER_LIBTOOLFLAGS = " ";
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = tasking;
+				SECTORDER_FLAGS = "";
+				SYMROOT = /Users/vector_cat/gits/bcClean/Xcode/embree/common/tasking;
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("-Wmost","-Wno-four-char-constants","-Wno-unknown-pragmas","$(inherited)");
+			};
+			name = MinSizeRel;
+		};
+		B6EBA344EBB04A13A4288A1A /* MinSizeRel */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				CONFIGURATION_BUILD_DIR = /Users/vector_cat/gits/bcClean/Xcode/embree/MinSizeRel;
+				EXECUTABLE_PREFIX = lib;
+				EXECUTABLE_SUFFIX = .a;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = s;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'",TASKING_INTERNAL,EMBREE_TARGET_SSE2);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				INSTALL_PATH = "";
+				LIBRARY_STYLE = STATIC;
+				OTHER_CPLUSPLUSFLAGS = " -Wall -Wformat -Wformat-security -fPIC -std=c++11 -fvisibility=hidden -fvisibility-inlines-hidden -fno-strict-aliasing -fno-tree-vectorize -mmacosx-version-min=10.7 -stdlib=libc++     -DNDEBUG  -msse2  ";
+				OTHER_LIBTOOLFLAGS = " ";
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = lexers;
+				SECTORDER_FLAGS = "";
+				SYMROOT = /Users/vector_cat/gits/bcClean/Xcode/embree/common/lexers;
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("-Wmost","-Wno-four-char-constants","-Wno-unknown-pragmas","$(inherited)");
+			};
+			name = MinSizeRel;
+		};
+		B9A7A0D4DDC74867874EF7D3 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				CONFIGURATION_BUILD_DIR = /Users/vector_cat/gits/bcClean/Xcode/embree/Debug;
+				EXECUTABLE_PREFIX = lib;
+				EXECUTABLE_SUFFIX = .a;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 2;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'",TASKING_INTERNAL,EMBREE_TARGET_SSE2);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				INSTALL_PATH = "";
+				LIBRARY_STYLE = STATIC;
+				OTHER_CPLUSPLUSFLAGS = " -Wall -Wformat -Wformat-security -fPIC -std=c++11 -fvisibility=hidden -fvisibility-inlines-hidden -fno-strict-aliasing -fno-tree-vectorize -mmacosx-version-min=10.7 -stdlib=libc++  -DDEBUG -DTBB_USE_DEBUG         -msse2  ";
+				OTHER_LIBTOOLFLAGS = " ";
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = tasking;
+				SECTORDER_FLAGS = "";
+				SYMROOT = /Users/vector_cat/gits/bcClean/Xcode/embree/common/tasking;
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("-Wmost","-Wno-four-char-constants","-Wno-unknown-pragmas","$(inherited)");
+			};
+			name = Debug;
+		};
+		BADE7962D82741EDA1F166CA /* RelWithDebInfo */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				CONFIGURATION_BUILD_DIR = /Users/vector_cat/gits/bcClean/Xcode/embree/RelWithDebInfo;
+				EXECUTABLE_PREFIX = lib;
+				EXECUTABLE_SUFFIX = .a;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 3;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'",TASKING_INTERNAL,EMBREE_TARGET_SSE2);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				INSTALL_PATH = "";
+				LIBRARY_STYLE = STATIC;
+				OTHER_CPLUSPLUSFLAGS = " -Wall -Wformat -Wformat-security -fPIC -std=c++11 -fvisibility=hidden -fvisibility-inlines-hidden -fno-strict-aliasing -fno-tree-vectorize -mmacosx-version-min=10.7 -stdlib=libc++  -DDEBUG -DTBB_USE_DEBUG        -D_FORTIFY_SOURCE=2  -msse2  ";
+				OTHER_LIBTOOLFLAGS = " ";
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = lexers;
+				SECTORDER_FLAGS = "";
+				SYMROOT = /Users/vector_cat/gits/bcClean/Xcode/embree/common/lexers;
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("-Wmost","-Wno-four-char-constants","-Wno-unknown-pragmas","$(inherited)");
+			};
+			name = RelWithDebInfo;
+		};
+		BBD03021A90241419853E3AC /* RelWithDebInfo */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'");
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				INSTALL_PATH = "";
+				OTHER_LDFLAGS = " ";
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = uninstall;
+				SECTORDER_FLAGS = "";
+				SYMROOT = /Users/vector_cat/gits/bcClean/Xcode/embree;
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("-Wmost","-Wno-four-char-constants","-Wno-unknown-pragmas","$(inherited)");
+			};
+			name = RelWithDebInfo;
+		};
+		BC136DAF20144110B6633551 /* RelWithDebInfo */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				CONFIGURATION_BUILD_DIR = /Users/vector_cat/gits/bcClean/Xcode/embree/RelWithDebInfo;
+				EXECUTABLE_PREFIX = lib;
+				EXECUTABLE_SUFFIX = .a;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 3;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'",TASKING_INTERNAL,EMBREE_TARGET_SSE2);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				INSTALL_PATH = "";
+				LIBRARY_STYLE = STATIC;
+				OTHER_CPLUSPLUSFLAGS = " -Wall -Wformat -Wformat-security -fPIC -std=c++11 -fvisibility=hidden -fvisibility-inlines-hidden -fno-strict-aliasing -fno-tree-vectorize -mmacosx-version-min=10.7 -stdlib=libc++  -DDEBUG -DTBB_USE_DEBUG        -D_FORTIFY_SOURCE=2  -msse2  ";
+				OTHER_LIBTOOLFLAGS = " ";
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = simd;
+				SECTORDER_FLAGS = "";
+				SYMROOT = /Users/vector_cat/gits/bcClean/Xcode/embree/common/simd;
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("-Wmost","-Wno-four-char-constants","-Wno-unknown-pragmas","$(inherited)");
+			};
+			name = RelWithDebInfo;
+		};
+		BECE8978BA324998B4802FBF /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				CONFIGURATION_BUILD_DIR = /Users/vector_cat/gits/bcClean/Xcode/embree/Release;
+				EXECUTABLE_PREFIX = lib;
+				EXECUTABLE_SUFFIX = .a;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 3;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'",TASKING_INTERNAL,EMBREE_TARGET_SSE2);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				INSTALL_PATH = "";
+				LIBRARY_STYLE = STATIC;
+				OTHER_CPLUSPLUSFLAGS = " -Wall -Wformat -Wformat-security -fPIC -std=c++11 -fvisibility=hidden -fvisibility-inlines-hidden -fno-strict-aliasing -fno-tree-vectorize -mmacosx-version-min=10.7 -stdlib=libc++  -DNDEBUG     -D_FORTIFY_SOURCE=2  -msse2  ";
+				OTHER_LIBTOOLFLAGS = " ";
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = simd;
+				SECTORDER_FLAGS = "";
+				SYMROOT = /Users/vector_cat/gits/bcClean/Xcode/embree/common/simd;
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("-Wmost","-Wno-four-char-constants","-Wno-unknown-pragmas","$(inherited)");
+			};
+			name = Release;
+		};
+		BF50CDCF8E5142F5AADFA914 /* RelWithDebInfo */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				CONFIGURATION_BUILD_DIR = /Users/vector_cat/gits/bcClean/Xcode/embree/RelWithDebInfo;
+				EXECUTABLE_PREFIX = lib;
+				EXECUTABLE_SUFFIX = .a;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 3;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'",EMBREE_LOWEST_ISA,TASKING_INTERNAL,EMBREE_TARGET_SSE2);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				INSTALL_PATH = "";
+				LIBRARY_STYLE = STATIC;
+				OTHER_CPLUSPLUSFLAGS = " -Wall -Wformat -Wformat-security -fPIC -std=c++11 -fvisibility=hidden -fvisibility-inlines-hidden -fno-strict-aliasing -fno-tree-vectorize -mmacosx-version-min=10.7 -stdlib=libc++  -DDEBUG -DTBB_USE_DEBUG        -D_FORTIFY_SOURCE=2 -msse2  ";
+				OTHER_LIBTOOLFLAGS = " /Users/vector_cat/gits/bcClean/Xcode/embree/common/algorithms/$(PROJECT_NAME).build/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/algorithms.build/Objects-normal/x86_64/parallel_for.o /Users/vector_cat/gits/bcClean/Xcode/embree/common/algorithms/$(PROJECT_NAME).build/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/algorithms.build/Objects-normal/x86_64/parallel_reduce.o /Users/vector_cat/gits/bcClean/Xcode/embree/common/algorithms/$(PROJECT_NAME).build/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/algorithms.build/Objects-normal/x86_64/parallel_prefix_sum.o /Users/vector_cat/gits/bcClean/Xcode/embree/common/algorithms/$(PROJECT_NAME).build/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/algorithms.build/Objects-normal/x86_64/parallel_for_for.o /Users/vector_cat/gits/bcClean/Xcode/embree/common/algorithms/$(PROJECT_NAME).build/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/algorithms.build/Objects-normal/x86_64/parallel_for_for_prefix_sum.o /Users/vector_cat/gits/bcClean/Xcode/embree/common/algorithms/$(PROJECT_NAME).build/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/algorithms.build/Objects-normal/x86_64/parallel_partition.o /Users/vector_cat/gits/bcClean/Xcode/embree/common/algorithms/$(PROJECT_NAME).build/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/algorithms.build/Objects-normal/x86_64/parallel_sort.o /Users/vector_cat/gits/bcClean/Xcode/embree/common/algorithms/$(PROJECT_NAME).build/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/algorithms.build/Objects-normal/x86_64/parallel_set.o /Users/vector_cat/gits/bcClean/Xcode/embree/common/algorithms/$(PROJECT_NAME).build/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/algorithms.build/Objects-normal/x86_64/parallel_map.o /Users/vector_cat/gits/bcClean/Xcode/embree/common/algorithms/$(PROJECT_NAME).build/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/algorithms.build/Objects-normal/x86_64/parallel_filter.o";
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = embree3;
+				SECTORDER_FLAGS = "";
+				SYMROOT = /Users/vector_cat/gits/bcClean/Xcode/embree/kernels;
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("-Wmost","-Wno-four-char-constants","-Wno-unknown-pragmas","$(inherited)");
+			};
+			name = RelWithDebInfo;
+		};
+		CA37BD0C4E224B529E49E5F7 /* RelWithDebInfo */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'");
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				INSTALL_PATH = "";
+				OTHER_LDFLAGS = " ";
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = package;
+				SECTORDER_FLAGS = "";
+				SYMROOT = /Users/vector_cat/gits/bcClean/Xcode/embree;
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("-Wmost","-Wno-four-char-constants","-Wno-unknown-pragmas","$(inherited)");
+			};
+			name = RelWithDebInfo;
+		};
+		CAB605917FEB4EDDA42E4DAE /* MinSizeRel */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.15.sdk;
+				SYMROOT = /Users/vector_cat/gits/bcClean/Xcode/embree/build;
+			};
+			name = MinSizeRel;
+		};
+		D008EDC22A2345BD8D19397B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'");
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				INSTALL_PATH = "";
+				OTHER_LDFLAGS = " ";
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = ALL_BUILD;
+				SECTORDER_FLAGS = "";
+				SYMROOT = /Users/vector_cat/gits/bcClean/Xcode/embree;
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("-Wmost","-Wno-four-char-constants","-Wno-unknown-pragmas","$(inherited)");
+			};
+			name = Release;
+		};
+		D03E00403B0449C2A76345B0 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				CONFIGURATION_BUILD_DIR = /Users/vector_cat/gits/bcClean/Xcode/embree/Release;
+				EXECUTABLE_PREFIX = lib;
+				EXECUTABLE_SUFFIX = .a;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 3;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'",TASKING_INTERNAL,EMBREE_TARGET_SSE2);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				INSTALL_PATH = "";
+				LIBRARY_STYLE = STATIC;
+				OTHER_CPLUSPLUSFLAGS = " -Wall -Wformat -Wformat-security -fPIC -std=c++11 -fvisibility=hidden -fvisibility-inlines-hidden -fno-strict-aliasing -fno-tree-vectorize -mmacosx-version-min=10.7 -stdlib=libc++  -DNDEBUG     -D_FORTIFY_SOURCE=2  -msse2  ";
+				OTHER_LIBTOOLFLAGS = " ";
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = math;
+				SECTORDER_FLAGS = "";
+				SYMROOT = /Users/vector_cat/gits/bcClean/Xcode/embree/common/math;
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("-Wmost","-Wno-four-char-constants","-Wno-unknown-pragmas","$(inherited)");
+			};
+			name = Release;
+		};
+		D37DD29D130640269944C52C /* RelWithDebInfo */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'");
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				INSTALL_PATH = "";
+				OTHER_LDFLAGS = " ";
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = ZERO_CHECK;
+				SECTORDER_FLAGS = "";
+				SYMROOT = /Users/vector_cat/gits/bcClean/Xcode/embree;
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("-Wmost","-Wno-four-char-constants","-Wno-unknown-pragmas","$(inherited)");
+			};
+			name = RelWithDebInfo;
+		};
+		D4531672173745DF86A12EE9 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'");
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				INSTALL_PATH = "";
+				OTHER_LDFLAGS = " ";
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = ALL_BUILD;
+				SECTORDER_FLAGS = "";
+				SYMROOT = /Users/vector_cat/gits/bcClean/Xcode/embree;
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("-Wmost","-Wno-four-char-constants","-Wno-unknown-pragmas","$(inherited)");
+			};
+			name = Debug;
+		};
+		DBF22505D7FE4D319593B34E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'");
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				INSTALL_PATH = "";
+				OTHER_LDFLAGS = " ";
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = install;
+				SECTORDER_FLAGS = "";
+				SYMROOT = /Users/vector_cat/gits/bcClean/Xcode/embree;
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("-Wmost","-Wno-four-char-constants","-Wno-unknown-pragmas","$(inherited)");
+			};
+			name = Release;
+		};
+		E21778984EE34546970EE363 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				CONFIGURATION_BUILD_DIR = "/Users/vector_cat/gits/bcClean/Xcode/embree/common/algorithms/embree3.build/Debug/algorithms.build/Objects-normal/";
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 2;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'",TASKING_INTERNAL,EMBREE_TARGET_SSE2);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				INSTALL_PATH = "";
+				LIBRARY_STYLE = STATIC;
+				OTHER_CPLUSPLUSFLAGS = " -Wall -Wformat -Wformat-security -fPIC -std=c++11 -fvisibility=hidden -fvisibility-inlines-hidden -fno-strict-aliasing -fno-tree-vectorize -mmacosx-version-min=10.7 -stdlib=libc++  -DDEBUG -DTBB_USE_DEBUG         -msse2  ";
+				OTHER_LIBTOOLFLAGS = " ";
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = algorithms;
+				SECTORDER_FLAGS = "";
+				SYMROOT = /Users/vector_cat/gits/bcClean/Xcode/embree/common/algorithms;
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("-Wmost","-Wno-four-char-constants","-Wno-unknown-pragmas","$(inherited)");
+			};
+			name = Debug;
+		};
+		E46B87A3B5684697BC8BD4A6 /* MinSizeRel */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'");
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				INSTALL_PATH = "";
+				OTHER_LDFLAGS = " ";
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = ZERO_CHECK;
+				SECTORDER_FLAGS = "";
+				SYMROOT = /Users/vector_cat/gits/bcClean/Xcode/embree;
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("-Wmost","-Wno-four-char-constants","-Wno-unknown-pragmas","$(inherited)");
+			};
+			name = MinSizeRel;
+		};
+		E48574B67E2D4D87A3E0BF69 /* RelWithDebInfo */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'");
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				INSTALL_PATH = "";
+				OTHER_LDFLAGS = " ";
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = ALL_BUILD;
+				SECTORDER_FLAGS = "";
+				SYMROOT = /Users/vector_cat/gits/bcClean/Xcode/embree;
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("-Wmost","-Wno-four-char-constants","-Wno-unknown-pragmas","$(inherited)");
+			};
+			name = RelWithDebInfo;
+		};
+		F0247B305322495C9CE3FC05 /* MinSizeRel */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				CONFIGURATION_BUILD_DIR = /Users/vector_cat/gits/bcClean/Xcode/embree/MinSizeRel;
+				EXECUTABLE_PREFIX = lib;
+				EXECUTABLE_SUFFIX = .a;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = s;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'",EMBREE_LOWEST_ISA,TASKING_INTERNAL,EMBREE_TARGET_SSE2);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				INSTALL_PATH = "";
+				LIBRARY_STYLE = STATIC;
+				OTHER_CPLUSPLUSFLAGS = " -Wall -Wformat -Wformat-security -fPIC -std=c++11 -fvisibility=hidden -fvisibility-inlines-hidden -fno-strict-aliasing -fno-tree-vectorize -mmacosx-version-min=10.7 -stdlib=libc++     -DNDEBUG -msse2  ";
+				OTHER_LIBTOOLFLAGS = " /Users/vector_cat/gits/bcClean/Xcode/embree/common/algorithms/$(PROJECT_NAME).build/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/algorithms.build/Objects-normal/x86_64/parallel_for.o /Users/vector_cat/gits/bcClean/Xcode/embree/common/algorithms/$(PROJECT_NAME).build/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/algorithms.build/Objects-normal/x86_64/parallel_reduce.o /Users/vector_cat/gits/bcClean/Xcode/embree/common/algorithms/$(PROJECT_NAME).build/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/algorithms.build/Objects-normal/x86_64/parallel_prefix_sum.o /Users/vector_cat/gits/bcClean/Xcode/embree/common/algorithms/$(PROJECT_NAME).build/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/algorithms.build/Objects-normal/x86_64/parallel_for_for.o /Users/vector_cat/gits/bcClean/Xcode/embree/common/algorithms/$(PROJECT_NAME).build/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/algorithms.build/Objects-normal/x86_64/parallel_for_for_prefix_sum.o /Users/vector_cat/gits/bcClean/Xcode/embree/common/algorithms/$(PROJECT_NAME).build/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/algorithms.build/Objects-normal/x86_64/parallel_partition.o /Users/vector_cat/gits/bcClean/Xcode/embree/common/algorithms/$(PROJECT_NAME).build/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/algorithms.build/Objects-normal/x86_64/parallel_sort.o /Users/vector_cat/gits/bcClean/Xcode/embree/common/algorithms/$(PROJECT_NAME).build/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/algorithms.build/Objects-normal/x86_64/parallel_set.o /Users/vector_cat/gits/bcClean/Xcode/embree/common/algorithms/$(PROJECT_NAME).build/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/algorithms.build/Objects-normal/x86_64/parallel_map.o /Users/vector_cat/gits/bcClean/Xcode/embree/common/algorithms/$(PROJECT_NAME).build/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/algorithms.build/Objects-normal/x86_64/parallel_filter.o";
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = embree3;
+				SECTORDER_FLAGS = "";
+				SYMROOT = /Users/vector_cat/gits/bcClean/Xcode/embree/kernels;
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("-Wmost","-Wno-four-char-constants","-Wno-unknown-pragmas","$(inherited)");
+			};
+			name = MinSizeRel;
+		};
+		F2ECD17A8F6D4088A7DB4C83 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'");
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				INSTALL_PATH = "";
+				OTHER_LDFLAGS = " ";
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = RUN_TESTS;
+				SECTORDER_FLAGS = "";
+				SYMROOT = /Users/vector_cat/gits/bcClean/Xcode/embree;
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("-Wmost","-Wno-four-char-constants","-Wno-unknown-pragmas","$(inherited)");
+			};
+			name = Release;
+		};
+		F7542FD9B0EB4FC5AB8401F1 /* RelWithDebInfo */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				CONFIGURATION_BUILD_DIR = /Users/vector_cat/gits/bcClean/Xcode/embree/RelWithDebInfo;
+				EXECUTABLE_PREFIX = lib;
+				EXECUTABLE_SUFFIX = .a;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 3;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'",TASKING_INTERNAL,EMBREE_TARGET_SSE2);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				INSTALL_PATH = "";
+				LIBRARY_STYLE = STATIC;
+				OTHER_CPLUSPLUSFLAGS = " -Wall -Wformat -Wformat-security -fPIC -std=c++11 -fvisibility=hidden -fvisibility-inlines-hidden -fno-strict-aliasing -fno-tree-vectorize -mmacosx-version-min=10.7 -stdlib=libc++  -DDEBUG -DTBB_USE_DEBUG        -D_FORTIFY_SOURCE=2  -msse2  ";
+				OTHER_LIBTOOLFLAGS = " ";
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = tasking;
+				SECTORDER_FLAGS = "";
+				SYMROOT = /Users/vector_cat/gits/bcClean/Xcode/embree/common/tasking;
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("-Wmost","-Wno-four-char-constants","-Wno-unknown-pragmas","$(inherited)");
+			};
+			name = RelWithDebInfo;
+		};
+		F8A780704F6F45ABAF1AEE45 /* RelWithDebInfo */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				CONFIGURATION_BUILD_DIR = /Users/vector_cat/gits/bcClean/Xcode/embree/RelWithDebInfo;
+				EXECUTABLE_PREFIX = lib;
+				EXECUTABLE_SUFFIX = .a;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 3;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'",TASKING_INTERNAL,EMBREE_TARGET_SSE2);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				INSTALL_PATH = "";
+				LIBRARY_STYLE = STATIC;
+				OTHER_CPLUSPLUSFLAGS = " -Wall -Wformat -Wformat-security -fPIC -std=c++11 -fvisibility=hidden -fvisibility-inlines-hidden -fno-strict-aliasing -fno-tree-vectorize -mmacosx-version-min=10.7 -stdlib=libc++  -DDEBUG -DTBB_USE_DEBUG        -D_FORTIFY_SOURCE=2  -msse2  ";
+				OTHER_LIBTOOLFLAGS = " ";
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = math;
+				SECTORDER_FLAGS = "";
+				SYMROOT = /Users/vector_cat/gits/bcClean/Xcode/embree/common/math;
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("-Wmost","-Wno-four-char-constants","-Wno-unknown-pragmas","$(inherited)");
+			};
+			name = RelWithDebInfo;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		1221050F311E4995A384E7BC /* Build configuration list for PBXNativeTarget "algorithms" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E21778984EE34546970EE363 /* Debug */,
+				7ED20B6F09D44A5DA4F729A0 /* Release */,
+				1E18DC9D03E343329C3B5E45 /* MinSizeRel */,
+				67752A44F8594227B32C67AF /* RelWithDebInfo */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		27CF8B2A2BC24BBA91C21B51 /* Build configuration list for PBXNativeTarget "sys" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				82D159B0A1144A229D15DC31 /* Debug */,
+				5F58DAFA1BD9436897A85832 /* Release */,
+				79CE085DB4B748C29D3F6166 /* MinSizeRel */,
+				724C2494E36747CDA7E706A5 /* RelWithDebInfo */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		3BEC91B28266461CAA588AFA /* Build configuration list for PBXAggregateTarget "ALL_BUILD" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D4531672173745DF86A12EE9 /* Debug */,
+				D008EDC22A2345BD8D19397B /* Release */,
+				127391E92B0F43B599028E24 /* MinSizeRel */,
+				E48574B67E2D4D87A3E0BF69 /* RelWithDebInfo */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		3C639551C9CF4DDA9DF134B6 /* Build configuration list for PBXAggregateTarget "ZERO_CHECK" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				2EF387897CF2427BA6E7D882 /* Debug */,
+				7C67FAE3845340DC939EB9AF /* Release */,
+				E46B87A3B5684697BC8BD4A6 /* MinSizeRel */,
+				D37DD29D130640269944C52C /* RelWithDebInfo */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		448DC6A82D614AB6A39A1E12 /* Build configuration list for PBXNativeTarget "simd" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				447B2CFC96204C719CB89C9E /* Debug */,
+				BECE8978BA324998B4802FBF /* Release */,
+				50F4B25ED40D42ECB946A161 /* MinSizeRel */,
+				BC136DAF20144110B6633551 /* RelWithDebInfo */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		52020C8481B74A0E85ED3E19 /* Build configuration list for PBXNativeTarget "math" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				2954BF14C1694007BF3324D0 /* Debug */,
+				D03E00403B0449C2A76345B0 /* Release */,
+				AF8444E721A34038BD4FA1E1 /* MinSizeRel */,
+				F8A780704F6F45ABAF1AEE45 /* RelWithDebInfo */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		55D9D8E56CD24EE6A056AF74 /* Build configuration list for PBXProject "embree3" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				96191EFC43F844A9AE41DCC4 /* Debug */,
+				29CFC8EDE0834CC2806AA4EC /* Release */,
+				CAB605917FEB4EDDA42E4DAE /* MinSizeRel */,
+				1744F8996D524DE292B4FF68 /* RelWithDebInfo */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		561B862E37AB42AEAE0076B7 /* Build configuration list for PBXAggregateTarget "package" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				760BF021BD964395881B5226 /* Debug */,
+				67CD9FCFFC1541DE870A5A7C /* Release */,
+				6CF4CED70F6241BEAE4FB953 /* MinSizeRel */,
+				CA37BD0C4E224B529E49E5F7 /* RelWithDebInfo */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		67B7695413564E35AA53E59D /* Build configuration list for PBXAggregateTarget "uninstall" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				9346538589AD4BA1B9BBD4FA /* Debug */,
+				11072213F82F461C9274B85F /* Release */,
+				615FD7AEF2934888920682FA /* MinSizeRel */,
+				BBD03021A90241419853E3AC /* RelWithDebInfo */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		698ABB1961DA42AFB7CD0A22 /* Build configuration list for PBXNativeTarget "tasking" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				B9A7A0D4DDC74867874EF7D3 /* Debug */,
+				1C0C9B38F50940E2918C4691 /* Release */,
+				B5734273EE184557B536A8EF /* MinSizeRel */,
+				F7542FD9B0EB4FC5AB8401F1 /* RelWithDebInfo */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		6A38D5A3C1BA4C7AAFE1397C /* Build configuration list for PBXNativeTarget "lexers" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				55E8152F9756400EAAEEFF5E /* Debug */,
+				87A018DC51C448F296260872 /* Release */,
+				B6EBA344EBB04A13A4288A1A /* MinSizeRel */,
+				BADE7962D82741EDA1F166CA /* RelWithDebInfo */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		AD22BB52AFC043F7A4E45959 /* Build configuration list for PBXAggregateTarget "RUN_TESTS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				92878FE6F84F44D694A1F531 /* Debug */,
+				F2ECD17A8F6D4088A7DB4C83 /* Release */,
+				3E6188FB15C74DA893BFD793 /* MinSizeRel */,
+				847E5239FF2047508A1C20BB /* RelWithDebInfo */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		C33A74DBF55B42C5A84367EC /* Build configuration list for PBXAggregateTarget "install" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				9D8AB1044DC04B0FB2553FEA /* Debug */,
+				DBF22505D7FE4D319593B34E /* Release */,
+				4024EEC0298C408BA634E9AB /* MinSizeRel */,
+				113FFB27A33F4237A905D18E /* RelWithDebInfo */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		C87137E51CE9461CADA022C5 /* Build configuration list for PBXNativeTarget "embree" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				879E7CB1D3EF4893A45A0DB1 /* Debug */,
+				AEA36EB2A05A4A60812950AC /* Release */,
+				F0247B305322495C9CE3FC05 /* MinSizeRel */,
+				BF50CDCF8E5142F5AADFA914 /* RelWithDebInfo */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 0BB5F60BD1CC43C0800BCA20 /* Project object */;
+}

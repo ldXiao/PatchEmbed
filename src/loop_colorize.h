@@ -46,7 +46,7 @@ namespace bcclean
                     // the edge is not in VCuts
                     if(FL(face_j)== -1){
                         // not visited before;
-                        // FL(face_j) = lb;
+                        FL(face_j) = lb;
                         search_queue.push(face_j);
                     }
                 }

@@ -203,9 +203,10 @@ int main(int argc, char *argv[]){
     bcclean::patch::SetStatics(V_bad, F_bad, FL_bad, label_num);
     std::map<int, bcclean::patch> patch_dict;
     bcclean::CollectPatches();
-    viewer.data().set_mesh(V_good, F_good);
-    viewer.callback_key_pressed = key_down;
-    viewer.launch();
+    // viewer.data().set_mesh(V_good, F_good);
+    // viewer.callback_key_pressed = key_down;
+    key_down(viewer,'=');
+    // viewer.launch();
     // bcclean::trace_and_label(bcclean::patch::Vbase, bcclean::patch::Fbase, bcclean::patch::FL_mod, V_good, F_good, FL_good, dots, viewer);
     
     igl::jet(bcclean::patch::FL_mod,0, bcclean::patch::total_label_num-1, C_bad);
