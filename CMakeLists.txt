@@ -117,6 +117,9 @@ set(SOURCES
     src/loop_colorize.cpp
     src/Match_Maker_Loop.h 
     src/Match_Maker_Loop.cpp
+    src/Match_Maker_Tree.h 
+    src/Match_Maker_Tree.cpp 
+    src/Kruskal.hpp
 )
 add_library(bcclean ${SOURCES})
 target_link_libraries(bcclean PUBLIC
