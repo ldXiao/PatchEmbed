@@ -6,7 +6,6 @@
 #include <utility>
 #include <unordered_map>
 #include "node.h"
-#include <igl/opengl/glfw/Viewer.h>
 
 namespace bcclean{
     struct pairhash {
@@ -35,7 +34,6 @@ namespace bcclean{
     bool build_edge_list(const Eigen::MatrixXd& V, const Eigen::MatrixXi&F, const Eigen::MatrixXi & FL, const size_t total_label_num, std::vector<edge> & edge_list, std::unordered_map<int, std::vector<int> > & patch_edge_dict);
     bool build_edge_list_loop(const Eigen::MatrixXd& V, const Eigen::MatrixXi&F, const Eigen::MatrixXi & FL, const size_t total_label_num, std::vector<edge> & edge_list, std::unordered_map<int, std::vector<int> > & patch_edge_dict,
     std::unordered_map<int, std::vector<bool> > & patch_edgedirec_dict);
-    void plot_edge(igl::opengl::glfw::Viewer & viewer, const Eigen::MatrixXd & V, const Eigen::VectorXi &FL, const edge & edg);
 
 }
 

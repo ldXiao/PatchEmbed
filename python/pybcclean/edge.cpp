@@ -391,33 +391,33 @@ namespace bcclean{
         }
     };
 
-    void plot_edge(igl::opengl::glfw::Viewer & viewer, const Eigen::MatrixXd & V, const Eigen::VectorXi &FL, const edge & edg){
-        Eigen::MatrixXd C_edg, v_heads, v_tails;
-        Eigen::VectorXi EDG, heads, tails, EL;
-        igl::list_to_matrix(edg._edge_vertices, EDG);
-        heads = EDG.head(EDG.rows()-1);
-        tails = EDG.tail(EDG.rows()-1);
-        v_heads=igl::slice(V, heads, 1);
-        v_tails=igl::slice(V, tails, 1);
-        if(edg.matched){
-            // set the color to be alternating the label color;
-            int lb0 = edg._label_pair.first;
-            int lb1 = edg._label_pair.second;
-            EL = Eigen::VectorXi::Constant(EDG.rows(), 0);
-            for(int i =0; i<EL.rows();++i){
-                if( i % 2==0){
-                    EL(i)=lb0;
-                }
-                else EL(i)=lb1;
-            }
-            int label_num = FL.maxCoeff()+1;
-            igl::jet(EL, 0, label_num-1, C_edg);
-            viewer.data().add_edges(v_heads, v_tails, C_edg);
-        } else{
-            // if matched
-            viewer.data().add_edges(v_heads,v_tails, Eigen::RowVector3d(1,0,0));
-        }
-    };
+    // void plot_edge(igl::opengl::glfw::Viewer & viewer, const Eigen::MatrixXd & V, const Eigen::VectorXi &FL, const edge & edg){
+    //     Eigen::MatrixXd C_edg, v_heads, v_tails;
+    //     Eigen::VectorXi EDG, heads, tails, EL;
+    //     igl::list_to_matrix(edg._edge_vertices, EDG);
+    //     heads = EDG.head(EDG.rows()-1);
+    //     tails = EDG.tail(EDG.rows()-1);
+    //     v_heads=igl::slice(V, heads, 1);
+    //     v_tails=igl::slice(V, tails, 1);
+    //     if(edg.matched){
+    //         // set the color to be alternating the label color;
+    //         int lb0 = edg._label_pair.first;
+    //         int lb1 = edg._label_pair.second;
+    //         EL = Eigen::VectorXi::Constant(EDG.rows(), 0);
+    //         for(int i =0; i<EL.rows();++i){
+    //             if( i % 2==0){
+    //                 EL(i)=lb0;
+    //             }
+    //             else EL(i)=lb1;
+    //         }
+    //         int label_num = FL.maxCoeff()+1;
+    //         igl::jet(EL, 0, label_num-1, C_edg);
+    //         viewer.data().add_edges(v_heads, v_tails, C_edg);
+    //     } else{
+    //         // if matched
+    //         viewer.data().add_edges(v_heads,v_tails, Eigen::RowVector3d(1,0,0));
+    //     }
+    // };
 
     bool simple_match_two_edges(const edge & edg0, const edge & edg1){
         if(edg0._label_pair != edg1._label_pair){

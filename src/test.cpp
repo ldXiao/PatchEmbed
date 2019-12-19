@@ -8,11 +8,7 @@
 #include <igl/readDMAT.h>
 #include <igl/writeDMAT.h>
 #include <igl/writeOBJ.h>
-#include <igl/opengl/glfw/Viewer.h>
-#include <igl/opengl/ViewerData.h>
 #include <igl/per_face_normals.h>
-#include <igl/opengl/glfw/imgui/ImGuiMenu.h>
-#include <igl/opengl/glfw/imgui/ImGuiHelpers.h>
 #include <igl/unproject_onto_mesh.h>
 #include <igl/embree/line_mesh_intersection.h>
 #include <imgui/imgui.h>
@@ -45,7 +41,7 @@ Eigen::VectorXi II, JJ;
 Eigen::VectorXi FL_good;
 Eigen::MatrixXd prob_mat;
 int label_num;
-igl::opengl::glfw::Viewer viewer;
+// igl::opengl::glfw::Viewer viewer;
 Eigen::MatrixXd V_uv;
 Eigen::MatrixXd V_i, bnd_uv;
 Eigen::MatrixXi F_i;
@@ -88,53 +84,7 @@ void project_face_labels(
         bcclean::refine_proj_vote(V_bad, F_bad, FL_bad, V_good, F_good, label_num, 2, FL_good, prob_mat);
         std::cout << "r3"<< std::endl;
 }
-bool key_down(igl::opengl::glfw::Viewer &viewer, unsigned char key, int modifier) {
-    using namespace Eigen;
-    using namespace std;
-    switch(key) {
-        case ']':{
-            if(visual_bad){
-                viewer.data().clear();
-                // igl::jet(FL_bad.unaryExpr([](const int x) { return x%8; }), 0, 8, C_bad);
-                // igl::jet(FL_good.unaryExpr([](const int x) { return x%8; }), 0, 8, C_good);
-                viewer.data().show_overlay_depth = false;
-                viewer.data().set_mesh(V_good, F_good);
-                // viewer.data().set_colors(C_bad);
-                
-                for(auto p: edge_list_bad){
-                bcclean::plot_edge(viewer, V_bad, FL_bad, p);
-                }
-                visual_bad = !visual_bad;
-            } else {
-                viewer.data().clear();
-                viewer.data().show_overlay_depth = false;
-                viewer.data().set_mesh(V_good, F_good);
-                viewer.data().set_colors(C_good);
-                
-                for(auto p: edge_list_good){
-                bcclean::plot_edge(viewer, V_good, FL_good, p);
-                }
-                visual_bad = !visual_bad;
-            }
-            break;
-        }
-    case '=':{
-        Eigen::MatrixXd V_good_copy = V_good;
-        Eigen::MatrixXi F_good_copy = F_good;
-        Eigen::VectorXi FL_good_copy = FL_good;
-        bcclean::MatchMaker::trace_and_label(bcclean::patch::Vbase, bcclean::patch::Fbase, bcclean::patch::FL_mod, V_good_copy, F_good_copy, FL_good_copy, keyb);
-        viewer.data().clear();
-        viewer.data().set_mesh(V_good_copy, F_good_copy);
-        Eigen::MatrixXd head, tail;
-        igl::slice(V_good_copy, II, 1, head);
-        igl::slice(V_good_copy, JJ, 1,tail);
-        viewer.data().add_edges(head, tail , Eigen::RowVector3d(1,0,0));
-        break;
-    }
-            
-    }
-    return false;
-}
+// 
 std::string data_root;
 
 using json = nlohmann::json;
@@ -203,16 +153,13 @@ int main(int argc, char *argv[]){
     bcclean::patch::SetStatics(V_bad, F_bad, FL_bad, label_num);
     std::map<int, bcclean::patch> patch_dict;
     bcclean::CollectPatches();
-    // viewer.data().set_mesh(V_good, F_good);
-    // viewer.callback_key_pressed = key_down;
-    key_down(viewer,'=');
-    // viewer.launch();
-    // bcclean::trace_and_label(bcclean::patch::Vbase, bcclean::patch::Fbase, bcclean::patch::FL_mod, V_good, F_good, FL_good, dots, viewer);
-    
+    Eigen::MatrixXd V_good_copy = V_good;
+    Eigen::MatrixXi F_good_copy = F_good;
+    Eigen::VectorXi FL_good_copy = FL_good;
+    bcclean::MatchMaker::trace_and_label(bcclean::patch::Vbase, bcclean::patch::Fbase, bcclean::patch::FL_mod, V_good_copy, F_good_copy, FL_good_copy, keyb); 
     igl::jet(bcclean::patch::FL_mod,0, bcclean::patch::total_label_num-1, C_bad);
     igl::writeDMAT(data_root +"/test.dmat", bcclean::patch::FL_mod );
     igl::writeOBJ(data_root + "/test.obj", V_good, F_good);
-    // viewer.data().set_colors(C_bad);
     
     return 0;
 }

@@ -13,7 +13,6 @@
 #include <igl/adjacency_list.h>
 #include <igl/vertex_triangle_adjacency.h>
 #include <igl/triangle_triangle_adjacency.h>
-#include <igl/opengl/glfw/Viewer.h>
 #include <algorithm>
 #include <functional>
 #include <cmath>

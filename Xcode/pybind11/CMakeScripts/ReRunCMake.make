@@ -11,9 +11,6 @@ TARGETS += $(subst $(space),$(spaceplus),$(wildcard /Users/vector_cat/gits/bcCle
 TARGETS += $(subst $(space),$(spaceplus),$(wildcard /usr/local/share/cmake-3.13/Modules/CMakePackageConfigHelpers.cmake))
 TARGETS += $(subst $(space),$(spaceplus),$(wildcard /usr/local/share/cmake-3.13/Modules/CMakeParseArguments.cmake))
 TARGETS += $(subst $(space),$(spaceplus),$(wildcard /usr/local/share/cmake-3.13/Modules/CheckCXXCompilerFlag.cmake))
-TARGETS += $(subst $(space),$(spaceplus),$(wildcard /usr/local/share/cmake-3.13/Modules/FindPackageHandleStandardArgs.cmake))
-TARGETS += $(subst $(space),$(spaceplus),$(wildcard /usr/local/share/cmake-3.13/Modules/FindPackageMessage.cmake))
-TARGETS += $(subst $(space),$(spaceplus),$(wildcard /usr/local/share/cmake-3.13/Modules/FindPythonInterp.cmake))
 TARGETS += $(subst $(space),$(spaceplus),$(wildcard /usr/local/share/cmake-3.13/Modules/GNUInstallDirs.cmake))
 TARGETS += $(subst $(space),$(spaceplus),$(wildcard /usr/local/share/cmake-3.13/Modules/WriteBasicConfigVersionFile.cmake))
 

@@ -945,7 +945,7 @@ FIND_PACKAGE_MESSAGE_DETAILS_OpenGL:INTERNAL=[/Applications/Xcode.app/Contents/D
 //Details about finding PYTHON
 FIND_PACKAGE_MESSAGE_DETAILS_PYTHON:INTERNAL=/usr/bin/python3
 //Details about finding PythonInterp
-FIND_PACKAGE_MESSAGE_DETAILS_PythonInterp:INTERNAL=[/usr/bin/python3][v3.7.3()]
+FIND_PACKAGE_MESSAGE_DETAILS_PythonInterp:INTERNAL=[/usr/bin/python3][v3.7.3(3.6)]
 //Details about finding PythonLibs
 FIND_PACKAGE_MESSAGE_DETAILS_PythonLibs:INTERNAL=[/usr/local/Frameworks/Python.framework/Versions/3.7/lib/libpython3.7m.dylib][/usr/local/Frameworks/Python.framework/Versions/3.7/include/python3.7m][v3.7.5(3.6)]
 //Details about finding Threads
@@ -1000,7 +1000,7 @@ PYBIND11_VERSION_PATCH:INTERNAL=0
 PYTHON_EXECUTABLE-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: PYTHON_INCLUDE_DIR
 PYTHON_INCLUDE_DIR-ADVANCED:INTERNAL=1
-PYTHON_INCLUDE_DIRS:INTERNAL=/Applications/Xcode.app/Contents/Developer/Library/Frameworks/Python3.framework/Versions/3.7/include/python3.7m
+PYTHON_INCLUDE_DIRS:INTERNAL=/usr/local/Frameworks/Python.framework/Versions/3.7/include/python3.7m
 PYTHON_LIBRARIES:INTERNAL=/usr/local/Frameworks/Python.framework/Versions/3.7/lib/libpython3.7m.dylib
 //ADVANCED property for variable: PYTHON_LIBRARY
 PYTHON_LIBRARY-ADVANCED:INTERNAL=1
