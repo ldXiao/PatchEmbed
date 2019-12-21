@@ -9,7 +9,9 @@
 #include <iostream>
 #include <vector>
 #include <unordered_map>
+namespace bcclean{
 
+namespace Algo{
 class DisjointSet{
     std::unordered_map<int, int> root;
     //constructor
@@ -131,6 +133,7 @@ std::vector<std::pair<int, std::pair<int, int> > > Kruskal_MST(const std::vector
     }
     return frame_tree;
 }
-
+}
+}
 #endif
 

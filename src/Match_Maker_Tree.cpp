@@ -26,7 +26,7 @@ namespace MatchMakerTree{
         return;
     }
 
-    
+ 
 
     void silence_vertices1(std::vector<std::vector<int > > & VV, const std::vector<int> & silent_indices)
     {
@@ -694,6 +694,9 @@ namespace MatchMakerTree{
         std::unordered_map<int, std::vector<bool> > patch_edge_direction_dict;
         // label -> list(edge_idx) map indices into edge_list
         build_edge_list_loop(V_bad, F_bad, FL_bad, total_label_num, edge_list, patch_edge_dict, patch_edge_direction_dict);
+        std::vector<std::pair<int, std::pair<int, int> > > frame_graph;
+        _build_frame_graph(edge_list, frame_graph);
+        std::vector<std::pair<int, std::pair<int, int> > > frame_tree = Algo::Kruskal_MST(frame_graph);
 
         // we can assume that  all nodes have valance more than 3
         std::vector<int> node_list_bad;
@@ -851,6 +854,10 @@ namespace MatchMakerTree{
         }
         // start with the nodes with largest valance and deal with the edge starting with this node in counter clock order
         std::vector<int> total_silence_list;
+
+        // before the main loop traverse the fame tree to trace a spanning tree first
+        
+
         for(auto nd: sorted_node_list_bad)
         {
             // Main loop for tracing
