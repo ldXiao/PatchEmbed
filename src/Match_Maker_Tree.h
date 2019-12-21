@@ -18,10 +18,8 @@
 #include <cmath>
 
 namespace bcclean{
-namespace MatchMaker{
+namespace MatchMakerTree{
     void silence_vertices1(std::vector<std::vector<int > > & VV, std::vector<bool> & VCuts, const std::vector<int> & silent_indices);
-
-   
 
     void CC_faces_per_node(
         const Eigen::MatrixXd & V,
@@ -77,7 +75,7 @@ namespace MatchMaker{
         std::vector<std::vector<int> > & VV // adjacency list on Fraw, posibly some ofthem has been silenced
     );
 
-    void trace_and_label(
+    void trace_and_label_tree(
         const Eigen::MatrixXd & V_bad,
         const Eigen::MatrixXi & F_bad,
         const Eigen::VectorXi & FL_bad,

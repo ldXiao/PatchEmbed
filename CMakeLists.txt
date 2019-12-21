@@ -102,7 +102,7 @@ set(SOURCES
     src/node.h
     src/node.cpp
     src/edge.h
-    src/edge.cpp
+    src/edge.cpp    
     src/patch.h 
     src/patch.cpp
     src/planar_cut_simply_connect.h 
@@ -127,8 +127,8 @@ target_link_libraries(bcclean PUBLIC
         igl::core
         igl::cgal
         igl::embree
-        igl::opengl_glfw
-        igl::opengl_glfw_imgui
+        # igl::opengl_glfw
+        # igl::opengl_glfw_imgui
         igl::predicates
         cxxopts
         nanoflann

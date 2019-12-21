@@ -43,6 +43,8 @@ std::vector<Eigen::Triplet<double>> to_triplets(Eigen::SparseMatrix<double> & M)
     return v;
 }
 
+std::vector<int> get_vertices(const std::vector<std::pair<int,std::pair<int, int> > > frame_graph)
+
 std::vector<int> get_vertices(const Eigen::SparseMatrix<double> & Graph){
     std::unordered_map<int,int> set;
     std::vector<int> universe;

@@ -22,6 +22,7 @@
 #include "graphcut_cgal.h"
 #include "patch.h"
 #include "Match_Maker.h"
+#include "Match_Maker_Tree.h"
 #include <igl/upsample.h>
 #include <igl/random_points_on_mesh.h>
 #include <igl/jet.h>
@@ -41,7 +42,7 @@ Eigen::VectorXi II, JJ;
 Eigen::VectorXi FL_good;
 Eigen::MatrixXd prob_mat;
 int label_num;
-// igl::opengl::glfw::Viewer viewer;
+
 Eigen::MatrixXd V_uv;
 Eigen::MatrixXd V_i, bnd_uv;
 Eigen::MatrixXi F_i;

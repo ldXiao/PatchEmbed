@@ -1,6 +1,7 @@
 #include "Match_Maker.h"
 #include "proj_node.h"
 #include "loop_colorize.h"
+#include "Kruskal.hpp"
 #include <igl/slice.h>
 #include <igl/writeOBJ.h>
 #include <igl/writeDMAT.h>
@@ -8,8 +9,24 @@
 #include <nlohmann/json.hpp>
 
 namespace bcclean {
-namespace MatchMaker{
+namespace MatchMakerTree{
     using json = nlohmann::json;
+    
+    void _build_frame_graph(
+        const std::vector<bcclean::edge> & edge_list,
+        std::vector<std::pair<int,std::pair<int,int> > > & frame_graph
+    )
+    {
+        frame_graph.clear();
+        int count = 0;
+        for(auto edg: edge_list)
+        {
+            frame_graph.push_back(std::make_pair(count, std::make_pair(edg.head, edg.tail)));
+        }
+        return;
+    }
+
+    
 
     void silence_vertices1(std::vector<std::vector<int > > & VV, const std::vector<int> & silent_indices)
     {
@@ -30,6 +47,9 @@ namespace MatchMaker{
         std::map<int, std::vector<int> > & node_faces_dict
     )
     {
+        // calculate node_faces_dict
+        // node_list give a list of nodes indexed into Vertex
+        // where key is node index and value is a std::vector<int> of face indices in Counterclock loop direction.
         node_faces_dict.clear();
         std::vector<std::vector<int> > VF, VFi;
         igl::vertex_triangle_adjacency(V, F, VF, VFi);
