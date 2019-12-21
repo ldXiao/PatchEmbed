@@ -44,6 +44,24 @@ std::vector<Eigen::Triplet<double>> to_triplets(Eigen::SparseMatrix<double> & M)
 }
 
 std::vector<int> get_vertices(const std::vector<std::pair<int,std::pair<int, int> > > frame_graph)
+{
+    std::vector<int> universe;
+    std::unordered_map<int, int> set;
+    for(auto edg: frame_graph)
+    {
+        if(set.find(edg.second.first)== set.end())
+        {
+            universe.push_back(edg.second.first);
+            set[edg.second.first] = edg.first;
+        }
+        if(set.find(edg.second.second)== set.end())
+        {
+            universe.push_back(edg.second.second);
+            set[edg.second.second] = edg.first;
+        }
+    }    
+    return universe;
+}
 
 std::vector<int> get_vertices(const Eigen::SparseMatrix<double> & Graph){
     std::unordered_map<int,int> set;
@@ -87,6 +105,31 @@ Eigen::SparseMatrix<double> Kruskal_MST(Eigen::SparseMatrix<double> Graph){
     Eigen::SparseMatrix<double> Tree(Graph.rows(),Graph.cols());
     Tree.setFromTriplets(Tree_triplets.begin(), Tree_triplets.end());
     return Tree;
+}
+
+std::vector<std::pair<int, std::pair<int, int> > > Kruskal_MST(const std::vector<std::pair<int, std::pair<int, int> > > & frame_graph)
+{
+    std::vector<std::pair<int, std::pair<int, int> > > frame_tree;
+    std::vector<std::pair<int, std::pair<int, int> > > frame_graph_copy = frame_graph;
+    std::sort(frame_graph_copy.begin(), frame_graph_copy.end(),
+        [](const std::pair<int, std::pair<int, int> > & a, const std::pair<int, std::pair<int, int> > & b)
+        {
+            return a.first < b.first;
+        });
+    std::vector<int> universe = get_vertices(frame_graph_copy);
+    DisjointSet DS;
+    DS.initialize(universe);
+    for(auto edg: frame_graph_copy)
+    {
+        int x = edg.second.first;
+        int y = edg.second.second;
+        if(DS.find_root(x)!= DS.find_root(y))
+        {
+            DS.make_union(x,y);
+            frame_tree.push_back(edg);
+        }
+    }
+    return frame_tree;
 }
 
 #endif
