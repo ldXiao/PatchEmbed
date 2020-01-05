@@ -2,6 +2,9 @@
 #include <iostream>
 #include <vector>
 #include <utility>
+#include <regex>
+#include <string>
+#include <filesystem>
 #include <unordered_map>
 
 class DisjointSet{
@@ -94,5 +97,26 @@ int main()
     {
         std::cout<< edg.first << ":" << edg.second.first <<"," << edg.second.second << std::endl;
     }
+    std::regex r(".*\\.obj");
+    std::regex exclude(".*(test|good\\.mesh__sf)\\.obj");
+    std::string data_root = "/Users/vector_cat/gits/bcclean_jupyters/data/2";
+    std::string good_mesh_file, bad_mesh_file;
+    for (const auto & entry : std::filesystem::directory_iterator(data_root))
+    {
+        if(std::regex_match(entry.path().c_str(), r))
+        {
+            if(!std::regex_match(entry.path().c_str(), exclude))
+            {
+                bad_mesh_file = entry.path().c_str();
+                std::printf("%s\n",bad_mesh_file.c_str());
+            }
+            else
+            {
+                std::printf("wrong%s\n",entry.path().c_str());
+            }
+            
+        }
+    }
+    
     return 0;
 }

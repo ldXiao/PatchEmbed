@@ -2,6 +2,12 @@
 #include <vector>
 #include <iostream>
 
+#include <pybind11/embed.h> // everything needed for embedding
+#include <pybind11/pybind11.h>
+
+#include <regex>
+#include <filesystem>
+#include <string>
 #include <igl/read_triangle_mesh.h>
 #include <igl/readDMAT.h>
 #include <igl/writeDMAT.h>
@@ -88,7 +94,6 @@ std::string data_root;
 using json = nlohmann::json;
 int main(int argc, char *argv[]){
     using namespace std;
-    namespace py = pybind11;
     if (argc < 2) {
         std::cout << "Usage cutmeshtest_bin --file mesh.obj --n sample_num --cut" << std::endl;
         exit(0);
@@ -126,7 +131,26 @@ int main(int argc, char *argv[]){
     // py::object py_bad_mesh_file =
     //         utlis.attr("get_bad_mesh")(data_root);
     // bad_mesh_file = py_bad_mesh_file.cast<string>();
-    bad_mesh_file  = data_root + "/"+"00000006_d4fe04f0f5f84b52bd4f10e4_trimesh_001.obj";
+    std::regex r(".*\\.obj");
+    std::regex exclude(".*(test|good\\.mesh__sf)\\.obj");
+    std::string data_root = "/Users/vector_cat/gits/bcclean_jupyters/data/2";
+    for (const auto & entry : std::filesystem::directory_iterator(data_root))
+    {
+        if(std::regex_match(entry.path().c_str(), r))
+        {
+            if(!std::regex_match(entry.path().c_str(), exclude))
+            {
+                bad_mesh_file = entry.path().c_str();
+                std::printf("got bad mesh: %s\n",bad_mesh_file.c_str());
+            }
+            else
+            {
+                std::printf("extral objs include : %s\n",entry.path().c_str());
+            }
+            
+        }
+    }
+    
     // py::object py_face_label_yml = utlis.attr("get_feat_file")(data_root);
     // face_label_yml = py_face_label_yml.cast<string>();
     // py::object py_face_label_dmat = utlis.attr("parse_feat")(face_label_yml);
@@ -136,7 +160,7 @@ int main(int argc, char *argv[]){
     igl::read_triangle_mesh(bad_mesh_file, V_bad, F_bad);
     if(iden)
     {
-    igl::read_triangle_mesh(bad_mesh_file, V_good, F_good);
+        igl::read_triangle_mesh(bad_mesh_file, V_good, F_good);
     }
     else
     {
