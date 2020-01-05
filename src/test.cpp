@@ -2,8 +2,6 @@
 #include <vector>
 #include <iostream>
 
-#include <pybind11/embed.h> // everything needed for embedding
-#include <pybind11/pybind11.h>
 #include <igl/read_triangle_mesh.h>
 #include <igl/readDMAT.h>
 #include <igl/writeDMAT.h>
@@ -11,11 +9,10 @@
 #include <igl/per_face_normals.h>
 #include <igl/unproject_onto_mesh.h>
 #include <igl/embree/line_mesh_intersection.h>
-#include <imgui/imgui.h>
 #include <igl/jet.h>
 #include <igl/writeOBJ.h>
 #include <igl/upsample.h>
-#include <imgui/imgui_internal.h>
+
 #include <Eigen/Core>
 #include "bcclean.h"
 #include "edge.h"
@@ -116,19 +113,20 @@ int main(int argc, char *argv[]){
         *key = param_json["key"];
     }
     /*-----------------------------------------
-    for pybind
+    python is causing some problem here, rewrite with regex
     */
 
-    py::scoped_interpreter guard{};
-    py::module sys = py::module::import("sys");
-    py::module os = py::module::import("os");
-    sys.attr("path").attr("append")("../src");
-    py::module utlis = py::module::import("utlis");
-    // handle and generate all the necessary files
+    // py::scoped_interpreter guard{};
+    // py::module sys = py::module::import("sys");
+    // py::module os = py::module::import("os");
+    // sys.attr("path").attr("append")("../src");
+    // py::module utlis = py::module::import("utlis");
+    // // handle and generate all the necessary files
     std::string bad_mesh_file, good_mesh_file, face_label_dmat, face_label_yml;
-    py::object py_bad_mesh_file =
-            utlis.attr("get_bad_mesh")(data_root);
-    bad_mesh_file = py_bad_mesh_file.cast<string>();
+    // py::object py_bad_mesh_file =
+    //         utlis.attr("get_bad_mesh")(data_root);
+    // bad_mesh_file = py_bad_mesh_file.cast<string>();
+    bad_mesh_file  = data_root + "/"+"00000006_d4fe04f0f5f84b52bd4f10e4_trimesh_001.obj";
     // py::object py_face_label_yml = utlis.attr("get_feat_file")(data_root);
     // face_label_yml = py_face_label_yml.cast<string>();
     // py::object py_face_label_dmat = utlis.attr("parse_feat")(face_label_yml);
