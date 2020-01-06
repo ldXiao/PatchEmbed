@@ -75,7 +75,7 @@ namespace MatchMakerTree{
         std::vector<std::vector<int> > & VV // adjacency list on Fraw, posibly some ofthem has been silenced
     );
 
-    void trace_and_label_tree(
+    void trace_and_label(
         const Eigen::MatrixXd & V_bad,
         const Eigen::MatrixXi & F_bad,
         const Eigen::VectorXi & FL_bad,

@@ -143,3 +143,10 @@ target_link_libraries(bcclean PUBLIC
 add_executable(test_bin src/test.cpp)
 target_link_libraries(test_bin bcclean pybind11::embed)
 set_target_properties(test_bin PROPERTIES CXX_STANDARD 17)
+
+
+# another executable for debug
+
+add_executable(test_tree src/test_tree.cpp)
+target_link_libraries(test_tree bcclean)
+set_target_properties(test_tree PROPERTIES CXX_STANDARD 17)

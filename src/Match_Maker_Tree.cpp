@@ -17,11 +17,17 @@ namespace MatchMakerTree{
         std::vector<std::pair<int,std::pair<int,int> > > & frame_graph
     )
     {
+        /*
+            modify in place a frame_graph of edges, with identical index with edge_list and head and tail
+            will be used for generating a min spanning tree
+         */
+
         frame_graph.clear();
         int count = 0;
         for(auto edg: edge_list)
         {
             frame_graph.push_back(std::make_pair(count, std::make_pair(edg.head, edg.tail)));
+            count++;
         }
         return;
     }
@@ -696,8 +702,17 @@ namespace MatchMakerTree{
         build_edge_list_loop(V_bad, F_bad, FL_bad, total_label_num, edge_list, patch_edge_dict, patch_edge_direction_dict);
         std::vector<std::pair<int, std::pair<int, int> > > frame_graph;
         _build_frame_graph(edge_list, frame_graph);
-        std::vector<std::pair<int, std::pair<int, int> > > frame_tree = Algo::Kruskal_MST(frame_graph);
-
+        std::vector<std::pair<int, std::pair<int, int> > > frame_MST
+         = Algo::Kruskal_MST(frame_graph);
+        json mst_json; // store the min spanning tree
+        for(auto item: frame_MST)
+        {
+            mst_json[std::to_string(item.first)] = edge_list[item.first]._edge_vertices;   
+        }
+        std::ofstream filemst;
+        filemst.open("../debug_mst.json");
+        filemst << mst_json;
+        filemst.close();
         // we can assume that  all nodes have valance more than 3
         std::vector<int> node_list_bad;
         {
