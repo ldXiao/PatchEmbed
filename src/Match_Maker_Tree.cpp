@@ -34,7 +34,7 @@ namespace MatchMakerTree{
 
  
 
-    void silence_vertices1(std::vector<std::vector<int > > & VV, const std::vector<int> & silent_indices)
+    void silence_vertices(std::vector<std::vector<int > > & VV, const std::vector<int> & silent_indices)
     {
         for(auto index : silent_indices)
         {
@@ -151,7 +151,7 @@ namespace MatchMakerTree{
     void sector_silence_list(
         const Eigen::MatrixXi & F,
         const std::map<int, std::vector<int> > & node_edge_dict,
-        const std::map<int, std::vector<bool> > & node_edge_visit_dict,
+        const std::map<int, std::map<int, bool> > & node_edge_visit_dict,
         const std::vector<std::vector<int> > & TEdges,
         const std::map<int, std::vector<int> > & CC_node_face_dict, 
         const int& source,
@@ -186,11 +186,12 @@ namespace MatchMakerTree{
             
             int ebfpos = e0pos;
             bool find_ebf = false;
-            int CCsize  = node_edge_visit_dict.at(source).size();
+            int CCsize  = node_edge_dict.at(source).size();
             for(int ii =0; ii < CCsize; ++ii)
             {
                 ebfpos =(e0pos - ii + CCsize) % CCsize;
-                if(node_edge_visit_dict.at(source)[ebfpos])
+                int ebftemp = node_edge_dict.at(source)[ebfpos];
+                if(node_edge_visit_dict.at(source).at(ebftemp))
                 {
                     find_ebf = true;
                     break;
@@ -202,7 +203,8 @@ namespace MatchMakerTree{
             for(int ii =0; ii < CCsize; ++ii)
             {
                 ebhpos =(e0pos + ii) % CCsize;
-                if(node_edge_visit_dict.at(source)[ebhpos])
+                int ebhtemp = node_edge_dict.at(source).at(ebhpos);
+                if(node_edge_visit_dict.at(source).at(ebhtemp))
                 {
                     find_ebh = true;
                     break;
@@ -259,8 +261,7 @@ namespace MatchMakerTree{
                 {
                     break;
                 }
-                 
-                    
+           
                 temp_silence_list.push_back(F(CC_node_face_dict.at(source)[secface], (e_pos+2)%3));
                 
                 
@@ -270,7 +271,7 @@ namespace MatchMakerTree{
     void update_local_sector(
         const std::vector<std::vector<int> > & VV, 
         const Eigen::MatrixXi & F,
-        const std::map<int , std::vector<bool> > & node_edge_visit_dict,
+        const std::map<int , std::map<int, bool> > & node_edge_visit_dict,
         const std::map<int, std::vector<int> > & node_edge_dict,
         const std::vector<std::vector<int> > & TEdges,
         const std::map<int, std::vector<int> > & CC_node_face_dict, 
@@ -284,16 +285,16 @@ namespace MatchMakerTree{
 
         {
             // set silence all other nodes in VV_temp
-            std::vector<int> node_list;
+            std::vector<int> other_node_list;
             for(auto item: node_edge_dict)
             {
                 if(item.first != source && item.first != target)
                 {
-                    node_list.push_back(item.first);
+                    other_node_list.push_back(item.first);
                 }
             }
 
-            silence_vertices1(VV_temp, node_list);
+            silence_vertices(VV_temp, other_node_list);
         }
         
         // deal with the sector of source first
@@ -307,7 +308,7 @@ namespace MatchMakerTree{
             source, 
             cur_edge, 
             temp_silence_list);
-
+        silence_vertices(VV_temp, temp_silence_list);
         // deal with the sctor of target
         sector_silence_list(
             F,
@@ -318,7 +319,7 @@ namespace MatchMakerTree{
             target,
             cur_edge, 
             temp_silence_list);
-        silence_vertices1(VV_temp, temp_silence_list);
+        silence_vertices(VV_temp, temp_silence_list);
     }
 
 
@@ -803,7 +804,6 @@ namespace MatchMakerTree{
     {
         std::map<int, int> edge_order_map; // store and maintain the order of added edges {order: edge_dx}
         std::map<int, std::vector<int> > edge_path_map; // {edge_idx, path}
-        int run_count = 0;
         // Randomize Seed
         srand(static_cast<unsigned int>(time(nullptr)));
         int total_label_num = FL_bad.maxCoeff()+1;
@@ -837,34 +837,27 @@ namespace MatchMakerTree{
 
         std::map<int, std::vector<int> > node_edge_dict;
         _gen_node_CCedges_dict(V_bad, F_bad, edge_list, node_list_bad, node_edge_dict);
+
+
         // PART 1 finds the Nearest Neighbor of nodes on good mesh
         // build the kdtree;
         kd_tree_Eigen<double> kdt(V_good.cols(),std::cref(V_good),10);
         kdt.index->buildIndex();
-        std::map<int, int> node_imge_dict;
+        std::map<int, int> node_image_dict;
         std::vector<int> node_list_good;
-        bcclean::proj_node(V_bad, F_bad, node_list_bad, V_good, F_good, node_imge_dict);
+        bcclean::proj_node(V_bad, F_bad, node_list_bad, V_good, F_good, node_image_dict);
         
-        for(auto item:node_imge_dict)
+        for(auto item:node_image_dict)
         {
             node_list_good.push_back(item.second);
         }
-        std::vector<int> sorted_node_list_bad = node_list_bad;
-        std::map<int , std::vector<bool> > node_edge_visit_dict;
-        std::sort(sorted_node_list_bad.begin(), sorted_node_list_bad.end(), [node_edge_dict](int nda, int ndb){return (node_edge_dict.at(nda).size() > node_edge_dict.at(ndb).size());});
-        // shift sorted_node_list by kk
-        std::vector<int> sorted_node_list_bad_copy = sorted_node_list_bad;
-        int sss = sorted_node_list_bad.size();
-        for(int jj =0; jj < sss; ++jj)
-        {
-            sorted_node_list_bad[jj] = sorted_node_list_bad_copy[(jj+kk)%sss];
-        }
-        // remove all the above one finish the true implementation
-        for(auto nd: sorted_node_list_bad)
+
+        std::map<int , std::map<int, bool> > node_edge_visit_dict;
+        for(auto nd: node_list_bad)
         {
             for(auto q: node_edge_dict[nd])
             {
-                node_edge_visit_dict[nd].push_back(false);
+                node_edge_visit_dict[nd][q]=false;
             }
         }
 
@@ -894,147 +887,142 @@ namespace MatchMakerTree{
 
         json path_json;
 
-        // before the main loop traverse the fame tree to trace a spanning tree first
-        for(auto frame_edg: frame_MST){
-            // find the source and target in the good mesh
-            int source_bad = frame_edg.second.first;
-            int target_bad = frame_edg.second.second;
-            int source = node_imge_dict[source_bad];
-            int target = node_imge_dict[target_bad];
-            assert(target != -1 && source != -1); 
-            int edge_idx = frame_edg.first;
-            Eigen::MatrixXi TT_good;
-            igl::triangle_triangle_adjacency(F_good, TT_good);
-            {
-                std::vector<std::vector<int> > VFi_good;
-                igl::vertex_triangle_adjacency(V_good, F_good, VF_good, VFi_good);
-            }
-            edge edg = edge_list[edge_idx];
-            std::vector<double> Weights;
-            // update local sector
-            // (a) create CC_node_face_list
-            std::map<int, std::vector<int> > CC_node_face_dict;
-            std::vector<std::vector<int > > VV_temp;
-            CC_faces_per_node(V_good, F_good, {source, target}, CC_node_face_dict);
-            {
-                std::map<int, std::vector<bool> > node_edge_visit_dict_temp;
-                std::map<int, std::vector<int> > node_edge_dict_temp;
-                for(auto item: node_edge_dict)
-                {
-                    node_edge_dict_temp[node_imge_dict.at(item.first)] = node_edge_dict.at(item.first);
-                    node_edge_visit_dict_temp[node_imge_dict.at(item.first)] = node_edge_visit_dict.at(item.first);
-                }
-                update_local_sector(
-                    VV_good, 
-                    F_good, 
-                    node_edge_visit_dict_temp, 
-                    node_edge_dict_temp,
-                    TEdges_good,
-                    CC_node_face_dict,
-                    source,
-                    target,
-                    edge_idx,
-                    VV_temp);
-            }
-            setWeights(V_good, V_bad, edg, 10, 1,  Weights);
-            // the Weights is vertex based
-            std::vector<int> path;
-            dijkstra_trace(VV_temp, source, target, Weights, path);
-            std::vector<int> path_records(path.size()-2);
+        // // before the main loop traverse the fame tree to trace a spanning tree first
+        // for(auto frame_edg: frame_MST){
+        //     // find the source and target in the good mesh
+        //     int source_bad = frame_edg.second.first;
+        //     int target_bad = frame_edg.second.second;
+        //     int source = node_image_dict[source_bad];
+        //     int target = node_image_dict[target_bad];
+        //     assert(target != -1 && source != -1); 
+        //     int edge_idx = frame_edg.first;
+        //     Eigen::MatrixXi TT_good;
+        //     igl::triangle_triangle_adjacency(F_good, TT_good);
+        //     {
+        //         std::vector<std::vector<int> > VFi_good;
+        //         igl::vertex_triangle_adjacency(V_good, F_good, VF_good, VFi_good);
+        //     }
+        //     edge edg = edge_list[edge_idx];
+        //     std::vector<double> Weights;
+        //     // update local sector
+        //     // (a) create CC_node_face_list
+        //     std::map<int, std::vector<int> > CC_node_face_dict;
+        //     std::vector<std::vector<int > > VV_temp;
+        //     CC_faces_per_node(V_good, F_good, {source, target}, CC_node_face_dict);
+        //     {
+        //         std::map<int, std::map<int, bool> > node_edge_visit_dict_temp;
+        //         std::map<int, std::vector<int> > node_edge_dict_temp;
+        //         for(auto item: node_edge_dict)
+        //         {
+        //             node_edge_dict_temp[node_image_dict.at(item.first)] = node_edge_dict.at(item.first);
+        //             node_edge_visit_dict_temp[node_image_dict.at(item.first)] = node_edge_visit_dict.at(item.first);
+        //         }
+        //         update_local_sector(
+        //             VV_good, 
+        //             F_good, 
+        //             node_edge_visit_dict_temp, 
+        //             node_edge_dict_temp,
+        //             TEdges_good,
+        //             CC_node_face_dict,
+        //             source,
+        //             target,
+        //             edge_idx,
+        //             VV_temp);
+        //     }
+        //     setWeights(V_good, V_bad, edg, 10, 1,  Weights);
+        //     // the Weights is vertex based
+        //     std::vector<int> path;
+        //     dijkstra_trace(VV_temp, source, target, Weights, path);
+        //     std::vector<int> path_records(path.size()-2);
             
-            for(int p =0 ; p < path.size()-2; ++p)
-            {
-                path_records[p] = path[p+1];
-            }
-            edge_path_map[edge_idx] = path;
+        //     for(int p =0 ; p < path.size()-2; ++p)
+        //     {
+        //         path_records[p] = path[p+1];
+        //     }
+        //     edge_path_map[edge_idx] = path;
 
-            path_json[std::to_string(edge_idx)] = path;   
+        //     path_json[std::to_string(edge_idx)] = path;   
                 
-            std::ofstream file;
-            file.open("../debug_paths.json");
-            file << path_json;
+        //     std::ofstream file;
+        //     file.open("../debug_paths.json");
+        //     file << path_json;
 
-            // path update VV
-            silence_vertices1(VV_good,path_records);
-            for(auto rec: path_records)
-            {
-                total_silence_list.push_back(rec);
-            }
-            //path update VEdges
-            for(auto vidx:path_records){
-                VEdges_good[vidx].push_back(edge_idx);
-            }
+        //     // path update VV
+        //     silence_vertices1(VV_good,path_records);
+        //     for(auto rec: path_records)
+        //     {
+        //         total_silence_list.push_back(rec);
+        //     }
+        //     //path update VEdges
+        //     for(auto vidx:path_records){
+        //         VEdges_good[vidx].push_back(edge_idx);
+        //     }
 
-            // path updates TEdges
-            // setf the triangle edges in cuts to be true
-            for(int rc_idx=0; rc_idx < path.size()-1; ++rc_idx){
-                int uidx = path[rc_idx];
-                int vidx = path[(rc_idx+1)%path.size()];
-                std::vector<int> inter(VF_good[uidx].size()+ VF_good[vidx].size());
-                auto it = std::set_intersection(VF_good[uidx].begin(), VF_good[uidx].end(), VF_good[vidx].begin(), VF_good[vidx].end(), inter.begin());
-                inter.resize(it-inter.begin());
-                // there should be only one comman adjacent triangle for boundary vertices
-                for(auto trg: inter){
-                    for(int edgpos =0; edgpos < 3 ; ++edgpos){
-                        int uuidx = F_good(trg, edgpos);
-                        int vvidx = F_good(trg, (edgpos+1)% 3);
-                        if(uuidx == uidx && vvidx == vidx){
-                            TEdges_good[trg][edgpos] = edge_idx;//1457-1459 1587 1588 2189 2371 2373 2374 2716 2742 1794 2712 3046 3047
-                            // break;
-                        }
-                        if(uuidx == vidx && vvidx == uidx){
-                            TEdges_good[trg][edgpos] = edge_idx;
-                            // break;
-                        }
-                    }
-                }
-            }
+        //     // path updates TEdges
+        //     // setf the triangle edges in cuts to be true
+        //     for(int rc_idx=0; rc_idx < path.size()-1; ++rc_idx){
+        //         int uidx = path[rc_idx];
+        //         int vidx = path[(rc_idx+1)%path.size()];
+        //         std::vector<int> inter(VF_good[uidx].size()+ VF_good[vidx].size());
+        //         auto it = std::set_intersection(VF_good[uidx].begin(), VF_good[uidx].end(), VF_good[vidx].begin(), VF_good[vidx].end(), inter.begin());
+        //         inter.resize(it-inter.begin());
+        //         // there should be only one comman adjacent triangle for boundary vertices
+        //         for(auto trg: inter){
+        //             for(int edgpos =0; edgpos < 3 ; ++edgpos){
+        //                 int uuidx = F_good(trg, edgpos);
+        //                 int vvidx = F_good(trg, (edgpos+1)% 3);
+        //                 if(uuidx == uidx && vvidx == vidx){
+        //                     TEdges_good[trg][edgpos] = edge_idx;//1457-1459 1587 1588 2189 2371 2373 2374 2716 2742 1794 2712 3046 3047
+        //                     // break;
+        //                 }
+        //                 if(uuidx == vidx && vvidx == uidx){
+        //                     TEdges_good[trg][edgpos] = edge_idx;
+        //                     // break;
+        //                 }
+        //             }
+        //         }
+        //     }
 
 
 
-            // split_detect
-            std::pair<int, int> splits;
-            while(split_detect(F_good, TT_good, node_list_good,VEdges_good, TEdges_good, splits))
-            {
+        //     // split_detect
+        //     std::pair<int, int> splits;
+        //     while(split_detect(F_good, TT_good, node_list_good,VEdges_good, TEdges_good, splits))
+        //     {
                 
 
-                // splits_update
-                splits_update(splits, V_good, F_good, VEdges_good, TEdges_good, VV_good);
-                igl::triangle_triangle_adjacency(F_good, TT_good);
-            }
-            silence_vertices1(VV_good, total_silence_list);
-            // update visit_dict or loop condition update
-            int pos =0;
-            for(auto tedge_idx: node_edge_dict[target_bad]){
-                if(tedge_idx == edge_idx)
-                {
-                    node_edge_visit_dict[target_bad][pos]=true;
-                }
-                pos +=1;
-            }
-            pos = 0;
-            for(auto sedge_idx: node_edge_dict[source_bad]){
-                if(sedge_idx == edge_idx)
-                {
-                    node_edge_visit_dict[source_bad][pos]=true;
-                }
-                pos +=1;
-            } 
-        }
+        //         // splits_update
+        //         splits_update(splits, V_good, F_good, VEdges_good, TEdges_good, VV_good);
+        //         igl::triangle_triangle_adjacency(F_good, TT_good);
+        //     }
+        //     silence_vertices1(VV_good, total_silence_list);
+        //     // update visit_dict or loop condition update
+        //     int pos =0;
+        //     for(auto tedge_idx: node_edge_dict[target_bad]){
+        //         if(tedge_idx == edge_idx)
+        //         {
+        //             node_edge_visit_dict[target_bad][pos]=true;
+        //         }
+        //         pos +=1;
+        //     }
+        //     pos = 0;
+        //     for(auto sedge_idx: node_edge_dict[source_bad]){
+        //         if(sedge_idx == edge_idx)
+        //         {
+        //             node_edge_visit_dict[source_bad][pos]=true;
+        //         }
+        //         pos +=1;
+        //     } 
+        // }
         
-        int stop=0;
-        for(auto nd: sorted_node_list_bad)
+        for(auto nd: node_list_bad)
         {
             // Main loop for tracing
-            int edg_nd = -1; // the indices of target edge in node_edge_dict[nd]
-
             for (auto edge_idx: node_edge_dict[nd]){
-                edg_nd +=1;
-                if(node_edge_visit_dict[nd][edg_nd])
+                if(node_edge_visit_dict[nd][edge_idx])
                 {
                     continue;
                 }
-                run_count+=1;
 
                 Eigen::MatrixXi TT_good;
                 igl::triangle_triangle_adjacency(F_good, TT_good);
@@ -1046,12 +1034,10 @@ namespace MatchMakerTree{
                 int target =-1;
                 int target_bad = -1;
                 int source_bad = -1;
-                // if(edg.head == nd){target_bad = edg.tail; target = node_imge_dict[target_bad];}
-                // if(edg.tail == nd){target_bad= edg.head; target= node_imge_dict[edg.head];}
-                // int source = node_imge_dict[nd];
-                int source = node_imge_dict[edg.head];
+
+                int source = node_image_dict[edg.head];
                 source_bad = edg.head;
-                target = node_imge_dict[edg.tail];
+                target = node_image_dict[edg.tail];
                 target_bad = edg.tail;
                 assert(target != -1 && source != -1); 
 
@@ -1062,12 +1048,12 @@ namespace MatchMakerTree{
                 std::vector<std::vector<int > > VV_temp;
                 CC_faces_per_node(V_good, F_good, {source, target}, CC_node_face_dict);
                 {
-                    std::map<int, std::vector<bool> > node_edge_visit_dict_temp;
+                    std::map<int, std::map<int, bool> > node_edge_visit_dict_temp;
                     std::map<int, std::vector<int> > node_edge_dict_temp;
                     for(auto item: node_edge_dict)
                     {
-                        node_edge_dict_temp[node_imge_dict.at(item.first)] = node_edge_dict.at(item.first);
-                        node_edge_visit_dict_temp[node_imge_dict.at(item.first)] = node_edge_visit_dict.at(item.first);
+                        node_edge_dict_temp[node_image_dict.at(item.first)] = node_edge_dict.at(item.first);
+                        node_edge_visit_dict_temp[node_image_dict.at(item.first)] = node_edge_visit_dict.at(item.first);
                     }
                     update_local_sector(
                         VV_good, 
@@ -1089,7 +1075,12 @@ namespace MatchMakerTree{
                 std::vector<int> path;
                 dijkstra_trace(VV_temp, source, target, Weights, path);
                 std::vector<int> path_records(path.size()-2);
-                
+                std::printf("for edge %d, find a path:\n",edge_idx);
+                for(auto rec : path)
+                {
+                    std::cout << rec<<", ";
+                }
+                std::cout << "\n";
                 for(int p =0 ; p < path.size()-2; ++p)
                 {
                     path_records[p] = path[p+1];
@@ -1097,7 +1088,7 @@ namespace MatchMakerTree{
 
 
                 // path update VV
-                silence_vertices1(VV_good,path_records);
+                silence_vertices(VV_good,path_records);
                 for(auto rec: path_records)
                 {
                     total_silence_list.push_back(rec);
@@ -1135,19 +1126,18 @@ namespace MatchMakerTree{
 
 
                 // split_detect
-                std::pair<int, int> splits;
-                while(split_detect(F_good, TT_good, node_list_good,VEdges_good, TEdges_good, splits))
+                std::pair<int, int> split;
+                while(split_detect(F_good, TT_good, node_list_good,VEdges_good, TEdges_good, split))
                 {
                     
 
                     // splits_update
-                    splits_update(splits, V_good, F_good, VEdges_good, TEdges_good, VV_good);
+                    splits_update(split, V_good, F_good, VEdges_good, TEdges_good, VV_good);
                     igl::triangle_triangle_adjacency(F_good, TT_good);
                 }
-                silence_vertices1(VV_good, total_silence_list);
+                silence_vertices(VV_good, total_silence_list);
 
                 
-                edge_order_map[run_count] = edge_idx;
                 edge_path_map[edge_idx] = path;
 
                 path_json[std::to_string(edge_idx)] = path;   
@@ -1159,27 +1149,11 @@ namespace MatchMakerTree{
                 igl::writeOBJ("../debug_mesh.obj", V_good, F_good);
 
                 // update visit_dict or loop condition update
-                int pos =0;
-                for(auto tedge_idx: node_edge_dict[target_bad]){
-                    if(tedge_idx == edge_idx)
-                    {
-                        node_edge_visit_dict[target_bad][pos]=true;
-                    }
-                    pos +=1;
-                }
-                pos = 0;
-                for(auto sedge_idx: node_edge_dict[source_bad]){
-                    if(sedge_idx == edge_idx)
-                    {
-                        node_edge_visit_dict[source_bad][pos]=true;
-                    }
-                    pos +=1;
-                } 
-
+                node_edge_visit_dict[target_bad][edge_idx]=true;
+                node_edge_visit_dict[source_bad][edge_idx]=true;
             }
-
-            silence_vertices1(VV_good,{node_imge_dict[nd]});
-            // total_silence_list.push_back(nd);
+            // silence_vertices(VV_good,{node_image_dict[nd]});
+            // // total_silence_list.push_back(nd);
         }
         std::vector<std::vector<int> > finalVF, finalVFi;
         FL_good = Eigen::VectorXi::Constant(F_good.rows(),-1);
