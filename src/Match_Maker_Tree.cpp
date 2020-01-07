@@ -676,78 +676,52 @@ namespace MatchMakerTree{
         TEdges = nTEdges;
     }
 
-    void trace_and_label(
+    void _gen_node_list(
+        const Eigen::MatrixXi & F,
+        const Eigen::VectorXi & FL,
+        const int total_label_num,
+        std::vector<int> & node_list 
+        )
+    {
+        std::unordered_map<int, std::vector<int> > vertex_label_list_dict;
+        build_vertex_label_list_dict(F, FL, total_label_num, vertex_label_list_dict);
+        for(auto item: vertex_label_list_dict)
+        {
+            if(item.second.size()>2)
+            {
+                node_list.push_back(item.first);
+            }
+        }
+    }
+
+    void _gen_node_CCedges_dict(
         const Eigen::MatrixXd & V_bad,
         const Eigen::MatrixXi & F_bad,
-        const Eigen::VectorXi & FL_bad,
-        Eigen::MatrixXd & V_good,
-        Eigen::MatrixXi & F_good,
-        Eigen::VectorXi & FL_good,
-        int & kk
+        const std::vector<edge> & edge_list,
+        const std::vector<int> & node_list_bad,
+        std::map<int, std::vector<int> > &  node_edge_dict   
     )
     {
-        std::map<int, int> edge_order_map; // store and maintain the order of added edges {order: edge_dx}
-        std::map<int, std::vector<int> > edge_path_map; // {edge_idx, path}
-        int run_count = 0;
-        // Randomize Seed
-        srand(static_cast<unsigned int>(time(nullptr)));
-        int total_label_num = FL_bad.maxCoeff()+1;
-
-
-        // PART 0 GET THE FRAME ON BAD MESH
-        std::vector<bcclean::edge> edge_list;
-        std::unordered_map<int, std::vector<int> > patch_edge_dict;
-        std::unordered_map<int, std::vector<bool> > patch_edge_direction_dict;
-        // label -> list(edge_idx) map indices into edge_list
-        build_edge_list_loop(V_bad, F_bad, FL_bad, total_label_num, edge_list, patch_edge_dict, patch_edge_direction_dict);
-        std::vector<std::pair<int, std::pair<int, int> > > frame_graph;
-        _build_frame_graph(edge_list, frame_graph);
-        std::vector<std::pair<int, std::pair<int, int> > > frame_MST
-         = Algo::Kruskal_MST(frame_graph);
-        json mst_json; // store the min spanning tree
-        for(auto item: frame_MST)
-        {
-            mst_json[std::to_string(item.first)] = edge_list[item.first]._edge_vertices;   
-        }
-        std::ofstream filemst;
-        filemst.open("../debug_mst.json");
-        filemst << mst_json;
-        filemst.close();
-        // we can assume that  all nodes have valance more than 3
-        std::vector<int> node_list_bad;
-        {
-            std::unordered_map<int, std::vector<int> > vertex_label_list_dict;
-            build_vertex_label_list_dict(F_bad, FL_bad, total_label_num, vertex_label_list_dict);
-            for(auto item: vertex_label_list_dict)
-            {
-                if(item.second.size()>2)
-                {
-                    node_list_bad.push_back(item.first);
-                }
-            }
-        }
-
-        
         std::map<int, std::vector<int> > node_edgepool_dict;
         {
-            int edg_idx =0;
-            for(auto edg:edge_list)
+        int edg_idx =0;
+        for(auto edg:edge_list)
+        {
+            int head= edg.head;
+            int tail=edg.tail;
+            assert(head != tail); // both are nodes
+            assert(edg._edge_vertices.size()>1);
+            for(auto ht:{head, tail})
             {
-                int head= edg.head;
-                int tail=edg.tail;
-                assert(head != tail); // both are nodes
-                assert(edg._edge_vertices.size()>1);
-                for(auto ht:{head, tail})
+                auto it = std::find(node_edgepool_dict[ht].begin(), node_edgepool_dict[ht].end(), edg_idx);
+                if(it == node_edgepool_dict[ht].end())
                 {
-                    auto it = std::find(node_edgepool_dict[ht].begin(), node_edgepool_dict[ht].end(), edg_idx);
-                    if(it == node_edgepool_dict[ht].end())
-                    {
-                        // push it into list
-                        node_edgepool_dict[ht].push_back(edg_idx);
-                    }
+                    // push it into list
+                    node_edgepool_dict[ht].push_back(edg_idx);
                 }
-                edg_idx +=1;
             }
+            edg_idx +=1;
+        }
         }
 
         // the resulting node_edgepool_dict will be non-orderd but will be used later for counter clockwise ordered dictionary
@@ -768,54 +742,101 @@ namespace MatchMakerTree{
         }
         
 
-        // also order the node_edge_dict;
-        // firsly find th CC ordered out-Vertex of each nd
-        std::map<int, std::vector<int> > node_outv_dict_bad;
-        for(auto item: node_faces_dict_bad)
-        {
-            int nd = item.first;
-            node_outv_dict_bad[item.first] = {};
-            for(auto fidx : item.second)
+            // also order the node_edge_dict;
+            // firsly find th CC ordered out-Vertex of each nd
+            std::map<int, std::vector<int> > node_outv_dict_bad;
+            for(auto item: node_faces_dict_bad)
             {
-                std::vector<int> pool = {F_bad(fidx,0), F_bad(fidx,1), F_bad(fidx,2)};
-                int bench = -1;
-                int ii = 0;
-                for(auto v_f: pool)
+                int nd = item.first;
+                node_outv_dict_bad[item.first] = {};
+                for(auto fidx : item.second)
                 {
-                    if(v_f == nd)
+                    std::vector<int> pool = {F_bad(fidx,0), F_bad(fidx,1), F_bad(fidx,2)};
+                    int bench = -1;
+                    int ii = 0;
+                    for(auto v_f: pool)
                     {
-                        bench = ii;
-                        break;
+                        if(v_f == nd)
+                        {
+                            bench = ii;
+                            break;
+                        }
+                        ii += 1;
                     }
-                    ii += 1;
+                    int outv = pool[(bench+1)%3];
+                    node_outv_dict_bad[nd].push_back(outv);
                 }
-                int outv = pool[(bench+1)%3];
-                node_outv_dict_bad[nd].push_back(outv);
+            }
+
+        
+            for(auto item: node_outv_dict_bad)
+            {
+                int nd = item.first;
+                node_edge_dict[nd] = std::vector<int>();
+                std::vector<int> edge_pool = node_edgepool_dict[nd];
+                for(auto outv : node_outv_dict_bad[nd])
+                {
+                    for(auto edg_idx: edge_pool)
+                    {
+                        edge  edg = edge_list[edg_idx];
+                        auto it = std::find(edg._edge_vertices.begin(), edg._edge_vertices.end(), outv);
+                        auto jt = std::find(node_edge_dict[nd].begin(), node_edge_dict[nd].end(), edg_idx);
+                        if(it != edg._edge_vertices.end() and jt == node_edge_dict[nd].end())
+                        {
+                            node_edge_dict[nd].push_back(edg_idx);
+                        }
+
+                    }
+                }
             }
         }
+
+    void trace_and_label(
+        const Eigen::MatrixXd & V_bad,
+        const Eigen::MatrixXi & F_bad,
+        const Eigen::VectorXi & FL_bad,
+        Eigen::MatrixXd & V_good,
+        Eigen::MatrixXi & F_good,
+        Eigen::VectorXi & FL_good,
+        int & kk
+    )
+    {
+        std::map<int, int> edge_order_map; // store and maintain the order of added edges {order: edge_dx}
+        std::map<int, std::vector<int> > edge_path_map; // {edge_idx, path}
+        int run_count = 0;
+        // Randomize Seed
+        srand(static_cast<unsigned int>(time(nullptr)));
+        int total_label_num = FL_bad.maxCoeff()+1;
+
+        
+        // PART 0 GET THE FRAME ON BAD MESH
+        std::vector<bcclean::edge> edge_list;
+        std::unordered_map<int, std::vector<int> > patch_edge_dict;
+        std::unordered_map<int, std::vector<bool> > patch_edge_direction_dict;
+        // label -> list(edge_idx) map indices into edge_list
+        build_edge_list_loop(V_bad, F_bad, FL_bad, total_label_num, edge_list, patch_edge_dict, patch_edge_direction_dict);
+        std::vector<std::pair<int, std::pair<int, int> > > frame_graph;
+        _build_frame_graph(edge_list, frame_graph);
+        std::vector<std::pair<int, std::pair<int, int> > > frame_MST
+         = Algo::Kruskal_MST(frame_graph);
+        json mst_json; // store the min spanning tree
+        for(auto item: frame_MST)
+        {
+            mst_json[std::to_string(item.first)] = edge_list[item.first]._edge_vertices;   
+        }
+        std::ofstream filemst;
+        filemst.open("../debug_mst.json");
+        filemst << mst_json;
+        filemst.close();
+
+
+        
+        // we can assume that  all nodes have valance more than 3
+        std::vector<int> node_list_bad;
+        _gen_node_list(F_bad, FL_bad, total_label_num, node_list_bad);
 
         std::map<int, std::vector<int> > node_edge_dict;
-        for(auto item: node_outv_dict_bad)
-        {
-            int nd = item.first;
-            node_edge_dict[nd] = std::vector<int>();
-            std::vector<int> edge_pool = node_edgepool_dict[nd];
-            for(auto outv : node_outv_dict_bad[nd])
-            {
-                for(auto edg_idx: edge_pool)
-                {
-                    edge  edg = edge_list[edg_idx];
-                    auto it = std::find(edg._edge_vertices.begin(), edg._edge_vertices.end(), outv);
-                    auto jt = std::find(node_edge_dict[nd].begin(), node_edge_dict[nd].end(), edg_idx);
-                    if(it != edg._edge_vertices.end() and jt == node_edge_dict[nd].end())
-                    {
-                        node_edge_dict[nd].push_back(edg_idx);
-                    }
-
-                }
-            }
-        }
-
+        _gen_node_CCedges_dict(V_bad, F_bad, edge_list, node_list_bad, node_edge_dict);
         // PART 1 finds the Nearest Neighbor of nodes on good mesh
         // build the kdtree;
         kd_tree_Eigen<double> kdt(V_good.cols(),std::cref(V_good),10);
@@ -870,9 +891,138 @@ namespace MatchMakerTree{
         // start with the nodes with largest valance and deal with the edge starting with this node in counter clock order
         std::vector<int> total_silence_list;
 
-        // before the main loop traverse the fame tree to trace a spanning tree first
-        
 
+        json path_json;
+
+        // before the main loop traverse the fame tree to trace a spanning tree first
+        for(auto frame_edg: frame_MST){
+            // find the source and target in the good mesh
+            int source_bad = frame_edg.second.first;
+            int target_bad = frame_edg.second.second;
+            int source = node_imge_dict[source_bad];
+            int target = node_imge_dict[target_bad];
+            assert(target != -1 && source != -1); 
+            int edge_idx = frame_edg.first;
+            Eigen::MatrixXi TT_good;
+            igl::triangle_triangle_adjacency(F_good, TT_good);
+            {
+                std::vector<std::vector<int> > VFi_good;
+                igl::vertex_triangle_adjacency(V_good, F_good, VF_good, VFi_good);
+            }
+            edge edg = edge_list[edge_idx];
+            std::vector<double> Weights;
+            // update local sector
+            // (a) create CC_node_face_list
+            std::map<int, std::vector<int> > CC_node_face_dict;
+            std::vector<std::vector<int > > VV_temp;
+            CC_faces_per_node(V_good, F_good, {source, target}, CC_node_face_dict);
+            {
+                std::map<int, std::vector<bool> > node_edge_visit_dict_temp;
+                std::map<int, std::vector<int> > node_edge_dict_temp;
+                for(auto item: node_edge_dict)
+                {
+                    node_edge_dict_temp[node_imge_dict.at(item.first)] = node_edge_dict.at(item.first);
+                    node_edge_visit_dict_temp[node_imge_dict.at(item.first)] = node_edge_visit_dict.at(item.first);
+                }
+                update_local_sector(
+                    VV_good, 
+                    F_good, 
+                    node_edge_visit_dict_temp, 
+                    node_edge_dict_temp,
+                    TEdges_good,
+                    CC_node_face_dict,
+                    source,
+                    target,
+                    edge_idx,
+                    VV_temp);
+            }
+            setWeights(V_good, V_bad, edg, 10, 1,  Weights);
+            // the Weights is vertex based
+            std::vector<int> path;
+            dijkstra_trace(VV_temp, source, target, Weights, path);
+            std::vector<int> path_records(path.size()-2);
+            
+            for(int p =0 ; p < path.size()-2; ++p)
+            {
+                path_records[p] = path[p+1];
+            }
+            edge_path_map[edge_idx] = path;
+
+            path_json[std::to_string(edge_idx)] = path;   
+                
+            std::ofstream file;
+            file.open("../debug_paths.json");
+            file << path_json;
+
+            // path update VV
+            silence_vertices1(VV_good,path_records);
+            for(auto rec: path_records)
+            {
+                total_silence_list.push_back(rec);
+            }
+            //path update VEdges
+            for(auto vidx:path_records){
+                VEdges_good[vidx].push_back(edge_idx);
+            }
+
+            // path updates TEdges
+            // setf the triangle edges in cuts to be true
+            for(int rc_idx=0; rc_idx < path.size()-1; ++rc_idx){
+                int uidx = path[rc_idx];
+                int vidx = path[(rc_idx+1)%path.size()];
+                std::vector<int> inter(VF_good[uidx].size()+ VF_good[vidx].size());
+                auto it = std::set_intersection(VF_good[uidx].begin(), VF_good[uidx].end(), VF_good[vidx].begin(), VF_good[vidx].end(), inter.begin());
+                inter.resize(it-inter.begin());
+                // there should be only one comman adjacent triangle for boundary vertices
+                for(auto trg: inter){
+                    for(int edgpos =0; edgpos < 3 ; ++edgpos){
+                        int uuidx = F_good(trg, edgpos);
+                        int vvidx = F_good(trg, (edgpos+1)% 3);
+                        if(uuidx == uidx && vvidx == vidx){
+                            TEdges_good[trg][edgpos] = edge_idx;//1457-1459 1587 1588 2189 2371 2373 2374 2716 2742 1794 2712 3046 3047
+                            // break;
+                        }
+                        if(uuidx == vidx && vvidx == uidx){
+                            TEdges_good[trg][edgpos] = edge_idx;
+                            // break;
+                        }
+                    }
+                }
+            }
+
+
+
+            // split_detect
+            std::pair<int, int> splits;
+            while(split_detect(F_good, TT_good, node_list_good,VEdges_good, TEdges_good, splits))
+            {
+                
+
+                // splits_update
+                splits_update(splits, V_good, F_good, VEdges_good, TEdges_good, VV_good);
+                igl::triangle_triangle_adjacency(F_good, TT_good);
+            }
+            silence_vertices1(VV_good, total_silence_list);
+            // update visit_dict or loop condition update
+            int pos =0;
+            for(auto tedge_idx: node_edge_dict[target_bad]){
+                if(tedge_idx == edge_idx)
+                {
+                    node_edge_visit_dict[target_bad][pos]=true;
+                }
+                pos +=1;
+            }
+            pos = 0;
+            for(auto sedge_idx: node_edge_dict[source_bad]){
+                if(sedge_idx == edge_idx)
+                {
+                    node_edge_visit_dict[source_bad][pos]=true;
+                }
+                pos +=1;
+            } 
+        }
+        
+        int stop=0;
         for(auto nd: sorted_node_list_bad)
         {
             // Main loop for tracing
@@ -996,13 +1146,12 @@ namespace MatchMakerTree{
                 }
                 silence_vertices1(VV_good, total_silence_list);
 
-                json path_json;
+                
                 edge_order_map[run_count] = edge_idx;
                 edge_path_map[edge_idx] = path;
-                for(auto item: edge_order_map)
-                {
-                    path_json[std::to_string(item.second)] = edge_path_map[item.second];   
-                }
+
+                path_json[std::to_string(edge_idx)] = path;   
+                
                 std::ofstream file;
                 file.open("../debug_paths.json");
                 file << path_json;
@@ -1010,7 +1159,6 @@ namespace MatchMakerTree{
                 igl::writeOBJ("../debug_mesh.obj", V_good, F_good);
 
                 // update visit_dict or loop condition update
-                node_edge_visit_dict[nd][edg_nd] = true;
                 int pos =0;
                 for(auto tedge_idx: node_edge_dict[target_bad]){
                     if(tedge_idx == edge_idx)
