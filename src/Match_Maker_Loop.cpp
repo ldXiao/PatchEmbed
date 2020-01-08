@@ -31,6 +31,7 @@ namespace MatchMaker{
         const int edge_idx,
         Eigen::MatrixXd & V_good,
         Eigen::MatrixXi & F_good,
+        Eigen::VectorXi & FL_good,
         std::vector<std::vector<int> > & VV_good,
         std::vector<std::vector<int> > & VEdges_good,
         std::vector<std::vector<int> > & TEdges_good,
@@ -144,7 +145,7 @@ namespace MatchMaker{
         while(split_detect(F_good, TT_good, node_list_good,VEdges_good, TEdges_good, split))
         {
             // splits_update
-            splits_update(split, V_good, F_good, VEdges_good, TEdges_good, VV_good);
+            splits_update(split, V_good, F_good, FL_good, VEdges_good, TEdges_good, VV_good);
             igl::triangle_triangle_adjacency(F_good, TT_good);
         }
         silence_vertices(VV_good, total_silence_list);
@@ -250,6 +251,7 @@ namespace MatchMaker{
                 {
                     continue;
                 }
+                edge_visit_dict[edge_idx]=true;
                 int source_bad = edge_list.at(edge_idx).head;
                 int target_bad = edge_list.at(edge_idx).tail;
                 // find the corresponding source and target on goodmesh
@@ -269,6 +271,8 @@ namespace MatchMaker{
                         source_bad,
                         node_list_good,
                         TT_good,
+                        VV_good,
+                        TEdges_good,
                         VEdges_good,
                         V_good,
                         F_good,
@@ -287,6 +291,8 @@ namespace MatchMaker{
                         target_bad,
                         node_list_good,
                         TT_good,
+                        VV_good,
+                        TEdges_good,
                         VEdges_good,
                         V_good,
                         F_good,
@@ -310,6 +316,7 @@ namespace MatchMaker{
                     edge_idx, 
                     V_good, 
                     F_good, 
+                    FL_good,
                     VV_good, 
                     VEdges_good, 
                     TEdges_good, 
@@ -347,7 +354,7 @@ namespace MatchMaker{
                 }
             }
             int ff_in;
-            if(ffa_coline == directionCC)
+            if(ffa_coline != directionCC)
             {
                 ff_in = ffa;
             }
@@ -356,6 +363,7 @@ namespace MatchMaker{
                 ff_in = ffb;
             }
             loop_colorize(V_good, F_good, TEdges_good, ff_in, patch_idx, FL_good);
+            igl::writeDMAT("../FL_final.dmat", FL_good);
             
         }
     }

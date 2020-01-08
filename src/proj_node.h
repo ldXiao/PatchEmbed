@@ -22,6 +22,8 @@ namespace bcclean {
         const int & node_bad, // indices into Vbad
         const std::vector<int> & node_list_good, // nodes to exclude
         Eigen::MatrixXi & TT_good, // connectivity info
+        std::vector<std::vector<int> > & VV_good,// connectivity info
+        std::vector<std::vector<int> > & TEdges_good,
         std::vector<std::vector<int> > & VEdges_good, //edge vertices to exclude
         Eigen::MatrixXd & Vgood,
         Eigen::MatrixXi & Fgood,

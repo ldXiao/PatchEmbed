@@ -16,7 +16,10 @@ namespace bcclean {
         Eigen::MatrixXd & V,
         Eigen::MatrixXi & F,
         Eigen::VectorXi & FL,
-        Eigen::MatrixXi & TT
+        Eigen::MatrixXi & TT,
+        std::vector<std::vector<int> > & VV,
+        std::vector<std::vector<int> > & TEdges,
+        std::vector<std::vector<int> > & VEdges
     )
     {
         int fidx = std::round(baryentry(0,0));
@@ -93,6 +96,7 @@ namespace bcclean {
             Eigen::MatrixXi nF = Eigen::MatrixXi::Zero(F.rows()+2,3);
             FL.conservativeResize(F.rows()+2);
             TT.conservativeResize(F.rows()+2,3);
+            
             nF.block(0,0,F.rows(),3) = F;
             /*
                 v0
@@ -121,6 +125,16 @@ namespace bcclean {
                 if(TT(nb1,j)==fidx){TT(nb1,j) = nf1;}
                 if(TT(nb2,j)==fidx){TT(nb2,j) = nf2;}
             } 
+            VV.push_back({v0,v1,v2});
+            VV[v0].push_back(nvidx);
+            VV[v1].push_back(nvidx);
+            VV[v2].push_back(nvidx);
+            VEdges.push_back(std::vector<int>());
+            TEdges.push_back({TEdges[fidx][1],-1,-1});
+            TEdges.push_back({TEdges[fidx][2],-1,-1});
+            TEdges[fidx]={TEdges[fidx][0],-1,-1};
+            
+
             F = nF;
             
             V = nV;
@@ -173,8 +187,11 @@ namespace bcclean {
             {
                 Eigen::VectorXi FL_temp; // dummy parameter
                 Eigen::MatrixXi TT_temp; // dummy parameter 
+                std::vector<std::vector<int> > VV_temp;
+                std::vector<std::vector<int> > VEdges_temp;
+                std::vector<std::vector<int> > TEdges_temp;
                 Eigen::MatrixXd bc = RR.row(jj);
-                int nvidx = insertV_baryCord(node_list_good, bc, Vgood, Fgood, FL_temp, TT_temp);
+                int nvidx = insertV_baryCord(node_list_good, bc, Vgood, Fgood, FL_temp, TT_temp, VV_temp, TEdges_temp, VEdges_temp);
                 node_map[node_list_bad[jj]] = nvidx;
                 node_list_good.push_back(nvidx);
             } 
@@ -208,6 +225,8 @@ namespace bcclean {
         const int & node_bad, // input indices into Vbad
         const std::vector<int> & node_list_good, // nodes to exclude
         Eigen::MatrixXi & TT_good, // connectivity info
+        std::vector<std::vector<int> > & VV_good,// connectivity info
+        std::vector<std::vector<int> > & TEdges_good,
         std::vector<std::vector<int> > & VEdges_good, //edge vertices to exclude
         Eigen::MatrixXd & Vgood,
         Eigen::MatrixXi & Fgood,
@@ -294,9 +313,8 @@ namespace bcclean {
             {
                 // triangle nonoccupied
                 Eigen::MatrixXd bc = RR.row(0);
-                int nvidx = insertV_baryCord(node_list_good, bc, Vgood, Fgood, FL_good, TT_good);
+                int nvidx = insertV_baryCord(node_list_good, bc, Vgood, Fgood, FL_good, TT_good, VV_good, TEdges_good, VEdges_good);
                 // node_list_return.push_back(nvidx);
-                VEdges_good.push_back(std::vector<int>());
                 node_image = nvidx;
             }
         

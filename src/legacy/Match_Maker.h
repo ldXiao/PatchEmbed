@@ -72,6 +72,7 @@ namespace MatchMaker{
         const std::pair<int, int> & splits,
         Eigen::MatrixXd & Vraw, // raw mesh
         Eigen::MatrixXi & Fraw,
+        Eigen::VectorXi & FL,
         std::vector<bool> & VCuts, // indicate whether a vertex is on the boundary
         std::vector<std::vector<bool> > & TCuts,
         std::vector<std::vector<int> > & VV // adjacency list on Fraw, posibly some ofthem has been silenced

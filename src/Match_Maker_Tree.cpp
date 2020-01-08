@@ -478,6 +478,7 @@ namespace MatchMaker{
         const std::pair<int, int> & splits,
         Eigen::MatrixXd & Vraw, // raw mesh
         Eigen::MatrixXi & Fraw,
+        Eigen::VectorXi & FL,
         std::vector<std::vector<int> > & VEdges, // indicate whether a vertex is on the boundary
         std::vector<std::vector<int> > & TEdges,
         std::vector<std::vector<int> > & VV // adjacency list on Fraw, posibly some ofthem has been silenced
@@ -503,7 +504,8 @@ namespace MatchMaker{
         nVraw.block(0, 0, Vraw.rows(), 3) = Vraw;
         Eigen::MatrixXi nFraw = Eigen::MatrixXi::Zero(nF_num_raw, 3);
         nFraw.block(0, 0, Fraw.rows(), 3) = Fraw;
-
+        
+        FL.conservativeResize(nF_num_raw);
 
         std::vector<std::vector<int> > nVEdges(nV_num_raw); // indicate whether a vertex is on the boundary
         std::vector<std::vector<int> > nTEdges(nF_num_raw);
@@ -621,8 +623,9 @@ namespace MatchMaker{
         nFraw.row(f3idx_raw) = Eigen::RowVector3i(widx_raw, vdownidx_raw, vidx_raw);
         
     
-
-
+        // update FL;
+        FL(f1idx_raw) = FL(f0idx_raw); 
+        FL(f3idx_raw) = FL(f2idx_raw);
         
         // update nVFs VV the connectivitity info
         // update nVF_raw;
@@ -803,6 +806,7 @@ namespace MatchMaker{
         const int edge_idx,
         Eigen::MatrixXd & V_good,
         Eigen::MatrixXi & F_good,
+        Eigen::VectorXi & FL_good,
         std::vector<std::vector<int> > & VV_good,
         std::vector<std::vector<int> > & VEdges_good,
         std::vector<std::vector<int> > & TEdges_good,
@@ -915,7 +919,7 @@ namespace MatchMaker{
             
 
             // splits_update
-            splits_update(split, V_good, F_good, VEdges_good, TEdges_good, VV_good);
+            splits_update(split, V_good, F_good, FL_good, VEdges_good, TEdges_good, VV_good);
             igl::triangle_triangle_adjacency(F_good, TT_good);
         }
         silence_vertices(VV_good, total_silence_list);
@@ -1046,7 +1050,8 @@ namespace MatchMaker{
                 node_edge_dict, 
                 edge_idx, 
                 V_good, 
-                F_good, 
+                F_good,
+                FL_good,
                 VV_good, 
                 VEdges_good, 
                 TEdges_good, 
@@ -1076,7 +1081,8 @@ namespace MatchMaker{
                 node_edge_dict, 
                 edge_idx, 
                 V_good, 
-                F_good, 
+                F_good,
+                FL_good,
                 VV_good, 
                 VEdges_good, 
                 TEdges_good, 
