@@ -67,8 +67,10 @@ namespace MatchMaker{
             std::map<int, std::vector<int> > node_edge_dict_temp;
             for(auto item: node_edge_dict)
             {
-                node_edge_dict_temp[node_image_dict.at(item.first)] = node_edge_dict.at(item.first);
-                node_edge_visit_dict_temp[node_image_dict.at(item.first)] = node_edge_visit_dict.at(item.first);
+                if(node_image_dict.find(item.first)!=node_image_dict.end()){
+                    node_edge_dict_temp[node_image_dict.at(item.first)] = node_edge_dict.at(item.first);
+                    node_edge_visit_dict_temp[node_image_dict.at(item.first)] = node_edge_visit_dict.at(item.first);
+                }
             }
             update_local_sector(
                 VV_good, 
@@ -88,8 +90,9 @@ namespace MatchMaker{
         // dijkstra_trace(....,VEdges, TEdges);
         std::vector<int> path;
         dijkstra_trace(VV_temp, source, target, Weights, path);
+        assert(path.size()>=2);
         std::vector<int> path_records(path.size()-2);
-        std::printf("for mst edge %d, find a path:\n",edge_idx);
+        std::printf("for edge %d, find a path:\n",edge_idx);
         for(auto rec : path)
         {
             std::cout << rec<<", ";
@@ -289,7 +292,7 @@ namespace MatchMaker{
                         FL_good,
                         target
                     );
-                    assert(source!= -1);
+                    assert(target!= -1);
                     node_image_dict[target_bad]=target;
                     node_list_good.push_back(target);
                 }
@@ -313,8 +316,6 @@ namespace MatchMaker{
                     node_edge_visit_dict, 
                     edge_path_map, 
                     path_json);
-
-                
                 
             }
             // one loop patch finished
