@@ -25,7 +25,6 @@ namespace bcclean
         igl::triangle_triangle_adjacency(F, TT, TTi);
         // start with face 0 use TT and TTi info to get connected components
         // traverse all faces connected to face_seed and do not cross cuts label them to be lb;
-        bool find_empty = true;
         int root_face = face_seed;
         std::queue<int> search_queue;
         search_queue.push(face_seed);

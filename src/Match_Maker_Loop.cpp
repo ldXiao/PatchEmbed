@@ -139,8 +139,6 @@ namespace MatchMaker{
         std::pair<int, int> split;
         while(split_detect(F_good, TT_good, node_list_good,VEdges_good, TEdges_good, split))
         {
-            
-
             // splits_update
             splits_update(split, V_good, F_good, VEdges_good, TEdges_good, VV_good);
             igl::triangle_triangle_adjacency(F_good, TT_good);
@@ -191,11 +189,136 @@ namespace MatchMaker{
          = Algo::Kruskal_MST(dual_frame_graph);
         std::vector<int> patch_order = Algo::MST_BFS(dual_frame_MST);
         
+        // we can assume that  all nodes have valance more than 3
+        std::vector<int> node_list_bad;
+        _gen_node_list(F_bad, FL_bad, total_label_num, node_list_bad);
+
+        std::map<int, std::vector<int> > node_edge_dict;
+        _gen_node_CCedges_dict(V_bad, F_bad, edge_list, node_list_bad, node_edge_dict);
 
 
-        for(int patch_idx: patch_order)
+        std::vector<std::vector<int> > VV_good, VF_good;
+        igl::adjacency_list(F_good, VV_good);
         {
-            
+            std::vector<std::vector<int> >  VFi_good;
+            igl::vertex_triangle_adjacency(V_good, F_good, VF_good, VFi_good);
+
+        }
+        std::vector<std::vector<int> > VEdges_good(V_good.rows());
+        std::vector<std::vector<int> > TEdges_good(F_good.rows());
+        for(int count =0; count <V_good.rows(); ++ count)
+        {
+            VEdges_good[count] = std::vector<int>();
+        }
+        for(int fcount = 0; fcount  < F_good.rows(); ++fcount)
+        {   
+            TEdges_good[fcount] = {-1, -1, -1};
+        }
+        // start with the nodes with largest valance and deal with the edge starting with this node in counter clock order
+        std::vector<int> total_silence_list; // store only the vertices on the path interior (head tail excluded)
+
+
+        json path_json;
+
+        std::map<int, int> node_image_dict;
+        std::vector<int> node_list_good; // potnetially replace all use with node_image_dict
+        std::map<int , std::map<int, bool> > node_edge_visit_dict;
+        for(auto nd: node_list_bad)
+        {
+            for(auto q: node_edge_dict[nd])
+            {
+                node_edge_visit_dict[nd][q]=false;
+            }
+        }
+        std::map<int, bool> edge_visit_dict;
+        int kkk = 0;
+        for(auto edg: edge_list )
+        {
+            edge_visit_dict[kkk]= false;
+            kkk++;
+        }
+
+        for(auto patch_idx : patch_order)
+        {
+            for(auto edge_idx: patch_edge_dict[patch_idx])
+            {
+                if(edge_visit_dict[edge_idx])
+                {
+                    continue;
+                }
+                int source_bad = edge_list.at(edge_idx).head;
+                int target_bad = edge_list.at(edge_idx).tail;
+                // find the corresponding source and target on goodmesh
+                // project the source_bad and target_bad onto the good_mesh outside any colored patch
+                int source = -1;
+                int target = -1;
+
+                Eigen::MatrixXi TT_good;
+                igl::triangle_triangle_adjacency(F_good, TT_good);
+                //update the node_list_good and node_image_dict;
+
+                if(node_image_dict.find(source_bad)==node_image_dict.end())
+                {
+                    proj_node_loop(
+                        V_bad,
+                        F_bad,
+                        source_bad,
+                        node_list_good,
+                        TT_good,
+                        VEdges_good,
+                        V_good,
+                        F_good,
+                        FL_good,
+                        source
+                    );
+                    assert(source!= -1);
+                    node_image_dict[source_bad]=source;
+                    node_list_good.push_back(source);
+                }
+                if(node_image_dict.find(target_bad)==node_image_dict.end())
+                {
+                    proj_node_loop(
+                        V_bad,
+                        F_bad,
+                        target_bad,
+                        node_list_good,
+                        TT_good,
+                        VEdges_good,
+                        V_good,
+                        F_good,
+                        FL_good,
+                        target
+                    );
+                    assert(source!= -1);
+                    node_image_dict[target_bad]=target;
+                    node_list_good.push_back(target);
+                }
+                
+                
+                //
+                trace_for_edge_loop(
+                    V_bad,
+                    F_bad, 
+                    edge_list, 
+                    node_list_good, 
+                    node_image_dict, 
+                    node_edge_dict, 
+                    edge_idx, 
+                    V_good, 
+                    F_good, 
+                    VV_good, 
+                    VEdges_good, 
+                    TEdges_good, 
+                    total_silence_list,
+                    node_edge_visit_dict, 
+                    edge_path_map, 
+                    path_json);
+
+                
+                
+            }
+            // one loop patch finished
+            // colorize FL_good with label patch_idx
         }
     }
 }
