@@ -1,6 +1,7 @@
 #include "Match_Maker_Loop.h"
 #include "Match_Maker_Tree.h"
 #include "Kruskal.h"
+#include "loop_colorize.h"
 namespace bcclean{
 namespace MatchMaker{
     using json = nlohmann::json;
@@ -320,6 +321,42 @@ namespace MatchMaker{
             }
             // one loop patch finished
             // colorize FL_good with label patch_idx
+            int stem_edge = patch_edge_dict[patch_idx][0];
+            int v0, v1;
+            v0 = edge_path_map[stem_edge][0];
+            v1 = edge_path_map[stem_edge][1];
+            std::vector<std::vector<int> > VF_good;
+            {
+                std::vector<std::vector<int> > VFi_good;
+                igl::vertex_triangle_adjacency(V_good, F_good, VF_good, VFi_good);
+            }
+            bool directionCC = patch_edge_direction_dict[patch_idx][0];
+            std::vector<int> inter(VF_good[v0].size()+ VF_good[v1].size());
+            auto it = std::set_intersection(VF_good[v0].begin(), VF_good[v0].end(), VF_good[v1].begin(), VF_good[v1].end(), inter.begin());
+            inter.resize(it-inter.begin());
+            assert(inter.size()==2);
+            int ffa = inter[0];
+            int ffb = inter[1];
+            bool ffa_coline = false; 
+            for(int j: {0,1,2})
+            {
+                if(F_good(ffa,j)==v0 && F_good(ffa,(j+1)% 3)==v1)
+                {
+                    ffa_coline=true;
+                    break;
+                }
+            }
+            int ff_in;
+            if(ffa_coline == directionCC)
+            {
+                ff_in = ffa;
+            }
+            else
+            {
+                ff_in = ffb;
+            }
+            loop_colorize(V_good, F_good, TEdges_good, ff_in, patch_idx, FL_good);
+            
         }
     }
 }
