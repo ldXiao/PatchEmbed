@@ -109,8 +109,8 @@ set(SOURCES
     src/planar_cut_simply_connect.cpp 
     src/patch_cut_relabel.h 
     src/patch_cut_relabel.cpp 
-    src/Match_Maker.h 
-    src/Match_Maker.cpp
+#     src/Match_Maker.h 
+#     src/Match_Maker.cpp
     src/proj_node.h
     src/proj_node.cpp
     src/loop_colorize.h
@@ -119,7 +119,8 @@ set(SOURCES
     src/Match_Maker_Loop.cpp
     src/Match_Maker_Tree.h 
     src/Match_Maker_Tree.cpp 
-    src/Kruskal.hpp
+    src/Kruskal.h
+    src/Kruskal.cpp
 )
 add_library(bcclean ${SOURCES})
 target_link_libraries(bcclean PUBLIC
@@ -139,10 +140,10 @@ target_link_libraries(bcclean PUBLIC
 # add_executable(bcclean_bin src/main.cpp)
 # target_link_libraries(bcclean_bin bcclean pybind11::embed)
 
-# Add your project files
-add_executable(test_bin src/test.cpp)
-target_link_libraries(test_bin bcclean pybind11::embed)
-set_target_properties(test_bin PROPERTIES CXX_STANDARD 17)
+# # Add your project files
+# add_executable(test_bin src/test.cpp)
+# target_link_libraries(test_bin bcclean pybind11::embed)
+# set_target_properties(test_bin PROPERTIES CXX_STANDARD 17)
 
 
 # another executable for debug

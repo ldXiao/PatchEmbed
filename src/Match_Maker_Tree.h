@@ -18,8 +18,40 @@
 #include <cmath>
 
 namespace bcclean{
-namespace MatchMakerTree{
-    void silence_vertices1(std::vector<std::vector<int > > & VV, std::vector<bool> & VCuts, const std::vector<int> & silent_indices);
+namespace MatchMaker{
+
+    void silence_vertices(std::vector<std::vector<int > > & VV, const std::vector<int> & silent_indices);
+    
+    bool split_detect(
+        const Eigen::MatrixXi & F,
+        const Eigen::MatrixXi & TT, // triangle-triangle adjacency
+        const std::vector<int> & node_list,
+        const std::vector<std::vector<int> > & VEdges, // indicate whether a vertex is on the boundary
+        const std::vector<std::vector<int> > & TEdges, // indicate whether wich edge of a face is on the boundary
+        std::pair<int, int> & splits
+    );
+
+    void splits_update(
+        const std::pair<int, int> & splits,
+        Eigen::MatrixXd & Vraw, // raw mesh
+        Eigen::MatrixXi & Fraw,
+        std::vector<std::vector<int> > & VEdges, // indicate whether a vertex is on the boundary
+        std::vector<std::vector<int> > & TEdges,
+        std::vector<std::vector<int> > & VV // adjacency list on Fraw, posibly some ofthem has been silenced
+    );
+
+    void update_local_sector(
+        const std::vector<std::vector<int> > & VV, 
+        const Eigen::MatrixXi & F,
+        const std::map<int , std::map<int, bool> > & node_edge_visit_dict,
+        const std::map<int, std::vector<int> > & node_edge_dict,
+        const std::vector<std::vector<int> > & TEdges,
+        const std::map<int, std::vector<int> > & CC_node_face_dict, 
+        const int& source,
+        const int& target,
+        const int& cur_edge,
+        std::vector<std::vector<int> > & VV_temp
+    );
 
     void CC_faces_per_node(
         const Eigen::MatrixXd & V,
@@ -55,8 +87,22 @@ namespace MatchMakerTree{
         std::pair<int, int> & splits
     );
 
+    void _gen_node_list(
+        const Eigen::MatrixXi & F,
+        const Eigen::VectorXi & FL,
+        const int total_label_num,
+        std::vector<int> & node_list 
+    );
 
-    bool determin_adj_configure1(
+    void _gen_node_CCedges_dict(
+        const Eigen::MatrixXd & V_bad,
+        const Eigen::MatrixXi & F_bad,
+        const std::vector<edge> & edge_list,
+        const std::vector<int> & node_list_bad,
+        std::map<int, std::vector<int> > &  node_edge_dict   
+    );
+
+    bool determin_adj_configure(
         const Eigen::MatrixXi & F, 
         const std::vector<std::vector<int > > & VF, 
         const int uidx, 

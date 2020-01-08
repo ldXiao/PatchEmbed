@@ -1,15 +1,16 @@
-#include "Match_Maker.h"
 #include "proj_node.h"
 #include "loop_colorize.h"
-#include "Kruskal.hpp"
+#include "Match_Maker_Tree.h"
+#include "Kruskal.h"
 #include <igl/slice.h>
 #include <igl/writeOBJ.h>
 #include <igl/writeDMAT.h>
 #include <utility>
 #include <nlohmann/json.hpp>
+#include "Match_Maker_Tree.h"
 
 namespace bcclean {
-namespace MatchMakerTree{
+namespace MatchMaker{
     using json = nlohmann::json;
     
     void _build_frame_graph(
@@ -418,7 +419,7 @@ namespace MatchMakerTree{
     }
 
 
-    bool determin_adj_configure1(
+    bool determin_adj_configure(
         const Eigen::MatrixXi & F, 
         const std::vector<std::vector<int > > & VF, 
         const int uidx, 
@@ -552,7 +553,7 @@ namespace MatchMakerTree{
 
         int fupidx_raw, fdownidx_raw;
         int vupidx_raw, vdownidx_raw;
-        determin_adj_configure1(
+        determin_adj_configure(
             nFraw, nVF_raw, uidx_raw, vidx_raw,
             fupidx_raw, fdownidx_raw, vupidx_raw, vdownidx_raw
         );
@@ -682,7 +683,7 @@ namespace MatchMakerTree{
         const Eigen::VectorXi & FL,
         const int total_label_num,
         std::vector<int> & node_list 
-        )
+    )
     {
         std::unordered_map<int, std::vector<int> > vertex_label_list_dict;
         build_vertex_label_list_dict(F, FL, total_label_num, vertex_label_list_dict);
