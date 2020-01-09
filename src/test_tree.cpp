@@ -105,6 +105,8 @@ int main(int argc, char *argv[]){
             ("j, json", "json storing parameters", cxxopts::value<std::string>());
     auto args = options.parse(argc, argv);
     // Load a mesh in OBJ format
+
+    bool debug;
     json param_json;
     {
         std::ifstream temp(args["json"].as<std::string>());
@@ -113,7 +115,7 @@ int main(int argc, char *argv[]){
         data_root = param_json["data_root"];
         iden = param_json["iden"];
         upsp = param_json["upsp"];
-        *key = param_json["key"];
+        debug = param_json["debug"];
     }
     /*-----------------------------------------
     python is causing some problem here, rewrite with regex
@@ -176,7 +178,7 @@ int main(int argc, char *argv[]){
     Eigen::MatrixXd V_good_copy = V_good;
     Eigen::MatrixXi F_good_copy = F_good;
     Eigen::VectorXi FL_good_copy = FL_good;
-    bcclean::MatchMaker::trace_and_label(bcclean::patch::Vbase, bcclean::patch::Fbase, bcclean::patch::FL_mod, V_good_copy, F_good_copy, FL_good_copy, false); 
+    bcclean::MatchMaker::trace_and_label(bcclean::patch::Vbase, bcclean::patch::Fbase, bcclean::patch::FL_mod, V_good_copy, F_good_copy, FL_good_copy, debug); 
     igl::jet(bcclean::patch::FL_mod,0, bcclean::patch::total_label_num-1, C_bad);
     igl::writeDMAT(data_root +"/test.dmat", bcclean::patch::FL_mod );
     igl::writeOBJ(data_root + "/test.obj", V_good, F_good);
