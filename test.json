@@ -2,6 +2,6 @@
     "data_root": "../../bcclean_jupyters/data/6",
     "iden": false,
     "upsp": 1,
-    "debug": false,
+    "debug": true,
     "key": 0
 }

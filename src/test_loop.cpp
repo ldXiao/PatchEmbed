@@ -181,6 +181,6 @@ int main(int argc, char *argv[]){
     igl::jet(bcclean::patch::FL_mod,0, bcclean::patch::total_label_num-1, C_bad);
     igl::writeDMAT(data_root +"/test.dmat", bcclean::patch::FL_mod );
     igl::writeOBJ(data_root + "/test.obj", V_good, F_good);
-    
+        
     return 0;
 }

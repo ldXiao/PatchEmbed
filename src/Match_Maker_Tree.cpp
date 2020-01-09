@@ -866,6 +866,18 @@ namespace MatchMaker{
         // dijkstra_trace(....,VEdges, TEdges);
         std::vector<int> path;
         dijkstra_trace(VV_temp, source, target, Weights, path);
+        if(debug)
+        {
+            Eigen::VectorXd source_target=Eigen::VectorXd::Constant(6,0);
+            for(int xx: {0,1,2})
+            {
+                source_target(xx)=V_good(source,xx);
+                source_target(xx+3)=V_good(target,xx);
+            }
+            
+            igl::writeDMAT("../source_target.dmat",source_target);
+        }
+        assert(path.size()>2);
         std::vector<int> path_records(path.size()-2);
         std::printf("for mst edge %d, find a path:\n",edge_idx);
         for(auto rec : path)

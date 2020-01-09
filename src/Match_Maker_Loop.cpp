@@ -2,6 +2,7 @@
 #include "Match_Maker_Tree.h"
 #include "Kruskal.h"
 #include "loop_colorize.h"
+#include <igl/Timer.h>
 namespace bcclean{
 namespace MatchMaker{
     using json = nlohmann::json;
@@ -93,14 +94,15 @@ namespace MatchMaker{
         // dijkstra_trace(....,VEdges, TEdges);
         std::vector<int> path;
         dijkstra_trace(VV_temp, source, target, Weights, path);
-        Eigen::VectorXd source_target=Eigen::VectorXd::Constant(6,0);
-        for(int xx: {0,1,2})
-        {
-            source_target(xx)=V_good(source,xx);
-            source_target(xx+3)=V_good(target,xx);
-        }
         if(debug)
         {
+            Eigen::VectorXd source_target=Eigen::VectorXd::Constant(6,0);
+            for(int xx: {0,1,2})
+            {
+                source_target(xx)=V_good(source,xx);
+                source_target(xx+3)=V_good(target,xx);
+            }
+            
             igl::writeDMAT("../source_target.dmat",source_target);
         }
         assert(path.size()>=2);
@@ -169,7 +171,7 @@ namespace MatchMaker{
             file.open("../debug_paths.json");
             file << path_json;
             igl::writeOBJ("../debug_mesh.obj", V_good, F_good);
-            igl::writeDMAT("../FL_final.dmat", FL_good);
+            igl::writeDMAT("../FL_loop.dmat", FL_good);
         }
         // update visit_dict or loop condition update
         node_edge_visit_dict[target_bad][edge_idx]=true;
