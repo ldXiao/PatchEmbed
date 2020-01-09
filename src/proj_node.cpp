@@ -80,11 +80,15 @@ namespace bcclean {
                 cc +=1;
             }
             nvidx = F(fidx, cc);
-            if(std::find(node_list.begin(), node_list.end(), nvidx)!= node_list.end())
+            if(
+                VEdges[nvidx].empty() 
+                && 
+                (std::find(node_list.begin(), node_list.end(),nvidx)==node_list.end())
+            )
             {
-                addnew = true;
+                addnew = false;
             }
-            else addnew = false;
+            else addnew = true;
         }
         if(addnew)
         {
