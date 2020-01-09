@@ -39,11 +39,16 @@ namespace MatchMaker{
     {
         for(auto index : silent_indices)
         {
-            VV[index].clear();
-            for(auto & adjs: VV)
+            for(auto vidx: VV[index])
             {
-                adjs.erase(std::remove(adjs.begin(), adjs.end(), index), adjs.end());
+                std::vector<int> & adjs = VV[vidx];
+                adjs.erase(std::remove(adjs.begin(), adjs.end(), index), adjs.end()); // major solwing part
             }
+            VV[index].clear();
+            // for(auto & adjs: VV)
+            // {
+            //     adjs.erase(std::remove(adjs.begin(), adjs.end(), index), adjs.end()); // major solwing part
+            // }
         }
     }
 
