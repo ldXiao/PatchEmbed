@@ -15,7 +15,7 @@ namespace MatchMaker{
         Eigen::MatrixXd & V_good,
         Eigen::MatrixXi & F_good,
         Eigen::VectorXi & FL_good,
-        int kk
+        bool debug
     );
 }
 }

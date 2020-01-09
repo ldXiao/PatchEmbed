@@ -947,7 +947,7 @@ namespace MatchMaker{
         Eigen::MatrixXd & V_good,
         Eigen::MatrixXi & F_good,
         Eigen::VectorXi & FL_good,
-        int & kk
+        bool debug
     )
     {
         std::map<int, int> edge_order_map; // store and maintain the order of added edges {order: edge_dx}

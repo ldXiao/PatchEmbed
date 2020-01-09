@@ -104,6 +104,7 @@ namespace bcclean{
             }
             //
         }
+        std::cout << "patch relabel finished" << std::endl;
         patch::total_label_num = total_label_num_dummy;
     }
 }
