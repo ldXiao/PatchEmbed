@@ -80,19 +80,22 @@ namespace bcclean {
                 cc +=1;
             }
             nvidx = F(fidx, cc);
-            if(VEdges.empty())
+            if(std::find(node_list.begin(), node_list.end(),nvidx)!=node_list.end())
+            {
+                addnew = true;
+            }
+            else if(VEdges.empty())
             {
                 addnew = false;
             }
-            else if(
-                VEdges[nvidx].empty() 
-                && 
-                (std::find(node_list.begin(), node_list.end(),nvidx)==node_list.end())
-            )
+            else if(VEdges[nvidx].empty())
             {
                 addnew = false;
             }
-            else addnew = true;
+            else
+            {
+                addnew = true;
+            }
         }
         if(addnew)
         {
@@ -133,14 +136,17 @@ namespace bcclean {
                 if(TT(nb1,j)==fidx){TT(nb1,j) = nf1;}
                 if(TT(nb2,j)==fidx){TT(nb2,j) = nf2;}
             } 
-            VV.push_back({v0,v1,v2});
-            VV[v0].push_back(nvidx);
-            VV[v1].push_back(nvidx);
-            VV[v2].push_back(nvidx);
-            VEdges.push_back(std::vector<int>());
-            TEdges.push_back({TEdges[fidx][1],-1,-1});
-            TEdges.push_back({TEdges[fidx][2],-1,-1});
-            TEdges[fidx]={TEdges[fidx][0],-1,-1};
+            if(VEdges.size()>0)
+            {
+                VV.push_back({v0,v1,v2});
+                VV[v0].push_back(nvidx);
+                VV[v1].push_back(nvidx);
+                VV[v2].push_back(nvidx);
+                VEdges.push_back(std::vector<int>());
+                TEdges.push_back({TEdges[fidx][1],-1,-1});
+                TEdges.push_back({TEdges[fidx][2],-1,-1});
+                TEdges[fidx]={TEdges[fidx][0],-1,-1};
+            }
             
 
             F = nF;

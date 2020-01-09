@@ -877,7 +877,7 @@ namespace MatchMaker{
             
             igl::writeDMAT("../source_target.dmat",source_target);
         }
-        assert(path.size()>2);
+        assert(path.size()>1);
         std::vector<int> path_records(path.size()-2);
         std::printf("for mst edge %d, find a path:\n",edge_idx);
         for(auto rec : path)
