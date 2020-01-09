@@ -38,7 +38,8 @@ namespace MatchMaker{
         std::vector<int> & total_silence_list,
         std::map<int, std::map<int, bool> > & node_edge_visit_dict,
         std::map<int, std::vector<int> > & edge_path_map,
-        json & path_json
+        json & path_json,
+        bool debug
     )
     {
         
@@ -98,7 +99,10 @@ namespace MatchMaker{
             source_target(xx)=V_good(source,xx);
             source_target(xx+3)=V_good(target,xx);
         }
-        igl::writeDMAT("../source_target.dmat",source_target);
+        if(debug)
+        {
+            igl::writeDMAT("../source_target.dmat",source_target);
+        }
         assert(path.size()>=2);
         std::vector<int> path_records(path.size()-2);
         std::printf("for edge %d, find a path:\n",edge_idx);
@@ -158,15 +162,15 @@ namespace MatchMaker{
         silence_vertices(VV_good, total_silence_list);
 
         edge_path_map[edge_idx] = path;
-
-        path_json[std::to_string(edge_idx)] = path;   
-        
-        std::ofstream file;
-        file.open("../debug_paths.json");
-        file << path_json;
-        igl::writeOBJ("../debug_mesh.obj", V_good, F_good);
-        igl::writeDMAT("../FL_final.dmat", FL_good);
-        
+        if(debug)
+        {
+            path_json[std::to_string(edge_idx)] = path;   
+            std::ofstream file;
+            file.open("../debug_paths.json");
+            file << path_json;
+            igl::writeOBJ("../debug_mesh.obj", V_good, F_good);
+            igl::writeDMAT("../FL_final.dmat", FL_good);
+        }
         // update visit_dict or loop condition update
         node_edge_visit_dict[target_bad][edge_idx]=true;
         node_edge_visit_dict[source_bad][edge_idx]=true;
@@ -330,7 +334,8 @@ namespace MatchMaker{
                     total_silence_list,
                     node_edge_visit_dict, 
                     edge_path_map, 
-                    path_json);
+                    path_json,
+                    debug);
                 
             }
             // one loop patch finished

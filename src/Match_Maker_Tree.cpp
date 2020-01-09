@@ -813,7 +813,8 @@ namespace MatchMaker{
         std::vector<int> & total_silence_list,
         std::map<int, std::map<int, bool> > & node_edge_visit_dict,
         std::map<int, std::vector<int> > & edge_path_map,
-        json & path_json
+        json & path_json,
+        bool debug
     )
     {
         
@@ -925,15 +926,16 @@ namespace MatchMaker{
         silence_vertices(VV_good, total_silence_list);
 
         edge_path_map[edge_idx] = path;
+        if(debug)
+        {
+            path_json[std::to_string(edge_idx)] = path;   
+            
+            std::ofstream file;
+            file.open("../debug_paths.json");
+            file << path_json;
 
-        path_json[std::to_string(edge_idx)] = path;   
-        
-        std::ofstream file;
-        file.open("../debug_paths.json");
-        file << path_json;
-
-        igl::writeOBJ("../debug_mesh.obj", V_good, F_good);
-
+            igl::writeOBJ("../debug_mesh.obj", V_good, F_good);
+        }
         // update visit_dict or loop condition update
         node_edge_visit_dict[target_bad][edge_idx]=true;
         node_edge_visit_dict[source_bad][edge_idx]=true;
@@ -1058,7 +1060,8 @@ namespace MatchMaker{
                 total_silence_list,
                 node_edge_visit_dict, 
                 edge_path_map, 
-                path_json);
+                path_json,
+                debug);
         }
 
 
@@ -1089,7 +1092,8 @@ namespace MatchMaker{
                 total_silence_list,
                 node_edge_visit_dict, 
                 edge_path_map, 
-                path_json);
+                path_json,
+                debug);
             }
             // silence_vertices(VV_good,{node_image_dict[nd]});
             // // total_silence_list.push_back(nd);

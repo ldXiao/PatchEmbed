@@ -2,8 +2,6 @@
 #include <vector>
 #include <iostream>
 
-#include <pybind11/embed.h> // everything needed for embedding
-#include <pybind11/pybind11.h>
 
 #include <regex>
 #include <filesystem>
@@ -24,8 +22,8 @@
 #include "edge.h"
 #include "graphcut_cgal.h"
 #include "patch.h"
-#include "Match_Maker.h"
 #include "Match_Maker_Tree.h"
+#include "Match_Maker_Loop.h"
 #include <igl/upsample.h>
 #include <igl/random_points_on_mesh.h>
 #include <igl/jet.h>
@@ -133,7 +131,6 @@ int main(int argc, char *argv[]){
     // bad_mesh_file = py_bad_mesh_file.cast<string>();
     std::regex r(".*\\.obj");
     std::regex exclude(".*(test|good\\.mesh__sf)\\.obj");
-    std::string data_root = "/Users/vector_cat/gits/bcclean_jupyters/data/2";
     for (const auto & entry : std::filesystem::directory_iterator(data_root))
     {
         if(std::regex_match(entry.path().c_str(), r))
@@ -179,7 +176,7 @@ int main(int argc, char *argv[]){
     Eigen::MatrixXd V_good_copy = V_good;
     Eigen::MatrixXi F_good_copy = F_good;
     Eigen::VectorXi FL_good_copy = FL_good;
-    bcclean::MatchMaker::trace_and_label(bcclean::patch::Vbase, bcclean::patch::Fbase, bcclean::patch::FL_mod, V_good_copy, F_good_copy, FL_good_copy, false); 
+    bcclean::MatchMaker::trace_and_label_loop(bcclean::patch::Vbase, bcclean::patch::Fbase, bcclean::patch::FL_mod, V_good_copy, F_good_copy, FL_good_copy, false); 
     igl::jet(bcclean::patch::FL_mod,0, bcclean::patch::total_label_num-1, C_bad);
     igl::writeDMAT(data_root +"/test.dmat", bcclean::patch::FL_mod );
     igl::writeOBJ(data_root + "/test.obj", V_good, F_good);
