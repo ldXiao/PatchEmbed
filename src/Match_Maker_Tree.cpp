@@ -33,7 +33,25 @@ namespace MatchMaker{
         return;
     }
 
- 
+    void sector_silence_vertices(std::vector<std::vector<int> > & VV, const int source, const std::vector<int> & silent_indices)
+    {
+        // only remove the connection between source and silent_indices
+        for(auto index : silent_indices)
+        {
+            for(auto vidx: VV[index])
+            {
+                std::vector<int> & adjs = VV[vidx];
+                adjs.erase(std::remove(adjs.begin(), adjs.end(), source), adjs.end()); // major solwing part
+            }
+            std::vector<int> & scadjs = VV[source];
+            scadjs.erase(std::remove(scadjs.begin(), scadjs.end(), index), scadjs.end());
+            // for(auto & adjs: VV)
+            // {
+            //     adjs.erase(std::remove(adjs.begin(), adjs.end(), index), adjs.end()); // major solwing part
+            // }
+        }
+
+    }
 
     void silence_vertices(std::vector<std::vector<int > > & VV, const std::vector<int> & silent_indices)
     {
@@ -314,7 +332,7 @@ namespace MatchMaker{
             source, 
             cur_edge, 
             temp_silence_list);
-        silence_vertices(VV_temp, temp_silence_list);
+        sector_silence_vertices(VV_temp,source, temp_silence_list);
         // deal with the sctor of target
         sector_silence_list(
             F,
@@ -325,7 +343,7 @@ namespace MatchMaker{
             target,
             cur_edge, 
             temp_silence_list);
-        silence_vertices(VV_temp, temp_silence_list);
+        sector_silence_vertices(VV_temp, target, temp_silence_list);
     }
 
 
