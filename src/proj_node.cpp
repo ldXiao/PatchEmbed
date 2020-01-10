@@ -7,6 +7,7 @@
 #include "kdtree_NN_Eigen.hpp"
 #include <igl/barycentric_to_global.h>
 #include <igl/triangle_triangle_adjacency.h>
+#include <igl/barycenter.h>
 #include <queue>
 namespace bcclean {
 
@@ -67,7 +68,7 @@ namespace bcclean {
 
         // }
         bool addnew=true;
-        if(contribute_count <=3)
+        if(contribute_count <3)
         {
             // only one vertices contribute to the node
             int cc  =0;
@@ -267,76 +268,86 @@ namespace bcclean {
         Eigen::MatrixXd RR = igl::embree::line_mesh_intersection(node_v, node_normal, Vgood, Fgood);
         std::vector<int> node_losers;
 
-        
-        int fidx = std::round(RR(0,0));
+        Eigen::MatrixXd bc = RR.row(0);
+        int fidx = std::round(bc(0,0));
         std::vector<int> visit_list;
         
-        if(fidx != -1)
+        if(fidx == -1)
         {
-            if(FL_good(fidx)!= -1)
-            {
-                // triangle occupied
-                // search for nonoccupied triangle and choose the nearset non-boundary vertice
-                // we can assume for each triangle at least one vertice is not on boundary
-                int target_face=-1;
-                std::queue<int> search_queue;
-                search_queue.push(fidx);
-                while(search_queue.size()!=0){
-                    int cur_face = search_queue.front();
-                    search_queue.pop(); // remove head
-                    visit_list.push_back(cur_face);
-                    Eigen::RowVector3i adjs = TT_good.row(cur_face);
-                    for(int j =0 ; j <3 ; ++j){
-                        int face_j = adjs(j);
-                        if(face_j == -1) {
-                            continue;
-                        }
-                        if(FL_good(face_j)!= -1)
-                        {
-                            if(std::find(visit_list.begin(), visit_list.end(), face_j)== visit_list.end())
-                            {
-                                // not visited before
-                                search_queue.push(face_j);
-                            }   
-                        }
-                        else
-                        {
-                            target_face = face_j;
-                        }
+            // build a kdtree 
+            Eigen::MatrixXd Centers;
+            igl::barycenter(Vgood, Fgood, Centers);
+            kd_tree_Eigen<double> kdt(Centers.cols(),std::cref(Centers),10);
+            kdt.index->buildIndex();
+            Eigen::RowVector3d query = Vbad.row(node_bad);
+            fidx= kd_tree_NN_Eigen(kdt, query);
+            double d0 = (Vbad.row(node_bad)-Vgood.row(Fgood(fidx,0))).norm();
+            double d1 = (Vbad.row(node_bad)-Vgood.row(Fgood(fidx,1))).norm();
+            double d2 = (Vbad.row(node_bad)-Vgood.row(Fgood(fidx,2))).norm();
+            bc(0,0)= fidx;
+            double reverse_sum = (1.1/d0)+(1.1/d1)+(1.1/d2);
+            bc(0,1)= ((1.1)/d1)/(reverse_sum);
+            bc(0,2) =(1.1/d2)/reverse_sum;
+        }
+        if(FL_good(fidx)!= -1)
+        {
+            // triangle occupied
+            // search for nonoccupied triangle and choose the nearset non-boundary vertice
+            // we can assume for each triangle at least one vertice is not on boundary
+            int target_face=-1;
+            std::queue<int> search_queue;
+            search_queue.push(fidx);
+            while(search_queue.size()!=0){
+                int cur_face = search_queue.front();
+                search_queue.pop(); // remove head
+                visit_list.push_back(cur_face);
+                Eigen::RowVector3i adjs = TT_good.row(cur_face);
+                for(int j =0 ; j <3 ; ++j){
+                    int face_j = adjs(j);
+                    if(face_j == -1) {
+                        continue;
                     }
-                    if(target_face!= -1){break;}
-                }
-
-                // we can assume at least one of the vertices in target_face is not on Cut
-                for(auto vv: {0,1,2})
-                {
-                    if(
-                        VEdges_good[Fgood(target_face,vv)].empty() 
-                        && 
-                        (std::find(node_list_good.begin(), node_list_good.end(),Fgood(target_face,vv))==node_list_good.end())
-                    )
+                    if(FL_good(face_j)!= -1)
                     {
-                        node_image = Fgood(target_face,vv);
-                        break;
+                        if(std::find(visit_list.begin(), visit_list.end(), face_j)== visit_list.end())
+                        {
+                            // not visited before
+                            search_queue.push(face_j);
+                        }   
+                    }
+                    else
+                    {
+                        target_face = face_j;
                     }
                 }
-                assert(node_image!= -1);
-                return;
-            }   
-            else
-            {
-                // triangle nonoccupied
-                Eigen::MatrixXd bc = RR.row(0);
-                int nvidx = insertV_baryCord(node_list_good, bc, Vgood, Fgood, FL_good, TT_good, VV_good, TEdges_good, VEdges_good);
-                // node_list_return.push_back(nvidx);
-                node_image = nvidx;
+                if(target_face!= -1){break;}
             }
-        
-        } 
+
+            // we can assume at least one of the vertices in target_face is not on Cut
+            for(auto vv: {0,1,2})
+            {
+                if(
+                    VEdges_good[Fgood(target_face,vv)].empty() 
+                    && 
+                    (std::find(node_list_good.begin(), node_list_good.end(),Fgood(target_face,vv))==node_list_good.end())
+                )
+                {
+                    node_image = Fgood(target_face,vv);
+                    break;
+                }
+            }
+            assert(node_image!= -1);
+            return;
+        }   
         else
         {
-            node_losers.push_back(node_bad);
+            // triangle nonoccupied
+            int nvidx = insertV_baryCord(node_list_good, bc, Vgood, Fgood, FL_good, TT_good, VV_good, TEdges_good, VEdges_good);
+            // node_list_return.push_back(nvidx);
+            node_image = nvidx;
         }
+        
+        
         
     }
 }
