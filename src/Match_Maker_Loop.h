@@ -17,5 +17,15 @@ namespace MatchMaker{
         Eigen::VectorXi & FL_good,
         bool debug
     );
+
+    void trace_and_label_loop_adv(
+        const Eigen::MatrixXd & V_bad,
+        const Eigen::MatrixXi & F_bad,
+        const Eigen::VectorXi & FL_bad,
+        Eigen::MatrixXd & V_good,
+        Eigen::MatrixXi & F_good,
+        Eigen::VectorXi & FL_good,
+        bool debug
+    );
 }
 }
