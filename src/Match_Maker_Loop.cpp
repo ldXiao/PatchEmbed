@@ -3,6 +3,7 @@
 #include "Kruskal.h"
 #include "loop_colorize.h"
 #include <igl/Timer.h>
+#include <igl/facet_components.h>
 namespace bcclean{
 namespace MatchMaker{
     using json = nlohmann::json;
@@ -192,8 +193,6 @@ namespace MatchMaker{
         // datas dump to file for debug
         std::map<int, int> edge_order_map; // store and maintain the order of added edges {order: edge_dx}
         std::map<int, std::vector<int> > edge_path_map; // {edge_idx, path}
-        // Randomize Seed
-        srand(static_cast<unsigned int>(time(nullptr)));
         int total_label_num = FL_bad.maxCoeff()+1;
         // PART 0 GET THE FRAME ON BAD MESH
         std::vector<bcclean::edge> edge_list;
@@ -207,7 +206,7 @@ namespace MatchMaker{
          = Algo::Kruskal_MST(dual_frame_graph);
         std::vector<int> patch_order = Algo::MST_BFS(dual_frame_MST);
         
-        // we can assume that  all nodes have valance more than 3
+        // we can assume that  all nodes have valance more than or equal to 3
         std::vector<int> node_list_bad;
         _gen_node_list(F_bad, FL_bad, total_label_num, node_list_bad);
 
@@ -382,7 +381,7 @@ namespace MatchMaker{
         }
     }
 
-    void trace_and_label_loop(
+    void trace_and_label_loop_adv(
         const Eigen::MatrixXd & V_bad,
         const Eigen::MatrixXi & F_bad,
         const Eigen::VectorXi & FL_bad,
@@ -392,7 +391,226 @@ namespace MatchMaker{
         bool debug
     )
     {
-        
+        // it trace based on a cellular algorithm but make sure the projected node won't lie out side the desired region.
+        {
+            Eigen::VectorXi FC_bad;
+            igl::facet_components(F_bad, FC_bad);
+            if(FC_bad.maxCoeff()!=0)
+            {
+                // more then one connected component
+                std::cout <<"input mesh should have only one connected component"<<std::endl;
+                return;
+            }
+        }
+        if(debug)
+        {
+            igl::writeOBJ("../debug_mesh_bad.obj", V_bad, F_bad);
+            igl::writeDMAT("../FL_bad.dmat", FL_bad);
+        }
+        std::map<int, int> edge_order_map; // store and maintain the order of added edges {order: edge_dx}
+        std::map<int, std::vector<int> > edge_path_map; // {edge_idx, path}
+        int total_label_num = FL_bad.maxCoeff()+1;
+        // PART 0 GET THE FRAME ON BAD MESH
+        std::vector<bcclean::edge> edge_list;
+        std::unordered_map<int, std::vector<int> > patch_edge_dict;
+        std::unordered_map<int, std::vector<bool> > patch_edge_direction_dict;
+        build_edge_list_loop(V_bad, F_bad, FL_bad, total_label_num, edge_list, patch_edge_dict, patch_edge_direction_dict);
+        FL_good = Eigen::VectorXi::Constant(F_good.rows(), -1); // the uncolored facets form a connected component
+        std::vector<std::pair<int, std::pair<int, int> > > dual_frame_graph;
+        _build_dual_frame_graph(edge_list, dual_frame_graph);
+        std::vector<std::pair<int, std::pair<int, int> > > dual_frame_MST
+         = Algo::Kruskal_MST(dual_frame_graph);
+        std::vector<int> patch_order = Algo::MST_BFS(dual_frame_MST);
+
+        // we can assume that  all nodes have valance more than or equal to 3
+        std::vector<int> node_list_bad;
+        _gen_node_list(F_bad, FL_bad, total_label_num, node_list_bad);
+
+        std::map<int, std::vector<int> > node_edge_dict;
+        _gen_node_CCedges_dict(V_bad, F_bad, edge_list, node_list_bad, node_edge_dict);
+
+
+        std::vector<std::vector<int> > VV_good, VF_good;
+        igl::adjacency_list(F_good, VV_good);
+        {
+            std::vector<std::vector<int> >  VFi_good;
+            igl::vertex_triangle_adjacency(V_good, F_good, VF_good, VFi_good);
+
+        }
+        std::vector<std::vector<int> > VEdges_good(V_good.rows());
+        std::vector<std::vector<int> > TEdges_good(F_good.rows());
+        for(int count =0; count <V_good.rows(); ++ count)
+        {
+            VEdges_good[count] = std::vector<int>();
+        }
+        for(int fcount = 0; fcount  < F_good.rows(); ++fcount)
+        {   
+            TEdges_good[fcount] = {-1, -1, -1};
+        }
+        // start with the nodes with largest valance and deal with the edge starting with this node in counter clock order
+        std::vector<int> total_silence_list; // store only the vertices on the path interior (head tail excluded)
+
+
+        json path_json;
+
+        std::map<int, int> node_image_dict;
+        std::vector<int> node_list_good; // potnetially replace all use with node_image_dict
+        std::map<int , std::map<int, bool> > node_edge_visit_dict;
+        for(auto nd: node_list_bad)
+        {
+            for(auto q: node_edge_dict[nd])
+            {
+                node_edge_visit_dict[nd][q]=false;
+            }
+        }
+        std::map<int, bool> edge_visit_dict;
+        int kkk = 0;
+        for(auto edg: edge_list )
+        {
+            edge_visit_dict[kkk]= false;
+            kkk++;
+        }
+
+        for(auto patch_idx : patch_order)
+        {
+            if(debug)
+            {
+                igl::writeDMAT("../cur_patch.dmat", Eigen::VectorXi::Constant(1,patch_idx));
+            }
+            for(auto edge_idx: patch_edge_dict[patch_idx])
+            {
+                if(edge_visit_dict[edge_idx])
+                {
+                    continue;
+                }
+                edge_visit_dict[edge_idx]=true;
+                int source_bad = edge_list.at(edge_idx).head;
+                int target_bad = edge_list.at(edge_idx).tail;
+                if(debug)
+                {
+                    Eigen::VectorXd source_target_bad=Eigen::VectorXd::Constant(6,0);
+                    for(int xx: {0,1,2})
+                    {
+                        source_target_bad(xx)=V_bad(source_bad,xx);
+                        source_target_bad(xx+3)=V_bad(target_bad,xx);
+                    }
+                    
+                    igl::writeDMAT("../source_target_bad.dmat",source_target_bad);
+                }
+                // find the corresponding source and target on goodmesh
+                // project the source_bad and target_bad onto the good_mesh outside any colored patch
+                int source = -1;
+                int target = -1;
+
+                Eigen::MatrixXi TT_good;
+                igl::triangle_triangle_adjacency(F_good, TT_good);
+                //update the node_list_good and node_image_dict;
+
+                if(node_image_dict.find(source_bad)==node_image_dict.end())
+                {
+                    proj_node_loop(
+                        V_bad,
+                        F_bad,
+                        source_bad,
+                        node_list_good,
+                        TT_good,
+                        VV_good,
+                        TEdges_good,
+                        VEdges_good,
+                        V_good,
+                        F_good,
+                        FL_good,
+                        source
+                    );
+                    assert(source!= -1);
+                    node_image_dict[source_bad]=source;
+                    node_list_good.push_back(source);
+                }
+                if(node_image_dict.find(target_bad)==node_image_dict.end())
+                {
+                    proj_node_loop(
+                        V_bad,
+                        F_bad,
+                        target_bad,
+                        node_list_good,
+                        TT_good,
+                        VV_good,
+                        TEdges_good,
+                        VEdges_good,
+                        V_good,
+                        F_good,
+                        FL_good,
+                        target
+                    );
+                    assert(target!= -1);
+                    node_image_dict[target_bad]=target;
+                    node_list_good.push_back(target);
+                }
+                
+                
+                //
+                trace_for_edge_loop(
+                    V_bad,
+                    F_bad, 
+                    edge_list, 
+                    node_list_good, 
+                    node_image_dict, 
+                    node_edge_dict, 
+                    edge_idx, 
+                    V_good, 
+                    F_good, 
+                    FL_good,
+                    VV_good, 
+                    VEdges_good, 
+                    TEdges_good, 
+                    total_silence_list,
+                    node_edge_visit_dict, 
+                    edge_path_map, 
+                    path_json,
+                    debug);
+                
+            }
+            // one loop patch finished
+            // colorize FL_good with label patch_idx
+            int stem_edge = patch_edge_dict[patch_idx][0];
+            int v0, v1;
+            v0 = edge_path_map[stem_edge][0];
+            v1 = edge_path_map[stem_edge][1];
+            std::vector<std::vector<int> > VF_good;
+            {
+                std::vector<std::vector<int> > VFi_good;
+                igl::vertex_triangle_adjacency(V_good, F_good, VF_good, VFi_good);
+            }
+            bool directionCC = patch_edge_direction_dict[patch_idx][0];
+            std::vector<int> inter(VF_good[v0].size()+ VF_good[v1].size());
+            auto it = std::set_intersection(VF_good[v0].begin(), VF_good[v0].end(), VF_good[v1].begin(), VF_good[v1].end(), inter.begin());
+            inter.resize(it-inter.begin());
+            assert(inter.size()==2);
+            int ffa = inter[0];
+            int ffb = inter[1];
+            bool ffa_coline = false; 
+            for(int j: {0,1,2})
+            {
+                if(F_good(ffa,j)==v0 && F_good(ffa,(j+1)% 3)==v1)
+                {
+                    ffa_coline=true;
+                    break;
+                }
+            }
+            int ff_in;
+            if(ffa_coline != directionCC)
+            {
+                ff_in = ffa;
+            }
+            else
+            {
+                ff_in = ffb;
+            }
+            loop_colorize(V_good, F_good, TEdges_good, ff_in, patch_idx, FL_good);
+            
+            
+        }
+
     }
 }
 }

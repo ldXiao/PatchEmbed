@@ -2,6 +2,7 @@ cmake_minimum_required(VERSION 3.1)
 project(bcclean)
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
 set(THIRD_PARTY_DIR ${CMAKE_CURRENT_SOURCE_DIR}/external/)
+set_property(GLOBAL PROPERTY ALLOW_DUPLICATE_CUSTOM_TARGETS 1)
 include_directories(${PYTHON_INCLUDE_DIRS})
 find_package(PythonLibs 3.6)
 message(${PYTHON_LIBRARIES})
@@ -10,12 +11,12 @@ message(${PYTHON_INCLUDE_DIRS})
 
 
 include(DownloadProject)
-download_project(
-    PROJ         libigl
-    SOURCE_DIR   ${CMAKE_CURRENT_SOURCE_DIR}/external/libigl
-    DOWNLOAD_DIR ${CMAKE_CURRENT_SOURCE_DIR}/external/.cache/libigl
-    GIT_REPOSITORY https://github.com/libigl/libigl.git
-    GIT_TAG       master)
+# download_project(
+    # PROJ         libigl
+    # SOURCE_DIR   ${CMAKE_CURRENT_SOURCE_DIR}/external/libigl
+    # DOWNLOAD_DIR ${CMAKE_CURRENT_SOURCE_DIR}/external/.cache/libigl
+    # GIT_REPOSITORY https://github.com/libigl/libigl.git
+    # GIT_TAG       master)
 
 option(LIBIGL_USE_STATIC_LIBRARY "Use libigl as static library" OFF)
 option(LIBIGL_WITH_ANTTWEAKBAR       "Use AntTweakBar"    OFF)
@@ -36,7 +37,7 @@ option(LIBIGL_WITH_TRIANGLE          "Use Triangle"       OFF)
 option(LIBIGL_WITH_PREDICATES        "Use exact predicates" ON)
 option(LIBIGL_WITH_VIEWER            "Use OpenGL viewer"  OFF)
 option(LIBIGL_WITH_XML               "Use XML"            OFF)
-find_package(LIBIGL REQUIRED QUIET)
+# find_package(LIBIGL REQUIRED QUIET)
 
 # pybind11
 download_project(
@@ -72,15 +73,28 @@ target_include_directories(nanoflann SYSTEM INTERFACE ${CMAKE_CURRENT_SOURCE_DIR
 #target_include_directories(tetwild SYSTEM INTERFACE ${CMAKE_CURRENT_SOURCE_DIR}/external/tetwild/include)
 
 download_project(
-        PROJ         json
-        SOURCE_DIR   ${CMAKE_CURRENT_SOURCE_DIR}/external/json
-        DOWNLOAD_DIR ${CMAKE_CURRENT_SOURCE_DIR}/external/.cache/json
-        GIT_REPOSITORY https://github.com/nlohmann/json.git
-        GIT_TAG        v3.6.1
+        PROJ         FloatTetwild
+        SOURCE_DIR   ${CMAKE_CURRENT_SOURCE_DIR}/external/fTetwild
+        DOWNLOAD_DIR ${CMAKE_CURRENT_SOURCE_DIR}/external/.cache/fTetwild
+        GIT_REPOSITORY https://github.com/wildmeshing/fTetWild.git
+        GIT_TAG        master
 )
-#json
-add_library(json INTERFACE)
-target_include_directories(json SYSTEM INTERFACE ${CMAKE_CURRENT_SOURCE_DIR}/external/json/include)
+add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/external/fTetwild)
+
+#json 
+
+
+# download_project(
+#         PROJ         json
+#         SOURCE_DIR   ${CMAKE_CURRENT_SOURCE_DIR}/external/json
+#         DOWNLOAD_DIR ${CMAKE_CURRENT_SOURCE_DIR}/external/.cache/json
+#         GIT_REPOSITORY https://github.com/nlohmann/json.git
+#         GIT_TAG        v3.6.1
+# )
+
+# #json
+# # add_library(json INTERFACE)
+# target_include_directories(json SYSTEM INTERFACE ${CMAKE_CURRENT_SOURCE_DIR}/external/json/include)
 
 download_project(
         PROJ         cxxopts
@@ -124,7 +138,6 @@ set(SOURCES
 )
 add_library(bcclean ${SOURCES})
 target_link_libraries(bcclean PUBLIC
-        json
         igl::core
         igl::cgal
         igl::embree
@@ -133,6 +146,7 @@ target_link_libraries(bcclean PUBLIC
         igl::predicates
         cxxopts
         nanoflann
+        FloatTetwild
         )
 
 
