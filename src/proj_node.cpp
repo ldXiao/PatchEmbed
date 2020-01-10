@@ -107,7 +107,7 @@ namespace bcclean {
             nvidx = V.rows();
             Eigen::MatrixXi nF = Eigen::MatrixXi::Zero(F.rows()+2,3);
             FL.conservativeResize(F.rows()+2);
-            TT.conservativeResize(F.rows()+2,3);
+            
             
             nF.block(0,0,F.rows(),3) = F;
             /*
@@ -122,23 +122,24 @@ namespace bcclean {
             nF.row(F.rows()+1) = Eigen::RowVector3i(v2, v0, nvidx);
             FL(F.rows()) = FL(fidx);
             FL(F.rows()+1) = FL(fidx);
-            int nb0 = TT(fidx,0);
-            int nb1 = TT(fidx,1);
-            int nb2 = TT(fidx,2);
-            int nf0 = fidx;
-            int nf1 = F.rows();
-            int nf2 = F.rows()+1;
-            TT.row(nf0) = Eigen::RowVector3i(nb0, nf1, nf2);
-            TT.row(nf1) = Eigen::RowVector3i(nb1, nf2, nf0);
-            TT.row(nf2) = Eigen::RowVector3i(nb2, nf0, nf1);
-            for(auto j: {0,1,2})
+            if(VEdges.size()!=0)
             {
-                if(TT(nb0,j)==fidx){TT(nb0,j) = nf0;}
-                if(TT(nb1,j)==fidx){TT(nb1,j) = nf1;}
-                if(TT(nb2,j)==fidx){TT(nb2,j) = nf2;}
-            } 
-            if(VEdges.size()>0)
-            {
+                TT.conservativeResize(F.rows()+2,3);
+                int nb0 = TT(fidx,0);
+                int nb1 = TT(fidx,1);
+                int nb2 = TT(fidx,2);
+                int nf0 = fidx;
+                int nf1 = F.rows();
+                int nf2 = F.rows()+1;
+                TT.row(nf0) = Eigen::RowVector3i(nb0, nf1, nf2);
+                TT.row(nf1) = Eigen::RowVector3i(nb1, nf2, nf0);
+                TT.row(nf2) = Eigen::RowVector3i(nb2, nf0, nf1);
+                for(auto j: {0,1,2})
+                {
+                    if(TT(nb0,j)==fidx){TT(nb0,j) = nf0;}
+                    if(TT(nb1,j)==fidx){TT(nb1,j) = nf1;}
+                    if(TT(nb2,j)==fidx){TT(nb2,j) = nf2;}
+                } 
                 VV.push_back({v0,v1,v2});
                 VV[v0].push_back(nvidx);
                 VV[v1].push_back(nvidx);
@@ -147,8 +148,8 @@ namespace bcclean {
                 TEdges.push_back({TEdges[fidx][1],-1,-1});
                 TEdges.push_back({TEdges[fidx][2],-1,-1});
                 TEdges[fidx]={TEdges[fidx][0],-1,-1};
+                
             }
-            
 
             F = nF;
             
