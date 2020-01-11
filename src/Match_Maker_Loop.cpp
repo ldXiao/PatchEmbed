@@ -172,7 +172,6 @@ namespace MatchMaker{
             file.open("../dbginfo/debug_paths.json");
             file << path_json;
             igl::writeOBJ("../dbginfo/debug_mesh.obj", V_good, F_good);
-            igl::writeDMAT("../dbginfo/FL_loop.dmat", FL_good);
         }
         // update visit_dict or loop condition update
         node_edge_visit_dict[target_bad][edge_idx]=true;
@@ -198,6 +197,11 @@ namespace MatchMaker{
         std::vector<bcclean::edge> edge_list;
         std::unordered_map<int, std::vector<int> > patch_edge_dict;
         std::unordered_map<int, std::vector<bool> > patch_edge_direction_dict;
+        if(debug)
+        {
+            igl::writeOBJ("../dbginfo/debug_mesh_bad.obj", V_bad, F_bad);
+            igl::writeDMAT("../dbginfo/FL_bad.dmat", FL_bad);
+        }
         build_edge_list_loop(V_bad, F_bad, FL_bad, total_label_num, edge_list, patch_edge_dict, patch_edge_direction_dict);
         FL_good = Eigen::VectorXi::Constant(F_good.rows(), -1);
         std::vector<std::pair<int, std::pair<int, int> > > dual_frame_graph;
@@ -257,6 +261,10 @@ namespace MatchMaker{
 
         for(auto patch_idx : patch_order)
         {
+            if(debug)
+            {
+                igl::writeDMAT("../dbginfo/cur_patch.dmat", Eigen::VectorXi::Constant(1,patch_idx));
+            }
             for(auto edge_idx: patch_edge_dict[patch_idx])
             {
                 if(edge_visit_dict[edge_idx])
@@ -266,6 +274,17 @@ namespace MatchMaker{
                 edge_visit_dict[edge_idx]=true;
                 int source_bad = edge_list.at(edge_idx).head;
                 int target_bad = edge_list.at(edge_idx).tail;
+                if(debug)
+                {
+                    Eigen::VectorXd source_target_bad=Eigen::VectorXd::Constant(6,0);
+                    for(int xx: {0,1,2})
+                    {
+                        source_target_bad(xx)=V_bad(source_bad,xx);
+                        source_target_bad(xx+3)=V_bad(target_bad,xx);
+                    }
+                    
+                    igl::writeDMAT("../dbginfo/source_target_bad.dmat",source_target_bad);
+                }
                 // find the corresponding source and target on goodmesh
                 // project the source_bad and target_bad onto the good_mesh outside any colored patch
                 int source = -1;
@@ -376,6 +395,10 @@ namespace MatchMaker{
                 ff_in = ffb;
             }
             loop_colorize(V_good, F_good, TEdges_good, ff_in, patch_idx, FL_good);
+            if(debug)
+            {
+                igl::writeDMAT("../dbginfo/FL_loop.dmat", FL_good);
+            }
             
             
         }
@@ -418,10 +441,11 @@ namespace MatchMaker{
         FL_good = Eigen::VectorXi::Constant(F_good.rows(), -1); // the uncolored facets form a connected component
         std::vector<std::pair<int, std::pair<int, int> > > dual_frame_graph;
         _build_dual_frame_graph(edge_list, dual_frame_graph);
-        std::vector<std::pair<int, std::pair<int, int> > > dual_frame_MST
-         = Algo::Kruskal_MST(dual_frame_graph);
-        std::vector<int> patch_order = Algo::MST_BFS(dual_frame_MST);
 
+        // std::vector<std::pair<int, std::pair<int, int> > > dual_frame_MST
+        //  = Algo::Kruskal_MST(dual_frame_graph);
+        // std::vector<int> patch_order = Algo::MST_BFS(dual_frame_MST);
+        std::vector<int> patch_order = Algo::Graph_BFS(dual_frame_graph, 0);
         // we can assume that  all nodes have valance more than or equal to 3
         std::vector<int> node_list_bad;
         _gen_node_list(F_bad, FL_bad, total_label_num, node_list_bad);

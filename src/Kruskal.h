@@ -50,6 +50,7 @@ Eigen::SparseMatrix<double> Kruskal_MST(Eigen::SparseMatrix<double> Graph);
 std::vector<std::pair<int, std::pair<int, int> > > Kruskal_MST(const std::vector<std::pair<int, std::pair<int, int> > > & frame_graph);
 
 std::vector<int> MST_BFS(const std::vector<std::pair<int, std::pair<int, int> > > & frame_MST);
+std::vector<int> Graph_BFS(const std::vector<std::pair<int, std::pair<int, int> > > & frame_graph, const int root);
 }
 }
 

@@ -4,6 +4,7 @@
 #include <algorithm>
 #include <iostream>
 #include <vector>
+#include <queue>
 #include <unordered_map>
 #include "Kruskal.h"
 namespace bcclean{
@@ -105,6 +106,57 @@ std::vector<std::pair<int, std::pair<int, int> > > Kruskal_MST(const std::vector
         }
     }
     return frame_tree;
+}
+
+std::vector<int> Graph_BFS(const std::vector<std::pair<int, std::pair<int, int> > > & frame_graph, const int root)
+{
+    std::vector<int> res;
+    bool find_root = false;
+    std::map<int, bool> edge_visited;
+    for(auto  item: frame_graph)
+    {
+        edge_visited[item.first]= false; // initialize edge_vusted
+        if((! find_root)&&(item.second.first== root || item.second.second == root))
+        {
+            res.push_back(root);
+            find_root = true;
+        }
+    }
+    if(! find_root)
+    {
+        exit(EXIT_FAILURE);
+    }
+    std::queue<int> visit_queue;
+    visit_queue.push(root);
+    while(visit_queue.size()!=0)
+    {
+        int cur_v = visit_queue.front();
+        bool neighbor_visited = true;
+        for(auto item: frame_graph)
+        {
+            if(item.second.first==cur_v || item.second.second == cur_v)
+            {
+                if(edge_visited[item.first]=false)
+                {
+                    neighbor_visited = false;
+                }
+                if(item.second.first== cur_v)
+                {
+                    visit_queue.push(item.second.second);
+                }
+                else 
+                {
+                    visit_queue.push(item.second.first);
+                }
+            }
+        }
+        if(neighbor_visited)
+        {
+            res.push_back(cur_v);
+            visit_queue.pop();
+        }
+    }
+    return res;
 }
 
 std::vector<int> MST_BFS(const std::vector<std::pair<int, std::pair<int, int> > > & frame_MST)
