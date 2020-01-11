@@ -77,7 +77,7 @@ download_project(
         SOURCE_DIR   ${CMAKE_CURRENT_SOURCE_DIR}/external/fTetwild
         DOWNLOAD_DIR ${CMAKE_CURRENT_SOURCE_DIR}/external/.cache/fTetwild
         GIT_REPOSITORY https://github.com/wildmeshing/fTetWild.git
-        GIT_TAG        master
+        GIT_TAG        2308d2f
 )
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/external/fTetwild)
 
