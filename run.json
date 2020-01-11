@@ -1,7 +1,0 @@
-{
-    "lambda_refine":1,
-    "stop_energy": 10,
-    "data_root": "../data/3",
-    "num_subdiv": 2,
-    "label_num": 6
-}
