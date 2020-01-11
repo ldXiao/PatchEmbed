@@ -37,7 +37,11 @@ debug/
 release/
 cmake-build-debug/
 cmake-build-release/
+dbginfo/
+.
 .vscode
 .idea
 .DS_Store
 .ipynb_checkpoints
+run.json
+test.json

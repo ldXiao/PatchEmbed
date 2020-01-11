@@ -1,8 +1,0 @@
-{
-    "data_root": "../../bcclean_jupyters/data/5",
-    "iden": false,
-    "upsp": 0,
-    "debug": true,
-    "key": 0,
-    "problematics": [5, 9, 10, 20,25]
-}
