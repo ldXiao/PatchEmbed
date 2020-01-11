@@ -112,49 +112,61 @@ std::vector<int> Graph_BFS(const std::vector<std::pair<int, std::pair<int, int> 
 {
     std::vector<int> res;
     bool find_root = false;
-    std::map<int, bool> edge_visited;
-    for(auto  item: frame_graph)
+    std::map<int, bool> vertices_visited;
+    std::vector<int> vertices = get_vertices(frame_graph);
+    for(auto  vv: vertices)
     {
-        edge_visited[item.first]= false; // initialize edge_vusted
-        if((! find_root)&&(item.second.first== root || item.second.second == root))
-        {
-            res.push_back(root);
-            find_root = true;
-        }
+        vertices_visited[vv]= false; // initialize vertices_visited
+        if(vv == root) find_root = true;
     }
+
     if(! find_root)
     {
         exit(EXIT_FAILURE);
     }
     std::queue<int> visit_queue;
     visit_queue.push(root);
+    vertices_visited[root]= true;
     while(visit_queue.size()!=0)
     {
         int cur_v = visit_queue.front();
         bool neighbor_visited = true;
         for(auto item: frame_graph)
         {
+            int other= -1;
             if(item.second.first==cur_v || item.second.second == cur_v)
             {
-                if(edge_visited[item.first]=false)
-                {
-                    neighbor_visited = false;
-                }
                 if(item.second.first== cur_v)
                 {
-                    visit_queue.push(item.second.second);
+                    other = item.second.second;
+                    if(vertices_visited[other])
+                    {
+                        continue;
+                    }
+                    else
+                    {
+                        vertices_visited[other] = true;
+                        visit_queue.push(other);
+                    }
+                    
                 }
                 else 
                 {
-                    visit_queue.push(item.second.first);
+                    other = item.second.first;
+                    if(vertices_visited[other])
+                    {
+                        continue;
+                    }
+                    else
+                    {
+                        vertices_visited[other] = true;
+                        visit_queue.push(other);
+                    }
                 }
             }
         }
-        if(neighbor_visited)
-        {
-            res.push_back(cur_v);
-            visit_queue.pop();
-        }
+        res.push_back(cur_v);
+        visit_queue.pop();
     }
     return res;
 }

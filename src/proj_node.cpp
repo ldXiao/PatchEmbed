@@ -272,23 +272,37 @@ namespace bcclean {
         Eigen::MatrixXd bc = RR.row(0);
         int fidx = std::round(bc(0,0));
         std::vector<int> visit_list;
-        
+        // build a kdtree 
+        Eigen::MatrixXd Centers;
+        igl::barycenter(Vgood, Fgood, Centers);
+        kd_tree_Eigen<double> kdt(Centers.cols(),std::cref(Centers),10);
+        kdt.index->buildIndex();
+        Eigen::RowVector3d query = Vbad.row(node_bad);
+        int nnidx= kd_tree_NN_Eigen(kdt, query);
+        double d0 = (Vbad.row(node_bad)-Vgood.row(Fgood(nnidx,0))).norm();
+        double d1 = (Vbad.row(node_bad)-Vgood.row(Fgood(nnidx,1))).norm();
+        double d2 = (Vbad.row(node_bad)-Vgood.row(Fgood(nnidx,2))).norm();
+        double dnnbc = (Vbad.row(node_bad)-Centers.row(nnidx)).norm();
+        Eigen::MatrixXd nnbc = bc;
+        nnbc(0,0)= nnidx;
+        double reverse_sum = (1.1/d0)+(1.1/d1)+(1.1/d2);
+        nnbc(0,1)= ((1.1)/d1)/(reverse_sum);
+        nnbc(0,2) =(1.1/d2)/reverse_sum;
         if(fidx == -1)
         {
-            // build a kdtree 
-            Eigen::MatrixXd Centers;
-            igl::barycenter(Vgood, Fgood, Centers);
-            kd_tree_Eigen<double> kdt(Centers.cols(),std::cref(Centers),10);
-            kdt.index->buildIndex();
-            Eigen::RowVector3d query = Vbad.row(node_bad);
-            fidx= kd_tree_NN_Eigen(kdt, query);
-            double d0 = (Vbad.row(node_bad)-Vgood.row(Fgood(fidx,0))).norm();
-            double d1 = (Vbad.row(node_bad)-Vgood.row(Fgood(fidx,1))).norm();
-            double d2 = (Vbad.row(node_bad)-Vgood.row(Fgood(fidx,2))).norm();
-            bc(0,0)= fidx;
-            double reverse_sum = (1.1/d0)+(1.1/d1)+(1.1/d2);
-            bc(0,1)= ((1.1)/d1)/(reverse_sum);
-            bc(0,2) =(1.1/d2)/reverse_sum;
+            fidx = nnidx;
+            bc = nnbc;
+        }
+        else 
+        {
+            double dproj = (Vbad.row(node_bad)-Centers.row(fidx)).norm();
+            if(dproj > 3 * dnnbc)
+            {
+                // proj error is too large
+                // choose nn 
+                fidx = nnidx;
+                bc = nnbc;
+            }
         }
         if(FL_good(fidx)!= -1)
         {

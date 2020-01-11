@@ -206,10 +206,10 @@ namespace MatchMaker{
         FL_good = Eigen::VectorXi::Constant(F_good.rows(), -1);
         std::vector<std::pair<int, std::pair<int, int> > > dual_frame_graph;
         _build_dual_frame_graph(edge_list, dual_frame_graph);
-        std::vector<std::pair<int, std::pair<int, int> > > dual_frame_MST
-         = Algo::Kruskal_MST(dual_frame_graph);
-        std::vector<int> patch_order = Algo::MST_BFS(dual_frame_MST);
-        
+        // std::vector<std::pair<int, std::pair<int, int> > > dual_frame_MST
+        //  = Algo::Kruskal_MST(dual_frame_graph);
+        // std::vector<int> patch_order = Algo::MST_BFS(dual_frame_MST);
+        std::vector<int> patch_order = Algo::Graph_BFS(dual_frame_graph, 0);
         // we can assume that  all nodes have valance more than or equal to 3
         std::vector<int> node_list_bad;
         _gen_node_list(F_bad, FL_bad, total_label_num, node_list_bad);
