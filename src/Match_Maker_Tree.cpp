@@ -898,7 +898,7 @@ namespace MatchMaker{
                 source_target(xx+3)=V_good(target,xx);
             }
             
-            igl::writeDMAT("../source_target.dmat",source_target);
+            igl::writeDMAT("../dbginfo/source_target.dmat",source_target);
         }
         assert(path.size()>1);
         std::vector<int> path_records(path.size()-2);
@@ -966,10 +966,10 @@ namespace MatchMaker{
             path_json[std::to_string(edge_idx)] = path;   
             
             std::ofstream file;
-            file.open("../debug_paths.json");
+            file.open("../dbginfo/debug_paths.json");
             file << path_json;
 
-            igl::writeOBJ("../debug_mesh.obj", V_good, F_good);
+            igl::writeOBJ("../dbginfo/debug_mesh.obj", V_good, F_good);
         }
         // update visit_dict or loop condition update
         node_edge_visit_dict[target_bad][edge_idx]=true;
@@ -1010,7 +1010,7 @@ namespace MatchMaker{
             mst_json[std::to_string(item.first)] = edge_list[item.first]._edge_vertices;   
         }
         std::ofstream filemst;
-        filemst.open("../debug_mst.json");
+        filemst.open("../dbginfo/debug_mst.json");
         filemst << mst_json;
         filemst.close();
 
@@ -1171,7 +1171,7 @@ namespace MatchMaker{
             }
             loop_colorize(V_good, F_good, TEdges_good, seed_face, lb, FL_good);
         }
-        igl::writeDMAT("../FL_final.dmat", FL_good);
+        igl::writeDMAT("../dbginfo/FL_final.dmat", FL_good);
         
         
     }

@@ -104,7 +104,7 @@ namespace MatchMaker{
                 source_target(xx+3)=V_good(target,xx);
             }
             
-            igl::writeDMAT("../source_target.dmat",source_target);
+            igl::writeDMAT("../dbginfo/source_target.dmat",source_target);
         }
         assert(path.size()>=2);
         std::vector<int> path_records(path.size()-2);
@@ -169,10 +169,10 @@ namespace MatchMaker{
         {
             path_json[std::to_string(edge_idx)] = path;   
             std::ofstream file;
-            file.open("../debug_paths.json");
+            file.open("../dbginfo/debug_paths.json");
             file << path_json;
-            igl::writeOBJ("../debug_mesh.obj", V_good, F_good);
-            igl::writeDMAT("../FL_loop.dmat", FL_good);
+            igl::writeOBJ("../dbginfo/debug_mesh.obj", V_good, F_good);
+            igl::writeDMAT("../dbginfo/FL_loop.dmat", FL_good);
         }
         // update visit_dict or loop condition update
         node_edge_visit_dict[target_bad][edge_idx]=true;
@@ -404,8 +404,8 @@ namespace MatchMaker{
         }
         if(debug)
         {
-            igl::writeOBJ("../debug_mesh_bad.obj", V_bad, F_bad);
-            igl::writeDMAT("../FL_bad.dmat", FL_bad);
+            igl::writeOBJ("../dbginfo/debug_mesh_bad.obj", V_bad, F_bad);
+            igl::writeDMAT("../dbginfo/FL_bad.dmat", FL_bad);
         }
         std::map<int, int> edge_order_map; // store and maintain the order of added edges {order: edge_dx}
         std::map<int, std::vector<int> > edge_path_map; // {edge_idx, path}
@@ -475,7 +475,7 @@ namespace MatchMaker{
         {
             if(debug)
             {
-                igl::writeDMAT("../cur_patch.dmat", Eigen::VectorXi::Constant(1,patch_idx));
+                igl::writeDMAT("../dbginfo/cur_patch.dmat", Eigen::VectorXi::Constant(1,patch_idx));
             }
             for(auto edge_idx: patch_edge_dict[patch_idx])
             {
@@ -495,7 +495,7 @@ namespace MatchMaker{
                         source_target_bad(xx+3)=V_bad(target_bad,xx);
                     }
                     
-                    igl::writeDMAT("../source_target_bad.dmat",source_target_bad);
+                    igl::writeDMAT("../dbginfo/source_target_bad.dmat",source_target_bad);
                 }
                 // find the corresponding source and target on goodmesh
                 // project the source_bad and target_bad onto the good_mesh outside any colored patch
