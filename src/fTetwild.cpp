@@ -220,12 +220,12 @@ int fTetwild(const Eigen::MatrixXd & V, const Eigen::MatrixXi & F, const double 
     std::vector<Vector3> input_vertices(V.rows());
     for(int i  =0; i< V.rows(); ++i)
     {
-        input_vertices[i] = V.row(i);
+        input_vertices[i] = V.row(i).transpose();
     }
     std::vector<Vector3i> input_faces(F.rows());
     for(int i  =0; i< F.rows(); ++i)
     {
-        input_faces[i] = F.row(i);
+        input_faces[i] = F.row(i).transpose();
     }
     
 
