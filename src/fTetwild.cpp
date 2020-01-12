@@ -150,6 +150,7 @@ int fTetwild(const Eigen::MatrixXd & V, const Eigen::MatrixXi & F, const double 
 
     // command_line.add_option("--max-its", params.max_its, "");
     // command_line.add_option("--stop-energy", params.stop_energy, "");
+    params.stop_energy = 100;
     // command_line.add_option("--stage", params.stage, "");
     // command_line.add_option("--stop-p", params.stop_p, "");
 
@@ -164,6 +165,7 @@ int fTetwild(const Eigen::MatrixXd & V, const Eigen::MatrixXi & F, const double 
     params.correct_surface_orientation = true;
     // command_line.add_option("--envelope-log", params.envelope_log, "");
     // command_line.add_flag("--smooth-open-boundary", params.smooth_open_boundary, "");
+    params.smooth_open_boundary = true;
     // command_line.add_flag("--manifold-surface", params.manifold_surface, "");
     params.manifold_surface = true;
     // command_line.add_option("--csg", csg_file, "json file containg a csg tree")->check(CLI::ExistingFile);
@@ -177,7 +179,7 @@ int fTetwild(const Eigen::MatrixXd & V, const Eigen::MatrixXi & F, const double 
 // #ifdef LIBIGL_WITH_TETGEN
 //     // command_line.add_flag("--tetgen", run_tet_gen, "run tetgen too. (optional)");
 // #endif
-    unsigned int max_threads = 1;
+    unsigned int max_threads = 4;
 // #ifdef FLOAT_TETWILD_USE_TBB
 //     command_line.add_option("--max-threads", max_threads, "maximum number of threads used");
 // #endif
