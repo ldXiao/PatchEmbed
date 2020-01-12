@@ -99,7 +99,60 @@ namespace bcclean
 {
 namespace Tet 
 {
-int fTetwild(const Eigen::MatrixXd & V, const Eigen::MatrixXi & F, const double edge_len_r, Eigen::MatrixXd & VS, Eigen::MatrixXi & FS) 
+
+void extract_volume_mesh(const Mesh&                     mesh,
+                         const std::function<bool(int)>& skip_tet,
+                         const std::function<bool(int)>& skip_vertex,
+                         MatrixXd&                       V,
+                         Eigen::MatrixXi&                T)
+{
+    const auto& points = mesh.tet_vertices;
+    const auto& tets   = mesh.tets;
+
+    V.resize(points.size(), 3);
+    T.resize(tets.size(), 4);
+
+    size_t           index = 0;
+    std::vector<int> old_2_new(points.size(), -1);
+    for (size_t i = 0; i < points.size(); ++i) {
+        if (skip_vertex(i)) {
+            continue;
+        }
+        old_2_new[i] = index;
+        V.row(index) = points[i].pos.transpose();
+        ++index;
+    }
+
+    V.conservativeResize(index, 3);
+
+    index = 0;
+    for (size_t i = 0; i < tets.size(); ++i) {
+        if (skip_tet(i))
+            continue;
+        for (int j = 0; j < 4; j++) {
+            T(index, j) = old_2_new[tets[i][j]];
+        }
+        ++index;
+    }
+    T.conservativeResize(index, 4);
+}
+
+void extract_surface_mesh(const Mesh&                               mesh,
+                          const std::function<bool(int)>&           skip_tet,
+                          const std::function<bool(int)>&           skip_vertex,
+                          Eigen::MatrixXd & VS,
+                          Eigen::MatrixXi &    FS)
+{
+    MatrixXs        VT;
+    Eigen::MatrixXi TT;
+    extract_volume_mesh(mesh, skip_tet, skip_vertex, VT, TT);
+
+    Eigen::VectorXi I;
+    igl::boundary_facets(TT, FS);
+    igl::remove_unreferenced(VT, FS, VS, FS, I);
+}
+
+int fTetwild(const Eigen::MatrixXd & V, const Eigen::MatrixXi & F, const double edge_len_r, const int stop_eng, Eigen::MatrixXd & VS, Eigen::MatrixXi & FS) 
 {
 
 #ifndef WIN32
@@ -150,7 +203,7 @@ int fTetwild(const Eigen::MatrixXd & V, const Eigen::MatrixXi & F, const double 
 
     // command_line.add_option("--max-its", params.max_its, "");
     // command_line.add_option("--stop-energy", params.stop_energy, "");
-    params.stop_energy = 100;
+    params.stop_energy = stop_eng;
     // command_line.add_option("--stage", params.stage, "");
     // command_line.add_option("--stop-p", params.stop_p, "");
 
@@ -165,7 +218,7 @@ int fTetwild(const Eigen::MatrixXd & V, const Eigen::MatrixXi & F, const double 
     params.correct_surface_orientation = true;
     // command_line.add_option("--envelope-log", params.envelope_log, "");
     // command_line.add_flag("--smooth-open-boundary", params.smooth_open_boundary, "");
-    params.smooth_open_boundary = true;
+    params.smooth_open_boundary = false;
     // command_line.add_flag("--manifold-surface", params.manifold_surface, "");
     params.manifold_surface = true;
     // command_line.add_option("--csg", csg_file, "json file containg a csg tree")->check(CLI::ExistingFile);
@@ -375,14 +428,17 @@ int fTetwild(const Eigen::MatrixXd & V, const Eigen::MatrixXi & F, const double 
     // }
     // //fortest
     // MeshIO::write_mesh(output_mesh_name, mesh, false, colors);
-    MeshIO::write_surface_mesh(params.output_path + "_" + params.postfix + "_sf.obj", mesh, false);
-    MatrixXs        VT;
-    Eigen::MatrixXi TT;
-    MeshIO::extract_volume_mesh(mesh, VT, TT,true);
-    Eigen::VectorXi I;
-    igl::boundary_facets(TT, FS);
-    igl::remove_unreferenced(VT, FS, VS, FS, I);
+    // MeshIO::write_surface_mesh(params.output_path + "_" + params.postfix + "_sf.obj", mesh, false);
+    // MatrixXs        VT;
+    // Eigen::MatrixXi TT;
+    // MeshIO::extract_volume_mesh(mesh, VT, TT,true);
+    // Eigen::VectorXi I;
 
+    // igl::boundary_facets(TT, FS);
+    // igl::remove_unreferenced(VT, FS, VS, FS, I);
+    const auto skip_tet    = [&mesh](const int i) { return mesh.tets[i].is_removed; };
+    const auto skip_vertex = [&mesh](const int i) { return mesh.tet_vertices[i].is_removed; };
+    extract_surface_mesh(mesh, skip_tet, skip_vertex, VS, FS);
     // std::ofstream fout(params.log_path + "_" + params.postfix + ".csv");
     // if (fout.good())
     //     fout << stats();

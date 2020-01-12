@@ -105,10 +105,11 @@ int main(int argc, char *argv[]){
     bool debug=true;
     bool iden = false;
     int upsp = 0;
-    double edge_len_r=0;
+    double edge_len_r=0.01;
     bool only_tet = false;
     std::string data_root, tracing;
     json param_json;
+    int stop_eng = 10;
     {
         std::ifstream temp(args["json"].as<std::string>());
         param_json = json::parse(temp);
@@ -120,6 +121,7 @@ int main(int argc, char *argv[]){
         only_tet = param_json["only_tet"];
         edge_len_r = param_json["edge_len_r"];
         tracing = param_json["tracing"];
+        stop_eng = param_json["stop_eng"];
     }
     std::string bad_mesh_file, good_mesh_file, face_label_dmat, face_label_yml;
     std::regex r(".*trimesh.*\\.obj");
@@ -180,7 +182,7 @@ int main(int argc, char *argv[]){
             }
         }
         if(only_tet){
-            bcclean::Tet::fTetwild(CCV_bad, CCF_bad, edge_len_r, CCV_good, CCF_good);
+            bcclean::Tet::fTetwild(CCV_bad, CCF_bad, edge_len_r,stop_eng, CCV_good, CCF_good);
             igl::writeOBJ(output_file_good, CCV_good, CCF_good);
             break;
         }
@@ -188,7 +190,7 @@ int main(int argc, char *argv[]){
             igl::read_triangle_mesh(output_file_good, CCV_good, CCF_good);
         }
         else{
-            bcclean::Tet::fTetwild(CCV_bad, CCF_bad, edge_len_r, CCV_good, CCF_good);
+            bcclean::Tet::fTetwild(CCV_bad, CCF_bad, edge_len_r,stop_eng, CCV_good, CCF_good);
             igl::writeOBJ(output_file_good, CCV_good, CCF_good); 
         }
         if(tracing=="loop"){
@@ -197,7 +199,7 @@ int main(int argc, char *argv[]){
         {
             bcclean::MatchMaker::trace_and_label(bcclean::patch::Vbase, bcclean::patch::Fbase, bcclean::patch::FL_mod, CCV_good, CCF_good, CCFL_good, debug); 
         }
-        
+
     }
     // bcclean::Tet::fTetwild(V_good, F_good,0.01, V_good, F_good);
     // int label_num = FL_bad.maxCoeff()+1;

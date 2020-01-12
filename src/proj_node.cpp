@@ -279,9 +279,9 @@ namespace bcclean {
         kdt.index->buildIndex();
         Eigen::RowVector3d query = Vbad.row(node_bad);
         int nnidx= kd_tree_NN_Eigen(kdt, query);
-        double d0 = (Vbad.row(node_bad)-Vgood.row(Fgood(nnidx,0))).norm();
-        double d1 = (Vbad.row(node_bad)-Vgood.row(Fgood(nnidx,1))).norm();
-        double d2 = (Vbad.row(node_bad)-Vgood.row(Fgood(nnidx,2))).norm();
+        double d0 = std::max((Vbad.row(node_bad)-Vgood.row(Fgood(nnidx,0))).norm(), 1e-7);
+        double d1 = std::max((Vbad.row(node_bad)-Vgood.row(Fgood(nnidx,1))).norm(),1e-7);
+        double d2 = std::max((Vbad.row(node_bad)-Vgood.row(Fgood(nnidx,2))).norm(),1e-7);
         double dnnbc = (Vbad.row(node_bad)-Centers.row(nnidx)).norm();
         Eigen::MatrixXd nnbc = bc;
         nnbc(0,0)= nnidx;
