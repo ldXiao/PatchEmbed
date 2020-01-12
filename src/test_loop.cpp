@@ -106,7 +106,7 @@ int main(int argc, char *argv[]){
     bool iden = false;
     int upsp = 0;
     double edge_len_r=0.01;
-    bool only_tet = false;
+    bool re_tet = false;
     std::string data_root, tracing;
     json param_json;
     int stop_eng = 10;
@@ -118,7 +118,7 @@ int main(int argc, char *argv[]){
         iden = param_json["iden"];
         upsp = param_json["upsp"];
         debug = param_json["debug"];
-        only_tet = param_json["only_tet"];
+        re_tet = param_json["re_tet"];
         edge_len_r = param_json["edge_len_r"];
         tracing = param_json["tracing"];
         stop_eng = param_json["stop_eng"];
@@ -181,17 +181,28 @@ int main(int argc, char *argv[]){
                 std::printf("good mesh exists for components %d\n", cc);
             }
         }
-        if(only_tet){
+        
+        if(!file_exists || re_tet){
             bcclean::Tet::fTetwild(CCV_bad, CCF_bad, edge_len_r,stop_eng, CCV_good, CCF_good);
             igl::writeOBJ(output_file_good, CCV_good, CCF_good);
             break;
         }
-        if(file_exists){
-            igl::read_triangle_mesh(output_file_good, CCV_good, CCF_good);
-        }
         else{
-            bcclean::Tet::fTetwild(CCV_bad, CCF_bad, edge_len_r,stop_eng, CCV_good, CCF_good);
-            igl::writeOBJ(output_file_good, CCV_good, CCF_good); 
+            igl::read_triangle_mesh(output_file_good, CCV_good, CCF_good); 
+        }
+        if(Betti(CCV_bad, CCF_bad)!= Betti(CCV_good, CCF_good))
+        {
+            std::cout << "Inconsisitant topology, abort" << std::endl;
+            return EXIT_FAILURE;
+        }
+        {
+            Eigen::VectorXi CCFC;
+            igl::facet_components(CCF_good,CCFC);
+            if(CCFC.maxCoeff()>0)
+            {
+                std::cout << "Inconsisitant topology, abort" << std::endl;
+                return EXIT_FAILURE; 
+            }
         }
         if(tracing=="loop"){
             bcclean::MatchMaker::trace_and_label_loop(bcclean::patch::Vbase, bcclean::patch::Fbase, bcclean::patch::FL_mod, CCV_good, CCF_good, CCFL_good, debug);
