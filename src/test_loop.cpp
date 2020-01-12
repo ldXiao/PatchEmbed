@@ -24,6 +24,7 @@
 #include "patch.h"
 #include "Match_Maker_Tree.h"
 #include "Match_Maker_Loop.h"
+#include "fTetwild.h"
 #include <igl/upsample.h>
 #include <igl/random_points_on_mesh.h>
 #include <igl/jet.h>
@@ -169,6 +170,7 @@ int main(int argc, char *argv[]){
         igl::upsample(V_good, F_good, upsp);
     }
     igl::readDMAT(face_label_dmat, FL_bad);
+    bcclean::Tet::fTetwild(V_good, F_good,0.01, V_good, F_good);
     label_num = FL_bad.maxCoeff()+1;
     bcclean::patch pat;
     bcclean::patch::SetStatics(V_bad, F_bad, FL_bad, label_num);
@@ -181,6 +183,6 @@ int main(int argc, char *argv[]){
     igl::jet(bcclean::patch::FL_mod,0, bcclean::patch::total_label_num-1, C_bad);
     igl::writeDMAT(data_root +"/test.dmat", bcclean::patch::FL_mod );
     igl::writeOBJ(data_root + "/test.obj", V_good, F_good);
-        
+
     return 0;
 }

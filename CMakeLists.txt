@@ -80,7 +80,7 @@ download_project(
         GIT_TAG        2308d2f
 )
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/external/fTetwild)
-
+# option(FLOAT_TETWILD_ENABLE_TBB         "Enable TBB"                    OFF)
 #json 
 
 
@@ -135,6 +135,8 @@ set(SOURCES
     src/Match_Maker_Tree.cpp 
     src/Kruskal.h
     src/Kruskal.cpp
+    src/fTetwild.h 
+    src/fTetwild.cpp
 )
 add_library(bcclean ${SOURCES})
 target_link_libraries(bcclean PUBLIC
@@ -143,7 +145,7 @@ target_link_libraries(bcclean PUBLIC
         igl::embree
         # igl::opengl_glfw
         # igl::opengl_glfw_imgui
-        igl::predicates
+        # igl::predicates
         cxxopts
         nanoflann
         FloatTetwild

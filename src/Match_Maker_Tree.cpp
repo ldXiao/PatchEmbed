@@ -1073,7 +1073,6 @@ namespace MatchMaker{
         json path_json;
 
         // // before the main loop traverse the fame tree to trace a spanning tree first
-
         for(auto frame_edge: frame_MST)
         {
             int edge_idx = frame_edge.first;
