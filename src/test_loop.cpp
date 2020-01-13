@@ -14,7 +14,7 @@
 #include <igl/facet_components.h>
 #include <igl/boundary_facets.h>
 #include <igl/remove_unreferenced.h>
-#include <igl/all_edges.h>
+#include <igl/edges.h>
 #include <Eigen/Core>
 #include "bcclean.h"
 #include "edge.h"
@@ -33,7 +33,7 @@ using VFL = std::tuple<Eigen::MatrixXd, Eigen::MatrixXi, Eigen::VectorXi>;
 int Betti(const Eigen::MatrixXd & V, const Eigen::MatrixXi & F)
 {
     Eigen::MatrixXi E;
-    igl::all_edges(F,E);
+    igl::edges(F,E);
     return V.rows() - E.rows() + F.rows();
 }
 
