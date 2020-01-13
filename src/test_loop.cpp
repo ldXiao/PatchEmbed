@@ -190,10 +190,12 @@ int main(int argc, char *argv[]){
         else{
             igl::read_triangle_mesh(output_file_good, CCV_good, CCF_good); 
         }
-        if(Betti(CCV_bad, CCF_bad)!= Betti(CCV_good, CCF_good))
+        int betti_bad=Betti(CCV_bad, CCF_bad);
+        int betti_good=Betti(CCV_good, CCF_good);
+        if(betti_bad!= betti_good)
         {
             std::cout << "Inconsisitant topology, abort" << std::endl;
-            return EXIT_FAILURE;
+            
         }
         {
             Eigen::VectorXi CCFC;
