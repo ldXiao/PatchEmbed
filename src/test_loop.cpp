@@ -14,7 +14,7 @@
 #include <igl/facet_components.h>
 #include <igl/boundary_facets.h>
 #include <igl/remove_unreferenced.h>
-#include <igl/all_edges.h>
+#include <igl/edges.h>
 #include <Eigen/Core>
 #include "bcclean.h"
 #include "edge.h"
@@ -33,7 +33,7 @@ using VFL = std::tuple<Eigen::MatrixXd, Eigen::MatrixXi, Eigen::VectorXi>;
 int Betti(const Eigen::MatrixXd & V, const Eigen::MatrixXi & F)
 {
     Eigen::MatrixXi E;
-    igl::all_edges(F,E);
+    igl::edges(F,E);
     return V.rows() - E.rows() + F.rows();
 }
 
@@ -190,10 +190,19 @@ int main(int argc, char *argv[]){
         else{
             igl::read_triangle_mesh(output_file_good, CCV_good, CCF_good); 
         }
+<<<<<<< HEAD
         if(Betti(CCV_bad, CCF_bad)!= Betti(CCV_good, CCF_good))
         {
             std::cout << "Inconsisitant topology, abort" << std::endl;
             return EXIT_FAILURE;
+=======
+        int betti_bad=Betti(CCV_bad, CCF_bad);
+        int betti_good=Betti(CCV_good, CCF_good);
+        if(betti_bad!= betti_good)
+        {
+            std::cout << "Inconsisitant topology, abort" << std::endl;
+            
+>>>>>>> 33848a8d83d603ee1f073760b569ef5a5f65bfbe
         }
         {
             Eigen::VectorXi CCFC;
