@@ -148,10 +148,7 @@ int main(int argc, char *argv[]){
     {
         igl::read_triangle_mesh(good_mesh_file, V_good, F_good);
     }
-    if(upsp> 0)
-    {
-        igl::upsample(V_good, F_good, upsp);
-    }
+    
     igl::readDMAT(face_label_dmat, FL_bad);
     std::map<int, VFL> vfls;
     std::map<int, std::map<int, int> > ComponentsLabelMaps;
@@ -205,6 +202,10 @@ int main(int argc, char *argv[]){
                 std::cout << "Inconsisitant topology, abort" << std::endl;
                 return EXIT_FAILURE; 
             }
+        }
+        if(upsp> 0)
+        {
+            igl::upsample(CCV_good, CCF_good, upsp);
         }
         if(tracing=="loop"){
             bcclean::MatchMaker::trace_and_label_loop(bcclean::patch::Vbase, bcclean::patch::Fbase, bcclean::patch::FL_mod, CCV_good, CCF_good, CCFL_good, debug);

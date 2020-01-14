@@ -156,6 +156,7 @@ namespace MatchMaker{
 
         // split_detect
         std::pair<int, int> split;
+        igl::triangle_triangle_adjacency(F_good, TT_good);
         while(split_detect(F_good, TT_good, node_list_good,VEdges_good, TEdges_good, split))
         {
             // splits_update
@@ -313,6 +314,14 @@ namespace MatchMaker{
                     assert(source!= -1);
                     node_image_dict[source_bad]=source;
                     node_list_good.push_back(source);
+                    igl::triangle_triangle_adjacency(F_good, TT_good);
+                    std::pair<int, int> split;
+                    while(split_detect(F_good, TT_good, node_list_good,VEdges_good, TEdges_good, split))
+                    {
+                        // splits_update
+                        splits_update(split, V_good, F_good, FL_good, VEdges_good, TEdges_good, VV_good);
+                        igl::triangle_triangle_adjacency(F_good, TT_good);
+                    }
                 }
                 if(node_image_dict.find(target_bad)==node_image_dict.end())
                 {
@@ -333,6 +342,14 @@ namespace MatchMaker{
                     assert(target!= -1);
                     node_image_dict[target_bad]=target;
                     node_list_good.push_back(target);
+                    igl::triangle_triangle_adjacency(F_good, TT_good);
+                    std::pair<int, int> split;
+                    while(split_detect(F_good, TT_good, node_list_good,VEdges_good, TEdges_good, split))
+                    {
+                        // splits_update
+                        splits_update(split, V_good, F_good, FL_good, VEdges_good, TEdges_good, VV_good);
+                        igl::triangle_triangle_adjacency(F_good, TT_good);
+                    }
                 }
                 
                 

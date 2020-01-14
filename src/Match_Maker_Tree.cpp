@@ -768,7 +768,9 @@ namespace MatchMaker{
             for(auto x: item.second){
                 printf("%d, ", x);
             }
+            printf("\n");
         }
+        
         
 
         // also order the node_edge_dict;

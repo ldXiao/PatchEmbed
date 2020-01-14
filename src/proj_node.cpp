@@ -34,13 +34,17 @@ namespace bcclean {
         u = baryentry(0,1);
         v = baryentry(0,2);
         w = 1 - u - v;
-        eps = 10e-2;
+        eps = 0.1;
         std::vector<double> bcs = {w, u, v};
         int vcount =0;
         int contribute_count = 0;
         std::map<int, bool> contribute_dict;
+        std::map<int, bool> available_dict;
+        std::vector<std::pair<int, double> > contribute_sort;
         for(auto bc: bcs)
         {
+            contribute_sort.push_back(std::make_pair(vcount, bc));
+            
             if(bc > eps)
             {
                 contribute_count +=1;
@@ -50,8 +54,19 @@ namespace bcclean {
             {
                 contribute_dict[vcount] = false;
             }
+            int vvidx = F(fidx, vcount);
+            if((std::find(node_list.begin(), node_list.end(), vvidx) == node_list.end())&& VEdges[vvidx].size()==0)
+            {
+                available_dict[vcount] = true;
+            }
+            else
+            {
+                available_dict[vcount] = false;
+            }
+            
             vcount +=1;
         }
+        std::sort(contribute_sort.begin(), contribute_sort.end(), [](const std::pair<int, double>& a, const std::pair<int, double> & b){return a.second > b.second;});
         
         // else if(contribute_count == 2)
         // {
@@ -68,34 +83,14 @@ namespace bcclean {
 
         // }
         bool addnew=true;
-        if(contribute_count <3)
-        {
-            // only one vertices contribute to the node
-            int cc  =0;
-            for(auto item: contribute_dict)
-            {
-                if(item.second)
-                {
-                    break;
-                }
-                cc +=1;
-            }
-            nvidx = F(fidx, cc);
-            if(std::find(node_list.begin(), node_list.end(),nvidx)!=node_list.end())
-            {
-                addnew = true;
-            }
-            else if(VEdges.empty())
+
+        for(auto item: contribute_sort){
+            int mvp = item.first;
+            if(contribute_dict[mvp] && available_dict[mvp])
             {
                 addnew = false;
-            }
-            else if(VEdges[nvidx].empty())
-            {
-                addnew = false;
-            }
-            else
-            {
-                addnew = true;
+                nvidx = F(fidx, mvp);
+                break;
             }
         }
         if(addnew)
@@ -140,10 +135,19 @@ namespace bcclean {
                     if(TT(nb1,j)==fidx){TT(nb1,j) = nf1;}
                     if(TT(nb2,j)==fidx){TT(nb2,j) = nf2;}
                 } 
-                VV.push_back({v0,v1,v2});
-                VV[v0].push_back(nvidx);
-                VV[v1].push_back(nvidx);
-                VV[v2].push_back(nvidx);
+                VV.push_back(std::vector<int>());
+                for(auto vi: {v0, v1, v2})
+                {
+                    if(VEdges[vi].empty())
+                    {
+                        VV[nvidx].push_back(vi);
+                        VV[vi].push_back(nvidx);
+                    }
+                }
+                // VV.push_back({v0,v1,v2});
+                // VV[v0].push_back(nvidx);
+                // VV[v1].push_back(nvidx);
+                // VV[v2].push_back(nvidx);
                 VEdges.push_back(std::vector<int>());
                 TEdges.push_back({TEdges[fidx][1],-1,-1});
                 TEdges.push_back({TEdges[fidx][2],-1,-1});
@@ -157,7 +161,7 @@ namespace bcclean {
         
         }
 
-       return nvidx;
+        return nvidx;
     }
 
     void proj_node(
@@ -341,10 +345,13 @@ namespace bcclean {
             // we can assume at least one of the vertices in target_face is not on Cut
             for(auto vv: {0,1,2})
             {
+                int vvidx = Fgood(target_face,vv);
+                bool not_path = VEdges_good[vvidx].empty();
+                bool not_node = (std::find(node_list_good.begin(), node_list_good.end(),Fgood(target_face,vv))==node_list_good.end());
                 if(
-                    VEdges_good[Fgood(target_face,vv)].empty() 
+                    not_path 
                     && 
-                    (std::find(node_list_good.begin(), node_list_good.end(),Fgood(target_face,vv))==node_list_good.end())
+                    not_node
                 )
                 {
                     node_image = Fgood(target_face,vv);
