@@ -344,7 +344,7 @@ namespace MatchMaker{
             target,
             cur_edge, 
             temp_silence_list);
-        temp_silence_list.erase(std::remove(temp_silence_list.begin(), temp_silence_list.end(), target), temp_silence_list.end());
+        temp_silence_list.erase(std::remove(temp_silence_list.begin(), temp_silence_list.end(), source), temp_silence_list.end());
         sector_silence_vertices(VV_temp, target, temp_silence_list);
     }
 
