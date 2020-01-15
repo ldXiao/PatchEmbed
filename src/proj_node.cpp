@@ -10,17 +10,11 @@
 #include <igl/barycenter.h>
 #include <queue>
 namespace bcclean {
-
-    int insertV_baryCord(
+    int insert_baryCord(
         const std::vector<int> & node_list,
         Eigen::MatrixXd & baryentry,
         Eigen::MatrixXd & V,
-        Eigen::MatrixXi & F,
-        Eigen::VectorXi & FL,
-        Eigen::MatrixXi & TT,
-        std::vector<std::vector<int> > & VV,
-        std::vector<std::vector<int> > & TEdges,
-        std::vector<std::vector<int> > & VEdges
+        Eigen::MatrixXi & F
     )
     {
         int fidx = std::round(baryentry(0,0));
@@ -55,7 +49,7 @@ namespace bcclean {
                 contribute_dict[vcount] = false;
             }
             int vvidx = F(fidx, vcount);
-            if((std::find(node_list.begin(), node_list.end(), vvidx) == node_list.end())&& VEdges[vvidx].size()==0)
+            if((std::find(node_list.begin(), node_list.end(), vvidx) == node_list.end()))
             {
                 available_dict[vcount] = true;
             }
@@ -67,21 +61,6 @@ namespace bcclean {
             vcount +=1;
         }
         std::sort(contribute_sort.begin(), contribute_sort.end(), [](const std::pair<int, double>& a, const std::pair<int, double> & b){return a.second > b.second;});
-        
-        // else if(contribute_count == 2)
-        // {
-        //     // new node should be places on edge
-        //     int non_contrib_v = 0;
-        //     for(auto item: contribute_dict)
-        //     {
-        //         if(!item.second)
-        //         {
-        //             break;
-        //         }
-        //         non_contrib_v +=1;
-        //     }
-
-        // }
         bool addnew=true;
 
         for(auto item: contribute_sort){
@@ -101,7 +80,6 @@ namespace bcclean {
             nV.row(V.rows()) = nVentry;
             nvidx = V.rows();
             Eigen::MatrixXi nF = Eigen::MatrixXi::Zero(F.rows()+2,3);
-            FL.conservativeResize(F.rows()+2);
             
             
             nF.block(0,0,F.rows(),3) = F;
@@ -115,34 +93,6 @@ namespace bcclean {
             nF.row(fidx) = Eigen::RowVector3i(v0, v1, nvidx);
             nF.row(F.rows()) = Eigen::RowVector3i(v1, v2, nvidx);
             nF.row(F.rows()+1) = Eigen::RowVector3i(v2, v0, nvidx);
-            FL(F.rows()) = FL(fidx);
-            FL(F.rows()+1) = FL(fidx);
-            if(VEdges.size()!=0)
-            {
-                TT.conservativeResize(F.rows()+2,3);
-                int nb0 = TT(fidx,0);
-                int nb1 = TT(fidx,1);
-                int nb2 = TT(fidx,2);
-                int nf0 = fidx;
-                int nf1 = F.rows();
-                int nf2 = F.rows()+1;
-                TT.row(nf0) = Eigen::RowVector3i(nb0, nf1, nf2);
-                TT.row(nf1) = Eigen::RowVector3i(nb1, nf2, nf0);
-                TT.row(nf2) = Eigen::RowVector3i(nb2, nf0, nf1);
-                for(auto j: {0,1,2})
-                {
-                    if(TT(nb0,j)==fidx){TT(nb0,j) = nf0;}
-                    if(TT(nb1,j)==fidx){TT(nb1,j) = nf1;}
-                    if(TT(nb2,j)==fidx){TT(nb2,j) = nf2;}
-                } 
-                VV.push_back(std::vector<int>());
-                for(auto vi: {v0, v1, v2})
-                {
-                
-                }
-                
-            }
-
             F = nF;
             
             V = nV;
