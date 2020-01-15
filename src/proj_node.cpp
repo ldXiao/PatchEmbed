@@ -10,7 +10,7 @@
 #include <igl/barycenter.h>
 #include <queue>
 namespace bcclean {
-    int insert_baryCord(
+    int insertV_baryCord(
         const std::vector<int> & node_list,
         Eigen::MatrixXd & baryentry,
         Eigen::MatrixXd & V,
@@ -294,39 +294,46 @@ namespace bcclean {
         // if R(j,0)==-1, it means that normal does not intersect with good mesh
         for(int jj = 0; jj < RR.rows(); ++ jj)
         {
-            if(std::round(RR(jj,0))!= -1)
+            Eigen::MatrixXd bc = RR.row(jj);
+            int fidx = std::round(bc(0,0));
+            // build a kdtree 
+            Eigen::MatrixXd Centers;
+            igl::barycenter(Vgood, Fgood, Centers);
+            kd_tree_Eigen<double> kdt(Centers.cols(),std::cref(Centers),10);
+            kdt.index->buildIndex();
+            int node_bad = node_list_bad[jj];
+            Eigen::RowVector3d query = Vbad.row(node_bad);
+            int nnidx= kd_tree_NN_Eigen(kdt, query);
+            double d0 = std::max((Vbad.row(node_bad)-Vgood.row(Fgood(nnidx,0))).norm(), 1e-7);
+            double d1 = std::max((Vbad.row(node_bad)-Vgood.row(Fgood(nnidx,1))).norm(),1e-7);
+            double d2 = std::max((Vbad.row(node_bad)-Vgood.row(Fgood(nnidx,2))).norm(),1e-7);
+            double dnnbc = (Vbad.row(node_bad)-Centers.row(nnidx)).norm();
+            Eigen::MatrixXd nnbc = bc;
+            nnbc(0,0)= nnidx;
+            double reverse_sum = (1.1/d0)+(1.1/d1)+(1.1/d2);
+            nnbc(0,1)= ((1.1)/d1)/(reverse_sum);
+            nnbc(0,2) =(1.1/d2)/reverse_sum;
+            if(fidx == -1)
             {
-                Eigen::VectorXi FL_temp; // dummy parameter
-                Eigen::MatrixXi TT_temp; // dummy parameter 
-                std::vector<std::vector<int> > VV_temp;
-                std::vector<std::vector<int> > VEdges_temp;
-                std::vector<std::vector<int> > TEdges_temp;
-                Eigen::MatrixXd bc = RR.row(jj);
-                int nvidx = insertV_baryCord(node_list_good, bc, Vgood, Fgood, FL_temp, TT_temp, VV_temp, TEdges_temp, VEdges_temp);
-                node_map[node_list_bad[jj]] = nvidx;
-                node_list_good.push_back(nvidx);
-            } 
-            else
-            {
-                node_losers.push_back(node_list_bad[jj]);
+                fidx = nnidx;
+                bc = nnbc;
             }
+            else 
+            {
+                double dproj = (Vbad.row(node_bad)-Centers.row(fidx)).norm();
+                if(dproj > 3 * dnnbc)
+                {
+                    // proj error is too large
+                    // choose nn 
+                    fidx = nnidx;
+                    bc = nnbc;
+                }
+            }
+            int nvidx = insertV_baryCord(node_list_good, bc, Vgood, Fgood);
+            node_map[node_bad] = nvidx;
+            node_list_good.push_back(nvidx);
         }
 
-        if(node_losers.size()>0)
-        {
-            std::map<int, int> img_records;
-            kd_tree_Eigen<double> kdt(Vgood_copy.cols(),std::cref(Vgood_copy),10);
-            kdt.index->buildIndex();
-            for(auto nd: node_losers)
-            {
-                Eigen::RowVector3d querypt = Vbad.row(nd);
-                int img = kd_tree_NN_Eigen( kdt, querypt);
-                assert(img_records.find(img)== img_records.end());
-                img_records[img] = 1;
-                node_map[nd] = img;
-                // TODO remove detect images from kdtree and makesure all the resulting nodes are different
-            }
-        }
 
     }
 
