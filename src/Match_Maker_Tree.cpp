@@ -38,11 +38,10 @@ namespace MatchMaker{
         // only remove the connection between source and silent_indices
         for(auto index : silent_indices)
         {
-            for(auto vidx: VV[index])
-            {
-                std::vector<int> & adjs = VV[vidx];
-                adjs.erase(std::remove(adjs.begin(), adjs.end(), source), adjs.end()); // major solwing part
-            }
+            
+            std::vector<int> & adjs = VV[index];
+            adjs.erase(std::remove(adjs.begin(), adjs.end(), source), adjs.end()); // major solwing part
+            
             std::vector<int> & scadjs = VV[source];
             scadjs.erase(std::remove(scadjs.begin(), scadjs.end(), index), scadjs.end());
             // for(auto & adjs: VV)
@@ -769,7 +768,9 @@ namespace MatchMaker{
             for(auto x: item.second){
                 printf("%d, ", x);
             }
+            printf("\n");
         }
+        
         
 
         // also order the node_edge_dict;

@@ -34,13 +34,17 @@ namespace bcclean {
         u = baryentry(0,1);
         v = baryentry(0,2);
         w = 1 - u - v;
-        eps = 10e-2;
+        eps = 0.1;
         std::vector<double> bcs = {w, u, v};
         int vcount =0;
         int contribute_count = 0;
         std::map<int, bool> contribute_dict;
+        std::map<int, bool> available_dict;
+        std::vector<std::pair<int, double> > contribute_sort;
         for(auto bc: bcs)
         {
+            contribute_sort.push_back(std::make_pair(vcount, bc));
+            
             if(bc > eps)
             {
                 contribute_count +=1;
@@ -50,8 +54,19 @@ namespace bcclean {
             {
                 contribute_dict[vcount] = false;
             }
+            int vvidx = F(fidx, vcount);
+            if((std::find(node_list.begin(), node_list.end(), vvidx) == node_list.end())&& VEdges[vvidx].size()==0)
+            {
+                available_dict[vcount] = true;
+            }
+            else
+            {
+                available_dict[vcount] = false;
+            }
+            
             vcount +=1;
         }
+        std::sort(contribute_sort.begin(), contribute_sort.end(), [](const std::pair<int, double>& a, const std::pair<int, double> & b){return a.second > b.second;});
         
         // else if(contribute_count == 2)
         // {
@@ -68,34 +83,14 @@ namespace bcclean {
 
         // }
         bool addnew=true;
-        if(contribute_count <3)
-        {
-            // only one vertices contribute to the node
-            int cc  =0;
-            for(auto item: contribute_dict)
-            {
-                if(item.second)
-                {
-                    break;
-                }
-                cc +=1;
-            }
-            nvidx = F(fidx, cc);
-            if(std::find(node_list.begin(), node_list.end(),nvidx)!=node_list.end())
-            {
-                addnew = true;
-            }
-            else if(VEdges.empty())
+
+        for(auto item: contribute_sort){
+            int mvp = item.first;
+            if(contribute_dict[mvp] && available_dict[mvp])
             {
                 addnew = false;
-            }
-            else if(VEdges[nvidx].empty())
-            {
-                addnew = false;
-            }
-            else
-            {
-                addnew = true;
+                nvidx = F(fidx, mvp);
+                break;
             }
         }
         if(addnew)
@@ -140,10 +135,160 @@ namespace bcclean {
                     if(TT(nb1,j)==fidx){TT(nb1,j) = nf1;}
                     if(TT(nb2,j)==fidx){TT(nb2,j) = nf2;}
                 } 
-                VV.push_back({v0,v1,v2});
-                VV[v0].push_back(nvidx);
-                VV[v1].push_back(nvidx);
-                VV[v2].push_back(nvidx);
+                VV.push_back(std::vector<int>());
+                for(auto vi: {v0, v1, v2})
+                {
+                
+                }
+                
+            }
+
+            F = nF;
+            
+            V = nV;
+        
+        }
+
+        return nvidx;
+    }
+
+    int insertV_baryCord(
+        const std::vector<int> & node_list,
+        Eigen::MatrixXd & baryentry,
+        Eigen::MatrixXd & V,
+        Eigen::MatrixXi & F,
+        Eigen::VectorXi & FL,
+        Eigen::MatrixXi & TT,
+        std::vector<std::vector<int> > & VV,
+        std::vector<std::vector<int> > & TEdges,
+        std::vector<std::vector<int> > & VEdges
+    )
+    {
+        int fidx = std::round(baryentry(0,0));
+        assert(fidx != -1);
+        assert(baryentry.rows()==1);
+        int v0 = F(fidx,0);
+        int v1 = F(fidx,1);
+        int v2 = F(fidx,2);
+        int nvidx = -1;
+        double u,v,w, eps;
+        u = baryentry(0,1);
+        v = baryentry(0,2);
+        w = 1 - u - v;
+        eps = 0.1;
+        std::vector<double> bcs = {w, u, v};
+        int vcount =0;
+        int contribute_count = 0;
+        std::map<int, bool> contribute_dict;
+        std::map<int, bool> available_dict;
+        std::vector<std::pair<int, double> > contribute_sort;
+        for(auto bc: bcs)
+        {
+            contribute_sort.push_back(std::make_pair(vcount, bc));
+            
+            if(bc > eps)
+            {
+                contribute_count +=1;
+                contribute_dict[vcount] = true;
+            }
+            else
+            {
+                contribute_dict[vcount] = false;
+            }
+            int vvidx = F(fidx, vcount);
+            if((std::find(node_list.begin(), node_list.end(), vvidx) == node_list.end())&& VEdges[vvidx].size()==0)
+            {
+                available_dict[vcount] = true;
+            }
+            else
+            {
+                available_dict[vcount] = false;
+            }
+            
+            vcount +=1;
+        }
+        std::sort(contribute_sort.begin(), contribute_sort.end(), [](const std::pair<int, double>& a, const std::pair<int, double> & b){return a.second > b.second;});
+        
+        // else if(contribute_count == 2)
+        // {
+        //     // new node should be places on edge
+        //     int non_contrib_v = 0;
+        //     for(auto item: contribute_dict)
+        //     {
+        //         if(!item.second)
+        //         {
+        //             break;
+        //         }
+        //         non_contrib_v +=1;
+        //     }
+
+        // }
+        bool addnew=true;
+
+        for(auto item: contribute_sort){
+            int mvp = item.first;
+            if(contribute_dict[mvp] && available_dict[mvp])
+            {
+                addnew = false;
+                nvidx = F(fidx, mvp);
+                break;
+            }
+        }
+        if(addnew)
+        {
+            Eigen::MatrixXd nVentry = igl::barycentric_to_global(V, F, baryentry);
+            Eigen::MatrixXd nV = Eigen::MatrixXd::Zero(V.rows()+1, 3);
+            nV.block(0,0, V.rows(), 3) = V;
+            nV.row(V.rows()) = nVentry;
+            nvidx = V.rows();
+            Eigen::MatrixXi nF = Eigen::MatrixXi::Zero(F.rows()+2,3);
+            FL.conservativeResize(F.rows()+2);
+            
+            
+            nF.block(0,0,F.rows(),3) = F;
+            /*
+                v0
+
+                nv
+            v1      v2
+            */
+            // choose v0 v1 nv to inherit initial face
+            nF.row(fidx) = Eigen::RowVector3i(v0, v1, nvidx);
+            nF.row(F.rows()) = Eigen::RowVector3i(v1, v2, nvidx);
+            nF.row(F.rows()+1) = Eigen::RowVector3i(v2, v0, nvidx);
+            FL(F.rows()) = FL(fidx);
+            FL(F.rows()+1) = FL(fidx);
+            if(VEdges.size()!=0)
+            {
+                TT.conservativeResize(F.rows()+2,3);
+                int nb0 = TT(fidx,0);
+                int nb1 = TT(fidx,1);
+                int nb2 = TT(fidx,2);
+                int nf0 = fidx;
+                int nf1 = F.rows();
+                int nf2 = F.rows()+1;
+                TT.row(nf0) = Eigen::RowVector3i(nb0, nf1, nf2);
+                TT.row(nf1) = Eigen::RowVector3i(nb1, nf2, nf0);
+                TT.row(nf2) = Eigen::RowVector3i(nb2, nf0, nf1);
+                for(auto j: {0,1,2})
+                {
+                    if(TT(nb0,j)==fidx){TT(nb0,j) = nf0;}
+                    if(TT(nb1,j)==fidx){TT(nb1,j) = nf1;}
+                    if(TT(nb2,j)==fidx){TT(nb2,j) = nf2;}
+                } 
+                VV.push_back(std::vector<int>());
+                for(auto vi: {v0, v1, v2})
+                {
+                    if(VEdges[vi].empty())
+                    {
+                        VV[nvidx].push_back(vi);
+                        VV[vi].push_back(nvidx);
+                    }
+                }
+                // VV.push_back({v0,v1,v2});
+                // VV[v0].push_back(nvidx);
+                // VV[v1].push_back(nvidx);
+                // VV[v2].push_back(nvidx);
                 VEdges.push_back(std::vector<int>());
                 TEdges.push_back({TEdges[fidx][1],-1,-1});
                 TEdges.push_back({TEdges[fidx][2],-1,-1});
@@ -157,7 +302,7 @@ namespace bcclean {
         
         }
 
-       return nvidx;
+        return nvidx;
     }
 
     void proj_node(
@@ -341,10 +486,13 @@ namespace bcclean {
             // we can assume at least one of the vertices in target_face is not on Cut
             for(auto vv: {0,1,2})
             {
+                int vvidx = Fgood(target_face,vv);
+                bool not_path = VEdges_good[vvidx].empty();
+                bool not_node = (std::find(node_list_good.begin(), node_list_good.end(),Fgood(target_face,vv))==node_list_good.end());
                 if(
-                    VEdges_good[Fgood(target_face,vv)].empty() 
+                    not_path 
                     && 
-                    (std::find(node_list_good.begin(), node_list_good.end(),Fgood(target_face,vv))==node_list_good.end())
+                    not_node
                 )
                 {
                     node_image = Fgood(target_face,vv);
