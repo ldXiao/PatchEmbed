@@ -515,6 +515,7 @@ namespace bcclean{
         while(restricted_splits_detect(F, TT, VCuts, TCuts, splits))
         {
             restricted_splits_update(splits, V, F, Vbase, Fbase, VI, FI, FL, VCuts, TCuts, VV);
+            igl::triangle_triangle_adjacency(F, TT);
         }
     }
 

@@ -203,14 +203,15 @@ namespace MatchMaker{
             igl::writeOBJ("../dbginfo/debug_mesh_bad.obj", V_bad, F_bad);
             igl::writeDMAT("../dbginfo/FL_bad.dmat", FL_bad);
         }
-        build_edge_list_loop(V_bad, F_bad, FL_bad, total_label_num, edge_list, patch_edge_dict, patch_edge_direction_dict);
+        int largest_patch;
+        build_edge_list_loop(V_bad, F_bad, FL_bad, total_label_num, edge_list, patch_edge_dict, patch_edge_direction_dict,largest_patch);
         FL_good = Eigen::VectorXi::Constant(F_good.rows(), -1);
         std::vector<std::pair<int, std::pair<int, int> > > dual_frame_graph;
         _build_dual_frame_graph(edge_list, dual_frame_graph);
         // std::vector<std::pair<int, std::pair<int, int> > > dual_frame_MST
         //  = Algo::Kruskal_MST(dual_frame_graph);
         // std::vector<int> patch_order = Algo::MST_BFS(dual_frame_MST);
-        std::vector<int> patch_order = Algo::Graph_BFS(dual_frame_graph, 0);
+        std::vector<int> patch_order = Algo::Graph_BFS(dual_frame_graph, largest_patch);
         // we can assume that  all nodes have valance more than or equal to 3
         std::vector<int> node_list_bad;
         _gen_node_list(F_bad, FL_bad, total_label_num, node_list_bad);
@@ -454,7 +455,8 @@ namespace MatchMaker{
         std::vector<bcclean::edge> edge_list;
         std::unordered_map<int, std::vector<int> > patch_edge_dict;
         std::unordered_map<int, std::vector<bool> > patch_edge_direction_dict;
-        build_edge_list_loop(V_bad, F_bad, FL_bad, total_label_num, edge_list, patch_edge_dict, patch_edge_direction_dict);
+        int starting_patch = 0;
+        build_edge_list_loop(V_bad, F_bad, FL_bad, total_label_num, edge_list, patch_edge_dict, patch_edge_direction_dict, starting_patch);
         FL_good = Eigen::VectorXi::Constant(F_good.rows(), -1); // the uncolored facets form a connected component
         std::vector<std::pair<int, std::pair<int, int> > > dual_frame_graph;
         _build_dual_frame_graph(edge_list, dual_frame_graph);
@@ -462,7 +464,9 @@ namespace MatchMaker{
         // std::vector<std::pair<int, std::pair<int, int> > > dual_frame_MST
         //  = Algo::Kruskal_MST(dual_frame_graph);
         // std::vector<int> patch_order = Algo::MST_BFS(dual_frame_MST);
-        std::vector<int> patch_order = Algo::Graph_BFS(dual_frame_graph, 0);
+        
+
+        std::vector<int> patch_order = Algo::Graph_BFS(dual_frame_graph, starting_patch);
         // we can assume that  all nodes have valance more than or equal to 3
         std::vector<int> node_list_bad;
         _gen_node_list(F_bad, FL_bad, total_label_num, node_list_bad);

@@ -454,7 +454,7 @@ int fTetwild(const Eigen::MatrixXd & V, const Eigen::MatrixXi & F, const double 
     //     fout.close();
     // }
 
-    return EXIT_SUCCESS;
+    return 0;
 }
 }
     

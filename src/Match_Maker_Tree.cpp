@@ -1002,7 +1002,10 @@ namespace MatchMaker{
         std::unordered_map<int, std::vector<int> > patch_edge_dict;
         std::unordered_map<int, std::vector<bool> > patch_edge_direction_dict;
         // label -> list(edge_idx) map indices into edge_list
-        build_edge_list_loop(V_bad, F_bad, FL_bad, total_label_num, edge_list, patch_edge_dict, patch_edge_direction_dict);
+        {
+            int largest_patch;
+            build_edge_list_loop(V_bad, F_bad, FL_bad, total_label_num, edge_list, patch_edge_dict, patch_edge_direction_dict, largest_patch);
+        }
         std::vector<std::pair<int, std::pair<int, int> > > frame_graph;
         _build_frame_graph(edge_list, frame_graph);
         std::vector<std::pair<int, std::pair<int, int> > > frame_MST

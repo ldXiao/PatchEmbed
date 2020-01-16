@@ -316,7 +316,7 @@ namespace bcclean{
     }
 
     bool build_edge_list_loop(const Eigen::MatrixXd& V, const Eigen::MatrixXi&F, const Eigen::MatrixXi & FL, const size_t total_label_num, std::vector<edge> & edge_list, std::unordered_map<int, std::vector<int> > & patch_edge_dict,
-    std::unordered_map<int, std::vector<bool> > & patch_edgedirec_dict){
+    std::unordered_map<int, std::vector<bool> > & patch_edgedirec_dict, int & largest_patch){
         // edge list store all the edge uniquely in a vector
         // patch_edge_dict store the patch label -> list of edges in loop order
         // return lb->vector<nodes> where the nodes are unodered for each patch
@@ -334,14 +334,21 @@ namespace bcclean{
         if(! build_vertex_label_list_dict(F, FL, total_label_num, vertex_label_list_dict)){
             return false;
         }
+        int largest_patch_idx = 0;
+        int largest_patch_traingle_count=-1;
         for(int lb_i=0; lb_i < total_label_num; ++lb_i){
-
+            
             patch_edge_dict[lb_i] = std::vector<int>();
             // loop for each patch
             Eigen::MatrixXd V_i;
             Eigen::MatrixXi F_i;
             Eigen::VectorXi I_i;
             extract_patch_mesh(V, F, FL, lb_i, V_i, F_i, I_i);
+            if(F_i.rows()> largest_patch_traingle_count)
+            {
+                largest_patch_idx = lb_i;
+                largest_patch_traingle_count = F_i.rows();
+            }
             std::vector<std::vector<int> > L;
             igl::boundary_loop(F_i, L);
             if(L.size()!=1){
@@ -455,6 +462,7 @@ namespace bcclean{
             }
             }
         }
+        largest_patch = largest_patch_idx;
         return true;
     }
 
