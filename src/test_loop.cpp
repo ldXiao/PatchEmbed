@@ -140,14 +140,14 @@ int main(int argc, char *argv[]){
     Eigen::MatrixXi F_bad, F_good;
     Eigen::VectorXi FL_bad, FL_good;
     igl::read_triangle_mesh(bad_mesh_file, V_bad, F_bad);
-    if(iden)
-    {
-        igl::read_triangle_mesh(bad_mesh_file, V_good, F_good);
-    }
-    else
-    {
-        igl::read_triangle_mesh(good_mesh_file, V_good, F_good);
-    }
+    // if(iden)
+    // {
+    //     igl::read_triangle_mesh(bad_mesh_file, V_good, F_good);
+    // }
+    // else
+    // {
+    //     igl::read_triangle_mesh(good_mesh_file, V_good, F_good);
+    // }
     
     igl::readDMAT(face_label_dmat, FL_bad);
     std::map<int, VFL> vfls;

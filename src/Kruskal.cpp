@@ -171,6 +171,98 @@ std::vector<int> Graph_BFS(const std::vector<std::pair<int, std::pair<int, int> 
     return res;
 }
 
+void remove_vertices(
+    std::vector<std::pair<int, std::pair<int, int> > > & frame_graph,
+    const std::vector<int> & remove_list)
+{
+    auto remove_cond=[remove_list](const std::pair<int, std::pair<int, int> > edg)-> bool
+    {
+        return (std::find(remove_list.begin(), remove_list.end(), edg.second.first) != remove_list.end()) || (std::find(remove_list.begin(), remove_list.end(), edg.second.second) != remove_list.end());
+    };
+    frame_graph.erase(std::remove_if(frame_graph.begin(), frame_graph.end(), remove_cond), frame_graph.end());
+    return;
+}
+
+void addInOrder(std::vector<int> & res, std::vector<int> & constriant_list, std::map<int, std::vector<int> > & graph_node_dict,  const std::vector<int> & forest_list)
+{
+    
+    for(auto p: forest_list)
+    {
+        res.push_back(p);
+        std::vector<int> node_p = graph_node_dict.at(p);
+        if(node_p.size()>0)
+        {
+            std::vector<int> remove_constr;
+            for(auto cc : constriant_list)
+            {
+                std::vector<int> & node_cc = graph_node_dict[cc];
+                for(auto nd: node_p)
+                {
+                    node_cc.erase(std::remove(node_cc.begin(), node_cc.end(), nd), node_cc.end());
+                }
+                if(node_cc.size()==0)
+                {
+                    remove_constr.push_back(cc);
+                    res.push_back(cc);
+                }
+            }
+            if(remove_constr.size()>0)
+            {
+                for(auto ccr: remove_constr)
+                {
+                    constriant_list.erase(std::remove(constriant_list.begin(), constriant_list.end(), ccr), constriant_list.end());
+                }
+            }
+        }
+    }
+}
+
+std::vector<int> Constriant_Graph_BFS(
+    const std::vector<std::pair<int, std::pair<int, int> > > & frame_graph,
+    const std::map<int, std::vector<int> > & graph_node_dict,
+    const std::vector<int> & constriant_list,
+    const int root
+)
+{
+    // inputs:
+    // frame_graph (edge_idx ,(patch_idx, patch_idx)) of patch connectivity
+    // graph_node_dict {patch_idx: [node_idx,....]} of graph_node_dict
+    // constriant_list [patch_idx]
+    // int root stating patch
+    int forest_root = root;
+    std::vector<int> res;
+    std::vector<int> forest_list;
+    std::vector<std::pair<int, std::pair<int, int> > > frame_graph_copy = frame_graph;
+    std::vector<int> constriant_list_copy = constriant_list;
+    std::map<int, std::vector<int> > graph_node_dict_copy = graph_node_dict;
+    remove_vertices(frame_graph_copy, constriant_list);
+    std::vector<int> reference = Graph_BFS(frame_graph,root);
+    for(auto cc: constriant_list)
+    {
+        reference.erase(std::remove(reference.begin(),reference.end(), cc), reference.end());
+    }
+    while(reference.size()>0)
+    {
+        forest_root = reference[0];
+        forest_list = Graph_BFS(frame_graph_copy, forest_root);
+        for(auto ff: forest_list)
+        {
+            reference.erase(std::remove(reference.begin(),reference.end(), ff), reference.end());
+        }
+        remove_vertices(frame_graph_copy, forest_list);
+        addInOrder(res, constriant_list_copy, graph_node_dict_copy, forest_list);
+    }
+    if(constriant_list_copy.size()>0)
+    {
+        for(auto cc: constriant_list_copy)
+        {
+            res.push_back(cc);
+        }
+    }
+    return res;
+
+}
+
 std::vector<int> MST_BFS(const std::vector<std::pair<int, std::pair<int, int> > > & frame_MST)
 {
     std::vector<int> res;

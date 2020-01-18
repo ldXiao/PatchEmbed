@@ -51,6 +51,12 @@ std::vector<std::pair<int, std::pair<int, int> > > Kruskal_MST(const std::vector
 
 std::vector<int> MST_BFS(const std::vector<std::pair<int, std::pair<int, int> > > & frame_MST);
 std::vector<int> Graph_BFS(const std::vector<std::pair<int, std::pair<int, int> > > & frame_graph, const int root);
+std::vector<int> Constriant_Graph_BFS(
+    const std::vector<std::pair<int, std::pair<int, int> > > & frame_graph,
+    const std::map<int, std::vector<int> > & graph_node_dict,
+    const std::vector<int> & constriant_list,
+    const int root
+);
 }
 }
 

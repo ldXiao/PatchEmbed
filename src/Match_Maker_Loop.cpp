@@ -212,6 +212,29 @@ namespace MatchMaker{
         //  = Algo::Kruskal_MST(dual_frame_graph);
         // std::vector<int> patch_order = Algo::MST_BFS(dual_frame_MST);
         std::vector<int> patch_order = Algo::Graph_BFS(dual_frame_graph, largest_patch);
+        std::map<int, std::vector<int> > patch_node_dict;
+        {
+        for(auto item: patch_edge_dict)
+        {
+            int ptidx = item.first;
+            patch_node_dict[ptidx] = std::vector<int>();
+            for(auto edgidx: patch_edge_dict[ptidx])
+            {
+                int head = edge_list[edgidx].head;
+                int tail = edge_list[edgidx].tail;
+                if(std::find(patch_node_dict[ptidx].begin(), patch_node_dict[ptidx].end(), head)== patch_node_dict[ptidx].end())
+                {
+                    patch_node_dict[ptidx].push_back(head);
+                }
+                if(std::find(patch_node_dict[ptidx].begin(), patch_node_dict[ptidx].end(), tail)== patch_node_dict[ptidx].end())
+                {
+                    patch_node_dict[ptidx].push_back(tail);
+                }
+            }
+        }
+        
+        }
+        std::vector<int> patch_order_adv = Algo::Constriant_Graph_BFS(dual_frame_graph, patch_node_dict, {6,9,79,12},10);
         // we can assume that  all nodes have valance more than or equal to 3
         std::vector<int> node_list_bad;
         _gen_node_list(F_bad, FL_bad, total_label_num, node_list_bad);
@@ -261,7 +284,7 @@ namespace MatchMaker{
             kkk++;
         }
 
-        for(auto patch_idx : patch_order)
+        for(auto patch_idx : patch_order_adv)
         {
             if(debug)
             {
@@ -467,6 +490,28 @@ namespace MatchMaker{
         
 
         std::vector<int> patch_order = Algo::Graph_BFS(dual_frame_graph, starting_patch);
+        {
+        std::map<int, std::vector<int> > patch_node_dict;
+        for(auto item: patch_edge_dict)
+        {
+            int ptidx = item.first;
+            patch_node_dict[ptidx] = std::vector<int>();
+            for(auto edgidx: patch_edge_dict[ptidx])
+            {
+                int head = edge_list[edgidx].head;
+                int tail = edge_list[edgidx].tail;
+                if(std::find(patch_node_dict[ptidx].begin(), patch_node_dict[ptidx].end(), head)== patch_node_dict[ptidx].end())
+                {
+                    patch_node_dict[ptidx].push_back(head);
+                }
+                if(std::find(patch_node_dict[ptidx].begin(), patch_node_dict[ptidx].end(), tail)== patch_node_dict[ptidx].end())
+                {
+                    patch_node_dict[ptidx].push_back(tail);
+                }
+            }
+        }
+        std::vector<int> patch_order_adv = Algo::Constriant_Graph_BFS(dual_frame_graph, patch_node_dict, {6,9,79,12},10);
+        }
         // we can assume that  all nodes have valance more than or equal to 3
         std::vector<int> node_list_bad;
         _gen_node_list(F_bad, FL_bad, total_label_num, node_list_bad);
