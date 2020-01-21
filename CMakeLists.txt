@@ -137,6 +137,8 @@ set(SOURCES
     src/Kruskal.cpp
     src/fTetwild.h 
     src/fTetwild.cpp
+    src/Hausdorff.h 
+    src/Hausdorff.cpp 
 )
 add_library(bcclean ${SOURCES})
 target_link_libraries(bcclean PUBLIC

@@ -1,12 +1,65 @@
 #include "Match_Maker_Loop.h"
 #include "Match_Maker_Tree.h"
 #include "Kruskal.h"
+#include "Hausdorff.h"
 #include "loop_colorize.h"
 #include <igl/Timer.h>
 #include <igl/facet_components.h>
+#include <climits>
 namespace bcclean{
 namespace MatchMaker{
     using json = nlohmann::json;
+
+    bool check_problematic_patch(
+        const Eigen::MatrixXd & V,
+        const std::unordered_map<int, std::vector<int> > & patch_edge_dict,
+        const std::map<int, std::vector<int> > & patch_node_dict,
+        const std::vector<edge> & edge_list,
+        const int patch_idx,
+        const double & bound
+    )
+    {
+        double mindis = std::numeric_limits<double>::max();
+        std::vector<int> node_list_p = patch_node_dict.at(patch_idx);
+        std::vector<int> edge_list_p = patch_edge_dict.at(patch_idx);
+        // case 0 if there is only 2 nodes in this patch(loop)
+        // we directly compare the hausdorff distance between the two edges
+        assert(edge_list_p.size()>1);
+        if(edge_list_p.size()==2)
+        {
+            int edgidxA = edge_list_p.at(0);
+            int edgidxB = edge_list_p.at(1);
+            std::vector<int> pathA = edge_list.at(edgidxA)._edge_vertices;
+            std::vector<int> pathB = edge_list.at(edgidxB)._edge_vertices;
+            mindis = Eval::hausdorff1d(V, pathA, V, pathB);
+            if(mindis < bound)
+            {
+                return true;
+            }
+        }
+        else{
+            
+            for(auto ndidx: node_list_p)
+            {
+                std::vector<int> nadj_edges; // nonadjacent_edges of the node
+                for(auto edgidx:edge_list_p)
+                {
+                    const edge &  edg = edge_list.at(edgidx);
+                    if(edg.head != ndidx && edg.tail  != ndidx)
+                    {
+                        mindis = std::min(mindis, Eval::single_sample_trial(V, edg._edge_vertices, V, ndidx));
+                    }
+                }
+            }
+            if(mindis < bound)
+            {
+                return true;
+            }
+            else return false;
+
+        }
+    }
+
 
     void _build_dual_frame_graph(
         const std::vector<bcclean::edge> edge_list,
