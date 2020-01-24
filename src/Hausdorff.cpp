@@ -46,37 +46,22 @@ namespace Eval{
         }
         kd_tree_Eigen<double> sampleB_kdt(sampleB.cols(),std::cref(sampleB),10);
         sampleB_kdt.index->buildIndex();
-        double minAB= -1;
-        double minBA= -1;
-        for(int aj =0 ; aj < sampleA.size(); aj++)
+        double maxminAB= -1;
+        double maxminBA= -1;
+        for(int aj =0 ; aj < sampleA.rows(); aj++)
         {
             Eigen::RowVector3d jqueryA= sampleA.row(aj);
             int sampleB_idx= kd_tree_NN_Eigen(sampleB_kdt, jqueryA); 
-            if(minAB ==-1)
-            {
-                minAB = (jqueryA - sampleB.row(sampleB_idx)).norm();
-            }
-
-            else
-            {
-                minAB = std::min((jqueryA - sampleB.row(sampleB_idx)).norm(), minAB);
-            }
+            
+            maxminAB = std::max((jqueryA - sampleB.row(sampleB_idx)).norm(), maxminAB);
         }
-        for(int bj =0 ; bj < sampleB.size(); bj++)
+        for(int bj =0 ; bj < sampleB.rows(); bj++)
         {
             Eigen::RowVector3d jqueryB= sampleB.row(bj);
             int sampleA_idx= kd_tree_NN_Eigen(sampleA_kdt, jqueryB); 
-            if(minBA ==-1)
-            {
-                minBA = (jqueryB- sampleA.row(sampleA_idx)).norm();
-            }
-
-            else
-            {
-                minBA = std::min((jqueryB - sampleA.row(sampleA_idx)).norm(), minBA);
-            }
+            maxminBA = std::min((jqueryB - sampleA.row(sampleA_idx)).norm(), maxminBA);
         }
-        return std::max(minAB, minBA);
+        return std::max(maxminAB, maxminBA);
         
     }
 
