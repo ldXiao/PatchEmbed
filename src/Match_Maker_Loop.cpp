@@ -293,7 +293,7 @@ namespace MatchMaker{
         for(auto item: patch_edge_dict)
         {
             int ptidx = item.first;
-            if(check_problematic_patch(V_bad, patch_edge_dict, patch_node_dict, edge_list, ptidx, 3e-2)){
+            if(check_problematic_patch(V_bad, patch_edge_dict, patch_node_dict, edge_list, ptidx, 1e-2)){
                 problematic_patches.push_back(ptidx);
             }
         }
