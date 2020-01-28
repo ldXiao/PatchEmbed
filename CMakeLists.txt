@@ -140,6 +140,8 @@ set(SOURCES
     src/Hausdorff.h 
     src/Hausdorff.cpp 
     src/params.h
+    src/degenerate_clean.cpp 
+    src/degenerate_clean.h
 )
 add_library(bcclean ${SOURCES})
 target_link_libraries(bcclean PUBLIC

@@ -23,6 +23,7 @@
 #include "Match_Maker_Tree.h"
 #include "Match_Maker_Loop.h"
 #include "fTetwild.h"
+#include "degenerate_clean.h"
 #include "params.h"
 #include <cxxopts.hpp>
 #include <nlohmann/json.hpp>
@@ -120,6 +121,7 @@ int main(int argc, char *argv[]){
         param.edge_len_r = param_json["edge_len_r"];
         tracing = param_json["tracing"];
         param.stop_eng = param_json["stop_eng"];
+        param.merge_threshold = param_json["merge_threshold"];
     }
     std::string bad_mesh_file, good_mesh_file, face_label_dmat, face_label_yml;
     std::regex r(".*trimesh.*\\.obj");
@@ -148,6 +150,7 @@ int main(int argc, char *argv[]){
     // }
     
     igl::readDMAT(face_label_dmat, FL_bad);
+    // bcclean::degenerate_clean(V_bad, F_bad, FL_bad, param.merge_threshold);
     std::map<int, VFL> vfls;
     std::map<int, std::map<int, int> > ComponentsLabelMaps;
     decomposeVFL(V_bad, F_bad, FL_bad, vfls, ComponentsLabelMaps);

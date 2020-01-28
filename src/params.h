@@ -10,6 +10,7 @@ namespace bcclean{
         double edge_len_r;
         double guard_len_r;
         double stop_eng;
+        double merge_threshold;
         int upsp; 
         params(){
             data_root = ".";
@@ -19,6 +20,7 @@ namespace bcclean{
             guard_len_r = 0.01;
             stop_eng = 10;
             upsp = 0;
+            merge_threshold = 0.01;
         }
     };
 }
