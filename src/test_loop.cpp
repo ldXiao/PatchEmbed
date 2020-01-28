@@ -23,7 +23,7 @@
 #include "Match_Maker_Tree.h"
 #include "Match_Maker_Loop.h"
 #include "fTetwild.h"
-
+#include "params.h"
 #include <cxxopts.hpp>
 #include <nlohmann/json.hpp>
 #include <unordered_map>
@@ -102,30 +102,28 @@ int main(int argc, char *argv[]){
             ("j, json", "json storing parameters", cxxopts::value<std::string>());
     auto args = options.parse(argc, argv);
     // Load a mesh in OBJ format
-    bool debug=true;
-    bool iden = false;
-    int upsp = 0;
-    double edge_len_r=0.01;
     bool re_tet = false;
     std::string data_root, tracing;
     json param_json;
+    bcclean::params param;
     int stop_eng = 10;
     {
         std::ifstream temp(args["json"].as<std::string>());
         param_json = json::parse(temp);
         std::cout <<"the json parameters are" << param_json << std::endl;
-        data_root = param_json["data_root"];
-        iden = param_json["iden"];
-        upsp = param_json["upsp"];
-        debug = param_json["debug"];
+        param.data_root = param_json["data_root"];
+        param.iden = param_json["iden"];
+        param.upsp = param_json["upsp"];
+        param.debug = param_json["debug"];
+        param.guard_len_r = param_json["guard_len_r"];
         re_tet = param_json["re_tet"];
-        edge_len_r = param_json["edge_len_r"];
+        param.edge_len_r = param_json["edge_len_r"];
         tracing = param_json["tracing"];
-        stop_eng = param_json["stop_eng"];
+        param.stop_eng = param_json["stop_eng"];
     }
     std::string bad_mesh_file, good_mesh_file, face_label_dmat, face_label_yml;
     std::regex r(".*trimesh.*\\.obj");
-    for (const auto & entry : std::filesystem::directory_iterator(data_root))
+    for (const auto & entry : std::filesystem::directory_iterator(param.data_root))
     {
         if(std::regex_match(entry.path().c_str(), r))
         {
@@ -134,8 +132,8 @@ int main(int argc, char *argv[]){
         }
     }
     
-    good_mesh_file = data_root + "/"+"good.mesh__sf.obj";
-    face_label_dmat = data_root + "/"+ "feat.dmat";
+    good_mesh_file = param.data_root + "/"+"good.mesh__sf.obj";
+    face_label_dmat = param.data_root + "/"+ "feat.dmat";
     Eigen::MatrixXd V_bad, V_good;
     Eigen::MatrixXi F_bad, F_good;
     Eigen::VectorXi FL_bad, FL_good;
@@ -166,11 +164,11 @@ int main(int argc, char *argv[]){
         Eigen::MatrixXi CCF_good;
         Eigen::VectorXi CCFL_good;
         std::string output_file_bad, output_file_good, output_label_good;
-        output_file_bad = data_root + "/"+ "CC"+std::to_string(cc)+"-bad.obj";
-        output_file_good = data_root +"/"+"CC"+std::to_string(cc)+"edg_len_r"+std::to_string(edge_len_r)+"-good.obj";
-        output_label_good = data_root +"/"+"CC"+std::to_string(cc)+"edg_len_r"+std::to_string(edge_len_r); +"-label.dmat";
+        output_file_bad = param.data_root + "/"+ "CC"+std::to_string(cc)+"-bad.obj";
+        output_file_good = param.data_root +"/"+"CC"+std::to_string(cc)+"edg_len_r"+std::to_string(param.edge_len_r)+"-good.obj";
+        output_label_good = param.data_root +"/"+"CC"+std::to_string(cc)+"edg_len_r"+std::to_string(param.edge_len_r); +"-label.dmat";
         bool file_exists = false;
-        for (const auto & entry : std::filesystem::directory_iterator(data_root))
+        for (const auto & entry : std::filesystem::directory_iterator(param.data_root))
         {
             if(entry.path().string()==output_file_good)
             {
@@ -180,7 +178,7 @@ int main(int argc, char *argv[]){
         }
         
         if(!file_exists || re_tet){
-            bcclean::Tet::fTetwild(CCV_bad, CCF_bad, edge_len_r,stop_eng, CCV_good, CCF_good);
+            bcclean::Tet::fTetwild(CCV_bad, CCF_bad, param.edge_len_r,stop_eng, CCV_good, CCF_good);
             igl::writeOBJ(output_file_good, CCV_good, CCF_good);
             break;
         }
@@ -192,7 +190,6 @@ int main(int argc, char *argv[]){
         if(betti_bad!= betti_good)
         {
             std::cout << "Inconsisitant topology, abort" << std::endl;
-            
         }
         {
             Eigen::VectorXi CCFC;
@@ -203,15 +200,15 @@ int main(int argc, char *argv[]){
                 return EXIT_FAILURE; 
             }
         }
-        if(upsp> 0)
+        if(param.upsp> 0)
         {
-            igl::upsample(CCV_good, CCF_good, upsp);
+            igl::upsample(CCV_good, CCF_good, param.upsp);
         }
         if(tracing=="loop"){
-            bcclean::MatchMaker::trace_and_label_loop(bcclean::patch::Vbase, bcclean::patch::Fbase, bcclean::patch::FL_mod, CCV_good, CCF_good, CCFL_good, debug);
+            bcclean::MatchMaker::trace_and_label_loop(bcclean::patch::Vbase, bcclean::patch::Fbase, bcclean::patch::FL_mod, CCV_good, CCF_good, CCFL_good, param);
         } else if (tracing == "tree")
         {
-            bcclean::MatchMaker::trace_and_label(bcclean::patch::Vbase, bcclean::patch::Fbase, bcclean::patch::FL_mod, CCV_good, CCF_good, CCFL_good, debug); 
+            bcclean::MatchMaker::trace_and_label(bcclean::patch::Vbase, bcclean::patch::Fbase, bcclean::patch::FL_mod, CCV_good, CCF_good, CCFL_good, param.debug); 
         }
 
     }

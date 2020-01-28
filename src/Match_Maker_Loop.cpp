@@ -3,9 +3,11 @@
 #include "Kruskal.h"
 #include "Hausdorff.h"
 #include "loop_colorize.h"
+#include "params.h"
 #include <igl/Timer.h>
 #include <igl/facet_components.h>
 #include <climits>
+#include <igl/bounding_box_diagonal.h>
 namespace bcclean{
 namespace MatchMaker{
     using json = nlohmann::json;
@@ -240,7 +242,7 @@ namespace MatchMaker{
         Eigen::MatrixXd & V_good,
         Eigen::MatrixXi & F_good,
         Eigen::VectorXi & FL_good,
-        bool debug
+        const params params
     )
     {
         // datas dump to file for debug
@@ -251,7 +253,7 @@ namespace MatchMaker{
         std::vector<bcclean::edge> edge_list;
         std::unordered_map<int, std::vector<int> > patch_edge_dict;
         std::unordered_map<int, std::vector<bool> > patch_edge_direction_dict;
-        if(debug)
+        if(params.debug)
         {
             igl::writeOBJ("../dbginfo/debug_mesh_bad.obj", V_bad, F_bad);
             igl::writeDMAT("../dbginfo/FL_bad.dmat", FL_bad);
@@ -289,11 +291,11 @@ namespace MatchMaker{
         
         }
         
-        
+        double bound = params.guard_len_r * igl::bounding_box_diagonal(V_bad);
         for(auto item: patch_edge_dict)
         {
             int ptidx = item.first;
-            if(check_problematic_patch(V_bad, patch_edge_dict, patch_node_dict, edge_list, ptidx, 1e-2)){
+            if(check_problematic_patch(V_bad, patch_edge_dict, patch_node_dict, edge_list, ptidx, bound)){
                 problematic_patches.push_back(ptidx);
             }
         }
@@ -352,7 +354,7 @@ namespace MatchMaker{
 
         for(auto patch_idx : patch_order_adv)
         {
-            if(debug)
+            if(params.debug)
             {
                 igl::writeDMAT("../dbginfo/cur_patch.dmat", Eigen::VectorXi::Constant(1,patch_idx));
             }
@@ -365,7 +367,7 @@ namespace MatchMaker{
                 edge_visit_dict[edge_idx]=true;
                 int source_bad = edge_list.at(edge_idx).head;
                 int target_bad = edge_list.at(edge_idx).tail;
-                if(debug)
+                if(params.debug)
                 {
                     Eigen::VectorXd source_target_bad=Eigen::VectorXd::Constant(6,0);
                     for(int xx: {0,1,2})
@@ -462,7 +464,7 @@ namespace MatchMaker{
                     node_edge_visit_dict, 
                     edge_path_map, 
                     path_json,
-                    debug);
+                    params.debug);
                 
             }
             // one loop patch finished
@@ -502,7 +504,7 @@ namespace MatchMaker{
                 ff_in = ffb;
             }
             loop_colorize(V_good, F_good, TEdges_good, ff_in, patch_idx, FL_good);
-            if(debug)
+            if(params.debug)
             {
                 igl::writeDMAT("../dbginfo/FL_loop.dmat", FL_good);
             }

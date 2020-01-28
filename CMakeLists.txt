@@ -139,15 +139,13 @@ set(SOURCES
     src/fTetwild.cpp
     src/Hausdorff.h 
     src/Hausdorff.cpp 
+    src/params.h
 )
 add_library(bcclean ${SOURCES})
 target_link_libraries(bcclean PUBLIC
         igl::core
         igl::cgal
         igl::embree
-        # igl::opengl_glfw
-        # igl::opengl_glfw_imgui
-        # igl::predicates
         cxxopts
         nanoflann
         FloatTetwild
