@@ -150,7 +150,9 @@ int main(int argc, char *argv[]){
     // }
     
     igl::readDMAT(face_label_dmat, FL_bad);
-    // bcclean::degenerate_clean(V_bad, F_bad, FL_bad, param.merge_threshold);
+    bcclean::degenerate_clean(V_bad, F_bad, FL_bad, param.merge_threshold);
+    igl::writeDMAT("../dbginfo/dgfl.dmat", FL_bad);
+    igl::writeOBJ("../dbginfo/dgfl.obj", V_bad, F_bad);
     std::map<int, VFL> vfls;
     std::map<int, std::map<int, int> > ComponentsLabelMaps;
     decomposeVFL(V_bad, F_bad, FL_bad, vfls, ComponentsLabelMaps);

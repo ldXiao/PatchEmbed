@@ -3,6 +3,7 @@
 #include <map>
 #include <igl/triangle_triangle_adjacency.h>
 #include <vector>
+#include <queue>
 namespace bcclean {
     void _triangle_degeneracy(
         const Eigen::MatrixXd & V,
@@ -115,6 +116,69 @@ namespace bcclean {
         return false;
     }
 
+    void connected_relabel(
+        const Eigen::MatrixXi & TT,
+        Eigen::VectorXi & FL
+    )
+    {
+        std::map<int, bool> label_visited;
+        int label_num = 0;
+        for(int fidx =0; fidx < FL.rows(); fidx ++)
+        {
+            int lb = FL(fidx);
+            if(label_visited.find(lb)== label_visited.end())
+            {
+                label_visited[lb]= false;
+                label_num +=1;
+            }
+        }
+        Eigen::VectorXi F_visit=Eigen::VectorXi::Constant(FL.rows(),-1);
+        int root = 0;
+        bool finish = false;
+        int cc_count = 0;
+        while(!finish)
+        {
+            int curlb = FL(root);
+            int fill_lb = cc_count;
+            cc_count +=1;
+            // if(label_visited.at(curlb))
+            // {
+            //     fill_lb = label_num;
+            //     label_num ++;
+            // }
+            std::queue<int> visit_queue;
+            visit_queue.push(root);
+            F_visit(root)= 1;
+            std::vector<int> component_list;
+            while(visit_queue.size()!=0)
+            {
+                int cur_f = visit_queue.front();
+                for(int j = 0 ; j  < TT.cols(); j++)
+                {
+                    int fjdx = TT(cur_f, j);
+                    if(FL(fjdx)==curlb && (F_visit(fjdx)==-1))
+                    {
+                        F_visit(fjdx)= 1;
+                        visit_queue.push(fjdx);
+                    }
+                }
+                FL(cur_f) = fill_lb;
+                visit_queue.pop();
+            }
+
+            finish = true;
+            for(int jj = 0 ; jj < FL.rows(); jj++)
+            {
+                if(F_visit(jj)==-1)
+                {
+                    root = jj;
+                    finish = false;
+                    break;
+                }
+            }
+        }
+    }
+
     void degenerate_clean(
         const Eigen::MatrixXd & V,
         const Eigen::MatrixXi & F,
@@ -136,5 +200,7 @@ namespace bcclean {
             FL(merge_pair.first) = FL(TT(merge_pair.first, merge_pair.second));
             handled_dict[merge_pair.first]= true;
         }
+        connected_relabel(TT, FL);
+        return;
     }
 }

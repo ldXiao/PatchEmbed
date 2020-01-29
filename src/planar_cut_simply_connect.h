@@ -107,7 +107,7 @@ namespace bcclean{
                         splits=std::make_pair(vl, vg);
                         return true;
                     }
-                    // make sure each pair of indices are only pushed onece
+                    // make sure each pair of indices are only pushed once
                 }
             }
         }
@@ -425,6 +425,16 @@ namespace bcclean{
         const std::vector<int> & VLoops
     )
     {
+        {
+            Eigen::MatrixXi TT;
+            igl::triangle_triangle_adjacency(F, TT); 
+            std::pair<int, int> splits;
+            while(restricted_splits_detect(F, TT, VCuts, TCuts, splits))
+            {
+                restricted_splits_update(splits, V, F, Vbase, Fbase, VI, FI, FL, VCuts, TCuts, VV);
+                igl::triangle_triangle_adjacency(F, TT);
+            }
+        }
         std::vector<int> D, P;
         std::vector<std::vector<int> > VV_temp = VV;
         std::vector<int> silence_list_cur_loop; 
@@ -509,14 +519,14 @@ namespace bcclean{
                 }
             }
         }
-        Eigen::MatrixXi TT;
-        igl::triangle_triangle_adjacency(F, TT); 
-        std::pair<int, int> splits;
-        while(restricted_splits_detect(F, TT, VCuts, TCuts, splits))
-        {
-            restricted_splits_update(splits, V, F, Vbase, Fbase, VI, FI, FL, VCuts, TCuts, VV);
-            igl::triangle_triangle_adjacency(F, TT);
-        }
+        // Eigen::MatrixXi TT;
+        // igl::triangle_triangle_adjacency(F, TT); 
+        // std::pair<int, int> splits;
+        // while(restricted_splits_detect(F, TT, VCuts, TCuts, splits))
+        // {
+        //     restricted_splits_update(splits, V, F, Vbase, Fbase, VI, FI, FL, VCuts, TCuts, VV);
+        //     igl::triangle_triangle_adjacency(F, TT);
+        // }
     }
 
     void planar_cut_simply_connect(
@@ -541,7 +551,8 @@ namespace bcclean{
 
 
         // resize VCuts
-        std::vector<int> VLoops(V.rows());
+        std::vector<int> VLoops;
+        VLoops.resize(V.rows());
         std::fill(VLoops.begin(), VLoops.end(),-1);
         assert(boundary_loops.size()>1);
         VCuts.resize(V.rows());
@@ -709,102 +720,6 @@ namespace bcclean{
             
            
         }
-
-
-        // while(remaining_loops.size() != 0)
-        // {
-        //     std::vector<int > D, P;
-        //     igl::bfs(VV, root, D, P); // D is the spanning tree in the discover order and P store the predessors, all contain indices into VV
-        //     int tail;
-        //     for(auto vidx: D){
-        //         if(VCuts[vidx]){
-        //             if(VLoops[vidx] ==0 && remaining_loops.size()>1){
-        //                 continue; 
-        //             }
-        //             if(VLoops[vidx]== -1){continue;}
-        //             if(loop_visit_count[VLoops[vidx]] >= 2){
-        //                 continue;
-        //             }
-        //             tail = vidx;
-        //             break;
-        //         } else{
-        //             continue;
-        //         }
-        //     }
-        //     curloop = VLoops[tail];
-        //     loop_visit_count[curloop] += 1;
-        //     if(loop_visit_count[curloop]==2){
-        //         silence_vertices(VV, boundary_loops[curloop]);
-        //     }
-        //     int cur  = tail;
-        //     std::vector<int> records;
-        //     igl::vertex_triangle_adjacency(V, F, VF, VFi); // update VF
-        //     while(cur != -1){
-        //         // root not reach, go on back search
-        //         records.push_back(cur);
-        //         VCuts[cur] = true;
-        //         cur = P[cur];
-
-        //     }
-        //     // remove the indices in records in the adjacency info
-        //     silence_vertices(VV, records);
-
-        //     // set the triangle edges in cut to be true
-        //     for(int rc_idx=0; rc_idx < records.size()-1; ++rc_idx){
-        //         int uidx = records[rc_idx];
-        //         int vidx = records[(rc_idx+1)%records.size()];
-        //         std::vector<int> inter(VF[uidx].size()+ VF[vidx].size());
-        //         auto it = std::set_intersection(VF[uidx].begin(), VF[uidx].end(), VF[vidx].begin(), VF[vidx].end(), inter.begin());
-        //         inter.resize(it-inter.begin());
-        //         // there should be only one comman adjacent triangle for boundary vertices
-        //         for(auto trg: inter){
-        //             for(int edgpos =0; edgpos < 3 ; ++edgpos){
-        //                 int uuidx = F(trg, edgpos);
-        //                 int vvidx = F(trg, (edgpos+1)% 3);
-        //                 if(uuidx == uidx && vvidx == vidx){
-        //                     TCuts[trg][edgpos] = true;
-        //                     // break;
-        //                 }
-        //                 if(uuidx == vidx && vvidx == uidx){
-        //                     TCuts[trg][edgpos] = true;
-        //                     // break;
-        //                 }
-        //             }
-        //         }
-        //     }
-        //     // find next root;
-        //     int mid = int(boundary_loops[curloop].size() / 2);
-        //     int tail_idx=-1;
-        //     for(auto vidx :boundary_loops[curloop]){
-        //         tail_idx+=1;
-        //         if(vidx == tail){
-        //             break;
-        //         }
-        //     }
-        //     root = boundary_loops[curloop][(tail_idx+mid) %  boundary_loops[curloop].size()];
-        //     // visited the loop twice, pop it out from remaining_loops
-        //     if(curloop != 0){loop_visit_count[curloop] +=1;}
-        //     if(loop_visit_count[curloop]>=2){
-        //         remaining_loops.erase(std::remove(remaining_loops.begin(), remaining_loops.end(),curloop), remaining_loops.end());
-        //     }
-
-        //     igl::triangle_triangle_adjacency(F, TT); 
-        //     while(restricted_splits_detect(F, TT, VCuts, TCuts, splits))
-        //     {
-        //         restricted_splits_update(splits, V, F, Vbase, Fbase, VI, FI, FL, VCuts, TCuts, VV);
-        //     }
-        //     {
-        //         igl::writeOBJ("../dbginfo/debug_cut_mesh.obj", V, F);
-        //         debug_cut_json[std::to_string(pathccc)]= records;
-        //         std::ofstream filemst;
-        //         filemst.open("../dbginfo/debug_cut.json");
-        //         filemst << debug_cut_json;
-        //         filemst.close();
-        //         pathccc +=1;
-        //     }
-            
-            
-        // }
     }
 
    
