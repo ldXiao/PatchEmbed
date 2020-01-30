@@ -162,6 +162,23 @@ namespace MatchMaker{
             igl::writeDMAT("../dbginfo/source_target.dmat",source_target);
         }
         assert(path.size()>=2);
+        if(path.size()<2)
+        {
+            std::cout << "for path" << edge_idx << std::endl;
+            std::cout << "start" << source  << "target" << target << std::endl;
+            json VV_json;
+            std::ofstream file;
+            file.open("../dbginfo/VV.json");
+            int count = 0;
+            for(auto adj: VV_temp)
+            {
+                VV_json[std::to_string(count)]=VV_temp[count];
+                count += 1;
+            }
+            file << VV_json; 
+            std::cout << "path of size only "<< path.size() << std::endl;
+            exit(EXIT_FAILURE);
+        }
         std::vector<int> path_records(path.size()-2);
         std::printf("for edge %d, find a path:\n",edge_idx);
         for(auto rec : path)
