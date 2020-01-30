@@ -1,5 +1,5 @@
-#ifndef BCCLEAN_HAUSDORFF_H
-#define BCCLEAN_HAUSDORFF_H
+#ifndef BCCLEAN_POLYLINEDIS_H
+#define BCCLEAN_POLYLINEDIS_H
 #include <Eigen/Dense>
 namespace bcclean{
 namespace Eval{

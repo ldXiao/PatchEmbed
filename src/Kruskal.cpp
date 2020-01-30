@@ -185,6 +185,7 @@ void remove_vertices(
 
 void addInOrder(std::vector<int> & res, std::vector<int> & constriant_list, std::map<int, std::vector<int> > & graph_node_dict,  const std::vector<int> & forest_list)
 {
+    std::map<int, std::vector<int> > graph_node_dict_copy = graph_node_dict;
     for(auto p: forest_list)
     {
         res.push_back(p);
@@ -201,7 +202,7 @@ void addInOrder(std::vector<int> & res, std::vector<int> & constriant_list, std:
                     {
                             node_cc.erase(std::remove(node_cc.begin(), node_cc.end(), nd), node_cc.end());
                     }
-                    if(node_cc.size()==0)
+                    if(node_cc.size()==0 && graph_node_dict_copy.at(cc).size()>2)
                     {
                         res.push_back(cc);
                     }

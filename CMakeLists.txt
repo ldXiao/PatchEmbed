@@ -137,8 +137,8 @@ set(SOURCES
     src/Kruskal.cpp
     src/fTetwild.h 
     src/fTetwild.cpp
-    src/Hausdorff.h 
-    src/Hausdorff.cpp 
+    src/polyline_distance.h 
+    src/polyline_distance.cpp 
     src/params.h
     src/degenerate_clean.cpp 
     src/degenerate_clean.h
