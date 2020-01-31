@@ -1006,6 +1006,18 @@ namespace MatchMaker{
             int largest_patch;
             build_edge_list_loop(V_bad, F_bad, FL_bad, total_label_num, edge_list, patch_edge_dict, patch_edge_direction_dict, largest_patch);
         }
+        {
+            json path_json_bad;
+            int edg_idx =0;
+            for(auto edg: edge_list)
+            {
+                path_json_bad[std::to_string(edg_idx)]= edg._edge_vertices;
+                edg_idx += 1;
+            }
+            std::ofstream file;
+            file.open("../dbginfo/debug_path_bad.json");
+            file << path_json_bad;
+        }
         std::vector<std::pair<int, std::pair<int, int> > > frame_graph;
         _build_frame_graph(edge_list, frame_graph);
         std::vector<std::pair<int, std::pair<int, int> > > frame_MST
