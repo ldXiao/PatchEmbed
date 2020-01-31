@@ -39,16 +39,16 @@ option(LIBIGL_WITH_VIEWER            "Use OpenGL viewer"  OFF)
 option(LIBIGL_WITH_XML               "Use XML"            OFF)
 # find_package(LIBIGL REQUIRED QUIET)
 
-# pybind11
-download_project(
-        PROJ         pybind11
-        SOURCE_DIR   ${CMAKE_CURRENT_SOURCE_DIR}/external/pybind11
-        DOWNLOAD_DIR ${CMAKE_CURRENT_SOURCE_DIR}/external/.cache/pybind11
-        GIT_REPOSITORY https://github.com/pybind/pybind11.git
-        GIT_TAG        v2.3.0
-)
-set(PYBIND11_DIR ${CMAKE_CURRENT_SOURCE_DIR}/external/pybind11)
-add_subdirectory(${PYBIND11_DIR}/ pybind11)
+# # pybind11
+# download_project(
+#         PROJ         pybind11
+#         SOURCE_DIR   ${CMAKE_CURRENT_SOURCE_DIR}/external/pybind11
+#         DOWNLOAD_DIR ${CMAKE_CURRENT_SOURCE_DIR}/external/.cache/pybind11
+#         GIT_REPOSITORY https://github.com/pybind/pybind11.git
+#         GIT_TAG        v2.3.0
+# )
+# set(PYBIND11_DIR ${CMAKE_CURRENT_SOURCE_DIR}/external/pybind11)
+# add_subdirectory(${PYBIND11_DIR}/ pybind11)
 
 
 # nanoflann
