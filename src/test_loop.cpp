@@ -219,9 +219,11 @@ int main(int argc, char *argv[]){
         }
         if(param.debug)
         {
+            std::ifstream i1("../dbginfo/debug_paths.json");
+            std::ifstream i2("../dbginfo/debug_path_bad.json");
             json path_good, path_bad;
-            path_good = json::parse("../dbginfo/debug_paths.json");
-            path_bad  = json::parse("../dbginfo/debug_path_bad.json");
+            path_good = json::parse(i1);
+            path_bad  = json::parse(i2);
             double max_error= -1;
             for(auto item: path_good.items())
             {
