@@ -228,13 +228,13 @@ int main(int argc, char *argv[]){
             for(auto item: path_good.items())
             {
                 double err;
-                err = bcclean::Eval::hausdorff1d(CCV_bad, path_bad[item.key()], CCV_good, item.value());
+                err = bcclean::Eval::hausdorff1d(bcclean::patch::Vbase, path_bad[item.key()], CCV_good, item.value());
                 if(max_error< err)
                 {
                     max_error = err;
                 }
             }
-            double dd = igl::bounding_box_diagonal(CCV_bad);
+            double dd = igl::bounding_box_diagonal(bcclean::patch::Vbase);
             std::cout<< "finished, maxerr:" << max_error/dd << std::endl; 
         }
 
