@@ -166,16 +166,6 @@ namespace MatchMaker{
         {
             std::cout << "for path" << edge_idx << std::endl;
             std::cout << "start" << source  << "target" << target << std::endl;
-            json VV_json;
-            std::ofstream file;
-            file.open("../dbginfo/VV.json");
-            int count = 0;
-            for(auto adj: VV_temp)
-            {
-                VV_json[std::to_string(count)]=VV_temp[count];
-                count += 1;
-            }
-            file << VV_json; 
             std::cout << "path of size only "<< path.size() << std::endl;
             exit(EXIT_FAILURE);
         }
@@ -277,6 +267,18 @@ namespace MatchMaker{
         }
         int largest_patch;
         build_edge_list_loop(V_bad, F_bad, FL_bad, total_label_num, edge_list, patch_edge_dict, patch_edge_direction_dict,largest_patch);
+        {
+            json path_json_bad;
+            int edg_idx =0;
+            for(auto edg: edge_list)
+            {
+                path_json_bad[std::to_string(edg_idx)]= edg._edge_vertices;
+                edg_idx += 1;
+            }
+            std::ofstream file;
+            file.open("../dbginfo/debug_path_bad.json");
+            file << path_json_bad;
+        }
         FL_good = Eigen::VectorXi::Constant(F_good.rows(), -1);
         std::vector<std::pair<int, std::pair<int, int> > > dual_frame_graph;
         _build_dual_frame_graph(edge_list, dual_frame_graph);
@@ -525,8 +527,6 @@ namespace MatchMaker{
             {
                 igl::writeDMAT("../dbginfo/FL_loop.dmat", FL_good);
             }
-            
-            
         }
     }
 

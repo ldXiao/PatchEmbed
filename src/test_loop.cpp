@@ -14,6 +14,7 @@
 #include <igl/facet_components.h>
 #include <igl/boundary_facets.h>
 #include <igl/remove_unreferenced.h>
+#include <igl/bounding_box_diagonal.h>
 #include <igl/edges.h>
 #include <Eigen/Core>
 #include "bcclean.h"
@@ -24,6 +25,7 @@
 #include "Match_Maker_Loop.h"
 #include "fTetwild.h"
 #include "degenerate_clean.h"
+#include "polyline_distance.h"
 #include "params.h"
 #include <cxxopts.hpp>
 #include <nlohmann/json.hpp>
@@ -148,7 +150,7 @@ int main(int argc, char *argv[]){
     // {
     //     igl::read_triangle_mesh(good_mesh_file, V_good, F_good);
     // }
-    
+
     igl::readDMAT(face_label_dmat, FL_bad);
     bcclean::degenerate_clean(V_bad, F_bad, FL_bad, param.merge_threshold);
     igl::writeDMAT("../dbginfo/dgfl.dmat", FL_bad);
@@ -214,6 +216,22 @@ int main(int argc, char *argv[]){
         } else if (tracing == "tree")
         {
             bcclean::MatchMaker::trace_and_label(bcclean::patch::Vbase, bcclean::patch::Fbase, bcclean::patch::FL_mod, CCV_good, CCF_good, CCFL_good, param.debug); 
+        }
+        if(param.debug)
+        {
+            json path_good, path_bad;
+            double max_error= -1;
+            for(auto item: path_good.items())
+            {
+                double err;
+                err = bcclean::Eval::hausdorff1d(CCV_bad, path_bad[item.key()], CCV_good, item.value());
+                if(max_error< err)
+                {
+                    max_error = err;
+                }
+            }
+            double dd = igl::bounding_box_diagonal(CCV_bad);
+            std::cout<< "finished, maxerr:" << max_error/dd << std::endl; 
         }
 
     }
