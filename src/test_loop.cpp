@@ -220,6 +220,8 @@ int main(int argc, char *argv[]){
         if(param.debug)
         {
             json path_good, path_bad;
+            path_good = json::parse("../dbginfo/debug_paths.json");
+            path_bad  = json::parse("../dbginfo/debug_paths_bad.json");
             double max_error= -1;
             for(auto item: path_good.items())
             {
