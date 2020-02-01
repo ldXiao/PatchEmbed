@@ -226,10 +226,24 @@ int main(int argc, char *argv[]){
         bcclean::params param_copy = param;
         param_copy.data_root = CC_work_dir;
         if(tracing=="loop"){
+            try{
             succeed=bcclean::MatchMaker::trace_and_label_loop(bcclean::patch::Vbase, bcclean::patch::Fbase, bcclean::patch::FL_mod, CCV_good, CCF_good, CCFL_good, param_copy);
+            }
+            catch(...)
+            {
+                std::cout<< "failed" <<std::endl;
+                succeed = false;
+            }
         } else if (tracing == "tree")
         {
+            try{
             succeed=bcclean::MatchMaker::trace_and_label(bcclean::patch::Vbase, bcclean::patch::Fbase, bcclean::patch::FL_mod, CCV_good, CCF_good, CCFL_good, param_copy); 
+            }
+            catch(...)
+            {
+                std::cout<< "failed" <<std::endl;
+                succeed = false;
+            }
         }
         if(param.debug)
         {
