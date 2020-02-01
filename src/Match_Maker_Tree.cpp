@@ -8,6 +8,7 @@
 #include <utility>
 #include <nlohmann/json.hpp>
 #include "Match_Maker_Tree.h"
+#include "params.h"
 
 namespace bcclean {
 namespace MatchMaker{
@@ -822,7 +823,7 @@ namespace MatchMaker{
         }
     }
 
-    void trace_for_edge(
+    bool trace_for_edge(
         const Eigen::MatrixXd & V_bad,
         const Eigen::MatrixXi & F_bad,
         const std::vector<edge> & edge_list,
@@ -840,7 +841,7 @@ namespace MatchMaker{
         std::map<int, std::map<int, bool> > & node_edge_visit_dict,
         std::map<int, std::vector<int> > & edge_path_map,
         json & path_json,
-        bool debug
+        const params param
     )
     {
         
@@ -892,7 +893,7 @@ namespace MatchMaker{
         // dijkstra_trace(....,VEdges, TEdges);
         std::vector<int> path;
         dijkstra_trace(VV_temp, source, target, Weights, path);
-        if(debug)
+        if(param.debug)
         {
             Eigen::VectorXd source_target=Eigen::VectorXd::Constant(6,0);
             for(int xx: {0,1,2})
@@ -901,9 +902,13 @@ namespace MatchMaker{
                 source_target(xx+3)=V_good(target,xx);
             }
             
-            igl::writeDMAT("../dbginfo/source_target.dmat",source_target);
+            igl::writeDMAT(param.data_root+"/source_target.dmat",source_target);
         }
         assert(path.size()>1);
+        if(path.size()<2)
+        {
+            return false;
+        }
         std::vector<int> path_records(path.size()-2);
         std::printf("for mst edge %d, find a path:\n",edge_idx);
         for(auto rec : path)
@@ -964,30 +969,31 @@ namespace MatchMaker{
         silence_vertices(VV_good, total_silence_list);
 
         edge_path_map[edge_idx] = path;
-        if(debug)
+        if(param.debug)
         {
             path_json[std::to_string(edge_idx)] = path;   
             
             std::ofstream file;
-            file.open("../dbginfo/debug_paths.json");
+            file.open(param.data_root+"/debug_paths.json");
             file << path_json;
 
-            igl::writeOBJ("../dbginfo/debug_mesh.obj", V_good, F_good);
+            igl::writeOBJ(param.data_root+"/debug_mesh.obj", V_good, F_good);
         }
         // update visit_dict or loop condition update
         node_edge_visit_dict[target_bad][edge_idx]=true;
         node_edge_visit_dict[source_bad][edge_idx]=true;
     
+        return true;
     }
 
-    void trace_and_label(
+    bool trace_and_label(
         const Eigen::MatrixXd & V_bad,
         const Eigen::MatrixXi & F_bad,
         const Eigen::VectorXi & FL_bad,
         Eigen::MatrixXd & V_good,
         Eigen::MatrixXi & F_good,
         Eigen::VectorXi & FL_good,
-        bool debug
+        const params param
     )
     {
         std::map<int, int> edge_order_map; // store and maintain the order of added edges {order: edge_dx}
@@ -1015,7 +1021,7 @@ namespace MatchMaker{
                 edg_idx += 1;
             }
             std::ofstream file;
-            file.open("../dbginfo/debug_path_bad.json");
+            file.open(param.data_root+"/debug_path_bad.json");
             file << path_json_bad;
         }
         std::vector<std::pair<int, std::pair<int, int> > > frame_graph;
@@ -1028,7 +1034,7 @@ namespace MatchMaker{
             mst_json[std::to_string(item.first)] = edge_list[item.first]._edge_vertices;   
         }
         std::ofstream filemst;
-        filemst.open("../dbginfo/debug_mst.json");
+        filemst.open(param.data_root+"/debug_mst.json");
         filemst << mst_json;
         filemst.close();
 
@@ -1095,7 +1101,7 @@ namespace MatchMaker{
         {
             int edge_idx = frame_edge.first;
 
-            trace_for_edge(
+            if(!trace_for_edge(
                 V_bad,
                 F_bad, 
                 edge_list, 
@@ -1113,7 +1119,7 @@ namespace MatchMaker{
                 node_edge_visit_dict, 
                 edge_path_map, 
                 path_json,
-                debug);
+                param)) return false;
         }
 
 
@@ -1127,7 +1133,7 @@ namespace MatchMaker{
                 {
                     continue;
                 }
-                trace_for_edge(
+                if(!trace_for_edge(
                 V_bad,
                 F_bad, 
                 edge_list, 
@@ -1145,7 +1151,7 @@ namespace MatchMaker{
                 node_edge_visit_dict, 
                 edge_path_map, 
                 path_json,
-                debug);
+                param)) return false;
             }
             // silence_vertices(VV_good,{node_image_dict[nd]});
             // // total_silence_list.push_back(nd);
@@ -1188,9 +1194,9 @@ namespace MatchMaker{
             }
             loop_colorize(V_good, F_good, TEdges_good, seed_face, lb, FL_good);
         }
-        igl::writeDMAT("../dbginfo/FL_final.dmat", FL_good);
+        igl::writeDMAT(param.data_root+"/FL_final.dmat", FL_good);
         
-        
+        return true; 
     }
 }
 }

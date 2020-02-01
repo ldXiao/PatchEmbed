@@ -78,7 +78,7 @@ namespace MatchMaker{
         return;
     }
 
-    void trace_for_edge_loop(
+    bool trace_for_edge_loop(
         const Eigen::MatrixXd & V_bad,
         const Eigen::MatrixXi & F_bad,
         const std::vector<edge> & edge_list,
@@ -96,7 +96,7 @@ namespace MatchMaker{
         std::map<int, std::map<int, bool> > & node_edge_visit_dict,
         std::map<int, std::vector<int> > & edge_path_map,
         json & path_json,
-        bool debug
+        const params param
     )
     {
         
@@ -150,7 +150,7 @@ namespace MatchMaker{
         // dijkstra_trace(....,VEdges, TEdges);
         std::vector<int> path;
         dijkstra_trace(VV_temp, source, target, Weights, path);
-        if(debug)
+        if(param.debug)
         {
             Eigen::VectorXd source_target=Eigen::VectorXd::Constant(6,0);
             for(int xx: {0,1,2})
@@ -159,7 +159,7 @@ namespace MatchMaker{
                 source_target(xx+3)=V_good(target,xx);
             }
             
-            igl::writeDMAT("../dbginfo/source_target.dmat",source_target);
+            igl::writeDMAT(param.data_root+"/source_target.dmat",source_target);
         }
         assert(path.size()>=2);
         if(path.size()<2)
@@ -228,13 +228,13 @@ namespace MatchMaker{
         silence_vertices(VV_good, total_silence_list);
 
         edge_path_map[edge_idx] = path;
-        if(debug)
+        if(param.debug)
         {
             path_json[std::to_string(edge_idx)] = path;   
             std::ofstream file;
-            file.open("../dbginfo/debug_paths.json");
+            file.open(param.data_root+"/debug_paths.json");
             file << path_json;
-            igl::writeOBJ("../dbginfo/debug_mesh.obj", V_good, F_good);
+            igl::writeOBJ(param.data_root+"/debug_mesh.obj", V_good, F_good);
         }
         // update visit_dict or loop condition update
         node_edge_visit_dict[target_bad][edge_idx]=true;
@@ -242,14 +242,14 @@ namespace MatchMaker{
     
     }
 
-    void trace_and_label_loop(
+    bool trace_and_label_loop(
         const Eigen::MatrixXd & V_bad,
         const Eigen::MatrixXi & F_bad,
         const Eigen::VectorXi & FL_bad,
         Eigen::MatrixXd & V_good,
         Eigen::MatrixXi & F_good,
         Eigen::VectorXi & FL_good,
-        const params params
+        const params param
     )
     {
         // datas dump to file for debug
@@ -260,10 +260,10 @@ namespace MatchMaker{
         std::vector<bcclean::edge> edge_list;
         std::unordered_map<int, std::vector<int> > patch_edge_dict;
         std::unordered_map<int, std::vector<bool> > patch_edge_direction_dict;
-        if(params.debug)
+        if(param.debug)
         {
-            igl::writeOBJ("../dbginfo/debug_mesh_bad.obj", V_bad, F_bad);
-            igl::writeDMAT("../dbginfo/FL_bad.dmat", FL_bad);
+            igl::writeOBJ(param.data_root+"/debug_mesh_bad.obj", V_bad, F_bad);
+            igl::writeDMAT(param.data_root+"/FL_bad.dmat", FL_bad);
         }
         int largest_patch;
         build_edge_list_loop(V_bad, F_bad, FL_bad, total_label_num, edge_list, patch_edge_dict, patch_edge_direction_dict,largest_patch);
@@ -276,7 +276,7 @@ namespace MatchMaker{
                 edg_idx += 1;
             }
             std::ofstream file;
-            file.open("../dbginfo/debug_path_bad.json");
+            file.open(param.data_root+"/debug_path_bad.json");
             file << path_json_bad;
         }
         FL_good = Eigen::VectorXi::Constant(F_good.rows(), -1);
@@ -310,7 +310,7 @@ namespace MatchMaker{
         
         }
         
-        double bound = params.guard_len_r * igl::bounding_box_diagonal(V_bad);
+        double bound = param.guard_len_r * igl::bounding_box_diagonal(V_bad);
         for(auto item: patch_edge_dict)
         {
             int ptidx = item.first;
@@ -373,9 +373,9 @@ namespace MatchMaker{
 
         for(auto patch_idx : patch_order_adv)
         {
-            if(params.debug)
+            if(param.debug)
             {
-                igl::writeDMAT("../dbginfo/cur_patch.dmat", Eigen::VectorXi::Constant(1,patch_idx));
+                igl::writeDMAT(param.data_root+"/cur_patch.dmat", Eigen::VectorXi::Constant(1,patch_idx));
             }
             for(auto edge_idx: patch_edge_dict[patch_idx])
             {
@@ -386,7 +386,7 @@ namespace MatchMaker{
                 edge_visit_dict[edge_idx]=true;
                 int source_bad = edge_list.at(edge_idx).head;
                 int target_bad = edge_list.at(edge_idx).tail;
-                if(params.debug)
+                if(param.debug)
                 {
                     Eigen::VectorXd source_target_bad=Eigen::VectorXd::Constant(6,0);
                     for(int xx: {0,1,2})
@@ -395,7 +395,7 @@ namespace MatchMaker{
                         source_target_bad(xx+3)=V_bad(target_bad,xx);
                     }
                     
-                    igl::writeDMAT("../dbginfo/source_target_bad.dmat",source_target_bad);
+                    igl::writeDMAT(param.data_root+"/source_target_bad.dmat",source_target_bad);
                 }
                 // find the corresponding source and target on goodmesh
                 // project the source_bad and target_bad onto the good_mesh outside any colored patch
@@ -465,7 +465,7 @@ namespace MatchMaker{
                 
                 
                 //
-                trace_for_edge_loop(
+                if(!trace_for_edge_loop(
                     V_bad,
                     F_bad, 
                     edge_list, 
@@ -483,7 +483,7 @@ namespace MatchMaker{
                     node_edge_visit_dict, 
                     edge_path_map, 
                     path_json,
-                    params.debug);
+                    param)) return false;
                 
             }
             // one loop patch finished
@@ -523,11 +523,12 @@ namespace MatchMaker{
                 ff_in = ffb;
             }
             loop_colorize(V_good, F_good, TEdges_good, ff_in, patch_idx, FL_good);
-            if(params.debug)
+            if(param.debug)
             {
-                igl::writeDMAT("../dbginfo/FL_loop.dmat", FL_good);
-            }
+                igl::writeDMAT(param.data_root+"/FL_loop.dmat", FL_good);
+            } 
         }
+        return true;
     }
 
 }

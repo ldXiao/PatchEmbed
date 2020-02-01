@@ -9,7 +9,7 @@
 #include <Eigen/Core>
 namespace bcclean{
 namespace MatchMaker{
-    void trace_and_label_loop(
+    bool trace_and_label_loop(
         const Eigen::MatrixXd & V_bad,
         const Eigen::MatrixXi & F_bad,
         const Eigen::VectorXi & FL_bad,

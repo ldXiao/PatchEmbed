@@ -16,6 +16,7 @@
 #include <algorithm>
 #include <functional>
 #include <cmath>
+#include "params.h"
 
 namespace bcclean{
 namespace MatchMaker{
@@ -123,14 +124,14 @@ namespace MatchMaker{
         std::vector<std::vector<int> > & VV // adjacency list on Fraw, posibly some ofthem has been silenced
     );
 
-    void trace_and_label(
+    bool trace_and_label(
         const Eigen::MatrixXd & V_bad,
         const Eigen::MatrixXi & F_bad,
         const Eigen::VectorXi & FL_bad,
         Eigen::MatrixXd & V_good,
         Eigen::MatrixXi & F_good,
         Eigen::VectorXi & FL_good,
-        bool debug
+        const params param
     );
 
     

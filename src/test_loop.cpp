@@ -102,7 +102,11 @@ int main(int argc, char *argv[]){
     */
     cxxopts::Options options("Testloop", "One line description of MyProgram");
     options.add_options()
-            ("j, json", "json storing parameters", cxxopts::value<std::string>());
+            ("u, upsp", "upsample stages", cxxopts::value<int>())
+            ("m, mergethreshold", "merge threshold", cxxopts::value<double>())
+            ("d, data_root","data root", cxxopts::value<std::string>())
+            ("t, tracing", "tracing",cxxopts::value<std::string>());
+
     auto args = options.parse(argc, argv);
     // Load a mesh in OBJ format
     bool re_tet = false;
@@ -111,21 +115,19 @@ int main(int argc, char *argv[]){
     bcclean::params param;
     int stop_eng = 10;
     {
-        std::ifstream temp(args["json"].as<std::string>());
-        param_json = json::parse(temp);
-        std::cout <<"the json parameters are" << param_json << std::endl;
-        param.data_root = param_json["data_root"];
-        param.iden = param_json["iden"];
-        param.upsp = param_json["upsp"];
-        param.debug = param_json["debug"];
-        param.guard_len_r = param_json["guard_len_r"];
-        re_tet = param_json["re_tet"];
-        param.edge_len_r = param_json["edge_len_r"];
-        tracing = param_json["tracing"];
-        param.stop_eng = param_json["stop_eng"];
-        param.merge_threshold = param_json["merge_threshold"];
+
+        param.data_root = args["data_root"].as<std::string>();
+        param.iden = false;
+        param.upsp = args["upsp"].as<int>();
+        param.debug = true;
+        param.guard_len_r = 0;
+        re_tet = false;
+        param.edge_len_r = 0.01;
+        tracing = args["tracing"].as<std::string>();
+        param.stop_eng = 10;
+        param.merge_threshold = args["mergethreshold"].as<double>();
     }
-    std::string bad_mesh_file, good_mesh_file, face_label_dmat, face_label_yml;
+    std::string bad_mesh_file, face_label_dmat, face_label_yml;
     std::regex r(".*trimesh.*\\.obj");
     for (const auto & entry : std::filesystem::directory_iterator(param.data_root))
     {
@@ -136,7 +138,6 @@ int main(int argc, char *argv[]){
         }
     }
     
-    good_mesh_file = param.data_root + "/"+"good.mesh__sf.obj";
     face_label_dmat = param.data_root + "/"+ "feat.dmat";
     Eigen::MatrixXd V_bad, V_good;
     Eigen::MatrixXi F_bad, F_good;
@@ -187,16 +188,22 @@ int main(int argc, char *argv[]){
         if(!file_exists || re_tet){
             bcclean::Tet::fTetwild(CCV_bad, CCF_bad, param.edge_len_r,stop_eng, CCV_good, CCF_good);
             igl::writeOBJ(output_file_good, CCV_good, CCF_good);
-            break;
         }
         else{
             igl::read_triangle_mesh(output_file_good, CCV_good, CCF_good); 
         }
+
+        std::string CC_work_dir = param.data_root+"/CC"+std::to_string(cc);
+        std::filesystem::create_directories(CC_work_dir);
+        std::ofstream o3(CC_work_dir+"/result"+tracing+".json");
+        json result_json;
         int betti_bad=Betti(CCV_bad, CCF_bad);
         int betti_good=Betti(CCV_good, CCF_good);
         if(betti_bad!= betti_good)
         {
             std::cout << "Inconsisitant topology, abort" << std::endl;
+            result_json["consistant topology"] = false;
+            continue;
         }
         {
             Eigen::VectorXi CCFC;
@@ -204,23 +211,33 @@ int main(int argc, char *argv[]){
             if(CCFC.maxCoeff()>0)
             {
                 std::cout << "Inconsisitant topology, abort" << std::endl;
-                return EXIT_FAILURE; 
+                result_json["consistant topology"] = false;
+                continue;
             }
         }
+        result_json["consistant topology"] = true;
+        
         if(param.upsp> 0)
         {
             igl::upsample(CCV_good, CCF_good, param.upsp);
         }
+        result_json["upsp"]= param.upsp;
+        bool succeed= false;
+        bcclean::params param_copy = param;
+        param_copy.data_root = CC_work_dir;
         if(tracing=="loop"){
-            bcclean::MatchMaker::trace_and_label_loop(bcclean::patch::Vbase, bcclean::patch::Fbase, bcclean::patch::FL_mod, CCV_good, CCF_good, CCFL_good, param);
+            succeed=bcclean::MatchMaker::trace_and_label_loop(bcclean::patch::Vbase, bcclean::patch::Fbase, bcclean::patch::FL_mod, CCV_good, CCF_good, CCFL_good, param_copy);
         } else if (tracing == "tree")
         {
-            bcclean::MatchMaker::trace_and_label(bcclean::patch::Vbase, bcclean::patch::Fbase, bcclean::patch::FL_mod, CCV_good, CCF_good, CCFL_good, param.debug); 
+            succeed=bcclean::MatchMaker::trace_and_label(bcclean::patch::Vbase, bcclean::patch::Fbase, bcclean::patch::FL_mod, CCV_good, CCF_good, CCFL_good, param_copy); 
         }
         if(param.debug)
         {
-            std::ifstream i1("../dbginfo/debug_paths.json");
-            std::ifstream i2("../dbginfo/debug_path_bad.json");
+            
+            
+            std::ifstream i1(CC_work_dir+"/debug_paths.json");
+            std::ifstream i2(CC_work_dir+"/debug_path_bad.json");
+            
             json path_good, path_bad;
             path_good = json::parse(i1);
             path_bad  = json::parse(i2);
@@ -236,6 +253,9 @@ int main(int argc, char *argv[]){
             }
             double dd = igl::bounding_box_diagonal(bcclean::patch::Vbase);
             std::cout<< "finished, maxerr:" << max_error/dd << std::endl; 
+            result_json["succeed"]= succeed;
+            result_json["maxerr"]= max_error/dd;
+            o3 << result_json;
         }
 
     }

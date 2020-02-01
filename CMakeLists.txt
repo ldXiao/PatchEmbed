@@ -166,9 +166,6 @@ target_link_libraries(bcclean PUBLIC
 
 # another executable for debug
 
-add_executable(test_tree src/test_tree.cpp)
-target_link_libraries(test_tree bcclean)
-set_target_properties(test_tree PROPERTIES CXX_STANDARD 17)
 
 add_executable(test_loop src/test_loop.cpp)
 target_link_libraries(test_loop bcclean)
