@@ -27,6 +27,7 @@
 #include "degenerate_clean.h"
 #include "polyline_distance.h"
 #include "params.h"
+#include "orientation_check.h"
 #include <cxxopts.hpp>
 #include <nlohmann/json.hpp>
 #include <unordered_map>
@@ -216,7 +217,7 @@ int main(int argc, char *argv[]){
             }
         }
         result_json["consistant topology"] = true;
-        
+        bcclean::flip_orientation_ifnecessary(CCV_bad, CCF_bad, CCV_good, CCF_good); 
         if(param.upsp> 0)
         {
             igl::upsample(CCV_good, CCF_good, param.upsp);
