@@ -167,7 +167,7 @@ namespace MatchMaker{
             std::cout << "for path" << edge_idx << std::endl;
             std::cout << "start" << source  << "target" << target << std::endl;
             std::cout << "path of size only "<< path.size() << std::endl;
-            exit(EXIT_FAILURE);
+            return false;
         }
         std::vector<int> path_records(path.size()-2);
         std::printf("for edge %d, find a path:\n",edge_idx);
@@ -239,7 +239,7 @@ namespace MatchMaker{
         // update visit_dict or loop condition update
         node_edge_visit_dict[target_bad][edge_idx]=true;
         node_edge_visit_dict[source_bad][edge_idx]=true;
-    
+        return true;
     }
 
     bool trace_and_label_loop(
