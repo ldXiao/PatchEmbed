@@ -239,7 +239,7 @@ namespace MatchMaker{
         // update visit_dict or loop condition update
         node_edge_visit_dict[target_bad][edge_idx]=true;
         node_edge_visit_dict[source_bad][edge_idx]=true;
-    
+        return true;
     }
 
     bool trace_and_label_loop(
