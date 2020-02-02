@@ -461,8 +461,23 @@ namespace bcclean{
             }
             if(VLoops[vidx]!= lpidx && VLoops[vidx]!= -1)
             {
-                tail = vidx;
-                break;
+                int anotherloop = VLoops[vidx];
+                int exclude = -1;
+                bool excluded = false;
+                for(auto vcount: loop_visit_at.at(anotherloop))
+                {
+                    exclude = boundary_loops.at(anotherloop).at(vcount);
+                    if(exclude == vidx)
+                    {
+                        excluded = true;
+                        break;
+                    }
+                }
+                if(!excluded)
+                {
+                    tail = vidx;
+                    break;
+                }
             }
         }
         assert(tail != -1);
