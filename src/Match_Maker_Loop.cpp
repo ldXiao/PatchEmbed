@@ -167,7 +167,7 @@ namespace MatchMaker{
             std::cout << "for path" << edge_idx << std::endl;
             std::cout << "start" << source  << "target" << target << std::endl;
             std::cout << "path of size only "<< path.size() << std::endl;
-            exit(EXIT_FAILURE);
+            return false;
         }
         std::vector<int> path_records(path.size()-2);
         std::printf("for edge %d, find a path:\n",edge_idx);
