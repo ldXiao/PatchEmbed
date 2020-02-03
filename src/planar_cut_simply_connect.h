@@ -495,6 +495,10 @@ namespace bcclean{
         }
         assert(find);
         loop_visit_at[anotherlp].push_back(vvcount);
+        if((loop_visit_at[anotherlp].size()==2) && (loop_visit_at[anotherlp].at(0)==loop_visit_at[anotherlp].at(1)))
+        {
+            std::cout<<"pause"<<std::endl;
+        }
         int cur  = tail;
         std::vector<int> records;
         std::vector<int> path_silence_list;
