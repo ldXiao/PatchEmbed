@@ -1,6 +1,7 @@
 #include "orientation_check.h"
 #include <igl/per_face_normals.h>
 #include <igl/embree/line_mesh_intersection.h>
+#include <igl/bfs_orient.h>
 namespace bcclean {
     bool orientation_check(
         const Eigen::MatrixXd & VA,

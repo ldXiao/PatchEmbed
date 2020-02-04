@@ -2,7 +2,7 @@
 #include <vector>
 #include <iostream>
 
-
+#include <igl/bfs_orient.h>
 #include <regex>
 #include <filesystem>
 #include <string>
@@ -167,6 +167,9 @@ int main(int argc, char *argv[]){
         Eigen::VectorXi CCFL_bad = std::get<2>(vfls[cc]);
         int CClabel_num = CCFL_bad.maxCoeff()+1;
         bcclean::patch pat;
+        Eigen::MatrixXi CCF_copy = CCF_bad;
+        Eigen::VectorXi C;
+        igl::bfs_orient(CCF_copy,CCF_bad,C);
         bcclean::patch::SetStatics(CCV_bad, CCF_bad, CCFL_bad, CClabel_num);
         bcclean::CollectPatches();
         Eigen::MatrixXd CCV_good;

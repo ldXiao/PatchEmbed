@@ -90,6 +90,7 @@ namespace MatchMaker{
             int head = pool.back();
             pool.pop_back();
             node_faces_dict[nd].push_back(head);
+
             while(pool.size()>0)
             {
                 int fidx = node_faces_dict[nd].back();
