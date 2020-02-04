@@ -8,6 +8,7 @@
 #include <igl/facet_components.h>
 #include <climits>
 #include <igl/bounding_box_diagonal.h>
+#include "Edge_Dijkstra.h"
 namespace bcclean{
 namespace MatchMaker{
     using json = nlohmann::json;
@@ -146,10 +147,12 @@ namespace MatchMaker{
         }
         setWeights(V_good, V_bad, edg, 10, 1,  Weights);
         // the Weights is vertex based
-
+        Eigen::SparseMatrix<double> SpWeight;
+        Trace::setWeight(V_good, F_good, V_bad, F_bad,edg, SpWeight);
         // dijkstra_trace(....,VEdges, TEdges);
         std::vector<int> path;
-        dijkstra_trace(VV_temp, source, target, Weights, path);
+        Trace::Edge_Dijkstra(VV_temp,source,target, SpWeight, path);
+        // dijkstra_trace(VV_temp, source, target, Weights, path);
         if(param.debug)
         {
             Eigen::VectorXd source_target=Eigen::VectorXd::Constant(6,0);

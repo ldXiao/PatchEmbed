@@ -56,11 +56,13 @@ namespace bcclean{
                 }
             }
         }
+        
         for(int frawidx =0 ; frawidx < Fraw.rows(); ++frawidx){
             if(PatchL(frawidx)==0){
                 FL_mod(FI(frawidx))= ini_label;
             } else {
-                FL_mod(FI(frawidx)) = total_label_num + PatchL(frawidx) -1; 
+                int newlb = total_label_num + PatchL(frawidx) -1;
+                FL_mod(FI(frawidx)) = newlb; 
             }
         }
         

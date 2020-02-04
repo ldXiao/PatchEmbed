@@ -10,6 +10,7 @@
 #include <nlohmann/json.hpp>
 #include <igl/writeOBJ.h>
 #include <igl/writeDMAT.h>
+#include <igl/matrix_to_list.h>
 namespace bcclean{
     void silence_vertices(std::vector<std::vector<int > > & VV, const std::vector<int> & silent_indices){
         for(auto index : silent_indices)
@@ -425,6 +426,8 @@ namespace bcclean{
         const std::vector<int> & VLoops
     )
     {
+        std::vector<int> VIII;
+        VIII = igl::matrix_to_list(VI);
         {
             Eigen::MatrixXi TT;
             igl::triangle_triangle_adjacency(F, TT); 
@@ -484,6 +487,12 @@ namespace bcclean{
         int anotherlp = VLoops[tail];
         int vvcount =0;
         bool find = false;
+        // for(int adhd=0; adhd < VI.rows();++ adhd){
+        //     if(VI(adhd)== 138)
+        //     {
+        //         std::cout <<"debuginfo"<<std::endl;
+        //     }
+        // }
         for(auto vv: boundary_loops.at(anotherlp))
         {
             if(vv== tail)
@@ -495,6 +504,7 @@ namespace bcclean{
         }
         assert(find);
         loop_visit_at[anotherlp].push_back(vvcount);
+
         if((loop_visit_at[anotherlp].size()==2) && (loop_visit_at[anotherlp].at(0)==loop_visit_at[anotherlp].at(1)))
         {
             std::cout<<"pause"<<std::endl;
@@ -513,7 +523,7 @@ namespace bcclean{
             cur = P[cur];
         }
 
-        silence_vertices(VV, path_silence_list);
+        silence_vertices(VV, records);
         std::vector<std::vector<int> > VF, VFi;
         igl::vertex_triangle_adjacency(V,F,VF, VFi);
         for(int rc_idx=0; rc_idx < records.size()-1; ++rc_idx){

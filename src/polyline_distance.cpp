@@ -59,7 +59,7 @@ namespace Eval{
         {
             Eigen::RowVector3d jqueryB= sampleB.row(bj);
             int sampleA_idx= kd_tree_NN_Eigen(sampleA_kdt, jqueryB); 
-            maxminBA = std::min((jqueryB - sampleA.row(sampleA_idx)).norm(), maxminBA);
+            maxminBA = std::max((jqueryB - sampleA.row(sampleA_idx)).norm(), maxminBA);
         }
         return std::max(maxminAB, maxminBA);
         
