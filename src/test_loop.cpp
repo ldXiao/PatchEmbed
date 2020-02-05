@@ -170,8 +170,7 @@ int main(int argc, char *argv[]){
         Eigen::MatrixXi CCF_copy = CCF_bad;
         Eigen::VectorXi C;
         igl::bfs_orient(CCF_copy,CCF_bad,C);
-        bcclean::patch::SetStatics(CCV_bad, CCF_bad, CCFL_bad, CClabel_num);
-        bcclean::CollectPatches();
+        
         Eigen::MatrixXd CCV_good;
         Eigen::MatrixXi CCF_good;
         Eigen::VectorXi CCFL_good;
@@ -196,7 +195,9 @@ int main(int argc, char *argv[]){
         else{
             igl::read_triangle_mesh(output_file_good, CCV_good, CCF_good); 
         }
-
+        bcclean::flip_orientation_ifnecessary( CCV_good, CCF_good, CCV_bad, CCF_bad);
+        bcclean::patch::SetStatics(CCV_bad, CCF_bad, CCFL_bad, CClabel_num);
+        bcclean::CollectPatches();
         std::string CC_work_dir = param.data_root+"/CC"+std::to_string(cc);
         std::filesystem::create_directories(CC_work_dir);
         std::ofstream o3(CC_work_dir+"/result"+tracing+".json");
@@ -220,7 +221,7 @@ int main(int argc, char *argv[]){
             }
         }
         result_json["consistant topology"] = true;
-        bcclean::flip_orientation_ifnecessary(CCV_bad, CCF_bad, CCV_good, CCF_good); 
+         
         if(param.upsp> 0)
         {
             igl::upsample(CCV_good, CCF_good, param.upsp);
