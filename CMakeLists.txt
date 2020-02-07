@@ -146,6 +146,8 @@ set(SOURCES
     src/orientation_check.cpp 
     src/Edge_Dijkstra.h 
     src/Edge_Dijkstra.cpp
+    src/non_vertex_manifold_relabel.h 
+    src/non_vertex_manifold_relabel.cpp 
 )
 add_library(bcclean ${SOURCES})
 target_link_libraries(bcclean PUBLIC

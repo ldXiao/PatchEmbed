@@ -573,12 +573,6 @@ namespace bcclean{
         std::vector<bool> & VCuts, 
         std::vector<std::vector<bool> > & TCuts)
     {
-        {
-            Eigen::VectorXi P;
-            igl::extract_manifold_patches(F,P);
-            igl::writeDMAT("../dbginfo/P.dmat",P);
-            igl::writeOBJ("../dbginfo/patch.obj", V, F);
-        }
         nlohmann::json debug_cut_json;
         // V #V x 3 vertices of a nonsimply connected mesh
         // F #F x 3 faces of the mesh
