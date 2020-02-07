@@ -11,6 +11,7 @@
 #include <igl/writeOBJ.h>
 #include <igl/writeDMAT.h>
 #include <igl/matrix_to_list.h>
+#include <igl/extract_manifold_patches.h>
 namespace bcclean{
     void silence_vertices(std::vector<std::vector<int > > & VV, const std::vector<int> & silent_indices){
         for(auto index : silent_indices)
@@ -101,12 +102,14 @@ namespace bcclean{
                 int v1 = Fraw(fidx, (edge_idx+1) % 3);
                 if(VCuts[v0] && VCuts[v1] && !TCuts[fidx][edge_idx]){
                     int cofidx = TT(fidx, edge_idx);
-                    assert(cofidx != -1);
                     if(cofidx != -1){
                         int vl = std::min(v0, v1);
                         int vg = std::max(v0, v1);
                         splits=std::make_pair(vl, vg);
                         return true;
+                    }
+                    else{
+                        continue;
                     }
                     // make sure each pair of indices are only pushed once
                 }
@@ -570,6 +573,12 @@ namespace bcclean{
         std::vector<bool> & VCuts, 
         std::vector<std::vector<bool> > & TCuts)
     {
+        {
+            Eigen::VectorXi P;
+            igl::extract_manifold_patches(F,P);
+            igl::writeDMAT("../dbginfo/P.dmat",P);
+            igl::writeOBJ("../dbginfo/patch.obj", V, F);
+        }
         nlohmann::json debug_cut_json;
         // V #V x 3 vertices of a nonsimply connected mesh
         // F #F x 3 faces of the mesh
