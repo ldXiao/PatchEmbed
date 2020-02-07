@@ -178,3 +178,7 @@ set_target_properties(test_loop PROPERTIES CXX_STANDARD 17)
 add_executable(ftet_gen src/ftet_gen.cpp)
 target_link_libraries(ftet_gen bcclean)
 set_target_properties(ftet_gen PROPERTIES CXX_STANDARD 17)
+
+add_executable(thread src/thread_check.cpp)
+target_link_libraries(thread bcclean)
+set_target_properties(thread PROPERTIES CXX_STANDARD 17)
