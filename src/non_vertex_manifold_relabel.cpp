@@ -87,6 +87,27 @@ namespace Prepocess{
                         int adj = TT(cur, j);
                         if(adj != -1 && FL_patch(adj)== -1)
                         {
+                            std::vector<int> neck;
+                            for(auto k : {0,1,2})
+                            {
+                                int test = TT(adj,k);
+                                if(test != -1 && test != cur)
+                                {
+                                    neck.push_back(test);
+                                }
+                            }
+                            if(neck.size()==2)
+                            {
+                                int lb0 = FL_patch(neck[0]);
+                                int lb1 = FL_patch(neck[1]);
+                                if(lb1 == lb0)
+                                {
+                                    if(lb1 != lb && lb1 != -1)
+                                    {
+                                        continue;
+                                    }
+                                }
+                            }
                             sq.push(adj);
                             FL_patch(adj) = lb;
                         }
