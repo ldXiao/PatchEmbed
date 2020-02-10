@@ -124,7 +124,51 @@ namespace bcclean{
                     }
                 }
                 Eigen::VectorXi FL_mod_copy =patch::FL_mod;
-                Prepocess::non_vertex_manifold_relabel(Vraw, Fraw, label_FI_dict[lb], NMV, FL_mod_copy, patch::FL_mod, total_label_num_dummy);
+                std::map<int, Eigen::VectorXi> subpatchFI_dict;
+                Prepocess::non_vertex_manifold_relabel(Vraw, Fraw, label_FI_dict[lb], NMV, FL_mod_copy, patch::FL_mod, total_label_num_dummy, subpatchFI_dict);
+                for(auto item: subpatchFI_dict)
+                {
+                    int lb = item.first;
+                    Eigen::VectorXi FI_lb = item.second;
+                    Eigen::MatrixXi F_lb = Eigen::MatrixXi::Constant(Fraw.rows(),3, -1);
+                    int count = 0;
+                    for(int f =0 ; f < FI_lb.rows(); ++f)
+                    {
+                        F_lb.row(f) = patch::Fbase.row(FI_lb(f));
+                        count +=1;
+                    }
+                    patch pat;
+                    // check Vraw, Fraw is a manifold
+                    // check the number of boundary loops of the manifold
+                    // if more than one it is not simply connected
+                    pat.FI = FI_lb;
+                    pat.label = lb;
+                    {
+                        Eigen::VectorXi B;
+                        igl::remove_unreferenced(patch::Vbase, F_lb, pat.Vraw, pat.Fraw, pat.FI, pat.VI);
+                        assert(igl::is_vertex_manifold(pat.Fraw,B));
+                    }
+                    pat.VI = J; 
+                    std::vector<std::vector<int> > boundary_loops;
+                    igl::boundary_loop(pat.Fraw, boundary_loops);
+                    if(boundary_loops.size()>1)
+                    {
+                        std::vector<bool> VCuts;
+                        std::vector<std::vector<bool> > TCuts;
+                        std::cout << "subpatch" << lb << "has " << boundary_loops.size() <<"loops"<< std::endl;
+                        for(auto p : boundary_loops){
+                            for(auto vi: p){
+                                std::cout << vi << " ";
+                            }
+                            // std::cout << "loop" << std::endl;
+                        }
+                        planar_cut_simply_connect(pat.Vraw, pat.Fraw, patch::Vbase, patch::Fbase, pat.VI, pat.FI, patch::FL_mod, boundary_loops, VCuts, TCuts);
+                        // std::cout << "ob1" << lb << std::endl;
+                        Eigen::VectorXi FL_mod_copy =patch::FL_mod;
+                        patch_cut_relabel(pat.Fraw, pat.FI, VCuts, TCuts, FL_mod_copy, patch::FL_mod, total_label_num_dummy);
+                    }
+
+                }
 
             }
         }

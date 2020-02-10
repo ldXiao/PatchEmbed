@@ -3,6 +3,7 @@
 #include <igl/vertex_triangle_adjacency.h>
 #include <queue>
 #include <list>
+#include <map>
 namespace bcclean {
 namespace Prepocess{
     void non_vertex_manifold_relabel(
@@ -12,9 +13,12 @@ namespace Prepocess{
         const std::vector<int> & NMV,
         const Eigen::VectorXi & FL, 
         Eigen::VectorXi & FL_mod, 
-        int & total_label_num
+        int & total_label_num,
+        std::map<int, Eigen::VectorXi> & subpatches
     )
     {
+        subpatches.clear();
+        std::map<int, int> subpatch_face_count;
         Eigen::MatrixXi TT;
         Eigen::VectorXi FL_patch= Eigen::VectorXi::Constant(Fraw.rows(), -1);
         igl::triangle_triangle_adjacency(Fraw, TT);
@@ -116,10 +120,22 @@ namespace Prepocess{
             }
             // check finish;
         }
-
+        for(auto lb: nLB)
+        {
+            subpatches[lb] = Eigen::VectorXi::Constant(Fraw.rows(), 0);
+            subpatch_face_count[lb]= 0;
+        }
         for(int fidx = 0; fidx < Fraw.rows(); ++ fidx)
         {
             FL_mod(FI(fidx)) = FL_patch(fidx);
+            int lb = FL_patch(fidx);
+            subpatches[lb](subpatch_face_count[lb]) = FI(fidx);
+            subpatch_face_count[lb]+=1;
+        }
+        for(auto lb: nLB)
+
+        {
+            subpatches[lb].conservativeResize(subpatch_face_count[lb]);
         }
 
         return;
