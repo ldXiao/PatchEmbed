@@ -975,7 +975,7 @@ namespace MatchMaker{
             path_json[std::to_string(edge_idx)] = path;   
             
             std::ofstream file;
-            file.open(param.data_root+"/debug_paths.json");
+            file.open(param.data_root+"/debug_paths_tree.json");
             file << path_json;
 
             igl::writeOBJ(param.data_root+"/debug_mesh_tree.obj", V_good, F_good);
