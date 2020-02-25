@@ -148,6 +148,8 @@ set(SOURCES
     src/Edge_Dijkstra.cpp
     src/non_vertex_manifold_relabel.h 
     src/non_vertex_manifold_relabel.cpp 
+    src/BTCMM.h 
+    src/BTCMM.cpp
 )
 add_library(bcclean ${SOURCES})
 target_link_libraries(bcclean PUBLIC
