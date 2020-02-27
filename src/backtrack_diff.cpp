@@ -11,6 +11,7 @@ namespace MatchMaker{
             double edgeln = (V.row(path[p])- V.row(path[p+1])).norm();
             res += edgeln;
         }
+        return res;
     }
     bool backtrack_diff(
         const Eigen::MatrixXd & V_good,
@@ -28,14 +29,16 @@ namespace MatchMaker{
         // the second step is to measure the max length difference
         std::vector<int> edge_indices = patch_edge_dict.at(pidx);
         double max_rel_dif= -1;
+        double total_len_good =0;
+        double total_len_bad = 0;
         for(auto edg_idx: edge_indices)
         {
             std::vector<int> path_good = edge_path_map.at(edg_idx);
             std::vector<int> path_bad = edge_list.at(edg_idx)._edge_vertices;
-            double len_good = path_len(V_good, path_good);
-            double len_bad = path_len(V_bad, path_bad);
-            max_rel_dif = std::max(max_rel_dif, std::abs(len_good/len_bad -1));
+            total_len_good += path_len(V_good, path_good);
+            total_len_bad += path_len(V_bad, path_bad);
         }
+         max_rel_dif = std::max(max_rel_dif, std::abs(total_len_good/total_len_bad -1));
         if(max_rel_dif > threshold){
             return false;
         }
