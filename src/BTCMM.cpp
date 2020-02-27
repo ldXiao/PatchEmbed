@@ -387,16 +387,19 @@ namespace MatchMaker{
             /* copy part */
             Eigen::MatrixXi F_good_copy= F_good;
             Eigen::MatrixXd V_good_copy = V_good;
+            Eigen::VectorXi FL_good_copy = FL_good;
             std::vector<std::vector<int> > VV_good_copy = VV_good;
             std::vector<std::vector<int> > TEdges_good_copy = TEdges_good;
             std::vector<std::vector<int> > VEdges_good_copy = VEdges_good;
-            std::vector<int> node_list_good_copy;
-            std::map<int, int> node_image_dict_copy;
+            std::vector<int> node_list_good_copy = node_list_good;
+            std::map<int, int> node_image_dict_copy= node_image_dict;
 
             std::map<int, bool> edge_visit_dict_copy = edge_visit_dict;
             std::map<int , std::map<int, bool> > node_edge_visit_dict_copy = node_edge_visit_dict; 
             std::map<int, std::vector<int> > edge_path_map_copy = edge_path_map;
-            
+            std::vector<int> total_silence_list_copy = total_silence_list; 
+            json path_json_copy = path_json;
+
             // copy everything in advance , if backtrack happens 
             // replace the origin object with the copies
             
@@ -410,13 +413,14 @@ namespace MatchMaker{
                 igl::writeDMAT(param.data_root+"/cur_patch.dmat", Eigen::VectorXi::Constant(1,patch_idx));
             }
             
-
+            bool all_edge_traced = true;
             for(auto edge_idx: patch_edge_dict[patch_idx])
             {
                 if(edge_visit_dict[edge_idx])
                 {
                     continue;
                 }
+                all_edge_traced = false;
                 
                 edge_visit_dict[edge_idx]=true;
                 int source_bad = edge_list.at(edge_idx).head;
@@ -534,24 +538,28 @@ namespace MatchMaker{
                 patch_edge_direction_dict,
                 edge_path_map,
                 param.backtrack_threshold
-            ))
+            ) && !(all_edge_traced))
             {
                 // the traced patch erro is larger than the backtrack_threshold
                 // abort the result in this loop
                 recycle.push_back(patch_idx);
                 // reverse copy everyting
+                std::cout << "patch " << patch_idx << "postponed" << std::endl;
 
                  /* copy part */
                 F_good= F_good_copy;
                 V_good= V_good_copy;
                 VV_good= VV_good_copy;
+                FL_good = FL_good_copy;
                 TEdges_good = TEdges_good_copy;
                 VEdges_good = VEdges_good_copy;
                 node_list_good = node_list_good_copy;
                 node_image_dict =node_image_dict_copy;
+                path_json = path_json_copy;
                 edge_visit_dict = edge_visit_dict_copy ;
                 node_edge_visit_dict = node_edge_visit_dict_copy; 
                 edge_path_map = edge_path_map_copy;
+                total_silence_list = total_silence_list_copy;
 
             }
             else
@@ -657,6 +665,15 @@ namespace MatchMaker{
                 for(auto pidx: r_relocate_list)
                 {
                     patch_queue.push_front(pidx);
+                }
+
+                if(patch_queue.empty() && !recycle.empty())
+                {
+                    // if it is still empty after relocation
+                    // switch recycle and patch_queue
+                    std::list<int> temp = recycle;
+                    recycle = patch_queue;
+                    patch_queue = temp;
                 }
             }
             
