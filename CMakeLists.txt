@@ -188,3 +188,7 @@ set_target_properties(ftet_gen PROPERTIES CXX_STANDARD 17)
 add_executable(thread src/thread_check.cpp)
 target_link_libraries(thread bcclean)
 set_target_properties(thread PROPERTIES CXX_STANDARD 17)
+
+add_executable(btcmm src/test_BTCMM.cpp)
+target_link_libraries(btcmm bcclean)
+set_target_properties(btcmm PROPERTIES CXX_STANDARD 17)
