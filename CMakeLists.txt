@@ -177,13 +177,13 @@ target_link_libraries(bcclean PUBLIC
 # another executable for debug
 
 
-add_executable(test_loop src/test_loop.cpp)
-target_link_libraries(test_loop bcclean)
-set_target_properties(test_loop PROPERTIES CXX_STANDARD 17)
+# add_executable(test_loop src/test_loop.cpp)
+# target_link_libraries(test_loop bcclean)
+# set_target_properties(test_loop PROPERTIES CXX_STANDARD 17)
 
-add_executable(ftet_gen src/ftet_gen.cpp)
-target_link_libraries(ftet_gen bcclean)
-set_target_properties(ftet_gen PROPERTIES CXX_STANDARD 17)
+# add_executable(ftet_gen src/ftet_gen.cpp)
+# target_link_libraries(ftet_gen bcclean)
+# set_target_properties(ftet_gen PROPERTIES CXX_STANDARD 17)
 
 add_executable(thread src/thread_check.cpp)
 target_link_libraries(thread bcclean)
