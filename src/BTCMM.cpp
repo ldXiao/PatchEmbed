@@ -1,12 +1,15 @@
 #include "BTCMM.h"
 #include "Match_Maker_Tree.h"
 #include "Kruskal.h"
+#include "backtrack_diff.h"
 #include "polyline_distance.h"
 #include "loop_colorize.h"
 #include "params.h"
 #include <igl/Timer.h>
 #include <igl/facet_components.h>
 #include <climits>
+#include <list>
+#include <deque>
 #include <igl/bounding_box_diagonal.h>
 #include "Edge_Dijkstra.h"
 /* BTCMM means backtracking cellular matchmaker */
@@ -374,19 +377,47 @@ namespace MatchMaker{
             edge_visit_dict[kkk]= false;
             kkk++;
         }
+        std::list<int> patch_queue(patch_order_adv.begin(), patch_order_adv.end());
+        std::list<int> recycle;
 
-        for(auto patch_idx : patch_order_adv)
+
+        while(!patch_queue.empty())
         {
+
+            /* copy part */
+            Eigen::MatrixXi F_good_copy= F_good;
+            Eigen::MatrixXd V_good_copy = V_good;
+            std::vector<std::vector<int> > VV_good_copy = VV_good;
+            std::vector<std::vector<int> > TEdges_good_copy = TEdges_good;
+            std::vector<std::vector<int> > VEdges_good_copy = VEdges_good;
+            std::vector<int> node_list_good_copy;
+            std::map<int, int> node_image_dict_copy;
+
+            std::map<int, bool> edge_visit_dict_copy = edge_visit_dict;
+            std::map<int , std::map<int, bool> > node_edge_visit_dict_copy = node_edge_visit_dict; 
+            std::map<int, std::vector<int> > edge_path_map_copy = edge_path_map;
+            
+            // copy everything in advance , if backtrack happens 
+            // replace the origin object with the copies
+            
+
+
+            int patch_idx = patch_queue.front();
+            patch_queue.pop_front();
+
             if(param.debug)
             {
                 igl::writeDMAT(param.data_root+"/cur_patch.dmat", Eigen::VectorXi::Constant(1,patch_idx));
             }
+            
+
             for(auto edge_idx: patch_edge_dict[patch_idx])
             {
                 if(edge_visit_dict[edge_idx])
                 {
                     continue;
                 }
+                
                 edge_visit_dict[edge_idx]=true;
                 int source_bad = edge_list.at(edge_idx).head;
                 int target_bad = edge_list.at(edge_idx).tail;
@@ -412,6 +443,7 @@ namespace MatchMaker{
 
                 if(node_image_dict.find(source_bad)==node_image_dict.end())
                 {
+
                     proj_node_loop(
                         V_bad,
                         F_bad,
@@ -429,9 +461,10 @@ namespace MatchMaker{
                     assert(source!= -1);
                     node_image_dict[source_bad]=source;
                     node_list_good.push_back(source);
+
                     igl::triangle_triangle_adjacency(F_good, TT_good);
                     std::pair<int, int> split;
-                    while(split_detect(F_good, TT_good, node_list_good,VEdges_good, TEdges_good, split))
+                    while(split_detect(F_good, TT_good, node_list_good, VEdges_good, TEdges_good, split))
                     {
                         // splits_update
                         splits_update(split, V_good, F_good, FL_good, VEdges_good, TEdges_good, VV_good);
@@ -440,6 +473,7 @@ namespace MatchMaker{
                 }
                 if(node_image_dict.find(target_bad)==node_image_dict.end())
                 {
+
                     proj_node_loop(
                         V_bad,
                         F_bad,
@@ -457,6 +491,7 @@ namespace MatchMaker{
                     assert(target!= -1);
                     node_image_dict[target_bad]=target;
                     node_list_good.push_back(target);
+
                     igl::triangle_triangle_adjacency(F_good, TT_good);
                     std::pair<int, int> split;
                     while(split_detect(F_good, TT_good, node_list_good,VEdges_good, TEdges_good, split))
@@ -490,47 +525,141 @@ namespace MatchMaker{
                     param)) return false;
                 
             }
-            // one loop patch finished
-            // colorize FL_good with label patch_idx
-            int stem_edge = patch_edge_dict[patch_idx][0];
-            int v0, v1;
-            v0 = edge_path_map[stem_edge][0];
-            v1 = edge_path_map[stem_edge][1];
-            std::vector<std::vector<int> > VF_good;
+            if(!backtrack_diff(
+                V_good,
+                V_bad,
+                patch_idx,
+                patch_edge_dict,
+                edge_list,
+                patch_edge_direction_dict,
+                edge_path_map,
+                param.backtrack_threshold
+            ))
             {
-                std::vector<std::vector<int> > VFi_good;
-                igl::vertex_triangle_adjacency(V_good, F_good, VF_good, VFi_good);
-            }
-            bool directionCC = patch_edge_direction_dict[patch_idx][0];
-            std::vector<int> inter(VF_good[v0].size()+ VF_good[v1].size());
-            auto it = std::set_intersection(VF_good[v0].begin(), VF_good[v0].end(), VF_good[v1].begin(), VF_good[v1].end(), inter.begin());
-            inter.resize(it-inter.begin());
-            assert(inter.size()==2);
-            int ffa = inter[0];
-            int ffb = inter[1];
-            bool ffa_coline = false; 
-            for(int j: {0,1,2})
-            {
-                if(F_good(ffa,j)==v0 && F_good(ffa,(j+1)% 3)==v1)
-                {
-                    ffa_coline=true;
-                    break;
-                }
-            }
-            int ff_in;
-            if(ffa_coline != directionCC)
-            {
-                ff_in = ffa;
+                // the traced patch erro is larger than the backtrack_threshold
+                // abort the result in this loop
+                recycle.push_back(patch_idx);
+                // reverse copy everyting
+
+                 /* copy part */
+                F_good= F_good_copy;
+                V_good= V_good_copy;
+                VV_good= VV_good_copy;
+                TEdges_good = TEdges_good_copy;
+                VEdges_good = VEdges_good_copy;
+                node_list_good = node_list_good_copy;
+                node_image_dict =node_image_dict_copy;
+                edge_visit_dict = edge_visit_dict_copy ;
+                node_edge_visit_dict = node_edge_visit_dict_copy; 
+                edge_path_map = edge_path_map_copy;
+
             }
             else
             {
-                ff_in = ffb;
+                // one loop patch finished
+                // colorize FL_good with label patch_idx
+                int stem_edge = patch_edge_dict[patch_idx][0];
+                int v0, v1;
+                v0 = edge_path_map[stem_edge][0];
+                v1 = edge_path_map[stem_edge][1];
+                std::vector<std::vector<int> > VF_good;
+                {
+                    std::vector<std::vector<int> > VFi_good;
+                    igl::vertex_triangle_adjacency(V_good, F_good, VF_good, VFi_good);
+                }
+                bool directionCC = patch_edge_direction_dict[patch_idx][0];
+                std::vector<int> inter(VF_good[v0].size()+ VF_good[v1].size());
+                auto it = std::set_intersection(VF_good[v0].begin(), VF_good[v0].end(), VF_good[v1].begin(), VF_good[v1].end(), inter.begin());
+                inter.resize(it-inter.begin());
+                assert(inter.size()==2);
+                int ffa = inter[0];
+                int ffb = inter[1];
+                bool ffa_coline = false; 
+                for(int j: {0,1,2})
+                {
+                    if(F_good(ffa,j)==v0 && F_good(ffa,(j+1)% 3)==v1)
+                    {
+                        ffa_coline=true;
+                        break;
+                    }
+                }
+                int ff_in;
+                if(ffa_coline != directionCC)
+                {
+                    ff_in = ffa;
+                }
+                else
+                {
+                    ff_in = ffb;
+                }
+                loop_colorize(V_good, F_good, TEdges_good, ff_in, patch_idx, FL_good);
+                if(param.debug)
+                {
+                    igl::writeDMAT(param.data_root+"/FL_loop.dmat", FL_good);
+                }
+
+                if(patch_queue.empty())
+                {
+                    for(auto remain_patch: recycle)
+                    {
+                        patch_queue.push_front(remain_patch);
+                    }
+                }
+
+                // loop over patch_queue and  recycle to find patches that where all edges has been traced
+                // and place them at the front of patch_queue
+                std::vector<int> q_relocate_list;
+                std::vector<int> r_relocate_list;
+                for(auto pidx: patch_queue)
+                {
+                    bool p_finished = true;
+                    for(auto eidx: patch_edge_dict.at(pidx))
+                    {
+                        if(!edge_visit_dict.at(eidx))
+                        {
+                            p_finished = false;
+                            break;
+                        }
+                    }
+                    if(p_finished)
+                    {
+                        q_relocate_list.push_back(pidx);
+                    }
+                }
+               for(auto pidx: recycle)
+                {
+                    bool p_finished = true;
+                    for(auto eidx: patch_edge_dict.at(pidx))
+                    {
+                        if(!edge_visit_dict.at(eidx))
+                        {
+                            p_finished = false;
+                            break;
+                        }
+                    }
+                    if(p_finished)
+                    {
+                        r_relocate_list.push_back(pidx);
+                    }
+                } 
+                for(auto pidx: q_relocate_list)
+                {
+                    patch_queue.remove(pidx);
+                }
+                for(auto pidx: r_relocate_list)
+                {
+                    recycle.remove(pidx);
+                }
+                for(auto pidx: q_relocate_list)
+                {
+                    patch_queue.push_front(pidx);
+                }
+                for(auto pidx: r_relocate_list)
+                {
+                    patch_queue.push_front(pidx);
+                }
             }
-            loop_colorize(V_good, F_good, TEdges_good, ff_in, patch_idx, FL_good);
-            if(param.debug)
-            {
-                igl::writeDMAT(param.data_root+"/FL_loop.dmat", FL_good);
-            } 
+            
         }
         return true;
     }

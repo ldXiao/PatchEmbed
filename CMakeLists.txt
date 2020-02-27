@@ -150,6 +150,8 @@ set(SOURCES
     src/non_vertex_manifold_relabel.cpp 
     src/BTCMM.h 
     src/BTCMM.cpp
+    src/backtrack_diff.h 
+    src/backtrack_diff.cpp
 )
 add_library(bcclean ${SOURCES})
 target_link_libraries(bcclean PUBLIC
