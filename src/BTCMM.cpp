@@ -242,6 +242,7 @@ namespace MatchMaker{
             file.open(param.data_root+"/debug_paths.json");
             file << path_json;
             igl::writeOBJ(param.data_root+"/debug_mesh.obj", V_good, F_good);
+            igl::writeDMAT(param.data_root+"/FL_loop.dmat", FL_good);
         }
         // update visit_dict or loop condition update
         node_edge_visit_dict[target_bad][edge_idx]=true;
@@ -379,7 +380,7 @@ namespace MatchMaker{
         }
         std::list<int> patch_queue(patch_order_adv.begin(), patch_order_adv.end());
         std::list<int> recycle;
-
+        int switch_count = 0; // record whether recycle and patch_queue has been switched;
 
         while(!patch_queue.empty())
         {
@@ -560,7 +561,7 @@ namespace MatchMaker{
                 node_edge_visit_dict = node_edge_visit_dict_copy; 
                 edge_path_map = edge_path_map_copy;
                 total_silence_list = total_silence_list_copy;
-
+                assert(F_good.rows() == FL_good.rows());
             }
             else
             {
@@ -603,15 +604,9 @@ namespace MatchMaker{
                 loop_colorize(V_good, F_good, TEdges_good, ff_in, patch_idx, FL_good);
                 if(param.debug)
                 {
+                    assert(F_good.rows()==FL_good.rows());
+                    igl::writeOBJ(param.data_root+"/debug_mesh.obj", V_good, F_good);
                     igl::writeDMAT(param.data_root+"/FL_loop.dmat", FL_good);
-                }
-
-                if(patch_queue.empty())
-                {
-                    for(auto remain_patch: recycle)
-                    {
-                        patch_queue.push_front(remain_patch);
-                    }
                 }
 
                 // loop over patch_queue and  recycle to find patches that where all edges has been traced
@@ -667,18 +662,22 @@ namespace MatchMaker{
                     patch_queue.push_front(pidx);
                 }
 
-                if(patch_queue.empty() && !recycle.empty())
+                if(patch_queue.empty() && !recycle.empty() )
                 {
                     // if it is still empty after relocation
                     // switch recycle and patch_queue
-                    std::list<int> temp = recycle;
-                    recycle = patch_queue;
-                    patch_queue = temp;
+                    if(switch_count < 5)
+                    {
+                        std::list<int> temp = recycle;
+                        recycle = patch_queue;
+                        patch_queue = temp;
+                    }
                 }
             }
             
         }
-        return true;
+        if(recycle.empty()) return true;
+        else return false;
     }
 
 }
