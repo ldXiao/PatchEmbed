@@ -11,6 +11,7 @@ namespace Prepocess{
         const Eigen::VectorXi & FI,
         const std::vector<int> & NMV,
         const Eigen::VectorXi & FL, 
+        const int cur_lb,
         Eigen::VectorXi & FL_mod, 
         int & total_label_num,
         std::map<int, Eigen::VectorXi> & subpatches

@@ -12,6 +12,7 @@ namespace Prepocess{
         const Eigen::VectorXi & FI,
         const std::vector<int> & NMV,
         const Eigen::VectorXi & FL, 
+        const int cur_lb,
         Eigen::VectorXi & FL_mod, 
         int & total_label_num,
         std::map<int, Eigen::VectorXi> & subpatches
@@ -67,11 +68,17 @@ namespace Prepocess{
             std::queue<int> sq;
             sq.push(ss);
             SQs.push_back(sq);
-            nLB.push_back(count + total_label_num);
-            FL_patch(ss) =count + total_label_num;
+            if(! nLB.empty()){
+                nLB.push_back(count + total_label_num - 1);
+                FL_patch(ss) =count + total_label_num - 1;
+            }
+            else{
+                nLB.push_back(cur_lb);
+                FL_patch(ss) = cur_lb;
+            }
             count +=1;
         }
-        total_label_num = total_label_num + count;
+        total_label_num = total_label_num + count-1;
 
         bool finished= false;
         while( ! finished)

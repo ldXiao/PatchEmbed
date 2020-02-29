@@ -116,6 +116,7 @@ namespace bcclean{
             else{
                 std::cout << "patch "<< lb << " is non-manfold, first level relabelling" << std::endl;
                 std::vector<int> NMV;
+                // igl::writeOBJ("nm.obj", Vraw, Fraw);
                 for(int j =0 ; j < NonManifoldVertices.rows(); j++)
                 {
                     if(NonManifoldVertices(j)==0)
@@ -125,7 +126,7 @@ namespace bcclean{
                 }
                 Eigen::VectorXi FL_mod_copy =patch::FL_mod;
                 std::map<int, Eigen::VectorXi> subpatchFI_dict;
-                Prepocess::non_vertex_manifold_relabel(Vraw, Fraw, label_FI_dict[lb], NMV, FL_mod_copy, patch::FL_mod, total_label_num_dummy, subpatchFI_dict);
+                Prepocess::non_vertex_manifold_relabel(Vraw, Fraw, label_FI_dict[lb], NMV, FL_mod_copy,lb, patch::FL_mod, total_label_num_dummy, subpatchFI_dict);
                 for(auto item: subpatchFI_dict)
                 {
                     int lb = item.first;
@@ -137,6 +138,7 @@ namespace bcclean{
                         F_lb.row(f) = patch::Fbase.row(FI_lb(f));
                         count +=1;
                     }
+                    F_lb.conservativeResize(count,3);
                     patch pat;
                     // check Vraw, Fraw is a manifold
                     // check the number of boundary loops of the manifold
