@@ -1,5 +1,6 @@
 #include "patch.h"
 #include "planar_cut_simply_connect.h"
+#include "recursive_cut.h"
 #include "patch_cut_relabel.h"
 #include "non_vertex_manifold_relabel.h"
 #include <unordered_map>
@@ -69,110 +70,111 @@ namespace bcclean{
             label_FI_dict[lb].conservativeResize(label_count_dict[lb]);
         }
         int total_label_num_dummy = patch::total_label_num;
+        
         for(int lb =0; lb < patch::total_label_num; ++ lb){
-            
-            std::cout  <<"lb" << lb << std::endl;
-            Eigen::MatrixXi Fraw;
-            Eigen::MatrixXd Vraw;
-            Eigen::VectorXi I, J;
-            igl::remove_unreferenced(patch::Vbase, label_faces_dict[lb], Vraw, Fraw, I, J);
-            // check is is non-manifold
+            Preprocess::recursive_cut(patch::Vbase, patch::Fbase,patch::FL_mod,label_faces_dict,label_FI_dict,lb);
+        //     std::cout  <<"lb" << lb << std::endl;
+        //     Eigen::MatrixXi Fraw;
+        //     Eigen::MatrixXd Vraw;
+        //     Eigen::VectorXi I, J;
+        //     igl::remove_unreferenced(patch::Vbase, label_faces_dict[lb], Vraw, Fraw, I, J);
+        //     // check is is non-manifold
 
 
-            // if  Vraw Fraw is a manifold, cut open the loops
-            Eigen::VectorXi NonManifoldVertices;
-            if(igl::is_vertex_manifold(Fraw, NonManifoldVertices))
-            {
-                patch pat;
-                // check Vraw, Fraw is a manifold
-                // check the number of boundary loops of the manifold
-                // if more than one it is not simply connected.
-                pat.Vraw = Vraw;
-                pat.Fraw = Fraw;
-                pat.FI = label_FI_dict[lb];
-                pat.label = lb;
-                pat.VI = J; // VI()
-                std::vector<std::vector<int > > boundary_loops;
-                igl::boundary_loop(Fraw, boundary_loops);
+        //     // if  Vraw Fraw is a manifold, cut open the loops
+        //     Eigen::VectorXi NonManifoldVertices;
+        //     if(igl::is_vertex_manifold(Fraw, NonManifoldVertices))
+        //     {
+        //         patch pat;
+        //         // check Vraw, Fraw is a manifold
+        //         // check the number of boundary loops of the manifold
+        //         // if more than one it is not simply connected.
+        //         pat.Vraw = Vraw;
+        //         pat.Fraw = Fraw;
+        //         pat.FI = label_FI_dict[lb];
+        //         pat.label = lb;
+        //         pat.VI = J; // VI()
+        //         std::vector<std::vector<int > > boundary_loops;
+        //         igl::boundary_loop(Fraw, boundary_loops);
 
                 
-                if(boundary_loops.size()>1){
-                    std::vector<bool> VCuts;
-                    std::vector<std::vector<bool> > TCuts;
-                    std::cout << "label" << lb << "has " << boundary_loops.size() <<"loops"<< std::endl;
-                    for(auto p : boundary_loops){
-                        for(auto vi: p){
-                            std::cout << vi << " ";
-                        }
-                        // std::cout << "loop" << std::endl;
-                    }
-                    planar_cut_simply_connect(Vraw, Fraw, patch::Vbase, patch::Fbase, pat.VI, pat.FI, patch::FL_mod, boundary_loops, VCuts, TCuts);
-                    // std::cout << "ob1" << lb << std::endl;
-                    Eigen::VectorXi FL_mod_copy =patch::FL_mod;
-                    patch_cut_relabel(Fraw, pat.FI, VCuts, TCuts, FL_mod_copy, patch::FL_mod, total_label_num_dummy);
-                }
-            //
-            }
-            else{
-                std::cout << "patch "<< lb << " is non-manfold, first level relabelling" << std::endl;
-                std::vector<int> NMV;
-                // igl::writeOBJ("nm.obj", Vraw, Fraw);
-                for(int j =0 ; j < NonManifoldVertices.rows(); j++)
-                {
-                    if(NonManifoldVertices(j)==0)
-                    {
-                        NMV.push_back(j);
-                    }
-                }
-                Eigen::VectorXi FL_mod_copy =patch::FL_mod;
-                std::map<int, Eigen::VectorXi> subpatchFI_dict;
-                Prepocess::non_vertex_manifold_relabel(Vraw, Fraw, label_FI_dict[lb], NMV, FL_mod_copy,lb, patch::FL_mod, total_label_num_dummy, subpatchFI_dict);
-                for(auto item: subpatchFI_dict)
-                {
-                    int lb = item.first;
-                    Eigen::VectorXi FI_lb = item.second;
-                    Eigen::MatrixXi F_lb = Eigen::MatrixXi::Constant(Fraw.rows(),3, -1);
-                    int count = 0;
-                    for(int f =0 ; f < FI_lb.rows(); ++f)
-                    {
-                        F_lb.row(f) = patch::Fbase.row(FI_lb(f));
-                        count +=1;
-                    }
-                    F_lb.conservativeResize(count,3);
-                    patch pat;
-                    // check Vraw, Fraw is a manifold
-                    // check the number of boundary loops of the manifold
-                    // if more than one it is not simply connected
-                    pat.FI = FI_lb;
-                    pat.label = lb;
-                    {
-                        Eigen::VectorXi B;
-                        igl::remove_unreferenced(patch::Vbase, F_lb, pat.Vraw, pat.Fraw, pat.FI, pat.VI);
-                        assert(igl::is_vertex_manifold(pat.Fraw,B));
-                    }
-                    pat.VI = J; 
-                    std::vector<std::vector<int> > boundary_loops;
-                    igl::boundary_loop(pat.Fraw, boundary_loops);
-                    if(boundary_loops.size()>1)
-                    {
-                        std::vector<bool> VCuts;
-                        std::vector<std::vector<bool> > TCuts;
-                        std::cout << "subpatch" << lb << "has " << boundary_loops.size() <<"loops"<< std::endl;
-                        for(auto p : boundary_loops){
-                            for(auto vi: p){
-                                std::cout << vi << " ";
-                            }
-                            // std::cout << "loop" << std::endl;
-                        }
-                        planar_cut_simply_connect(pat.Vraw, pat.Fraw, patch::Vbase, patch::Fbase, pat.VI, pat.FI, patch::FL_mod, boundary_loops, VCuts, TCuts);
-                        // std::cout << "ob1" << lb << std::endl;
-                        Eigen::VectorXi FL_mod_copy =patch::FL_mod;
-                        patch_cut_relabel(pat.Fraw, pat.FI, VCuts, TCuts, FL_mod_copy, patch::FL_mod, total_label_num_dummy);
-                    }
+        //         if(boundary_loops.size()>1){
+        //             std::vector<bool> VCuts;
+        //             std::vector<std::vector<bool> > TCuts;
+        //             std::cout << "label" << lb << "has " << boundary_loops.size() <<"loops"<< std::endl;
+        //             for(auto p : boundary_loops){
+        //                 for(auto vi: p){
+        //                     std::cout << vi << " ";
+        //                 }
+        //                 // std::cout << "loop" << std::endl;
+        //             }
+        //             planar_cut_simply_connect(Vraw, Fraw, patch::Vbase, patch::Fbase, pat.VI, pat.FI, patch::FL_mod, boundary_loops, VCuts, TCuts);
+        //             // std::cout << "ob1" << lb << std::endl;
+        //             Eigen::VectorXi FL_mod_copy =patch::FL_mod;
+        //             patch_cut_relabel(Fraw, pat.FI, VCuts, TCuts, FL_mod_copy, patch::FL_mod, total_label_num_dummy);
+        //         }
+        //     //
+        //     }
+        //     else{
+        //         std::cout << "patch "<< lb << " is non-manfold, first level relabelling" << std::endl;
+        //         std::vector<int> NMV;
+        //         // igl::writeOBJ("nm.obj", Vraw, Fraw);
+        //         for(int j =0 ; j < NonManifoldVertices.rows(); j++)
+        //         {
+        //             if(NonManifoldVertices(j)==0)
+        //             {
+        //                 NMV.push_back(j);
+        //             }
+        //         }
+        //         Eigen::VectorXi FL_mod_copy =patch::FL_mod;
+        //         std::map<int, Eigen::VectorXi> subpatchFI_dict;
+        //         Prepocess::non_vertex_manifold_relabel(Vraw, Fraw, label_FI_dict[lb], NMV, FL_mod_copy,lb, patch::FL_mod, total_label_num_dummy, subpatchFI_dict);
+        //         for(auto item: subpatchFI_dict)
+        //         {
+        //             int lb = item.first;
+        //             Eigen::VectorXi FI_lb = item.second;
+        //             Eigen::MatrixXi F_lb = Eigen::MatrixXi::Constant(Fraw.rows(),3, -1);
+        //             int count = 0;
+        //             for(int f =0 ; f < FI_lb.rows(); ++f)
+        //             {
+        //                 F_lb.row(f) = patch::Fbase.row(FI_lb(f));
+        //                 count +=1;
+        //             }
+        //             F_lb.conservativeResize(count,3);
+        //             patch pat;
+        //             // check Vraw, Fraw is a manifold
+        //             // check the number of boundary loops of the manifold
+        //             // if more than one it is not simply connected
+        //             pat.FI = FI_lb;
+        //             pat.label = lb;
+        //             {
+        //                 Eigen::VectorXi B;
+        //                 igl::remove_unreferenced(patch::Vbase, F_lb, pat.Vraw, pat.Fraw, pat.FI, pat.VI);
+        //                 assert(igl::is_vertex_manifold(pat.Fraw,B));
+        //             }
+        //             pat.VI = J; 
+        //             std::vector<std::vector<int> > boundary_loops;
+        //             igl::boundary_loop(pat.Fraw, boundary_loops);
+        //             if(boundary_loops.size()>1)
+        //             {
+        //                 std::vector<bool> VCuts;
+        //                 std::vector<std::vector<bool> > TCuts;
+        //                 std::cout << "subpatch" << lb << "has " << boundary_loops.size() <<"loops"<< std::endl;
+        //                 for(auto p : boundary_loops){
+        //                     for(auto vi: p){
+        //                         std::cout << vi << " ";
+        //                     }
+        //                     // std::cout << "loop" << std::endl;
+        //                 }
+        //                 planar_cut_simply_connect(pat.Vraw, pat.Fraw, patch::Vbase, patch::Fbase, pat.VI, pat.FI, patch::FL_mod, boundary_loops, VCuts, TCuts);
+        //                 // std::cout << "ob1" << lb << std::endl;
+        //                 Eigen::VectorXi FL_mod_copy =patch::FL_mod;
+        //                 patch_cut_relabel(pat.Fraw, pat.FI, VCuts, TCuts, FL_mod_copy, patch::FL_mod, total_label_num_dummy);
+        //             }
 
-                }
+        //         }
 
-            }
+        //     }
         }
         std::cout << "patch relabel finished" << std::endl;
         patch::total_label_num = total_label_num_dummy;

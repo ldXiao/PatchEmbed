@@ -5,6 +5,7 @@
 #include <igl/bfs_orient.h>
 #include <regex>
 #include <filesystem>
+#include "recursive_cut.h"
 #include <string>
 #include <igl/read_triangle_mesh.h>
 #include <igl/readDMAT.h>

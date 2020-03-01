@@ -152,6 +152,8 @@ set(SOURCES
     src/BTCMM.cpp
     src/backtrack_diff.h 
     src/backtrack_diff.cpp
+    src/recursive_cut.h 
+    src/recursive_cut.cpp
 )
 add_library(bcclean ${SOURCES})
 target_link_libraries(bcclean PUBLIC
