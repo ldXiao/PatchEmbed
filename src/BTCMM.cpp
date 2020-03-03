@@ -538,7 +538,7 @@ namespace MatchMaker{
                 edge_list,
                 patch_edge_direction_dict,
                 edge_path_map,
-                param.backtrack_threshold
+                bcthreshold
             ) && !(all_edge_traced))
             {
                 // the traced patch erro is larger than the backtrack_threshold
@@ -662,17 +662,18 @@ namespace MatchMaker{
                     patch_queue.push_front(pidx);
                 }
 
-                if(patch_queue.empty() && !recycle.empty() )
+            }
+            if(patch_queue.empty() && !recycle.empty() )
+            {
+                // if it is still empty after relocation
+                // switch recycle and patch_queue
+                if(switch_count < 8)
                 {
-                    // if it is still empty after relocation
-                    // switch recycle and patch_queue
-                    if(switch_count < 5)
-                    {
-                        std::list<int> temp = recycle;
-                        recycle = patch_queue;
-                        patch_queue = temp;
-                        bcthreshold = 1.5 * bcthreshold;
-                    }
+                    std::list<int> temp = recycle;
+                    recycle = patch_queue;
+                    patch_queue = temp;
+                    bcthreshold = 1.5 * bcthreshold;
+                    switch_count += 1;
                 }
             }
             
