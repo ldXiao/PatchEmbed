@@ -381,7 +381,7 @@ namespace MatchMaker{
         std::list<int> patch_queue(patch_order_adv.begin(), patch_order_adv.end());
         std::list<int> recycle;
         int switch_count = 0; // record whether recycle and patch_queue has been switched;
-
+        double bcthreshold = param.backtrack_threshold;
         while(!patch_queue.empty())
         {
 
@@ -671,6 +671,7 @@ namespace MatchMaker{
                         std::list<int> temp = recycle;
                         recycle = patch_queue;
                         patch_queue = temp;
+                        bcthreshold = 1.5 * bcthreshold;
                     }
                 }
             }
