@@ -333,6 +333,7 @@ namespace MatchMaker{
             source, 
             cur_edge, 
             temp_silence_list);
+        // if target is in temp_silence_list do not silence it
         temp_silence_list.erase(std::remove(temp_silence_list.begin(), temp_silence_list.end(), target), temp_silence_list.end());
         sector_silence_vertices(VV_temp,source, temp_silence_list);
         // deal with the sctor of target
@@ -812,9 +813,10 @@ namespace MatchMaker{
                 for(auto edg_idx: edge_pool)
                 {
                     edge  edg = edge_list[edg_idx];
-                    auto it = std::find(edg._edge_vertices.begin(), edg._edge_vertices.end(), outv);
-                    auto jt = std::find(node_edge_dict[nd].begin(), node_edge_dict[nd].end(), edg_idx);
-                    if(it != edg._edge_vertices.end() and jt == node_edge_dict[nd].end())
+                    assert(edg._edge_vertices.size()>1);
+                    int second = edg._edge_vertices[1];
+                    int secondlast = edg._edge_vertices[edg._edge_vertices.size()-2];
+                    if(second == outv || secondlast == outv)
                     {
                         node_edge_dict[nd].push_back(edg_idx);
                     }
