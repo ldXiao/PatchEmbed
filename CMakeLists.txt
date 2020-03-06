@@ -101,7 +101,7 @@ download_project(
         SOURCE_DIR   ${CMAKE_CURRENT_SOURCE_DIR}/external/cxxopts
         DOWNLOAD_DIR ${CMAKE_CURRENT_SOURCE_DIR}/external/.cache/cxxopts
         GIT_REPOSITORY https://github.com/jarro2783/cxxopts.git
-        GIT_TAG        v2.1.2)
+        GIT_TAG        v2.2.0)
 
 #cxxopts
 add_library(cxxopts INTERFACE)
