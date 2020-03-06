@@ -104,8 +104,7 @@ download_project(
         GIT_TAG        v2.2.0)
 
 #cxxopts
-add_library(cxxopts INTERFACE)
-target_include_directories(cxxopts SYSTEM INTERFACE ${CMAKE_CURRENT_SOURCE_DIR}/external/cxxopts/include)
+add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/external/cxxopts)
 
 
 set(SOURCES
