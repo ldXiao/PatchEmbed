@@ -96,15 +96,15 @@ add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/external/fTetwild)
 # # add_library(json INTERFACE)
 # target_include_directories(json SYSTEM INTERFACE ${CMAKE_CURRENT_SOURCE_DIR}/external/json/include)
 
-download_project(
-        PROJ         cxxopts
-        SOURCE_DIR   ${CMAKE_CURRENT_SOURCE_DIR}/external/cxxopts
-        DOWNLOAD_DIR ${CMAKE_CURRENT_SOURCE_DIR}/external/.cache/cxxopts
-        GIT_REPOSITORY https://github.com/jarro2783/cxxopts.git
-        GIT_TAG        v2.2.0)
+# download_project(
+#         PROJ         cxxopts
+#         SOURCE_DIR   ${CMAKE_CURRENT_SOURCE_DIR}/external/cxxopts
+#         DOWNLOAD_DIR ${CMAKE_CURRENT_SOURCE_DIR}/external/.cache/cxxopts
+#         GIT_REPOSITORY https://github.com/jarro2783/cxxopts.git
+#         GIT_TAG        v2.2.0)
 
-#cxxopts
-add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/external/cxxopts)
+# #cxxopts
+# add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/external/cxxopts)
 
 
 set(SOURCES
@@ -186,9 +186,9 @@ target_link_libraries(bcclean PUBLIC
 # target_link_libraries(ftet_gen bcclean)
 # set_target_properties(ftet_gen PROPERTIES CXX_STANDARD 17)
 
-add_executable(thread src/thread_check.cpp)
-target_link_libraries(thread bcclean)
-set_target_properties(thread PROPERTIES CXX_STANDARD 17)
+# add_executable(thread src/thread_check.cpp)
+# target_link_libraries(thread bcclean)
+# set_target_properties(thread PROPERTIES CXX_STANDARD 17)
 
 add_executable(btcmm src/test_BTCMM.cpp)
 target_link_libraries(btcmm bcclean)

@@ -29,7 +29,7 @@
 #include "polyline_distance.h"
 #include "params.h"
 #include "orientation_check.h"
-#include <cxxopts.hpp>
+// #include <cxxopts.hpp>
 #include <nlohmann/json.hpp>
 #include <unordered_map>
 #include <tuple>
@@ -102,14 +102,14 @@ int main(int argc, char *argv[]){
     /*-----------------------------------------
     for json
     */
-    cxxopts::Options options("Testloop", "One line description of MyProgram");
-    options.add_options()
-            ("u, upsp", "upsample stages", cxxopts::value<int>())
-            ("b, btthreshold", "backtrack threshold", cxxopts::value<double>())
-            ("d, data_root","data root", cxxopts::value<std::string>())
-            ("t, tracing", "tracing",cxxopts::value<std::string>());
+    // cxxopts::Options options("Testloop", "One line description of MyProgram");
+    // options.add_options()
+    //         ("u, upsp", "upsample stages", cxxopts::value<int>())
+    //         ("b, btthreshold", "backtrack threshold", cxxopts::value<double>())
+    //         ("d, data_root","data root", cxxopts::value<std::string>())
+    //         ("t, tracing", "tracing",cxxopts::value<std::string>());
 
-    auto args = options.parse(argc, argv);
+    // auto args = options.parse(argc, argv);
     // Load a mesh in OBJ format
     bool re_tet = false;
     std::string data_root, tracing;
@@ -118,17 +118,21 @@ int main(int argc, char *argv[]){
     int stop_eng = 10;
     {
 
-        param.data_root = args["data_root"].as<std::string>();
+        // param.data_root = args["data_root"].as<std::string>();
+        param.data_root = "../data/1";
         param.iden = false;
-        param.upsp = args["upsp"].as<int>();
+        // param.upsp = args["upsp"].as<int>();
+        param.upsp = 1;
         param.debug = true;
         param.guard_len_r = 0;
         re_tet = false;
         param.edge_len_r = 0.01;
-        tracing = args["tracing"].as<std::string>();
+        // tracing = args["tracing"].as<std::string>();
+        tracing = "loop";
         param.stop_eng = 10;
         param.merge_threshold = 0;
-        param.backtrack_threshold = args["btthreshold"].as<double>();
+        // param.backtrack_threshold = args["btthreshold"].as<double>();
+        param.backtrack_threshold = 0.4;
     }
     std::string bad_mesh_file, face_label_dmat, face_label_yml;
     std::regex r(".*trimesh.*\\.obj");
