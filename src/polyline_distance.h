@@ -1,6 +1,7 @@
 #ifndef BCCLEAN_POLYLINEDIS_H
 #define BCCLEAN_POLYLINEDIS_H
 #include <Eigen/Dense>
+#include <vector>
 namespace bcclean{
 namespace Eval{
         double hausdorff1d(
