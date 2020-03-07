@@ -3,11 +3,11 @@ project(bcclean)
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
 set(THIRD_PARTY_DIR ${CMAKE_CURRENT_SOURCE_DIR}/external/)
 set_property(GLOBAL PROPERTY ALLOW_DUPLICATE_CUSTOM_TARGETS 1)
-include_directories(${PYTHON_INCLUDE_DIRS})
-find_package(PythonLibs 3.6)
-message(${PYTHON_LIBRARIES})
-find_package(PythonInterp 3.6)
-message(${PYTHON_INCLUDE_DIRS})
+# include_directories(${PYTHON_INCLUDE_DIRS})
+# find_package(PythonLibs 3.6)
+# message(${PYTHON_LIBRARIES})
+# find_package(PythonInterp 3.6)
+# message(${PYTHON_INCLUDE_DIRS})
 
 
 include(DownloadProject)
@@ -96,15 +96,15 @@ add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/external/fTetwild)
 # # add_library(json INTERFACE)
 # target_include_directories(json SYSTEM INTERFACE ${CMAKE_CURRENT_SOURCE_DIR}/external/json/include)
 
-# download_project(
-#         PROJ         cxxopts
-#         SOURCE_DIR   ${CMAKE_CURRENT_SOURCE_DIR}/external/cxxopts
-#         DOWNLOAD_DIR ${CMAKE_CURRENT_SOURCE_DIR}/external/.cache/cxxopts
-#         GIT_REPOSITORY https://github.com/jarro2783/cxxopts.git
-#         GIT_TAG        v2.2.0)
+download_project(
+        PROJ         cxxopts
+        SOURCE_DIR   ${CMAKE_CURRENT_SOURCE_DIR}/external/cxxopts
+        DOWNLOAD_DIR ${CMAKE_CURRENT_SOURCE_DIR}/external/.cache/cxxopts
+        GIT_REPOSITORY https://github.com/jarro2783/cxxopts.git
+        GIT_TAG        v2.2.0)
 
-# #cxxopts
-# add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/external/cxxopts)
+#cxxopts
+add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/external/cxxopts)
 
 
 set(SOURCES
