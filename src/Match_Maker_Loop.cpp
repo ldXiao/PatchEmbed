@@ -9,6 +9,7 @@
 #include <climits>
 #include <igl/bounding_box_diagonal.h>
 #include "Edge_Dijkstra.h"
+#include "CellularGraph.h"
 namespace bcclean{
 namespace MatchMaker{
     using json = nlohmann::json;
@@ -122,7 +123,7 @@ namespace MatchMaker{
         // (a) create CC_node_face_list
         std::map<int, std::vector<int> > CC_node_face_dict;
         std::vector<std::vector<int > > VV_temp;
-        CC_faces_per_node(V_good, F_good, {source, target}, CC_node_face_dict);
+        CCfaces_per_node(V_good, F_good, {source, target}, CC_node_face_dict);
         {
             std::map<int, std::map<int, bool> > node_edge_visit_dict_temp;
             std::map<int, std::vector<int> > node_edge_dict_temp;

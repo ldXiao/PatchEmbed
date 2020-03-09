@@ -29,6 +29,7 @@
 #include "polyline_distance.h"
 #include "params.h"
 #include "orientation_check.h"
+#include "CellularGraph.h"
 #include <cxxopts.hpp>
 #include <nlohmann/json.hpp>
 #include <unordered_map>
@@ -232,6 +233,7 @@ int main(int argc, char *argv[]){
         bool succeed= false;
         bcclean::params param_copy = param;
         param_copy.data_root = CC_work_dir;
+        // bcclean::CellularGraph cg = bcclean::CellularGraph::GenCellularGraph(bcclean::patch::Vbase, bcclean::patch::Fbase, bcclean::patch::FL_mod);
         if(tracing=="loop"){
             try{
             succeed=bcclean::MatchMaker::BTCMM(bcclean::patch::Vbase, bcclean::patch::Fbase, bcclean::patch::FL_mod, CCV_good, CCF_good, CCFL_good, param_copy);

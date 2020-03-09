@@ -55,12 +55,7 @@ namespace MatchMaker{
         std::vector<std::vector<int> > & VV_temp
     );
 
-    void CC_faces_per_node(
-        const Eigen::MatrixXd & V,
-        const Eigen::MatrixXi & F,
-        const std::vector<int> & node_list,
-        std::map<int, std::vector<int> > & node_faces_dict
-    );    
+    
 
     void setWeights(
         const Eigen::MatrixXd & V,
@@ -94,14 +89,6 @@ namespace MatchMaker{
         const Eigen::VectorXi & FL,
         const int total_label_num,
         std::vector<int> & node_list 
-    );
-
-    void _gen_node_CCedges_dict(
-        const Eigen::MatrixXd & V_bad,
-        const Eigen::MatrixXi & F_bad,
-        const std::vector<edge> & edge_list,
-        const std::vector<int> & node_list_bad,
-        std::map<int, std::vector<int> > &  node_edge_dict   
     );
 
     bool determin_adj_configure(

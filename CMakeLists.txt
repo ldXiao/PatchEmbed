@@ -153,6 +153,7 @@ set(SOURCES
     src/backtrack_diff.cpp
     src/recursive_cut.h 
     src/recursive_cut.cpp
+    src/CellularGraph.h
 )
 add_library(bcclean ${SOURCES})
 target_link_libraries(bcclean PUBLIC
