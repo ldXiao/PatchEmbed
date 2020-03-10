@@ -154,6 +154,10 @@ set(SOURCES
     src/recursive_cut.h 
     src/recursive_cut.cpp
     src/CellularGraph.h
+    src/CellularGraph.cpp
+    src/TraceComplex.h
+    src/MatchMakerDynamic.h 
+    src/MatchMakerDynamic.cpp
 )
 add_library(bcclean ${SOURCES})
 target_link_libraries(bcclean PUBLIC

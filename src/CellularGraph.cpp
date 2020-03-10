@@ -171,57 +171,57 @@ namespace bcclean{
     )
     {
         CellularGraph cg;
-        // cg.label_num = FL.maxCoeff()+1;
-        // std::vector<std::vector<int>> VF; // vertex - face index list
-        // {
-        //     std::vector<std::vector<int>> VFi;
-        //     igl::vertex_triangle_adjacency(V, F, VF,VFi);
-        // }
-        // Eigen::MatrixXd N;
-        // igl::per_vertex_normals(V, F, N);
-        // std::unordered_map<int, std::vector<int> > vertex_label_list_dict;
-        // build_vertex_label_list_dict(F, FL, cg.label_num, vertex_label_list_dict);
-        // cg._vertices.clear();
-        // cg._normals.clear();
-        // cg._nodes.clear();
-        // cg._edge_list.clear();
-        // int count = 0;
-        // std::map<int, int> vmap;
-        // std::vector<int> node_list_raw;
-        // for(auto item: vertex_label_list_dict)
-        // {
-        //     int ss = item.second.size();
-        //     int vidx = item.first;
-        //     if(ss>1)
-        //     {
-        //         cg._vertices.push_back(V.row(vidx));
-        //         cg._normals.push_back(N.row(vidx));
-        //         if(ss >2)
-        //         {
-        //             cg._nodes.push_back(count);
-        //             node_list_raw.push_back(vidx);
-        //         }
-        //         vmap[vidx]= count;
-        //         count += 1;       
-        //     }
-        // }
-        // std::vector<edge> edge_list_raw;
-        // build_edge_list_loop(V, F, FL, cg.label_num, edge_list_raw,cg._patch_edge_dict, cg._patch_edge_direction_dict, cg.root_cell);
+        cg.label_num = FL.maxCoeff()+1;
+        std::vector<std::vector<int>> VF; // vertex - face index list
+        {
+            std::vector<std::vector<int>> VFi;
+            igl::vertex_triangle_adjacency(V, F, VF,VFi);
+        }
+        Eigen::MatrixXd N;
+        igl::per_vertex_normals(V, F, N);
+        std::unordered_map<int, std::vector<int> > vertex_label_list_dict;
+        build_vertex_label_list_dict(F, FL, cg.label_num, vertex_label_list_dict);
+        cg._vertices.clear();
+        cg._normals.clear();
+        cg._nodes.clear();
+        cg._edge_list.clear();
+        int count = 0;
+        std::map<int, int> vmap;
+        std::vector<int> node_list_raw;
+        for(auto item: vertex_label_list_dict)
+        {
+            int ss = item.second.size();
+            int vidx = item.first;
+            if(ss>1)
+            {
+                cg._vertices.push_back(V.row(vidx));
+                cg._normals.push_back(N.row(vidx));
+                if(ss >2)
+                {
+                    cg._nodes.push_back(count);
+                    node_list_raw.push_back(vidx);
+                }
+                vmap[vidx]= count;
+                count += 1;       
+            }
+        }
+        std::vector<edge> edge_list_raw;
+        build_edge_list_loop(V, F, FL, cg.label_num, edge_list_raw,cg._patch_edge_dict, cg._patch_edge_direction_dict, cg.root_cell);
         
-        // for(auto edg_raw: edge_list_raw)
-        // {
-        //     edge edg = edg_raw;
-        //     edg._edge_vertices.clear();
-        //     for(auto vidx_raw: edg_raw._edge_vertices)
-        //     {
-        //         edg._edge_vertices.push_back(vmap.at(vidx_raw));
-        //     }
-        //     edg.head = vmap.at(edg_raw.head);
-        //     edg.tail = vmap.at(edg_raw.tail);
-        //     cg._edge_list.push_back(edg);
-        // }
+        for(auto edg_raw: edge_list_raw)
+        {
+            edge edg = edg_raw;
+            edg._edge_vertices.clear();
+            for(auto vidx_raw: edg_raw._edge_vertices)
+            {
+                edg._edge_vertices.push_back(vmap.at(vidx_raw));
+            }
+            edg.head = vmap.at(edg_raw.head);
+            edg.tail = vmap.at(edg_raw.tail);
+            cg._edge_list.push_back(edg);
+        }
 
-        // _gen_node_CCedges_dict(V, F, edge_list_raw, node_list_raw, cg._node_edge_dict);
+        _gen_node_CCedges_dict(V, F, edge_list_raw, node_list_raw, cg._node_edge_dict);
 
         return cg;
     }

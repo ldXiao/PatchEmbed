@@ -1,3 +1,119 @@
+// #include "MatchMakerDynamic.h"
+// #include "TraceComplex.h"
+// #include "Kruskal.h"
+// #include <igl/triangle_triangle_adjacency.h>
+// #include <igl/adjacency_list.h>
+// #include <igl/vertex_triangle_adjacency.h>
+// #include <igl/writeDMAT.h>
+// #include <igl/writeOBJ.h>
+// #include <utility>
+// #include <list>
+// namespace bcclean{
+// namespace MatchMaker{
+
+//     void build_dual_frame_graph(
+//         const std::vector<bcclean::edge> edge_list,
+//         std::vector<std::pair<int, std::pair<int, int> > > & dual_frame_graph
+//     )
+//     {
+//         dual_frame_graph.clear();
+//         int edge_idx = 0;
+//         for(auto edge: edge_list)
+//         {
+//             dual_frame_graph.push_back(std::make_pair(edge_idx, edge._label_pair));
+//             edge_idx++;
+//         }
+//         return;
+//     }
+
+//     bool MatchMakerDynamic(
+//         const CellularGraph & cg,
+//         const params & param,
+//         Eigen::MatrixXd & V_good,
+//         Eigen::MatrixXi & F_good,
+//         Eigen::VectorXi & FL_good
+//     )
+//     {
+//         // initialize the tracecomplex
+//         TraceComplex TC;
+//         TC.V = V_good;
+//         TC.F = F_good;
+//         TC.FL = FL_good;
+//         TC.edge_path_map = std::map<int, std::vector<int> >();
+//         igl::triangle_triangle_adjacency(TC.F, TC.TT);
+//         igl::adjacency_list(TC.F, TC.VV);
+//         std::vector<std::vector<int > > VFi;
+//         igl::vertex_triangle_adjacency(TC.V, TC.F, TC.VF, VFi);
+//         {
+//             std::vector<std::vector<int> > VEdges_good(V_good.rows());
+//             std::vector<std::vector<int> > TEdges_good(F_good.rows());
+//             for(int count =0; count <V_good.rows(); ++ count)
+//             {
+//                 VEdges_good[count] = std::vector<int>();
+//             }
+//             for(int fcount = 0; fcount  < F_good.rows(); ++fcount)
+//             {   
+//                 TEdges_good[fcount] = {-1, -1, -1};
+//             }
+//             TC.VEdges = VEdges_good;
+//             TC.TEdges = TEdges_good;
+//         }
+
+
+
+//         std::vector<std::pair<int, std::pair<int, int> > > dual_frame_graph;
+//         build_dual_frame_graph(cg._edge_list, dual_frame_graph);
+//         std::vector<int> patch_order = Algo::Graph_BFS(dual_frame_graph, cg.root_cell);
+        
+
+//          std::vector<int> total_silence_list;
+//          std::map<int , std::map<int, bool> > node_edge_visit_dict;
+//         for(auto nd: cg._nodes)
+//         {
+//             for(auto q: cg._node_edge_dict.at(nd))
+//             {
+//                 node_edge_visit_dict[nd][q]=false;
+//             }
+//         }
+//         std::map<int, bool> edge_visit_dict;
+//         int kkk = 0;
+//         for(auto edg: cg._edge_list)
+//         {
+//             edge_visit_dict[kkk]= false;
+//             kkk++;
+//         }
+//         std::list<int> patch_queue(patch_order.begin(), patch_order.end());
+//         std::list<int> recycle;
+//         int switch_count = 0; // record whether recycle and patch_queue has been switched;
+//         double bcthreshold = param.backtrack_threshold;
+//         while(! patch_queue.empty())
+//         {
+//             TraceComplex TC_copy = TC;
+//             std::map<int, bool> edge_visit_dict_copy = edge_visit_dict;
+//             std::map<int , std::map<int, bool> > node_edge_visit_dict_copy = node_edge_visit_dict; 
+//             std::vector<int> total_silence_list_copy = total_silence_list;
+
+
+//             int patch_idx = patch_queue.front();
+//             patch_queue.pop_front();
+//             if(param.debug)
+//             {
+//                 igl::writeDMAT(param.data_root+"/cur_patch.dmat", Eigen::VectorXi::Constant(1,patch_idx));
+//             }
+
+//             bool all_edge_traced = true;
+//             for(auto edge_idx: cg._patch_edge_dict.at(patch_idx))
+//             {
+//                 if(edge_visit_dict_copy[edge_idx])
+//                 {
+//                     continue;
+//                 }
+
+//             }
+//         }
+//     } 
+// }
+// }
 #include "BTCMM.h"
 #include "Match_Maker_Tree.h"
 #include "Kruskal.h"
@@ -293,6 +409,7 @@ namespace MatchMaker{
         FL_good = Eigen::VectorXi::Constant(F_good.rows(), -1);
         std::vector<std::pair<int, std::pair<int, int> > > dual_frame_graph, dfg;
         CellularGraph cg = CellularGraph::GenCellularGraph(V_bad, F_bad, FL_bad);
+        _build_dual_frame_graph(cg._edge_list, dfg);
         _build_dual_frame_graph(edge_list, dual_frame_graph);
         // std::vector<std::pair<int, std::pair<int, int> > > dual_frame_MST
         //  = Algo::Kruskal_MST(dual_frame_graph);
@@ -684,17 +801,6 @@ namespace MatchMaker{
         }
         if(recycle.empty()) return true;
         else return false;
-    }
-
-    bool BTCMM(
-        const CellularGraph & cg,
-        Eigen::MatrixXd & V_good, 
-        Eigen::MatrixXi & F_good,
-        Eigen::VectorXi & FL_good,
-        const params param 
-    )
-    {
-        return true;
     }
 
 }
