@@ -555,7 +555,7 @@ namespace MatchMaker{
                     bcthreshold
                 );
             }
-            if(!winthinthreshold && !(all_edge_traced))
+            if(!withinthreshold && !(all_edge_traced))
             {
 
 
