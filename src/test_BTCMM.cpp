@@ -283,11 +283,11 @@ int main(int argc, char *argv[]){
                 double err;
                 if(tracing !="dyna") 
                 { 
-                    err = bcclean::Eval::hausdorff1d(bcclean::patch::Vbase, path_bad[item.key()], CCV_good, item.value());
+                    err = bcclean::Eval::hausdorff1d(, path_bad[item.key()], CCV_good, item.value());
                 } 
                 else
                 {
-                    err = bcclean::Eval::hausdorff1d(cg._vertices, path_bad[item.key()], CCV_good, item.value());
+                    err = bcclean::Eval::hausdorff1d(bcclean::patch::Vbase, path_bad[item.key()], CCV_good, item.value());
                 }
                 if(max_error< err)
                 {
