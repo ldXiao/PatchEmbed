@@ -225,12 +225,20 @@ int main(int argc, char *argv[]){
             }
         }
         result_json["consistant topology"] = true;
-         
+
         if(param.upsp> 0)
         {
             igl::upsample(CCV_good, CCF_good, param.upsp);
         }
         result_json["upsp"]= param.upsp;
+        int label_num = bcclean::patch::FL_mod.maxCoeff()+1;
+        if(label_num == 1)
+        {
+            result_json["succeed"] = true;
+            result_json["maxerr"] = -1;
+            o3 << result_json;
+            continue;
+        }
         bool succeed= false;
         bcclean::params param_copy = param;
         param_copy.data_root = CC_work_dir;
