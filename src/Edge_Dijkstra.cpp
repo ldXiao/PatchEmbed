@@ -86,15 +86,15 @@ namespace Trace{
             }
         }
         int pp = target;
-        assert(pp!= -1);
+        // assert(pp!= -1);
         path.clear();
         while(pp!= -1)
         {
             path.push_back(pp);
             pp = prev[pp];
         }
-        assert(path.size()>=2);
-        assert(path[path.size()-1]== source);
+        // assert(path.size()>=2);
+        // assert(path[path.size()-1]== source);
         return;
     }
 
