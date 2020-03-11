@@ -205,11 +205,12 @@ namespace bcclean{
                     node_list_raw.push_back(vidx);
                 }
                 vmap[vidx]= count;
+                cg._ivmap[count]=vidx;
                 count += 1;       
             }
         }
         std::vector<edge> edge_list_raw;
-        build_edge_list_loop(V, F, FL, cg.label_num, edge_list_raw,cg._patch_edge_dict, cg._patch_edge_direction_dict, cg.root_cell);
+        build_edge_list_loop(V, F, FL, cg.label_num, edge_list_raw, cg._patch_edge_dict, cg._patch_edge_direction_dict, cg.root_cell);
         
         for(auto edg_raw: edge_list_raw)
         {
@@ -233,6 +234,7 @@ namespace bcclean{
                 cg._node_edge_dict[vmap.at(item.first)].push_back(vmap.at(vraw));
             }
         }
+        cg._vmap = vmap;
 
         return cg;
     }

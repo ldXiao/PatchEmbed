@@ -282,8 +282,15 @@ namespace MatchMaker{
             json path_json_bad;
             int edg_idx =0;
             for(auto edg: cg._edge_list)
-            {
-                path_json_bad[std::to_string(edg_idx)]= edg._edge_vertices;
+            {   
+
+
+                std::vector<int> path_raw;
+                for(auto vidx: edg._edge_vertices)
+                {
+                    path_raw.push_back(cg._ivmap.at(vidx));
+                }
+                path_json_bad[std::to_string(edg_idx)]= path_raw;
                 edg_idx += 1;
             }
             std::ofstream file;
