@@ -170,7 +170,7 @@ namespace MatchMaker{
             
             igl::writeDMAT(param.data_root+"/source_target.dmat",source_target);
         }
-        assert(path.size()>=2);
+        // assert(path.size()>=2);
         if(path.size()<2)
         {
             std::cout << "for path" << edge_idx << std::endl;
