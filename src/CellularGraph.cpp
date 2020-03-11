@@ -171,6 +171,9 @@ namespace bcclean{
     )
     {
         CellularGraph cg;
+        cg.V =  V;
+        cg.F = F;
+        cg.FL = FL; 
         cg.label_num = FL.maxCoeff()+1;
         std::vector<std::vector<int>> VF; // vertex - face index list
         {

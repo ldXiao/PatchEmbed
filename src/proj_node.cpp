@@ -470,4 +470,135 @@ namespace bcclean {
         
         
     }
+
+
+    void proj_node_loop(
+        const CellularGraph & cg,
+        const int & node_bad, // indices into Vbad
+        const std::vector<int> & node_list_good, // nodes to exclude
+        Eigen::MatrixXi & TT_good, // connectivity info
+        std::vector<std::vector<int> > & VV_good,// connectivity info
+        std::vector<std::vector<int> > & TEdges_good,
+        std::vector<std::vector<int> > & VEdges_good, //edge vertices to exclude
+        Eigen::MatrixXd & Vgood,
+        Eigen::MatrixXi & Fgood,
+        Eigen::VectorXi & FL_good,
+        int & node_image
+    )
+    {
+
+        node_image = -1;
+        Eigen::MatrixXd node_normal;
+        Eigen::MatrixXd node_v;
+        {
+            //
+            // slice the N into node_normal;
+            node_normal=Eigen::MatrixXd::Zero(1, 3);
+            node_v=Eigen::MatrixXd::Zero(1, 3);
+
+
+            node_normal.row(0) = cg._normals[node_bad];
+            node_v.row(0) = cg._vertices[node_bad];
+        }
+        Eigen::MatrixXd Vgood_copy = Vgood;
+        Eigen::MatrixXd RR = igl::embree::line_mesh_intersection(node_v, node_normal, Vgood, Fgood);
+        std::vector<int> node_losers;
+
+        Eigen::MatrixXd bc = RR.row(0);
+        int fidx = std::round(bc(0,0));
+        std::vector<int> visit_list;
+        // build a kdtree 
+        Eigen::MatrixXd Centers;
+        igl::barycenter(Vgood, Fgood, Centers);
+        kd_tree_Eigen<double> kdt(Centers.cols(),std::cref(Centers),10);
+        kdt.index->buildIndex();
+        Eigen::RowVector3d query = cg._vertices[node_bad];
+        int nnidx= kd_tree_NN_Eigen(kdt, query);
+        double d0 = std::max((query-Vgood.row(Fgood(nnidx,0))).norm(), 1e-7);
+        double d1 = std::max((query-Vgood.row(Fgood(nnidx,1))).norm(),1e-7);
+        double d2 = std::max((query-Vgood.row(Fgood(nnidx,2))).norm(),1e-7);
+        double dnnbc = (query-Centers.row(nnidx)).norm();
+        Eigen::MatrixXd nnbc = bc;
+        nnbc(0,0)= nnidx;
+        double reverse_sum = (1.1/d0)+(1.1/d1)+(1.1/d2);
+        nnbc(0,1)= ((1.1)/d1)/(reverse_sum);
+        nnbc(0,2) =(1.1/d2)/reverse_sum;
+        if(fidx == -1)
+        {
+            fidx = nnidx;
+            bc = nnbc;
+        }
+        else 
+        {
+            double dproj = (query-Centers.row(fidx)).norm();
+            if(dproj > 3 * dnnbc)
+            {
+                // proj error is too large
+                // choose nn 
+                fidx = nnidx;
+                bc = nnbc;
+            }
+        }
+        if(FL_good(fidx)!= -1)
+        {
+            // triangle occupied
+            // search for nonoccupied triangle and choose the nearset non-boundary vertice
+            // we can assume for each triangle at least one vertice is not on boundary
+            int target_face=-1;
+            std::queue<int> search_queue;
+            search_queue.push(fidx);
+            while(search_queue.size()!=0){
+                int cur_face = search_queue.front();
+                search_queue.pop(); // remove head
+                visit_list.push_back(cur_face);
+                Eigen::RowVector3i adjs = TT_good.row(cur_face);
+                for(int j =0 ; j <3 ; ++j){
+                    int face_j = adjs(j);
+                    if(face_j == -1) {
+                        continue;
+                    }
+                    if(FL_good(face_j)!= -1)
+                    {
+                        if(std::find(visit_list.begin(), visit_list.end(), face_j)== visit_list.end())
+                        {
+                            // not visited before
+                            search_queue.push(face_j);
+                        }   
+                    }
+                    else
+                    {
+                        target_face = face_j;
+                    }
+                }
+                if(target_face!= -1){break;}
+            }
+
+            // we can assume at least one of the vertices in target_face is not on Cut
+            for(auto vv: {0,1,2})
+            {
+                int vvidx = Fgood(target_face,vv);
+                bool not_path = VEdges_good[vvidx].empty();
+                bool not_node = (std::find(node_list_good.begin(), node_list_good.end(),Fgood(target_face,vv))==node_list_good.end());
+                if(
+                    not_path 
+                    && 
+                    not_node
+                )
+                {
+                    node_image = Fgood(target_face,vv);
+                    break;
+                }
+            }
+            assert(node_image!= -1);
+            return;
+        }   
+        else
+        {
+            // triangle nonoccupied
+            int nvidx = insertV_baryCord(node_list_good, bc, Vgood, Fgood, FL_good, TT_good, VV_good, TEdges_good, VEdges_good);
+            // node_list_return.push_back(nvidx);
+            node_image = nvidx;
+        }
+        
+    }
 }

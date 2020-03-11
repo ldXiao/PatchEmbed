@@ -11,6 +11,9 @@ namespace bcclean{
         public:
         int label_num;
         int root_cell;
+        Eigen::MatrixXd V;
+        Eigen::MatrixXi F;
+        Eigen::VectorXi FL;
         std::vector<Eigen::RowVector3d> _vertices;
         std::vector<Eigen::RowVector3d> _normals;
         std::vector<int> _nodes;
