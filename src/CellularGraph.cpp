@@ -228,10 +228,12 @@ namespace bcclean{
         _gen_node_CCedges_dict(V, F, edge_list_raw, node_list_raw, node_edge_dict_raw);
         for(auto item: node_edge_dict_raw)
         {
-            cg._node_edge_dict[vmap.at(item.first)] = std::vector<int>();
-            for(auto vraw: item.second)
+            int nd_raw = item.first;
+            int nd = vmap.at(nd_raw);
+            cg._node_edge_dict[nd] = std::vector<int>();
+            for(auto eidx: item.second)
             {
-                cg._node_edge_dict[vmap.at(item.first)].push_back(vmap.at(vraw));
+                cg._node_edge_dict[nd].push_back(eidx);
             }
         }
         cg._vmap = vmap;
