@@ -11,11 +11,11 @@ namespace Eval{
             const std::vector<int> & pathB
         );  
         
-        double haursdorff1d(
-        const std::vecotr<Eigen::RowVector3d> & VA,
-        const std::vector<int> & pathA,
-        const Eigen::MatrixXd & VB,
-        const std::vector<int> & pathB
+        double hausdorff1d(
+            const std::vector<Eigen::RowVector3d> & VA,
+            const std::vector<int> & pathA,
+            const Eigen::MatrixXd & VB,
+            const std::vector<int> & pathB
         );
 
         
