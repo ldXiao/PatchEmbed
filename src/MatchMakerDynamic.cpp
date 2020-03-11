@@ -18,58 +18,58 @@ namespace bcclean{
 namespace MatchMaker{
     using json = nlohmann::json;
 
-    bool check_problematic_patch(
-        const Eigen::MatrixXd & V,
-        const std::unordered_map<int, std::vector<int> > & patch_edge_dict,
-        const std::map<int, std::vector<int> > & patch_node_dict,
-        const std::vector<edge> & edge_list,
-        const int patch_idx,
-        const double & bound
-    )
-    {
-        double mindis = std::numeric_limits<double>::max();
-        std::vector<int> node_list_p = patch_node_dict.at(patch_idx);
-        std::vector<int> edge_list_p = patch_edge_dict.at(patch_idx);
-        // case 0 if there is only 2 nodes in this patch(loop)
-        // we directly compare the hausdorff distance between the two edges
-        assert(edge_list_p.size()>1);
-        if(edge_list_p.size()==2)
-        {
-            int edgidxA = edge_list_p.at(0);
-            int edgidxB = edge_list_p.at(1);
-            std::vector<int> pathA = edge_list.at(edgidxA)._edge_vertices;
-            std::vector<int> pathB = edge_list.at(edgidxB)._edge_vertices;
-            mindis = Eval::hausdorff1d(V, pathA, V, pathB);
-            if(mindis < bound)
-            {
-                return true;
-            }
-        }
-        else{
+    // bool check_problematic_patch(
+    //     const Eigen::MatrixXd & V,
+    //     const std::unordered_map<int, std::vector<int> > & patch_edge_dict,
+    //     const std::map<int, std::vector<int> > & patch_node_dict,
+    //     const std::vector<edge> & edge_list,
+    //     const int patch_idx,
+    //     const double & bound
+    // )
+    // {
+    //     double mindis = std::numeric_limits<double>::max();
+    //     std::vector<int> node_list_p = patch_node_dict.at(patch_idx);
+    //     std::vector<int> edge_list_p = patch_edge_dict.at(patch_idx);
+    //     // case 0 if there is only 2 nodes in this patch(loop)
+    //     // we directly compare the hausdorff distance between the two edges
+    //     assert(edge_list_p.size()>1);
+    //     if(edge_list_p.size()==2)
+    //     {
+    //         int edgidxA = edge_list_p.at(0);
+    //         int edgidxB = edge_list_p.at(1);
+    //         std::vector<int> pathA = edge_list.at(edgidxA)._edge_vertices;
+    //         std::vector<int> pathB = edge_list.at(edgidxB)._edge_vertices;
+    //         mindis = Eval::hausdorff1d(V, pathA, V, pathB);
+    //         if(mindis < bound)
+    //         {
+    //             return true;
+    //         }
+    //     }
+    //     else{
             
-            for(auto ndidx: node_list_p)
-            {
-                std::vector<int> nadj_edges; // nonadjacent_edges of the node
-                for(auto edgidx:edge_list_p)
-                {
-                    const edge &  edg = edge_list.at(edgidx);
-                    if(edg.head != ndidx && edg.tail  != ndidx)
-                    {
-                        mindis = std::min(mindis, Eval::single_sample_trial(V, edg._edge_vertices, V, ndidx));
-                    }
-                }
-            }
-            if(mindis < bound)
-            {
-                return true;
-            }
-            else return false;
+    //         for(auto ndidx: node_list_p)
+    //         {
+    //             std::vector<int> nadj_edges; // nonadjacent_edges of the node
+    //             for(auto edgidx:edge_list_p)
+    //             {
+    //                 const edge &  edg = edge_list.at(edgidx);
+    //                 if(edg.head != ndidx && edg.tail  != ndidx)
+    //                 {
+    //                     mindis = std::min(mindis, Eval::single_sample_trial(V, edg._edge_vertices, V, ndidx));
+    //                 }
+    //             }
+    //         }
+    //         if(mindis < bound)
+    //         {
+    //             return true;
+    //         }
+    //         else return false;
 
-        }
-    }
+    //     }
+    // }
 
 
-    void _build_dual_frame_graph(
+    void build_dual_frame_graph(
         const std::vector<bcclean::edge> edge_list,
         std::vector<std::pair<int, std::pair<int, int> > > & dual_frame_graph
     )
@@ -132,7 +132,7 @@ namespace MatchMaker{
             for(auto item: cg._node_edge_dict)
             {
                 if(node_image_dict.find(item.first)!=node_image_dict.end()){
-                    node_edge_dict_temp[node_image_dict.at(item.first)] = node_edge_dict.at(item.first);
+                    node_edge_dict_temp[node_image_dict.at(item.first)] = cg._node_edge_dict.at(item.first);
                     node_edge_visit_dict_temp[node_image_dict.at(item.first)] = node_edge_visit_dict.at(item.first);
                 }
             }
@@ -148,10 +148,9 @@ namespace MatchMaker{
                 edge_idx,
                 VV_temp);
         }
-        setWeights(V_good, V_bad, edg, 10, 1,  Weights);
         // the Weights is vertex based
         Eigen::SparseMatrix<double> SpWeight;
-        Trace::setWeight(V_good, F_good, V_bad, F_bad,edg, SpWeight);
+        Trace::setWeight1(V_good, F_good, cg._vertices,edg, SpWeight);
         // dijkstra_trace(....,VEdges, TEdges);
         std::vector<int> path;
         Trace::Edge_Dijkstra(VV_temp,source,target, SpWeight, path);
@@ -250,6 +249,10 @@ namespace MatchMaker{
     }
 
 
+
+
+
+
     bool BTCMM1(
         const CellularGraph & cg,
         Eigen::MatrixXd & V_good,
@@ -266,8 +269,8 @@ namespace MatchMaker{
         int total_label_num = cg.label_num;
         // PART 0 GET THE FRAME ON BAD MESH
         std::vector<bcclean::edge> edge_list = cg._edge_list;
-        std::unordered_map<int, std::vector<int> > patch_edge_dict;
-        std::unordered_map<int, std::vector<bool> > patch_edge_direction_dict;
+        // std::unordered_map<int, std::vector<int> > patch_edge_dict;
+        // std::unordered_map<int, std::vector<bool> > patch_edge_direction_dict;
         if(param.debug)
         {
             igl::writeOBJ(param.data_root+"/debug_mesh_bad.obj", cg.V, cg.F);
@@ -290,7 +293,7 @@ namespace MatchMaker{
         FL_good = Eigen::VectorXi::Constant(F_good.rows(), -1);
         std::vector<std::pair<int, std::pair<int, int> > > dual_frame_graph, dfg;
         // CellularGraph cg = CellularGraph::GenCellularGraph(V_bad, F_bad, FL_bad);
-        _build_dual_frame_graph(cg._edge_list, dual_frame_graph);
+        build_dual_frame_graph(cg._edge_list, dual_frame_graph);
         // std::vector<std::pair<int, std::pair<int, int> > > dual_frame_MST
         //  = Algo::Kruskal_MST(dual_frame_graph);
         // std::vector<int> patch_order = Algo::MST_BFS(dual_frame_MST);
@@ -302,7 +305,7 @@ namespace MatchMaker{
             {
                 int ptidx = item.first;
                 patch_node_dict[ptidx] = std::vector<int>();
-                for(auto edgidx: patch_edge_dict[ptidx])
+                for(auto edgidx: cg._patch_edge_dict.at(ptidx))
                 {
                     int head = cg._edge_list[edgidx].head;
                     int tail = cg._edge_list[edgidx].tail;
@@ -480,7 +483,7 @@ namespace MatchMaker{
                 {
                     proj_node_loop(
                         cg,
-                        source_bad,
+                        target_bad,
                         node_list_good,
                         TT_good,
                         VV_good,
@@ -489,7 +492,7 @@ namespace MatchMaker{
                         V_good,
                         F_good,
                         FL_good,
-                        source
+                        target
                     );
                     assert(target!= -1);
                     node_image_dict[target_bad]=target;
@@ -511,7 +514,7 @@ namespace MatchMaker{
 
                 //
                 if(!BTCMM1_for_edge(
-                    cg
+                    cg,
                     node_list_good, 
                     node_image_dict, 
                     edge_idx, 
@@ -525,12 +528,164 @@ namespace MatchMaker{
                     node_edge_visit_dict, 
                     edge_path_map, 
                     path_json,
-                    param)) return false;
-
+                    param)) 
+                    {
+                        return false;
+                    }
             
             }
-        }
+            if(!backtrack_diff(
+                V_good,
+                cg,
+                patch_idx,
+                edge_path_map,
+                bcthreshold
+            ) && !(all_edge_traced))
+            {
 
+
+
+
+                // the traced patch error is larget than the backtrack_threshold
+                // abort the result in this loop
+                recycle.push_back(patch_idx);
+                // reverse copy everything
+                std::cout << "patch" << patch_idx << "postponed" << std::endl;
+
+                /* copy part*/
+                /* copy part */
+                F_good= F_good_copy;
+                V_good= V_good_copy;
+                VV_good= VV_good_copy;
+                FL_good = FL_good_copy;
+                TEdges_good = TEdges_good_copy;
+                VEdges_good = VEdges_good_copy;
+                node_list_good = node_list_good_copy;
+                node_image_dict =node_image_dict_copy;
+                path_json = path_json_copy;
+                edge_visit_dict = edge_visit_dict_copy ;
+                node_edge_visit_dict = node_edge_visit_dict_copy; 
+                edge_path_map = edge_path_map_copy;
+                total_silence_list = total_silence_list_copy;
+                assert(F_good.rows() == FL_good.rows());
+            }
+             else
+            {
+                // one loop patch finished
+                // colorize FL_good with label patch_idx
+                int stem_edge = cg._patch_edge_dict.at(patch_idx)[0];
+                int v0, v1;
+                v0 = edge_path_map[stem_edge][0];
+                v1 = edge_path_map[stem_edge][1];
+                std::vector<std::vector<int> > VF_good;
+                {
+                    std::vector<std::vector<int> > VFi_good;
+                    igl::vertex_triangle_adjacency(V_good, F_good, VF_good, VFi_good);
+                }
+                bool directionCC = cg._patch_edge_direction_dict.at(patch_idx)[0];
+                std::vector<int> inter(VF_good[v0].size()+ VF_good[v1].size());
+                auto it = std::set_intersection(VF_good[v0].begin(), VF_good[v0].end(), VF_good[v1].begin(), VF_good[v1].end(), inter.begin());
+                inter.resize(it-inter.begin());
+                assert(inter.size()==2);
+                int ffa = inter[0];
+                int ffb = inter[1];
+                bool ffa_coline = false; 
+                for(int j: {0,1,2})
+                {
+                    if(F_good(ffa,j)==v0 && F_good(ffa,(j+1)% 3)==v1)
+                    {
+                        ffa_coline=true;
+                        break;
+                    }
+                }
+                int ff_in;
+                if(ffa_coline != directionCC)
+                {
+                    ff_in = ffa;
+                }
+                else
+                {
+                    ff_in = ffb;
+                }
+                loop_colorize(V_good, F_good, TEdges_good, ff_in, patch_idx, FL_good);
+                if(param.debug)
+                {
+                    assert(F_good.rows()==FL_good.rows());
+                    igl::writeOBJ(param.data_root+"/debug_mesh.obj", V_good, F_good);
+                    igl::writeDMAT(param.data_root+"/FL_loop.dmat", FL_good);
+                }
+
+                // loop over patch_queue and  recycle to find patches that where all edges has been traced
+                // and place them at the front of patch_queue
+                std::vector<int> q_relocate_list;
+                std::vector<int> r_relocate_list;
+                for(auto pidx: patch_queue)
+                {
+                    bool p_finished = true;
+                    for(auto eidx: cg._patch_edge_dict.at(pidx))
+                    {
+                        if(!edge_visit_dict.at(eidx))
+                        {
+                            p_finished = false;
+                            break;
+                        }
+                    }
+                    if(p_finished)
+                    {
+                        q_relocate_list.push_back(pidx);
+                    }
+                }
+               for(auto pidx: recycle)
+                {
+                    bool p_finished = true;
+                    for(auto eidx: cg._patch_edge_dict.at(pidx))
+                    {
+                        if(!edge_visit_dict.at(eidx))
+                        {
+                            p_finished = false;
+                            break;
+                        }
+                    }
+                    if(p_finished)
+                    {
+                        r_relocate_list.push_back(pidx);
+                    }
+                } 
+                for(auto pidx: q_relocate_list)
+                {
+                    patch_queue.remove(pidx);
+                }
+                for(auto pidx: r_relocate_list)
+                {
+                    recycle.remove(pidx);
+                }
+                for(auto pidx: q_relocate_list)
+                {
+                    patch_queue.push_front(pidx);
+                }
+                for(auto pidx: r_relocate_list)
+                {
+                    patch_queue.push_front(pidx);
+                }
+
+            }
+            if(patch_queue.empty() && !recycle.empty())
+            {
+                // if it is still empty after relocation 
+                // switch recycle and patch_queue
+                if(switch_count < 8)
+                {
+                    std::list<int> temp = recycle;
+                    recycle = patch_queue;
+                    patch_queue = temp;
+                    bcthreshold = 1.5 * bcthreshold;
+                    switch_count +=1;
+                }
+            }
+
+        }
+        if(recycle.empty()) return true;
+        else return false;
 
 
 

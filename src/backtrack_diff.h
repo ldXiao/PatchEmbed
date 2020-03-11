@@ -5,6 +5,7 @@
 #include <unordered_map>
 #include <vector>
 #include "edge.h"
+#include "CellularGraph.h"
 namespace bcclean{
 namespace MatchMaker{
     bool backtrack_diff(
@@ -14,6 +15,14 @@ namespace MatchMaker{
         const std::unordered_map<int, std::vector<int> > & patch_edge_dict,
         const std::vector<edge> & edge_list,
         const std::unordered_map<int, std::vector<bool> > & patch_edge_direction_dict,
+        const std::map<int, std::vector<int> > & edge_path_map,
+        const double threshold
+    );
+
+    bool backtrack_diff(
+        const Eigen::MatrixXd & V_good,
+        const CellularGraph & cg,
+        const int pidx,
         const std::map<int, std::vector<int> > & edge_path_map,
         const double threshold
     );

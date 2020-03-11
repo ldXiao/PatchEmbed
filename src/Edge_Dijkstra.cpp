@@ -55,6 +55,7 @@ namespace Trace{
         Weights.setFromTriplets(ww.begin(), ww.end());
         return;
     }
+
     void Edge_Dijkstra(
         const std::vector<std::vector<int> > & VV,
         const int source,
@@ -94,6 +95,53 @@ namespace Trace{
         }
         assert(path.size()>=2);
         assert(path[path.size()-1]== source);
+        return;
+    }
+
+    void setWeight1(
+        const Eigen::MatrixXd & V,
+        const Eigen::MatrixXi & F,
+        const std::vector<Eigen::RowVector3d> & V_bad,
+        const edge & edg,
+        Eigen::SparseMatrix<double> & Weights
+    )
+    {
+        std::vector<Eigen::Triplet<double>> ww;
+        Eigen::MatrixXi Edges;
+        igl::edges(F, Edges);
+        Weights.resize(V.rows(), V.rows());
+        int upratio = 10;
+        int power=1;
+        std::vector<int> Elist = edg._edge_vertices;
+        // arc length upsample of
+        int target_num = upratio * (Elist.size()-1) + 1;
+        Eigen::MatrixXd sample(target_num, 3);
+        for(int jj =0 ; jj < target_num ; ++jj)
+        {
+            int batch = (int)(jj / upratio);
+            int remain = jj % upratio;
+            if(remain == 0) 
+            {
+                sample.row(jj) = V_bad[Elist[batch]];
+            }
+            else
+            {
+                double lambda = (double)(remain) / (double)(upratio);
+                sample.row(jj) = (1-lambda)* V_bad[Elist[batch]] + lambda* V_bad[Elist[batch+1]];
+            }
+        }
+        kd_tree_Eigen<double> sample_kdt(sample.cols(),std::cref(sample),10);
+        sample_kdt.index->buildIndex();
+        for(int eidx = 0 ; eidx < Edges.rows(); eidx++)
+        {
+            int x= Edges(eidx, 0);
+            int y = Edges(eidx,1);
+            Eigen::RowVector3d query = (V.row(x) + V.row(y)) * 0.5 ;
+            int sample_idx= kd_tree_NN_Eigen(sample_kdt, query);
+            double dis = pow((query - sample.row(sample_idx)).norm(), power);
+            ww.emplace_back(std::min(x,y), std::max(x,y),dis);
+        }
+        Weights.setFromTriplets(ww.begin(), ww.end());
         return;
     }
 }

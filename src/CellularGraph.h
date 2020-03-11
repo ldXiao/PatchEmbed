@@ -18,7 +18,7 @@ namespace bcclean{
         std::vector<Eigen::RowVector3d> _normals;
         std::vector<int> _nodes;
         std::vector<edge> _edge_list;
-        std::unordered_map<int, std::vector<int> > _patch_edge_dict; // Counter clock wise
+        std::unordered_map<int, std::vector<int> >  _patch_edge_dict; // Counter clock wise
         std::unordered_map<int, std::vector<bool> > _patch_edge_direction_dict;
         std::map<int, std::vector<int> > _node_edge_dict; // counter clock wise
         static CellularGraph GenCellularGraph(

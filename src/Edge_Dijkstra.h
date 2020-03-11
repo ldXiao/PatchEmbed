@@ -18,12 +18,21 @@ namespace Trace{
         const edge & edg,
         Eigen::SparseMatrix<double> & Weights
     );
+
     void Edge_Dijkstra(
         const std::vector<std::vector<int> > & VV,
         const int source,
         const int target,
         const Eigen::SparseMatrix<double> & Weights,
         std::vector<int> & path
+    );
+
+    void setWeight1(
+        const Eigen::MatrixXd & V,
+        const Eigen::MatrixXi & F,
+        const std::vector<Eigen::RowVector3d> & V_bad,
+        const edge & edg,
+        Eigen::SparseMatrix<double> & Weights
     );
 }
 }

@@ -30,6 +30,7 @@
 #include "params.h"
 #include "orientation_check.h"
 #include "CellularGraph.h"
+#include "MatchMakerDynamic.h"
 #include <cxxopts.hpp>
 #include <nlohmann/json.hpp>
 #include <unordered_map>
@@ -233,7 +234,7 @@ int main(int argc, char *argv[]){
         bool succeed= false;
         bcclean::params param_copy = param;
         param_copy.data_root = CC_work_dir;
-        // bcclean::CellularGraph cg = bcclean::CellularGraph::GenCellularGraph(bcclean::patch::Vbase, bcclean::patch::Fbase, bcclean::patch::FL_mod);
+        
         if(tracing=="loop"){
             try{
             succeed=bcclean::MatchMaker::BTCMM(bcclean::patch::Vbase, bcclean::patch::Fbase, bcclean::patch::FL_mod, CCV_good, CCF_good, CCFL_good, param_copy);
@@ -247,6 +248,19 @@ int main(int argc, char *argv[]){
         {
             try{
             succeed=bcclean::MatchMaker::trace_and_label(bcclean::patch::Vbase, bcclean::patch::Fbase, bcclean::patch::FL_mod, CCV_good, CCF_good, CCFL_good, param_copy); 
+            }
+            catch(...)
+            {
+                std::cout<< "failed" <<std::endl;
+                succeed = false;
+            }
+        }
+        else if (tracing == "dyna")
+        {
+            bcclean::CellularGraph cg = bcclean::CellularGraph::GenCellularGraph(bcclean::patch::Vbase, bcclean::patch::Fbase, bcclean::patch::FL_mod);
+
+            try{
+                succeed = bcclean::MatchMaker::BTCMM1(cg,CCV_good, CCF_good, CCFL_good, param_copy);
             }
             catch(...)
             {
@@ -268,7 +282,13 @@ int main(int argc, char *argv[]){
             for(auto item: path_good.items())
             {
                 double err;
-                err = bcclean::Eval::hausdorff1d(bcclean::patch::Vbase, path_bad[item.key()], CCV_good, item.value());
+                if(param.tracing !="dyna") 
+                { 
+                    err = bcclean::Eval::hausdorff1d(bcclean::patch::Vbase, path_bad[item.key()], CCV_good, item.value());
+                } else
+                {
+                    err = bcclean::Eval::hausdorff1d(cg._vertices, path_bad[item.key()], CCV_good, item.value());
+                }
                 if(max_error< err)
                 {
                     max_error = err;
