@@ -1,4 +1,5 @@
 #include "orientation_check.h"
+#include "kdtree_NN_Eigen.hpp"
 #include <igl/per_face_normals.h>
 #include <igl/embree/line_mesh_intersection.h>
 #include <igl/bfs_orient.h>
@@ -11,6 +12,7 @@ namespace bcclean {
     )
     {
         Eigen::MatrixXd BaryCenterA = Eigen::MatrixXd::Constant(FA.rows(), 3, 0);
+        Eigen::MatrixXd BaryCenterB = Eigen::MatrixXd::Constant(FB.rows(), 3, 0);
         for(int j =0; j< FA.rows();++j){
             int ii, jj, kk;
             ii = FA(j,0);
@@ -18,23 +20,33 @@ namespace bcclean {
             kk = FA(j,2);
             BaryCenterA.row(j)= (VA.row(ii)+ VA.row(jj)+ VA.row(kk))/3;
         }
+        for(int j =0; j< FB.rows();++j){
+            int ii, jj, kk;
+            ii = FB(j,0);
+            jj = FB(j,1);
+            kk = FB(j,2);
+            BaryCenterB.row(j)= (VB.row(ii)+ VB.row(jj)+ VB.row(kk))/3;
+        }
+
         Eigen::MatrixXd NA,NB, NAB;
         igl::per_face_normals(VA, FA, NA);
         igl::per_face_normals(VB,FB, NB);
-        NAB = Eigen::MatrixXd::Constant(FA.rows(),3, 0);
-        Eigen::MatrixXd RR = igl::embree::line_mesh_intersection(BaryCenterA, NA, VB, FB);
-        for(int fidx = 0; fidx< FA.rows(); fidx++)
+        kd_tree_Eigen<double> kdt(BaryCenterA.cols(),std::cref(BaryCenterA),10);
+        kdt.index->buildIndex();
+        NAB = Eigen::MatrixXd::Constant(FB.rows(),3, 0);
+        for(int fidx = 0; fidx< FB.rows(); fidx++)
         {
-            int fjdxB = std::round(RR(fidx, 0));
-            if(fjdxB != -1)
+            Eigen::RowVector3d query = BaryCenterB.row(fidx);
+            int fjdxA =kd_tree_NN_Eigen(kdt, query);
+            if(fjdxA != -1)
             {
-                NAB.row(fidx)= NB.row(fjdxB);
+                NAB.row(fidx)= NA.row(fjdxA);
             }
         }
         double vote = 0;
-        for(int fidx =0 ; fidx< FA.rows(); fidx++)
+        for(int fidx =0 ; fidx< FB.rows(); fidx++)
         {
-            double contrib = NAB.row(fidx).dot(NA.row(fidx));
+            double contrib = NAB.row(fidx).dot(NB.row(fidx));
             vote += contrib;
         }
         return (vote > 0);
