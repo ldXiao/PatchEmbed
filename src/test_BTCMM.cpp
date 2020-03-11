@@ -281,14 +281,9 @@ int main(int argc, char *argv[]){
             for(auto item: path_good.items())
             {
                 double err;
-                if(tracing !="dyna") 
-                { 
-                    err = bcclean::Eval::hausdorff1d(, path_bad[item.key()], CCV_good, item.value());
-                } 
-                else
-                {
-                    err = bcclean::Eval::hausdorff1d(bcclean::patch::Vbase, path_bad[item.key()], CCV_good, item.value());
-                }
+                
+                err = bcclean::Eval::hausdorff1d(bcclean::patch::Vbase, path_bad[item.key()], CCV_good, item.value());
+                
                 if(max_error< err)
                 {
                     max_error = err;
