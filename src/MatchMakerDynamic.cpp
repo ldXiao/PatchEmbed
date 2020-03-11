@@ -13,6 +13,7 @@
 #include <igl/bounding_box_diagonal.h>
 #include "Edge_Dijkstra.h"
 #include "CellularGraph.h"
+#include "MatchMakerDynamic.h"
 /* BTCMM means backtracking cellular matchmaker */
 namespace bcclean{
 namespace MatchMaker{
@@ -395,7 +396,7 @@ namespace MatchMaker{
         double bcthreshold = param.backtrack_threshold;
         while(! patch_queue.empty())
         {
-
+            bool curpatch_succ = true;  
             /* copy part */
             Eigen::MatrixXi F_good_copy= F_good;
             Eigen::MatrixXd V_good_copy = V_good;
@@ -537,17 +538,24 @@ namespace MatchMaker{
                     path_json,
                     param)) 
                     {
-                        return false;
+                        // roll back current patch
+                        curpatch_succ = false;
+                        break;
                     }
             
             }
-            if(!backtrack_diff(
-                V_good,
-                cg,
-                patch_idx,
-                edge_path_map,
-                bcthreshold
-            ) && !(all_edge_traced))
+            
+            bool withinthreshold= false; 
+            if(curpatch_succ){
+                withinthreshold=backtrack_diff(
+                    V_good,
+                    cg,
+                    patch_idx,
+                    edge_path_map,
+                    bcthreshold
+                );
+            }
+            if(!winthinthreshold && !(all_edge_traced))
             {
 
 
