@@ -244,8 +244,9 @@ int main(int argc, char *argv[]){
         param_copy.data_root = CC_work_dir;
         bcclean::CellularGraph cg;
         if(tracing=="loop"){
+            cg = bcclean::CellularGraph::GenCellularGraph(bcclean::patch::Vbase, bcclean::patch::Fbase, bcclean::patch::FL_mod);
             try{
-            succeed=bcclean::MatchMaker::BTCMM(bcclean::patch::Vbase, bcclean::patch::Fbase, bcclean::patch::FL_mod, CCV_good, CCF_good, CCFL_good, param_copy);
+                succeed = bcclean::MatchMaker::BTCMM1(cg,CCV_good, CCF_good, CCFL_good, param_copy);
             }
             catch(...)
             {
