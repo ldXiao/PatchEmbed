@@ -23,6 +23,7 @@ namespace MatchMaker{
         void initialize(const Eigen::MatrixXd & Vin, const Eigen::MatrixXi & Fin);
         void insert_update(const Eigen::MatrixXd & baryentry);
         bool split_detect(std::pair<int,int> & split);
+        void splits_detect(std::vector<std::pair<int, int> > & splits);
         void split_update(const std::pair<int, int> & split);
     
     };

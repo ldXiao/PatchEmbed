@@ -226,6 +226,63 @@ namespace MatchMaker
         return false;
     }
 
+    void TraceComplex::splits_detect(std::vector<std::pair<int, int> >& splits)
+    {
+        splits.clear();
+        for(int fidx=0; fidx < _F.rows(); ++fidx){
+            for(int edge_idx=0; edge_idx < 3; ++ edge_idx){
+                bool add = false;
+                int v0 = _F(fidx, edge_idx);
+                int v1 = _F(fidx, (edge_idx+1) % 3);
+                bool nodefind0 = (std::find(_node_list.begin(), _node_list.end(), v0)!= _node_list.end());
+                bool nodefind1 = (std::find(_node_list.begin(), _node_list.end(), v1)!= _node_list.end());
+
+                // if at both them are node and the connecting edge is not on the cut split them
+                if(nodefind0 && nodefind1 && (_TEdges[fidx][edge_idx]== -1))
+                {
+                    int cofidx = _TT(fidx, edge_idx);
+                    assert(cofidx != -1);
+                    if(cofidx != -1){
+                        add = true;
+                    }
+                }
+                // if one of them is node and the other is on cut
+                else if((nodefind0 && _VEdges[v1].size() !=0) ||(nodefind1 && _VEdges[v0].size()!=0))
+                {
+                    if(_TEdges[fidx][edge_idx]== -1)
+                    {
+                        int cofidx = _TT(fidx, edge_idx);
+                        assert(cofidx != -1);
+                        if(cofidx != -1){
+                            add = true;
+                        }
+                    }
+                }
+                // ff both of them are on cut and the line connecting them are not on cut
+                else if((_VEdges[v0].size() !=0) && (_VEdges[v1].size() !=0) && (_TEdges[fidx][edge_idx]== -1)){
+                    int cofidx = _TT(fidx, edge_idx);
+                    assert(cofidx != -1);
+                    if(cofidx != -1){
+                        add = true;
+                    }
+                    // make sure each pair of indices are only pushed once
+                }
+                if(add)
+                {
+                    int vl = std::min(v0, v1);
+                    int vg = std::max(v0, v1);
+                    std::pair<int, int> temp_pair =std::make_pair(vl, vg);
+                    if(std::find(splits.begin(), splits.end(), temp_pair) == splits.end())
+                    {
+                        splits.push_back(temp_pair);
+                    }
+
+                }
+            }
+        }
+
+    }
+
     void TraceComplex::split_update(const std::pair<int,int> & split){
        /*
         split stores pairs of adjacent triangle indices and corresponding vertives that need to be splited

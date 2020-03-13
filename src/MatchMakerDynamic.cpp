@@ -159,13 +159,14 @@ namespace MatchMaker{
             }
         }
 
-        // split_detect
+        // splits_detect
 
-        std::pair<int, int> split;
-        while(tc.split_detect(split))
+        std::vector<std::pair<int, int> > splits;
+        tc.splits_detect(splits);
+        for(auto split : splits)
         {
             // splits_update
-            tc.split_update(split);            
+            tc.split_update(split);
         }
         silence_vertices(tc._VV, tc._total_silence_list);
         tc._edge_path_map[edge_idx] = path;
@@ -357,8 +358,9 @@ namespace MatchMaker{
                     
                     
 
-                    std::pair<int, int> split;
-                    while(tc.split_detect(split))
+                    std::vector<std::pair<int, int> > splits;
+                    tc.splits_detect(splits);
+                    for(auto split : splits)
                     {
                         // splits_update
                         tc.split_update(split);
@@ -371,9 +373,9 @@ namespace MatchMaker{
         
                     proj_node_loop(cg, target_bad, tc, target);
                     assert(target!= -1);
-
-                    std::pair<int, int> split;
-                    while(tc.split_detect(split))
+                    std::vector<std::pair<int, int> > splits;
+                    tc.splits_detect(splits);
+                    for(auto split : splits)
                     {
                         // splits_update
                         tc.split_update(split);
@@ -425,8 +427,9 @@ namespace MatchMaker{
                 tc = tc_copy;
                 edge_visit_dict = edge_visit_dict_copy;
                 node_edge_visit_dict = node_edge_visit_dict;
+                path_json = path_json_copy;
             }
-             else
+            else
             {
                 // one loop patch finished
                 // colorize tc._FL with label patch_idx
