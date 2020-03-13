@@ -20,56 +20,6 @@ namespace bcclean{
 namespace MatchMaker{
     using json = nlohmann::json;
 
-    // bool check_problematic_patch(
-    //     const Eigen::MatrixXd & V,
-    //     const std::unordered_map<int, std::vector<int> > & patch_edge_dict,
-    //     const std::map<int, std::vector<int> > & patch_node_dict,
-    //     const std::vector<edge> & edge_list,
-    //     const int patch_idx,
-    //     const double & bound
-    // )
-    // {
-    //     double mindis = std::numeric_limits<double>::max();
-    //     std::vector<int> node_list_p = patch_node_dict.at(patch_idx);
-    //     std::vector<int> edge_list_p = patch_edge_dict.at(patch_idx);
-    //     // case 0 if there is only 2 nodes in this patch(loop)
-    //     // we directly compare the hausdorff distance between the two edges
-    //     assert(edge_list_p.size()>1);
-    //     if(edge_list_p.size()==2)
-    //     {
-    //         int edgidxA = edge_list_p.at(0);
-    //         int edgidxB = edge_list_p.at(1);
-    //         std::vector<int> pathA = edge_list.at(edgidxA)._edge_vertices;
-    //         std::vector<int> pathB = edge_list.at(edgidxB)._edge_vertices;
-    //         mindis = Eval::hausdorff1d(V, pathA, V, pathB);
-    //         if(mindis < bound)
-    //         {
-    //             return true;
-    //         }
-    //     }
-    //     else{
-            
-    //         for(auto ndidx: node_list_p)
-    //         {
-    //             std::vector<int> nadj_edges; // nonadjacent_edges of the node
-    //             for(auto edgidx:edge_list_p)
-    //             {
-    //                 const edge &  edg = edge_list.at(edgidx);
-    //                 if(edg.head != ndidx && edg.tail  != ndidx)
-    //                 {
-    //                     mindis = std::min(mindis, Eval::single_sample_trial(V, edg._edge_vertices, V, ndidx));
-    //                 }
-    //             }
-    //         }
-    //         if(mindis < bound)
-    //         {
-    //             return true;
-    //         }
-    //         else return false;
-
-    //     }
-    // }
-
 
     void build_dual_frame_graph(
         const std::vector<bcclean::edge> edge_list,
@@ -90,37 +40,20 @@ namespace MatchMaker{
     bool BTCMM1_for_edge(
         const CellularGraph & cg,
         TraceComplex & tc,
-        const std::vector<int> & node_list_good,
-        const std::map<int, int> & node_image_dict,
         const int edge_idx,
-        Eigen::MatrixXd & V_good,
-        Eigen::MatrixXi & F_good,
-        Eigen::VectorXi & FL_good,
-        std::vector<std::vector<int> > & VV_good,
-        std::vector<std::vector<int> > & VEdges_good,
-        std::vector<std::vector<int> > & TEdges_good,
-        std::vector<int> & total_silence_list,
         std::map<int, std::map<int, bool> > & node_edge_visit_dict,
-        std::map<int, std::vector<int> > & edge_path_map,
         json & path_json,
         const params param
     )
     {
-        double normdiff = (F_good- tc._F).norm(); 
-        Eigen::MatrixXi TT_good;
-        std::vector<std::vector<int> > VF_good;
-        igl::triangle_triangle_adjacency(F_good, TT_good);
-        {
-            std::vector<std::vector<int> > VFi_good;
-            igl::vertex_triangle_adjacency(V_good, F_good, VF_good, VFi_good);
-        }
+        
         edge edg = cg._edge_list[edge_idx];
         int target =-1;
         int target_bad = -1;
         int source_bad = -1;
-        int source = node_image_dict.at(edg.head);     
+        int source = tc._node_image_map.at(edg.head);     
         source_bad = edg.head;
-        target = node_image_dict.at(edg.tail);
+        target = tc._node_image_map.at(edg.tail);
         target_bad = edg.tail;
         assert(target != -1 && source != -1); 
         // update local sector
@@ -133,22 +66,11 @@ namespace MatchMaker{
             std::map<int, std::vector<int> > node_edge_dict_temp;
             for(auto item: cg._node_edge_dict)
             {
-                if(node_image_dict.find(item.first)!=node_image_dict.end()){
-                    node_edge_dict_temp[node_image_dict.at(item.first)] = cg._node_edge_dict.at(item.first);
-                    node_edge_visit_dict_temp[node_image_dict.at(item.first)] = node_edge_visit_dict.at(item.first);
+                if(tc._node_image_map.find(item.first)!=tc._node_image_map.end()){
+                    node_edge_dict_temp[tc._node_image_map.at(item.first)] = cg._node_edge_dict.at(item.first);
+                    node_edge_visit_dict_temp[tc._node_image_map.at(item.first)] = node_edge_visit_dict.at(item.first);
                 }
             }
-            update_local_sector(
-                VV_good, 
-                F_good, 
-                node_edge_visit_dict_temp, 
-                node_edge_dict_temp,
-                TEdges_good,
-                CC_node_face_dict,
-                source,
-                target,
-                edge_idx,
-                VV_temp);
             update_local_sector(
                 tc._VV,
                 tc._F,
@@ -163,20 +85,18 @@ namespace MatchMaker{
             );
         }
         // the Weights is edge based
-        Eigen::SparseMatrix<double> SpWeight, SpWeight1;
-        Trace::setWeight1(V_good, F_good, cg._vertices,edg, SpWeight1);
+        Eigen::SparseMatrix<double> SpWeight;
         Trace::setWeight1(tc._V, tc._F, cg._vertices,edg,SpWeight);
-        std::vector<int> path,path1;
-        Trace::Edge_Dijkstra(VV_temp,source,target, SpWeight, path1);
-        Trace::Edge_Dijkstra(VV_temp1,source, target, SpWeight1, path);
+        std::vector<int> path;
+        Trace::Edge_Dijkstra(VV_temp1,source, target, SpWeight,path);
         // dijkstra_trace(VV_temp, source, target, Weights, path);
         if(param.debug)
         {
             Eigen::VectorXd source_target=Eigen::VectorXd::Constant(6,0);
             for(int xx: {0,1,2})
             {
-                source_target(xx)=V_good(source,xx);
-                source_target(xx+3)=V_good(target,xx);
+                source_target(xx)=tc._V(source,xx);
+                source_target(xx+3)=tc._V(target,xx);
             }
             
             igl::writeDMAT(param.data_root+"/source_target.dmat",source_target);
@@ -201,16 +121,13 @@ namespace MatchMaker{
             path_records[p] = path[p+1];
         }
         // path update VV
-        silence_vertices(VV_good,path_records);
         silence_vertices(tc._VV, path_records);
         for(auto rec: path_records)
         {
-            total_silence_list.push_back(rec);
             tc._total_silence_list.push_back(rec);
         }
         //path update VEdges
         for(auto vidx:path_records){
-            VEdges_good[vidx].push_back(edge_idx);
             tc._VEdges[vidx].push_back(edge_idx);
         }
 
@@ -219,22 +136,18 @@ namespace MatchMaker{
         for(int rc_idx=0; rc_idx < path.size()-1; ++rc_idx){
             int uidx = path[rc_idx];
             int vidx = path[(rc_idx+1)%path.size()];
-            std::vector<int> inter(VF_good[uidx].size()+ VF_good[vidx].size());
-            auto it = std::set_intersection(VF_good[uidx].begin(), VF_good[uidx].end(), VF_good[vidx].begin(), VF_good[vidx].end(), inter.begin());
+            std::vector<int> inter(tc._VF[uidx].size()+ tc._VF[vidx].size());
+            auto it = std::set_intersection(tc._VF[uidx].begin(), tc._VF[uidx].end(), tc._VF[vidx].begin(), tc._VF[vidx].end(), inter.begin());
             inter.resize(it-inter.begin());
             // there should be only one comman adjacent triangle for boundary vertices
             for(auto trg: inter){
                 for(int edgpos =0; edgpos < 3 ; ++edgpos){
-                    int uuidx = F_good(trg, edgpos);
-                    int vvidx = F_good(trg, (edgpos+1)% 3);
+                    int uuidx = tc._F(trg, edgpos);
+                    int vvidx = tc._F(trg, (edgpos+1)% 3);
                     if(uuidx == uidx && vvidx == vidx){
-                        TEdges_good[trg][edgpos] = edge_idx;//1457-1459 1587 1588 2189 2371 2373 2374 2716 2742 1794 2712 3046 3047
-                        // break;
                         tc._TEdges[trg][edgpos] = edge_idx;
                     }
                     if(uuidx == vidx && vvidx == uidx){
-                        TEdges_good[trg][edgpos] = edge_idx;
-                        // break;
                         tc._TEdges[trg][edgpos] = edge_idx;
                     }
                 }
@@ -244,23 +157,12 @@ namespace MatchMaker{
         // split_detect
 
         std::pair<int, int> split;
-        igl::triangle_triangle_adjacency(F_good, TT_good);
         while(tc.split_detect(split))
         {
             // splits_update
-            splits_update(split, V_good, F_good, FL_good, VEdges_good, TEdges_good, VV_good);
-            igl::triangle_triangle_adjacency(F_good, TT_good);
-            tc.split_update(split);
-            std::vector<std::vector<int> >  VFi_good;
-            igl::vertex_triangle_adjacency(V_good, F_good, VF_good, VFi_good);
-            double normdiff = (F_good- tc._F).norm();
-
-            int j=0;
-            
+            tc.split_update(split);            
         }
-        silence_vertices(VV_good, total_silence_list);
         silence_vertices(tc._VV, tc._total_silence_list);
-        edge_path_map[edge_idx] = path;
         tc._edge_path_map[edge_idx] = path;
         if(param.debug)
         {
@@ -268,8 +170,8 @@ namespace MatchMaker{
             std::ofstream file;
             file.open(param.data_root+"/debug_paths.json");
             file << path_json;
-            igl::writeOBJ(param.data_root+"/debug_mesh.obj", V_good, F_good);
-            igl::writeDMAT(param.data_root+"/FL_loop.dmat", FL_good);
+            igl::writeOBJ(param.data_root+"/debug_mesh.obj", tc._V, tc._F);
+            igl::writeDMAT(param.data_root+"/FL_loop.dmat", tc._FL);
         }
         // update visit_dict or loop condition update
         node_edge_visit_dict[target_bad][edge_idx]=true;
@@ -294,7 +196,6 @@ namespace MatchMaker{
 
         // datas dump to file for debug
         std::map<int, int> edge_order_map; // store and maintain the order of added edges {order: edge_dx}
-        std::map<int, std::vector<int> > edge_path_map; // {edge_idx, path}
         int total_label_num = cg.label_num;
         // PART 0 GET THE FRAME ON BAD MESH
         std::vector<bcclean::edge> edge_list = cg._edge_list;
@@ -326,7 +227,6 @@ namespace MatchMaker{
             file.open(param.data_root+"/debug_path_bad.json");
             file << path_json_bad;
         }
-        FL_good = Eigen::VectorXi::Constant(F_good.rows(), -1);
         std::vector<std::pair<int, std::pair<int, int> > > dual_frame_graph, dfg;
         // CellularGraph cg = CellularGraph::GenCellularGraph(V_bad, F_bad, FL_bad);
         build_dual_frame_graph(cg._edge_list, dual_frame_graph);
@@ -358,52 +258,14 @@ namespace MatchMaker{
         
         }
 
-        // double bound = param.guard_len_r * igl::bounding_box_diagonal(V_bad);
-        // for(auto item: patch_edge_dict)
-        // {
-        //     int ptidx = item.first;
-        //     if(check_problematic_patch(V_bad, patch_edge_dict, patch_node_dict, edge_list, ptidx, bound)){
-        //         problematic_patches.push_back(ptidx);
-        //     }
-        // }
-
-        // std::vector<int> patch_order_adv = Algo::Constriant_Graph_BFS(dual_frame_graph, patch_node_dict, problematic_patches, largest_patch);
-        // we can assume that  all nodes have valance more than or equal to 3
-
-        //  std::vector<int> node_list_bad;
-        // _gen_node_list(F_bad, FL_bad, total_label_num, node_list_bad);
-
-        // std::map<int, std::vector<int> > node_edge_dict;
-        // _gen_node_CCedges_dict(V_bad, F_bad, edge_list, node_list_bad, node_edge_dict);
 
 
-
-        std::vector<std::vector<int> > VV_good, VF_good;
-        igl::adjacency_list(F_good, VV_good);
-        {
-            std::vector<std::vector<int> >  VFi_good;
-            igl::vertex_triangle_adjacency(V_good, F_good, VF_good, VFi_good);
-
-        }
-        std::vector<std::vector<int> > VEdges_good(V_good.rows());
-        std::vector<std::vector<int> > TEdges_good(F_good.rows());
-         for(int count =0; count <V_good.rows(); ++ count)
-        {
-            VEdges_good[count] = std::vector<int>();
-        }
-        for(int fcount = 0; fcount  < F_good.rows(); ++fcount)
-        {   
-            TEdges_good[fcount] = {-1, -1, -1};
-        }
-        // start with the nodes with largest valance and deal with the edge starting with this node in counter clock order
-        std::vector<int> total_silence_list; // store only the vertices on the path interior (head tail excluded)
         TraceComplex tc;
         tc.initialize(V_good,F_good);
 
         json path_json;
 
-        std::map<int, int> node_image_dict;
-        std::vector<int> node_list_good;
+
         std::map<int, std::map<int, bool> >  node_edge_visit_dict;
         for(auto nd: cg._nodes)
         {
@@ -429,16 +291,6 @@ namespace MatchMaker{
             /* copy part */
             TraceComplex tc_copy = tc;
             
-                Eigen::MatrixXi F_good_copy= F_good;
-                Eigen::MatrixXd V_good_copy = V_good;
-                Eigen::VectorXi FL_good_copy = FL_good;
-                std::vector<std::vector<int> > VV_good_copy = VV_good;
-                std::vector<std::vector<int> > TEdges_good_copy = TEdges_good;
-                std::vector<std::vector<int> > VEdges_good_copy = VEdges_good;
-                std::vector<int> node_list_good_copy = node_list_good;
-                std::map<int, int> node_image_dict_copy= node_image_dict;
-                std::map<int, std::vector<int> > edge_path_map_copy = edge_path_map;
-                std::vector<int> total_silence_list_copy = total_silence_list;
             
 
 
@@ -489,79 +341,37 @@ namespace MatchMaker{
                 int source = -1;
                 int target  = -1;
 
-                Eigen::MatrixXi TT_good;
-                igl::triangle_triangle_adjacency(F_good, TT_good);
-                // update the node_list_good and node_image_dict;
                 
-                if(node_image_dict.find(source_bad)==node_image_dict.end())
+                
+                if(tc._node_image_map.find(source_bad)==tc._node_image_map.end())
                 {
-                    proj_node_loop(
-                        cg,
-                        source_bad,
-                        node_list_good,
-                        TT_good,
-                        VV_good,
-                        TEdges_good,
-                        VEdges_good,
-                        V_good,
-                        F_good,
-                        FL_good,
-                        source
-                    );
-                    {
-                        proj_node_loop(cg, source_bad, tc, source); 
-                    }
+                    proj_node_loop(cg, source_bad, tc, source); 
+                    // updated the tc._node_listd and tc._node_image_map;
+                    
                     assert(source!= -1);
-                    node_image_dict[source_bad]= source;
-                    node_list_good.push_back(source);
                     
                     
-                    igl::triangle_triangle_adjacency(F_good, TT_good);
+
                     std::pair<int, int> split;
                     while(tc.split_detect(split))
                     {
                         // splits_update
-                        splits_update(split, V_good, F_good, FL_good, VEdges_good, TEdges_good, VV_good);
-                        igl::triangle_triangle_adjacency(F_good, TT_good);
                         tc.split_update(split);
-                        double normdiff = (F_good- tc._F).norm();
-                        int j=0;
                     }
                     
                    
                 }
-                if(node_image_dict.find(target_bad)==node_image_dict.end())
+                if(tc._node_image_map.find(target_bad)==tc._node_image_map.end())
                 {
-                    proj_node_loop(
-                        cg,
-                        target_bad,
-                        node_list_good,
-                        TT_good,
-                        VV_good,
-                        TEdges_good,
-                        VEdges_good,
-                        V_good,
-                        F_good,
-                        FL_good,
-                        target
-                    );
-                    {
-                        proj_node_loop(cg, target_bad, tc, target);
-                    }
+        
+                    proj_node_loop(cg, target_bad, tc, target);
                     assert(target!= -1);
-                    node_image_dict[target_bad]=target;
-                    node_list_good.push_back(target);
-                    
-                    igl::triangle_triangle_adjacency(F_good, TT_good);
+
                     std::pair<int, int> split;
                     while(tc.split_detect(split))
                     {
                         // splits_update
-                        splits_update(split, V_good, F_good, FL_good, VEdges_good, TEdges_good, VV_good);
-                        igl::triangle_triangle_adjacency(F_good, TT_good);
                         tc.split_update(split);
-                        double normdiff = (F_good- tc._F).norm();
-                        int j=0;
                     }
 
                 }
@@ -573,18 +383,8 @@ namespace MatchMaker{
                 if(!BTCMM1_for_edge(
                     cg,
                     tc,
-                    node_list_good, 
-                    node_image_dict, 
                     edge_idx, 
-                    V_good, 
-                    F_good, 
-                    FL_good,
-                    VV_good, 
-                    VEdges_good, 
-                    TEdges_good, 
-                    total_silence_list,
                     node_edge_visit_dict, 
-                    edge_path_map, 
                     path_json,
                     param)) 
                     {
@@ -598,17 +398,15 @@ namespace MatchMaker{
             bool withinthreshold= false; 
             if(curpatch_succ){
                 withinthreshold=backtrack_diff(
-                    V_good,
+                    tc._V,
                     cg,
                     patch_idx,
-                    edge_path_map,
+                    tc._edge_path_map,
                     bcthreshold
                 );
             }
             if(!withinthreshold && !(all_edge_traced))
             {
-
-
 
 
                 // the traced patch error is larget than the backtrack_threshold
@@ -619,39 +417,22 @@ namespace MatchMaker{
 
                 /* copy part*/
                 /* copy part */
-                F_good= F_good_copy;
-                V_good= V_good_copy;
-                VV_good= VV_good_copy;
-                FL_good = FL_good_copy;
-                TEdges_good = TEdges_good_copy;
-                VEdges_good = VEdges_good_copy;
-                node_list_good = node_list_good_copy;
-                node_image_dict =node_image_dict_copy;
-                path_json = path_json_copy;
-                edge_visit_dict = edge_visit_dict_copy ;
-                node_edge_visit_dict = node_edge_visit_dict_copy; 
-                edge_path_map = edge_path_map_copy;
-                total_silence_list = total_silence_list_copy;
                 tc = tc_copy;
-                assert(F_good.rows() == FL_good.rows());
+                edge_visit_dict = edge_visit_dict_copy;
+                node_edge_visit_dict = node_edge_visit_dict;
             }
              else
             {
                 // one loop patch finished
-                // colorize FL_good with label patch_idx
+                // colorize tc._FL with label patch_idx
                 int stem_edge = cg._patch_edge_dict.at(patch_idx)[0];
                 int v0, v1;
-                v0 = edge_path_map[stem_edge][0];
-                v1 = edge_path_map[stem_edge][1];
-                std::vector<std::vector<int> > VF_good;
-                {
-                    std::vector<std::vector<int> > VFi_good;
-                    igl::vertex_triangle_adjacency(V_good, F_good, VF_good, VFi_good);
-                }
+                v0 = tc._edge_path_map[stem_edge][0];
+                v1 = tc._edge_path_map[stem_edge][1];
 
                 bool directionCC = cg._patch_edge_direction_dict.at(patch_idx)[0];
-                std::vector<int> inter(VF_good[v0].size()+ VF_good[v1].size());
-                auto it = std::set_intersection(VF_good[v0].begin(), VF_good[v0].end(), VF_good[v1].begin(), VF_good[v1].end(), inter.begin());
+                std::vector<int> inter(tc._VF[v0].size()+ tc._VF[v1].size());
+                auto it = std::set_intersection(tc._VF[v0].begin(), tc._VF[v0].end(), tc._VF[v1].begin(), tc._VF[v1].end(), inter.begin());
                 inter.resize(it-inter.begin());
                 assert(inter.size()==2);
                 int ffa = inter[0];
@@ -659,7 +440,7 @@ namespace MatchMaker{
                 bool ffa_coline = false; 
                 for(int j: {0,1,2})
                 {
-                    if(F_good(ffa,j)==v0 && F_good(ffa,(j+1)% 3)==v1)
+                    if(tc._F(ffa,j)==v0 && tc._F(ffa,(j+1)% 3)==v1)
                     {
                         ffa_coline=true;
                         break;
@@ -674,12 +455,11 @@ namespace MatchMaker{
                 {
                     ff_in = ffb;
                 }
-                loop_colorize(V_good, F_good, TEdges_good, ff_in, patch_idx, FL_good);
+                loop_colorize(tc._V, tc._F, tc._TEdges, ff_in, patch_idx, tc._FL);
                 if(param.debug)
                 {
-                    assert(F_good.rows()==FL_good.rows());
-                    igl::writeOBJ(param.data_root+"/debug_mesh.obj", V_good, F_good);
-                    igl::writeDMAT(param.data_root+"/FL_loop.dmat", FL_good);
+                    igl::writeOBJ(param.data_root+"/debug_mesh.obj", tc._V, tc._F);
+                    igl::writeDMAT(param.data_root+"/FL_loop.dmat", tc._FL);
                 }
 
                 // loop over patch_queue and  recycle to find patches that where all edges has been traced
@@ -751,6 +531,10 @@ namespace MatchMaker{
             }
 
         }
+        F_good = tc._F;
+        V_good = tc._V;
+        FL_good = tc._FL;
+
         if(recycle.empty()) return true;
         else return false;
 
