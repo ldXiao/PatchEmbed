@@ -160,6 +160,7 @@ namespace MatchMaker
         _VF[v1].push_back(nf1);
         _VF[v2].push_back(nf1);
         _VF[v2].push_back(nf2);
+        _VF[v2].erase(std::remove(_VF[v2].begin(), _VF[v2].end(), nf0), _VF[v2].end()); 
 
         // update _VEdges _TEdges
         _VEdges.push_back(std::vector<int>());
