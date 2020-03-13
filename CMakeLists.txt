@@ -156,6 +156,7 @@ set(SOURCES
     src/CellularGraph.h
     src/CellularGraph.cpp
     src/TraceComplex.h
+    src/TraceComplex.cpp
     src/MatchMakerDynamic.h 
     src/MatchMakerDynamic.cpp
 )

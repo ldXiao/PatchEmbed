@@ -255,6 +255,75 @@ namespace bcclean {
         return nvidx;
     }
 
+    int insertV_baryCord(
+        const MatrixXd & baryentry,
+        MatchMaker::TraceComplex & tc
+    )
+    {
+        int fidx = std::round(baryentry(0,0));
+        assert(fidx != -1);
+        assert(baryentry.rows()==1);
+        int v0 = tc._F(fidx,0);
+        int v1 = tc._F(fidx,1);
+        int v2 = tc._F(fidx,2);
+        int nvidx = -1;
+        double u,v,w, eps;
+        u = baryentry(0,1);
+        v = baryentry(0,2);
+        w = 1 - u - v;
+        eps = 0.1;
+        std::vector<double> bcs = {w, u, v};
+        int vcount =0;
+        int contribute_count = 0;
+        std::map<int, bool> contribute_dict;
+        std::map<int, bool> available_dict;
+        std::vector<std::pair<int, double> > contribute_sort;
+        for(auto bc: bcs)
+        {
+            contribute_sort.push_back(std::make_pair(vcount, bc));
+            
+            if(bc > eps)
+            {
+                contribute_count +=1;
+                contribute_dict[vcount] = true;
+            }
+            else
+            {
+                contribute_dict[vcount] = false;
+            }
+            int vvidx = tc._F(fidx, vcount);
+            if((std::find(tc._node_list.begin(), tc._node_list.end(), vvidx) == tc._node_list.end())&& tc._VEdges[vvidx].size()==0)
+            {
+                available_dict[vcount] = true;
+            }
+            else
+            {
+                available_dict[vcount] = false;
+            }
+            
+            vcount +=1;
+        }
+        std::sort(contribute_sort.begin(), contribute_sort.end(), [](const std::pair<int, double>& a, const std::pair<int, double> & b){return a.second > b.second;});
+        
+        bool addnew=true;
+
+        for(auto item: contribute_sort){
+            int mvp = item.first;
+            if(contribute_dict[mvp] && available_dict[mvp])
+            {
+                addnew = false;
+                nvidx = tc._F(fidx, mvp);
+                break;
+            }
+        }
+        if(addnew)
+        {
+            nvidx = tc._V.rows();
+            tc.insert_update(baryentry);
+        }
+        return nvidx;
+    }
+
     void proj_node(
         const Eigen::MatrixXd & Vbad,
         const Eigen::MatrixXi & Fbad,
@@ -600,5 +669,126 @@ namespace bcclean {
             node_image = nvidx;
         }
         
+    }
+
+    void proj_node_loop(
+        const CellularGraph & cg,
+        const int & node_bad,
+        MatchMaker::TraceComplex & tc,
+        int & node_image
+    )
+    {
+        node_image = -1;
+        Eigen::MatrixXd node_normal;
+        Eigen::MatrixXd node_v;
+        {
+            //
+            // slice the N into node_normal;
+            node_normal=Eigen::MatrixXd::Zero(1, 3);
+            node_v=Eigen::MatrixXd::Zero(1, 3);
+
+
+            node_normal.row(0) = cg._normals[node_bad];
+            node_v.row(0) = cg._vertices[node_bad];
+        }
+        Eigen::MatrixXd Vgood_copy = tc._V;
+        Eigen::MatrixXd RR = igl::embree::line_mesh_intersection(node_v, node_normal, tc._V, tc._F);
+
+        Eigen::MatrixXd bc = RR.row(0);
+        int fidx = std::round(bc(0,0));
+        std::vector<int> visit_list;
+        // build a kdtree 
+        Eigen::MatrixXd Centers;
+        igl::barycenter(tc._V, tc._F, Centers);
+        kd_tree_Eigen<double> kdt(Centers.cols(),std::cref(Centers),10);
+        kdt.index->buildIndex();
+
+        Eigen::RowVector3d query = cg._vertices[node_bad];
+        int nnidx= kd_tree_NN_Eigen(kdt, query);
+        double d0 = std::max((query-tc._V.row(tc._F(nnidx,0))).norm(), 1e-7);
+        double d1 = std::max((query-tc._V.row(tc._F(nnidx,1))).norm(),1e-7);
+        double d2 = std::max((query-tc._V.row(tc._F(nnidx,2))).norm(),1e-7);
+        double dnnbc = (query-Centers.row(nnidx)).norm();
+        Eigen::MatrixXd nnbc = bc;
+        nnbc(0,0)= nnidx;
+        double reverse_sum = (1.1/d0)+(1.1/d1)+(1.1/d2);
+        nnbc(0,1)= ((1.1)/d1)/(reverse_sum);
+        nnbc(0,2) =(1.1/d2)/reverse_sum;
+        if(fidx == -1)
+        {
+            fidx = nnidx;
+            bc = nnbc;
+        }
+        else 
+        {
+            double dproj = (query-Centers.row(fidx)).norm();
+            if(dproj > 3 * dnnbc)
+            {
+                // proj error is too large
+                // choose nn 
+                fidx = nnidx;
+                bc = nnbc;
+            }
+        }
+        if(tc._FL(fidx)!= -1)
+        {
+            // triangle occupied
+            // search for nonoccupied triangle and choose the nearset non-boundary vertice
+            // we can assume for each triangle at least one vertice is not on boundary
+            int target_face=-1;
+            std::queue<int> search_queue;
+            search_queue.push(fidx);
+            while(search_queue.size()!=0){
+                int cur_face = search_queue.front();
+                search_queue.pop(); // remove head
+                visit_list.push_back(cur_face);
+                Eigen::RowVector3i adjs = tc._TT.row(cur_face);
+                for(int j =0 ; j <3 ; ++j){
+                    int face_j = adjs(j);
+                    if(face_j == -1) {
+                        continue;
+                    }
+                    if(tc._FL(face_j)!= -1)
+                    {
+                        if(std::find(visit_list.begin(), visit_list.end(), face_j)== visit_list.end())
+                        {
+                            // not visited before
+                            search_queue.push(face_j);
+                        }   
+                    }
+                    else
+                    {
+                        target_face = face_j;
+                    }
+                }
+                if(target_face!= -1){break;}
+            }
+
+            // we can assume at least one of the vertices in target_face is not on Cut
+            for(auto vv: {0,1,2})
+            {
+                int vvidx = tc._F(target_face,vv);
+                bool not_path = tc._VEdges[vvidx].empty();
+                bool not_node = (std::find(tc._node_list.begin(), tc._node_list.end(),tc._F(target_face,vv))==tc._node_list.end());
+                if(
+                    not_path 
+                    && 
+                    not_node
+                )
+                {
+                    node_image = tc._FL(target_face,vv);
+                    break;
+                }
+            }
+            assert(node_image!= -1);
+            return;
+        } 
+        else
+        {
+            int nvidx = insertV_baryCord(bc,tc);
+            node_image = nvidx;
+        }
+        tc._node_image_map[node_bad] = node_image;
+        tc._node_list.push_back(node_image);
     }
 }

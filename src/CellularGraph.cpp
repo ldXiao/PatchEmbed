@@ -6,6 +6,61 @@ namespace bcclean{
     void CCfaces_per_node(
         const Eigen::MatrixXd & V,
         const Eigen::MatrixXi & F,
+        const std::vector<std::vector<int> > & VF,
+        const std::vector<int> & node_list,
+        std::map<int, std::vector<int> > & node_faces_dict
+    )
+    {
+        for(auto nd: node_list)
+        {
+            std::vector<int> pool = VF[nd];
+            int head = pool.back();
+            pool.pop_back();
+            node_faces_dict[nd].push_back(head);
+
+            while(pool.size()>0)
+            {
+                int fidx = node_faces_dict[nd].back();
+                int nd_idx = 0;
+
+                for(int j =0; j < 3; ++j)
+                {
+                    // fi_list.push_back(F(fidx, j));
+                    if(F(fidx, j) == nd){
+                        nd_idx = j;
+                        break;
+                    }
+                }
+                // remove the next vertex in fi_list
+                // u---> nd --> v  remove v here account for only the incomming edge
+                std::vector<int> fi_list = {nd, F(fidx, (nd_idx + 2) %3)};
+                std::sort(fi_list.begin(), fi_list.end());
+                int k = 0;
+                for(auto fkdx : pool)
+                {
+                    std::vector<int> fk_list = {F(fkdx, 0), F(fkdx, 1), F(fkdx, 2)};
+                    std::sort(fk_list.begin(), fk_list.end());
+                    std::vector<int> inter;
+                    std::set_intersection(fk_list.begin(), fk_list.end(), fi_list.begin(), fi_list.end(), std::back_inserter(inter));
+                    // inter.resize(it - inter.begin());
+                    if(inter.size()==2){
+                        // find the next triangle
+                        // push it into node_faces_dict[nd]
+                        // pop it from pool
+                        node_faces_dict[nd].push_back(fkdx);
+                        pool.erase(pool.begin()+k);
+                    }
+                    k+=1;
+                }                
+            }
+        }
+        return;
+
+    }
+
+    void CCfaces_per_node(
+        const Eigen::MatrixXd & V,
+        const Eigen::MatrixXi & F,
         const std::vector<int> & node_list,
         std::map<int, std::vector<int> > & node_faces_dict
     )

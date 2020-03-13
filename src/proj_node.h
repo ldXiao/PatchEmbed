@@ -5,6 +5,7 @@
 #include <Eigen/Core>
 #include <map>
 #include "CellularGraph.h"
+#include "TraceComplex.h"
 namespace bcclean {
     void proj_node(
         const Eigen::MatrixXd & Vbad,
@@ -56,5 +57,14 @@ namespace bcclean {
         Eigen::VectorXi & FL_good,
         int & node_image
     );
+
+    void proj_node_loop(
+        const CellularGraph & cg,
+        const int & node_bad,
+        MatchMaker::TraceComplex & tc,
+        int & node_image
+    );
+
+    
 }
 #endif //BCCLEAN_PROJ_NODE_H
