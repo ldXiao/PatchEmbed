@@ -3,6 +3,7 @@
 #include <igl/vertex_triangle_adjacency.h>
 #include <igl/adjacency_list.h>
 #include <igl/barycentric_to_global.h>
+#include <algorithm>
 namespace bcclean
 {
 namespace MatchMaker
@@ -18,7 +19,11 @@ namespace MatchMaker
         int & vdownidx)
     {
         std::vector<int> inter(VF[uidx].size()+ VF[vidx].size());
-        auto it = std::set_intersection(VF[uidx].begin(), VF[uidx].end(), VF[vidx].begin(), VF[vidx].end(), inter.begin());
+        std::vector<int> vtr = VF[vidx];
+        std::vector<int> utr = VF[uidx];
+        std::sort(vtr.begin(), vtr.end());
+        std::sort(utr.begin(), utr.end());
+        auto it = std::set_intersection(vtr.begin(), vtr.end(), utr.begin(), utr.end(), inter.begin());
         inter.resize(it-inter.begin());
         if(inter.size()!=2) return false; // there should be always only two triangles
         
@@ -119,8 +124,7 @@ namespace MatchMaker
         nF.row(_F.rows()+1) = Eigen::RowVector3i(v2, v0, nvidx);
         _FL(_F.rows()) = _FL(fidx);
         _FL(_F.rows()+1) = _FL(fidx);
-        _F = nF;
-        _V = nV;
+
         // update TT
         _TT.conservativeResize(_F.rows()+2,3);
         int nb0 = _TT(fidx,0);
@@ -163,6 +167,9 @@ namespace MatchMaker
         _TEdges.push_back({_TEdges[fidx][2],-1,-1});
         _TEdges[fidx]={_TEdges[fidx][0],-1,-1}; 
 
+
+        _F = nF;
+        _V = nV;
         
     }
 

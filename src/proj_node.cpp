@@ -278,6 +278,7 @@ namespace bcclean {
         std::map<int, bool> contribute_dict;
         std::map<int, bool> available_dict;
         std::vector<std::pair<int, double> > contribute_sort;
+        std::map<int,int> node_map;
         for(auto bc: bcs)
         {
             contribute_sort.push_back(std::make_pair(vcount, bc));
@@ -292,6 +293,7 @@ namespace bcclean {
                 contribute_dict[vcount] = false;
             }
             int vvidx = tc._F(fidx, vcount);
+            node_map[vcount] = vvidx;
             if((std::find(tc._node_list.begin(), tc._node_list.end(), vvidx) == tc._node_list.end())&& tc._VEdges[vvidx].size()==0)
             {
                 available_dict[vcount] = true;
@@ -306,7 +308,7 @@ namespace bcclean {
         std::sort(contribute_sort.begin(), contribute_sort.end(), [](const std::pair<int, double>& a, const std::pair<int, double> & b){return a.second > b.second;});
         
         bool addnew=true;
-
+        MatrixXd baryentry_shift = baryentry;
         for(auto item: contribute_sort){
             int mvp = item.first;
             if(contribute_dict[mvp] && available_dict[mvp])
@@ -776,12 +778,11 @@ namespace bcclean {
                     not_node
                 )
                 {
-                    node_image = tc._FL(target_face,vv);
+                    node_image = tc._F(target_face,vv);
                     break;
                 }
             }
             assert(node_image!= -1);
-            return;
         } 
         else
         {
@@ -790,5 +791,6 @@ namespace bcclean {
         }
         tc._node_image_map[node_bad] = node_image;
         tc._node_list.push_back(node_image);
+        return;
     }
 }

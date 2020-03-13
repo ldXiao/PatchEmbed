@@ -11,6 +11,7 @@
 #include <list>
 #include <deque>
 #include <igl/bounding_box_diagonal.h>
+#include <algorithm>
 #include "Edge_Dijkstra.h"
 #include "CellularGraph.h"
 #include "MatchMakerDynamic.h"
@@ -136,8 +137,12 @@ namespace MatchMaker{
         for(int rc_idx=0; rc_idx < path.size()-1; ++rc_idx){
             int uidx = path[rc_idx];
             int vidx = path[(rc_idx+1)%path.size()];
-            std::vector<int> inter(tc._VF[uidx].size()+ tc._VF[vidx].size());
-            auto it = std::set_intersection(tc._VF[uidx].begin(), tc._VF[uidx].end(), tc._VF[vidx].begin(), tc._VF[vidx].end(), inter.begin());
+            std::vector<int> vtr = tc._VF[vidx];
+            std::vector<int> utr = tc._VF[uidx];
+            std::sort(vtr.begin(), vtr.end());
+            std::sort(utr.begin(), utr.end());
+            std::vector<int> inter(vtr.size()+utr.size());
+            auto it = std::set_intersection(vtr.begin(), vtr.end(), utr.begin(), utr.end(), inter.begin());
             inter.resize(it-inter.begin());
             // there should be only one comman adjacent triangle for boundary vertices
             for(auto trg: inter){
@@ -431,8 +436,13 @@ namespace MatchMaker{
                 v1 = tc._edge_path_map[stem_edge][1];
 
                 bool directionCC = cg._patch_edge_direction_dict.at(patch_idx)[0];
-                std::vector<int> inter(tc._VF[v0].size()+ tc._VF[v1].size());
-                auto it = std::set_intersection(tc._VF[v0].begin(), tc._VF[v0].end(), tc._VF[v1].begin(), tc._VF[v1].end(), inter.begin());
+                
+                std::vector<int> vtr0 = tc._VF[v0];
+                std::vector<int> vtr1 = tc._VF[v1];
+                std::sort(vtr0.begin(), vtr0.end());
+                std::sort(vtr1.begin(), vtr1.end());
+                std::vector<int> inter(vtr0.size()+vtr1.size());
+                auto it = std::set_intersection(vtr0.begin(), vtr0.end(), vtr1.begin(), vtr1.end(), inter.begin());
                 inter.resize(it-inter.begin());
                 assert(inter.size()==2);
                 int ffa = inter[0];
