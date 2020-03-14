@@ -470,7 +470,7 @@ namespace MatchMaker{
                 /* copy part */
                 tc = tc_copy;
                 edge_visit_dict = edge_visit_dict_copy;
-                node_edge_visit_dict = node_edge_visit_dict;
+                node_edge_visit_dict = node_edge_visit_dict_copy;
                 path_json = path_json_copy;
             }
             else

@@ -126,6 +126,7 @@ namespace MatchMaker{
         std::vector<int> & temp_silence_list
     )
     {
+        temp_silence_list.clear();
         /*
                 assume we are dealling with edge e0
                 for a source assume  Counter clockwisely there are edges (ei, ebf, ek, e0, ebh) and ebf, and ebh are already set. We need to silence the faces in the sector spanned by ebh - ebf
