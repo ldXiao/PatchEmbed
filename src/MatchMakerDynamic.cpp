@@ -21,6 +21,50 @@ namespace bcclean{
 namespace MatchMaker{
     using json = nlohmann::json;
 
+    int locate_seed_face(
+        const CellularGraph & cg, 
+        const TraceComplex & tc, 
+        const int patch_idx)
+    {
+        // one loop patch finished
+        // colorize tc._FL with label patch_idx
+        int stem_edge = cg._patch_edge_dict.at(patch_idx)[0];
+        int v0, v1;
+        v0 = tc._edge_path_map.at(stem_edge)[0];
+        v1 = tc._edge_path_map.at(stem_edge)[1];
+
+        bool directionCC = cg._patch_edge_direction_dict.at(patch_idx)[0];
+        
+        std::vector<int> vtr0 = tc._VF[v0];
+        std::vector<int> vtr1 = tc._VF[v1];
+        std::sort(vtr0.begin(), vtr0.end());
+        std::sort(vtr1.begin(), vtr1.end());
+        std::vector<int> inter(vtr0.size()+vtr1.size());
+        auto it = std::set_intersection(vtr0.begin(), vtr0.end(), vtr1.begin(), vtr1.end(), inter.begin());
+        inter.resize(it-inter.begin());
+        assert(inter.size()==2);
+        int ffa = inter[0];
+        int ffb = inter[1];
+        bool ffa_coline = false; 
+        for(int j: {0,1,2})
+        {
+            if(tc._F(ffa,j)==v0 && tc._F(ffa,(j+1)% 3)==v1)
+            {
+                ffa_coline=true;
+                break;
+            }
+        }
+        int ff_in;
+        if(ffa_coline != directionCC)
+        {
+            ff_in = ffa;
+        }
+        else
+        {
+            ff_in = ffb;
+        }
+        return ff_in;
+    }
 
     void build_dual_frame_graph(
         const std::vector<bcclean::edge> edge_list,
@@ -431,43 +475,7 @@ namespace MatchMaker{
             }
             else
             {
-                // one loop patch finished
-                // colorize tc._FL with label patch_idx
-                int stem_edge = cg._patch_edge_dict.at(patch_idx)[0];
-                int v0, v1;
-                v0 = tc._edge_path_map[stem_edge][0];
-                v1 = tc._edge_path_map[stem_edge][1];
-
-                bool directionCC = cg._patch_edge_direction_dict.at(patch_idx)[0];
-                
-                std::vector<int> vtr0 = tc._VF[v0];
-                std::vector<int> vtr1 = tc._VF[v1];
-                std::sort(vtr0.begin(), vtr0.end());
-                std::sort(vtr1.begin(), vtr1.end());
-                std::vector<int> inter(vtr0.size()+vtr1.size());
-                auto it = std::set_intersection(vtr0.begin(), vtr0.end(), vtr1.begin(), vtr1.end(), inter.begin());
-                inter.resize(it-inter.begin());
-                assert(inter.size()==2);
-                int ffa = inter[0];
-                int ffb = inter[1];
-                bool ffa_coline = false; 
-                for(int j: {0,1,2})
-                {
-                    if(tc._F(ffa,j)==v0 && tc._F(ffa,(j+1)% 3)==v1)
-                    {
-                        ffa_coline=true;
-                        break;
-                    }
-                }
-                int ff_in;
-                if(ffa_coline != directionCC)
-                {
-                    ff_in = ffa;
-                }
-                else
-                {
-                    ff_in = ffb;
-                }
+                int ff_in = locate_seed_face(cg, tc, patch_idx);
                 loop_colorize(tc._V, tc._F, tc._TEdges, ff_in, patch_idx, tc._FL);
                 if(param.debug)
                 {
@@ -551,10 +559,6 @@ namespace MatchMaker{
         if(recycle.empty()) return true;
         else return false;
 
-
-
-
-        return false;
     }
 
 }
