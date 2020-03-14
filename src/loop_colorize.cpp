@@ -22,6 +22,12 @@ namespace bcclean
         int root_face = face_seed;
         std::queue<int> search_queue;
         search_queue.push(face_seed);
+        std::map<int, bool> visit_dict;
+        for(int fidx= 0 ; fidx < F.rows(); ++fidx)
+        {
+            visit_dict[fidx] = false;
+        }
+        visit_dict[root_face] = true;
         while(search_queue.size()!=0){
             int cur_face = search_queue.front();
             search_queue.pop(); // remove head
@@ -37,10 +43,11 @@ namespace bcclean
                 // vidy  = Fraw(cur_face, (j+1)%3);
                 if(TEdges[cur_face][j] == -1){
                     // the edge is not in VCuts
-                    if(FL(face_j)== -1){
+                    if(FL(face_j)== -1 && !(visit_dict[face_j])){
                         // not visited before;
-                        FL(face_j) = lb;
                         search_queue.push(face_j);
+                        visit_dict[face_j] = true;
+                        FL(cur_face) = lb;
                     }
                 }
             }

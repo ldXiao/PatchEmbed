@@ -698,7 +698,7 @@ namespace bcclean {
 
         Eigen::MatrixXd bc = RR.row(0);
         int fidx = std::round(bc(0,0));
-        std::vector<int> visit_list;
+        
         // build a kdtree 
         Eigen::MatrixXd Centers;
         igl::barycenter(tc._V, tc._F, Centers);
@@ -740,11 +740,18 @@ namespace bcclean {
             int target_face=-1;
             std::queue<int> search_queue;
             search_queue.push(fidx);
+            std::map<int, bool> visit_dict;
+            for(int fjdx=0; fjdx < tc._F.rows(); ++fjdx)
+            {
+                visit_dict[fjdx] = false;
+            }
+            Eigen::MatrixXi TT;
+            igl::triangle_triangle_adjacency(tc._F, TT);
+            visit_dict[fidx] = true;
             while(search_queue.size()!=0){
                 int cur_face = search_queue.front();
                 search_queue.pop(); // remove head
-                visit_list.push_back(cur_face);
-                Eigen::RowVector3i adjs = tc._TT.row(cur_face);
+                Eigen::RowVector3i adjs = TT.row(cur_face);
                 for(int j =0 ; j <3 ; ++j){
                     int face_j = adjs(j);
                     if(face_j == -1) {
@@ -752,10 +759,11 @@ namespace bcclean {
                     }
                     if(tc._FL(face_j)!= -1)
                     {
-                        if(std::find(visit_list.begin(), visit_list.end(), face_j)== visit_list.end())
+                        if(!visit_dict[face_j])
                         {
                             // not visited before
                             search_queue.push(face_j);
+                            visit_dict[face_j]= true;
                         }   
                     }
                     else
