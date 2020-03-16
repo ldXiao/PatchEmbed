@@ -122,14 +122,10 @@ set(SOURCES
     src/planar_cut_simply_connect.cpp 
     src/patch_cut_relabel.h 
     src/patch_cut_relabel.cpp 
-#     src/Match_Maker.h 
-#     src/Match_Maker.cpp
     src/proj_node.h
     src/proj_node.cpp
     src/loop_colorize.h
     src/loop_colorize.cpp
-    src/Match_Maker_Loop.h 
-    src/Match_Maker_Loop.cpp
     src/Match_Maker_Tree.h 
     src/Match_Maker_Tree.cpp 
     src/Kruskal.h
@@ -139,16 +135,12 @@ set(SOURCES
     src/polyline_distance.h 
     src/polyline_distance.cpp 
     src/params.h
-    src/degenerate_clean.cpp 
-    src/degenerate_clean.h
     src/orientation_check.h 
     src/orientation_check.cpp 
     src/Edge_Dijkstra.h 
     src/Edge_Dijkstra.cpp
     src/non_vertex_manifold_relabel.h 
     src/non_vertex_manifold_relabel.cpp 
-    src/BTCMM.h 
-    src/BTCMM.cpp
     src/backtrack_diff.h 
     src/backtrack_diff.cpp
     src/recursive_cut.h 
@@ -170,32 +162,6 @@ target_link_libraries(bcclean PUBLIC
         FloatTetwild
         )
 
-
-# # Add your project files
-# add_executable(bcclean_bin src/main.cpp)
-# target_link_libraries(bcclean_bin bcclean pybind11::embed)
-
-# # Add your project files
-# add_executable(test_bin src/test.cpp)
-# target_link_libraries(test_bin bcclean pybind11::embed)
-# set_target_properties(test_bin PROPERTIES CXX_STANDARD 17)
-
-
-# another executable for debug
-
-
-# add_executable(test_loop src/test_loop.cpp)
-# target_link_libraries(test_loop bcclean)
-# set_target_properties(test_loop PROPERTIES CXX_STANDARD 17)
-
-# add_executable(ftet_gen src/ftet_gen.cpp)
-# target_link_libraries(ftet_gen bcclean)
-# set_target_properties(ftet_gen PROPERTIES CXX_STANDARD 17)
-
-# add_executable(thread src/thread_check.cpp)
-# target_link_libraries(thread bcclean)
-# set_target_properties(thread PROPERTIES CXX_STANDARD 17)
-
-add_executable(btcmm src/test_BTCMM.cpp)
+add_executable(btcmm src/main.cpp)
 target_link_libraries(btcmm bcclean)
 set_target_properties(btcmm PROPERTIES CXX_STANDARD 17)

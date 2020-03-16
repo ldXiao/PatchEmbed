@@ -5,7 +5,6 @@
 #include <igl/bfs_orient.h>
 #include <regex>
 #include <filesystem>
-#include "recursive_cut.h"
 #include <string>
 #include <igl/read_triangle_mesh.h>
 #include <igl/readDMAT.h>
@@ -23,12 +22,12 @@
 #include "graphcut_cgal.h"
 #include "patch.h"
 #include "Match_Maker_Tree.h"
-#include "Match_Maker_Loop.h"
 #include "fTetwild.h"
-#include "degenerate_clean.h"
 #include "polyline_distance.h"
 #include "params.h"
 #include "orientation_check.h"
+#include "CellularGraph.h"
+#include "MatchMakerDynamic.h"
 #include <cxxopts.hpp>
 #include <nlohmann/json.hpp>
 #include <unordered_map>
@@ -105,7 +104,7 @@ int main(int argc, char *argv[]){
     cxxopts::Options options("Testloop", "One line description of MyProgram");
     options.add_options()
             ("u, upsp", "upsample stages", cxxopts::value<int>())
-            ("m, mergethreshold", "merge threshold", cxxopts::value<double>())
+            ("b, btthreshold", "backtrack threshold", cxxopts::value<double>())
             ("d, data_root","data root", cxxopts::value<std::string>())
             ("t, tracing", "tracing",cxxopts::value<std::string>());
 
@@ -126,8 +125,10 @@ int main(int argc, char *argv[]){
         re_tet = false;
         param.edge_len_r = 0.01;
         tracing = args["tracing"].as<std::string>();
+        param.tracing = tracing;
         param.stop_eng = 10;
-        param.merge_threshold = args["mergethreshold"].as<double>();
+        param.merge_threshold = 0;
+        param.backtrack_threshold = args["btthreshold"].as<double>();
     }
     std::string bad_mesh_file, face_label_dmat, face_label_yml;
     std::regex r(".*trimesh.*\\.obj");
@@ -155,9 +156,6 @@ int main(int argc, char *argv[]){
     // }
 
     igl::readDMAT(face_label_dmat, FL_bad);
-    bcclean::degenerate_clean(V_bad, F_bad, FL_bad, param.merge_threshold);
-    igl::writeDMAT("../dbginfo/dgfl.dmat", FL_bad);
-    igl::writeOBJ("../dbginfo/dgfl.obj", V_bad, F_bad);
     std::map<int, VFL> vfls;
     std::map<int, std::map<int, int> > ComponentsLabelMaps;
     decomposeVFL(V_bad, F_bad, FL_bad, vfls, ComponentsLabelMaps);
@@ -222,18 +220,35 @@ int main(int argc, char *argv[]){
             }
         }
         result_json["consistant topology"] = true;
-         
+
         if(param.upsp> 0)
         {
             igl::upsample(CCV_good, CCF_good, param.upsp);
         }
         result_json["upsp"]= param.upsp;
+        int label_num = bcclean::patch::FL_mod.maxCoeff()+1;
+        if(label_num == 1)
+        {
+            result_json["succeed"] = true;
+            result_json["maxerr"] = -1;
+            o3 << result_json;
+            continue;
+        }
         bool succeed= false;
         bcclean::params param_copy = param;
         param_copy.data_root = CC_work_dir;
+        bcclean::CellularGraph cg;
+        cg = bcclean::CellularGraph::GenCellularGraph(bcclean::patch::Vbase, bcclean::patch::Fbase, bcclean::patch::FL_mod);
+        if(cg._nodes.size()==0)
+        {
+            result_json["succeed"] = true;
+            result_json["maxerr"] = -1;
+            o3 << result_json;
+            continue;
+        }
         if(tracing=="loop"){
             try{
-            succeed=bcclean::MatchMaker::trace_and_label_loop(bcclean::patch::Vbase, bcclean::patch::Fbase, bcclean::patch::FL_mod, CCV_good, CCF_good, CCFL_good, param_copy);
+                succeed = bcclean::MatchMaker::BTCMM1(cg,CCV_good, CCF_good, CCFL_good, param_copy);
             }
             catch(...)
             {
@@ -243,7 +258,19 @@ int main(int argc, char *argv[]){
         } else if (tracing == "tree")
         {
             try{
-            succeed=bcclean::MatchMaker::trace_and_label(bcclean::patch::Vbase, bcclean::patch::Fbase, bcclean::patch::FL_mod, CCV_good, CCF_good, CCFL_good, param_copy); 
+            succeed=bcclean::MatchMaker::MatchMakerTree(cg,CCV_good, CCF_good, CCFL_good, param_copy); 
+            }
+            catch(...)
+            {
+                std::cout<< "failed" <<std::endl;
+                succeed = false;
+            }
+        }
+        else if (tracing == "dyna")
+        {
+            cg = bcclean::CellularGraph::GenCellularGraph(bcclean::patch::Vbase, bcclean::patch::Fbase, bcclean::patch::FL_mod);
+            try{
+                succeed = bcclean::MatchMaker::BTCMM1(cg,CCV_good, CCF_good, CCFL_good, param_copy);
             }
             catch(...)
             {
@@ -265,7 +292,9 @@ int main(int argc, char *argv[]){
             for(auto item: path_good.items())
             {
                 double err;
+                
                 err = bcclean::Eval::hausdorff1d(bcclean::patch::Vbase, path_bad[item.key()], CCV_good, item.value());
+                
                 if(max_error< err)
                 {
                     max_error = err;
@@ -279,17 +308,6 @@ int main(int argc, char *argv[]){
         }
 
     }
-    // bcclean::Tet::fTetwild(V_good, F_good,0.01, V_good, F_good);
-    // int label_num = FL_bad.maxCoeff()+1;
-    // bcclean::patch pat;
-    // bcclean::patch::SetStatics(V_bad, F_bad, FL_bad, label_num);
-    // bcclean::CollectPatches();
-    // Eigen::MatrixXd V_good_copy = V_good;
-    // Eigen::MatrixXi F_good_copy = F_good;
-    // Eigen::VectorXi FL_good_copy = FL_good;
-    // bcclean::MatchMaker::trace_and_label_loop(bcclean::patch::Vbase, bcclean::patch::Fbase, bcclean::patch::FL_mod, V_good_copy, F_good_copy, FL_good_copy, debug); 
-    // igl::writeDMAT(data_root +"/test.dmat", bcclean::patch::FL_mod );
-    // igl::writeOBJ(data_root + "/test.obj", V_good, F_good);
 
     return 0;
 }
