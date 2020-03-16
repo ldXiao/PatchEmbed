@@ -6,7 +6,6 @@
 #include <unordered_map>
 #include "edge.h"
 namespace bcclean{
-    void hw();
     class CellularGraph{
         public:
         int label_num;

@@ -1,6 +1,5 @@
 #include "proj_node.h"
 #include "loop_colorize.h"
-#include "Match_Maker_Tree.h"
 #include "Kruskal.h"
 #include <igl/slice.h>
 #include <igl/writeOBJ.h>
@@ -10,11 +9,57 @@
 #include "Match_Maker_Tree.h"
 #include "params.h"
 #include "CellularGraph.h"
+#include "TraceComplex.h"
+#include "Edge_Dijkstra.h"
 
 namespace bcclean {
 namespace MatchMaker{
     using json = nlohmann::json;
-    
+    int _locate_seed_face(
+        const CellularGraph & cg, 
+        const TraceComplex & tc, 
+        const int patch_idx)
+    {
+        // one loop patch finished
+        // colorize tc._FL with label patch_idx
+        int stem_edge = cg._patch_edge_dict.at(patch_idx)[0];
+        int v0, v1;
+        v0 = tc._edge_path_map.at(stem_edge)[0];
+        v1 = tc._edge_path_map.at(stem_edge)[1];
+
+        bool directionCC = cg._patch_edge_direction_dict.at(patch_idx)[0];
+        
+        std::vector<int> vtr0 = tc._VF[v0];
+        std::vector<int> vtr1 = tc._VF[v1];
+        std::sort(vtr0.begin(), vtr0.end());
+        std::sort(vtr1.begin(), vtr1.end());
+        std::vector<int> inter(vtr0.size()+vtr1.size());
+        auto it = std::set_intersection(vtr0.begin(), vtr0.end(), vtr1.begin(), vtr1.end(), inter.begin());
+        inter.resize(it-inter.begin());
+        assert(inter.size()==2);
+        int ffa = inter[0];
+        int ffb = inter[1];
+        bool ffa_coline = false; 
+        for(int j: {0,1,2})
+        {
+            if(tc._F(ffa,j)==v0 && tc._F(ffa,(j+1)% 3)==v1)
+            {
+                ffa_coline=true;
+                break;
+            }
+        }
+        int ff_in;
+        if(ffa_coline != directionCC)
+        {
+            ff_in = ffa;
+        }
+        else
+        {
+            ff_in = ffb;
+        }
+        return ff_in;
+    }
+
     void _build_frame_graph(
         const std::vector<bcclean::edge> & edge_list,
         std::vector<std::pair<int,std::pair<int,int> > > & frame_graph
@@ -667,98 +712,84 @@ namespace MatchMaker{
                 node_list.push_back(item.first);
             }
         }
-    }
-
     
 
+
+
+
     bool trace_for_edge(
-        const Eigen::MatrixXd & V_bad,
-        const Eigen::MatrixXi & F_bad,
-        const std::vector<edge> & edge_list,
-        const std::vector<int> & node_list_good,
-        const std::map<int, int> & node_image_dict,
-        const std::map<int, std::vector<int> > & node_edge_dict,
+        const CellularGraph & cg,
+        TraceComplex & tc,
         const int edge_idx,
-        Eigen::MatrixXd & V_good,
-        Eigen::MatrixXi & F_good,
-        Eigen::VectorXi & FL_good,
-        std::vector<std::vector<int> > & VV_good,
-        std::vector<std::vector<int> > & VEdges_good,
-        std::vector<std::vector<int> > & TEdges_good,
-        std::vector<int> & total_silence_list,
         std::map<int, std::map<int, bool> > & node_edge_visit_dict,
-        std::map<int, std::vector<int> > & edge_path_map,
-        json & path_json,
+        json  & path_json,
         const params param
     )
     {
-        
-        Eigen::MatrixXi TT_good;
-        std::vector<std::vector<int> > VF_good;
-        igl::triangle_triangle_adjacency(F_good, TT_good);
-        {
-            std::vector<std::vector<int> > VFi_good;
-            igl::vertex_triangle_adjacency(V_good, F_good, VF_good, VFi_good);
-        }
-        edge edg = edge_list[edge_idx];
+        edge edg = cg._edge_list[edge_idx];
         int target =-1;
         int target_bad = -1;
         int source_bad = -1;
-        int source = node_image_dict.at(edg.head);     
+        int source = tc._node_image_map.at(edg.head);     
         source_bad = edg.head;
-        target = node_image_dict.at(edg.tail);
+        target = tc._node_image_map.at(edg.tail);
         target_bad = edg.tail;
         assert(target != -1 && source != -1); 
-        std::vector<double> Weights;
         // update local sector
         // (a) create CC_node_face_list
         std::map<int, std::vector<int> > CC_node_face_dict;
-        std::vector<std::vector<int > > VV_temp;
-        CCfaces_per_node(V_good, F_good, {source, target}, CC_node_face_dict);
+        std::vector<std::vector<int > > VV_temp,VV_temp1;
+        CCfaces_per_node(tc._V,tc._F, tc._VF,{source,target},CC_node_face_dict);
         {
             std::map<int, std::map<int, bool> > node_edge_visit_dict_temp;
             std::map<int, std::vector<int> > node_edge_dict_temp;
-            for(auto item: node_edge_dict)
+            for(auto item: cg._node_edge_dict)
             {
-                node_edge_dict_temp[node_image_dict.at(item.first)] = node_edge_dict.at(item.first);
-                node_edge_visit_dict_temp[node_image_dict.at(item.first)] = node_edge_visit_dict.at(item.first);
+                if(tc._node_image_map.find(item.first)!=tc._node_image_map.end()){
+                    node_edge_dict_temp[tc._node_image_map.at(item.first)] = cg._node_edge_dict.at(item.first);
+                    node_edge_visit_dict_temp[tc._node_image_map.at(item.first)] = node_edge_visit_dict.at(item.first);
+                }
             }
             update_local_sector(
-                VV_good, 
-                F_good, 
+                tc._VV,
+                tc._F,
                 node_edge_visit_dict_temp, 
                 node_edge_dict_temp,
-                TEdges_good,
+                tc._TEdges,
                 CC_node_face_dict,
                 source,
                 target,
                 edge_idx,
-                VV_temp);
+                VV_temp1
+            );
         }
-        setWeights(V_good, V_bad, edg, 10, 1,  Weights);
-        // the Weights is vertex based
-
-        // dijkstra_trace(....,VEdges, TEdges);
+        // the Weights is edge based
+        Eigen::SparseMatrix<double> SpWeight;
+        Trace::setWeight1(tc._V, tc._F, cg._vertices,edg,SpWeight);
         std::vector<int> path;
-        dijkstra_trace(VV_temp, source, target, Weights, path);
+        Trace::Edge_Dijkstra(VV_temp1,source, target, SpWeight,path);
+        // dijkstra_trace(VV_temp, source, target, Weights, path);
         if(param.debug)
         {
             Eigen::VectorXd source_target=Eigen::VectorXd::Constant(6,0);
             for(int xx: {0,1,2})
             {
-                source_target(xx)=V_good(source,xx);
-                source_target(xx+3)=V_good(target,xx);
+                source_target(xx)=tc._V(source,xx);
+                source_target(xx+3)=tc._V(target,xx);
             }
             
-            igl::writeDMAT(param.data_root+"/source_target.dmat",source_target);
+            igl::writeDMAT(param.data_root+"/source_target_"+param.tracing+".dmat",source_target);
         }
-        assert(path.size()>1);
+        // assert(path.size()>=2);
         if(path.size()<2)
         {
+            std::cout << "for path" << edge_idx << std::endl;
+            std::cout << "start" << source  << "target" << target << std::endl;
+            std::cout << "path of size only "<< path.size() << std::endl;
             return false;
         }
         std::vector<int> path_records(path.size()-2);
-        std::printf("for mst edge %d, find a path:\n",edge_idx);
+        std::printf("for edge %d, find a path:\n",edge_idx);
         for(auto rec : path)
         {
             std::cout << rec<<", ";
@@ -769,285 +800,229 @@ namespace MatchMaker{
             path_records[p] = path[p+1];
         }
         // path update VV
-        silence_vertices(VV_good,path_records);
+        silence_vertices(tc._VV, path_records);
         for(auto rec: path_records)
         {
-            total_silence_list.push_back(rec);
+            tc._total_silence_list.push_back(rec);
         }
         //path update VEdges
         for(auto vidx:path_records){
-            VEdges_good[vidx].push_back(edge_idx);
+            tc._VEdges[vidx].push_back(edge_idx);
         }
 
         // path updates TEdges
-        // setf the triangle edges in cuts to be true
+        // set the triangle edges in cuts to be true
         for(int rc_idx=0; rc_idx < path.size()-1; ++rc_idx){
             int uidx = path[rc_idx];
             int vidx = path[(rc_idx+1)%path.size()];
-            std::vector<int> inter(VF_good[uidx].size()+ VF_good[vidx].size());
-            auto it = std::set_intersection(VF_good[uidx].begin(), VF_good[uidx].end(), VF_good[vidx].begin(), VF_good[vidx].end(), inter.begin());
+            std::vector<int> vtr = tc._VF[vidx];
+            std::vector<int> utr = tc._VF[uidx];
+            std::sort(vtr.begin(), vtr.end());
+            std::sort(utr.begin(), utr.end());
+            std::vector<int> inter(vtr.size()+utr.size());
+            auto it = std::set_intersection(vtr.begin(), vtr.end(), utr.begin(), utr.end(), inter.begin());
             inter.resize(it-inter.begin());
             // there should be only one comman adjacent triangle for boundary vertices
             for(auto trg: inter){
                 for(int edgpos =0; edgpos < 3 ; ++edgpos){
-                    int uuidx = F_good(trg, edgpos);
-                    int vvidx = F_good(trg, (edgpos+1)% 3);
+                    int uuidx = tc._F(trg, edgpos);
+                    int vvidx = tc._F(trg, (edgpos+1)% 3);
                     if(uuidx == uidx && vvidx == vidx){
-                        TEdges_good[trg][edgpos] = edge_idx;//1457-1459 1587 1588 2189 2371 2373 2374 2716 2742 1794 2712 3046 3047
-                        // break;
+                        tc._TEdges[trg][edgpos] = edge_idx;
                     }
                     if(uuidx == vidx && vvidx == uidx){
-                        TEdges_good[trg][edgpos] = edge_idx;
-                        // break;
+                        tc._TEdges[trg][edgpos] = edge_idx;
                     }
                 }
             }
         }
 
-        // split_detect
-        std::pair<int, int> split;
-        while(split_detect(F_good, TT_good, node_list_good,VEdges_good, TEdges_good, split))
+        // splits_detect
+
+        std::vector<std::pair<int, int> > splits;
+        tc.splits_detect(splits);
+        for(auto split : splits)
         {
-            
-
             // splits_update
-            splits_update(split, V_good, F_good, FL_good, VEdges_good, TEdges_good, VV_good);
-            igl::triangle_triangle_adjacency(F_good, TT_good);
+            tc.split_update(split);
         }
-        silence_vertices(VV_good, total_silence_list);
-
-        edge_path_map[edge_idx] = path;
+        silence_vertices(tc._VV, tc._total_silence_list);
+        tc._edge_path_map[edge_idx] = path;
         if(param.debug)
         {
             path_json[std::to_string(edge_idx)] = path;   
-            
             std::ofstream file;
-            file.open(param.data_root+"/debug_paths_tree.json");
+            file.open(param.data_root+"/debug_paths_"+param.tracing+".json");
             file << path_json;
-
-            igl::writeOBJ(param.data_root+"/debug_mesh_tree.obj", V_good, F_good);
+            igl::writeOBJ(param.data_root+"/debug_mesh_"+param.tracing+".obj", tc._V, tc._F);
+            igl::writeDMAT(param.data_root+"/FL_"+param.tracing+".dmat", tc._FL);
         }
         // update visit_dict or loop condition update
         node_edge_visit_dict[target_bad][edge_idx]=true;
         node_edge_visit_dict[source_bad][edge_idx]=true;
-    
         return true;
     }
 
-    bool trace_and_label(
-        const Eigen::MatrixXd & V_bad,
-        const Eigen::MatrixXi & F_bad,
-        const Eigen::VectorXi & FL_bad,
+    bool MatchMakerTree(
+        const CellularGraph & cg,
         Eigen::MatrixXd & V_good,
         Eigen::MatrixXi & F_good,
         Eigen::VectorXi & FL_good,
         const params param
     )
     {
-        std::map<int, int> edge_order_map; // store and maintain the order of added edges {order: edge_dx}
-        std::map<int, std::vector<int> > edge_path_map; // {edge_idx, path}
-        // Randomize Seed
-        srand(static_cast<unsigned int>(time(nullptr)));
-        int total_label_num = FL_bad.maxCoeff()+1;
-
+        int total_label_num = cg.label_num;
         
-        // PART 0 GET THE FRAME ON BAD MESH
-        std::vector<bcclean::edge> edge_list;
-        std::unordered_map<int, std::vector<int> > patch_edge_dict;
-        std::unordered_map<int, std::vector<bool> > patch_edge_direction_dict;
-        // label -> list(edge_idx) map indices into edge_list
-        {
-            int largest_patch;
-            build_edge_list_loop(V_bad, F_bad, FL_bad, total_label_num, edge_list, patch_edge_dict, patch_edge_direction_dict, largest_patch);
-        }
         if(param.debug)
+        {
+            igl::writeOBJ(param.data_root+"/debug_mesh_bad.obj", cg.V, cg.F);
+            igl::writeDMAT(param.data_root+"/FL_bad.dmat",cg.FL);
+        }
+        int largest_patch = cg.root_cell;
+        // build_edge_list_loop(V_bad, F_bad, FL_bad, total_label_num, edge_list, patch_edge_dict, patch_edge_direction_dict,largest_patch);
         {
             json path_json_bad;
             int edg_idx =0;
-            for(auto edg: edge_list)
-            {
-                path_json_bad[std::to_string(edg_idx)]= edg._edge_vertices;
+            for(auto edg: cg._edge_list)
+            {   
+
+
+                std::vector<int> path_raw;
+                for(auto vidx: edg._edge_vertices)
+                {
+                    path_raw.push_back(cg._ivmap.at(vidx));
+                }
+                path_json_bad[std::to_string(edg_idx)]= path_raw;
                 edg_idx += 1;
             }
             std::ofstream file;
             file.open(param.data_root+"/debug_path_bad.json");
             file << path_json_bad;
-            igl::writeOBJ(param.data_root+"/debug_mesh_bad.obj", V_bad, F_bad);
-            igl::writeDMAT(param.data_root+"/FL_bad.dmat", FL_bad);
+
         }
-        std::vector<std::pair<int, std::pair<int, int> > > frame_graph;
-        _build_frame_graph(edge_list, frame_graph);
-        std::vector<std::pair<int, std::pair<int, int> > > frame_MST
-         = Algo::Kruskal_MST(frame_graph);
+        std::vector<std::pair<int, std::pair<int, int> > > frame_graph, frame_MST;
+        _build_frame_graph(cg._edge_list,frame_graph);
+        frame_MST = Algo::Kruskal_MST(frame_graph);
         json mst_json; // store the min spanning tree
         for(auto item: frame_MST)
         {
-            mst_json[std::to_string(item.first)] = edge_list[item.first]._edge_vertices;   
-        }
-        std::ofstream filemst;
-        filemst.open(param.data_root+"/debug_mst.json");
-        filemst << mst_json;
-        filemst.close();
-
-
-        
-        // we can assume that  all nodes have valance more than 3
-        std::vector<int> node_list_bad;
-        _gen_node_list(F_bad, FL_bad, total_label_num, node_list_bad);
-
-        std::map<int, std::vector<int> > node_edge_dict;
-        _gen_node_CCedges_dict(V_bad, F_bad, edge_list, node_list_bad, node_edge_dict);
-
-
-        // PART 1 finds the Nearest Neighbor of nodes on good mesh
-        // build the kdtree;
-        kd_tree_Eigen<double> kdt(V_good.cols(),std::cref(V_good),10);
-        kdt.index->buildIndex();
-        std::map<int, int> node_image_dict;
-        std::vector<int> node_list_good;
-        bcclean::proj_node(V_bad, F_bad, node_list_bad, V_good, F_good, node_image_dict);
-        
-        for(auto item:node_image_dict)
-        {
-            node_list_good.push_back(item.second);
+            mst_json[std::to_string(item.first)] = cg._edge_list[item.first]._edge_vertices;   
         }
 
-        std::map<int , std::map<int, bool> > node_edge_visit_dict;
-        for(auto nd: node_list_bad)
+        TraceComplex tc;
+        tc.initialize(V_good, F_good);
+        for(auto edg: cg._edge_list)
         {
-            for(auto q: node_edge_dict[nd])
+            int source_bad = edg.head;
+            int target_bad = edg.tail;
+            if(param.debug)
+            {
+                Eigen::VectorXd source_target_bad = Eigen::VectorXd::Constant(6,0);
+                for(int xx: {0,1,2})
+                {
+                    source_target_bad(xx)=cg._vertices[source_bad](xx);
+                    source_target_bad(xx+3)=cg._vertices[target_bad](xx);
+                }
+                
+                igl::writeDMAT(param.data_root+"/source_target_bad.dmat",source_target_bad);
+            }
+
+            int source = -1;
+                int target  = -1;
+
+                
+                
+                if(tc._node_image_map.find(source_bad)==tc._node_image_map.end())
+                {
+                    proj_node_loop(cg, source_bad, tc, source); 
+                    // updated the tc._node_listd and tc._node_image_map;
+                    assert(source!= -1);               
+                }
+                if(tc._node_image_map.find(target_bad)==tc._node_image_map.end())
+                {
+        
+                    proj_node_loop(cg, target_bad, tc, target);
+                    assert(target!= -1);
+                }
+
+        }
+
+        json path_json;
+        std::map<int, std::map<int, bool> >  node_edge_visit_dict;
+        for(auto nd: cg._nodes)
+        {
+            for(auto q: cg._node_edge_dict.at(nd))
             {
                 node_edge_visit_dict[nd][q]=false;
             }
         }
-
-
-        // we will use only adjacency list VV, bool lists VEdges, TEdges
-        // initializations
-        std::vector<std::vector<int> > VV_good, VF_good;
-        igl::adjacency_list(F_good, VV_good);
+        std::map<int, bool> edge_visit_dict;
+        int kkk = 0;
+        for(auto edg: cg._edge_list)
         {
-            std::vector<std::vector<int> >  VFi_good;
-            igl::vertex_triangle_adjacency(V_good, F_good, VF_good, VFi_good);
-
+            edge_visit_dict[kkk]= false;
+            kkk++;
         }
-        std::vector<std::vector<int> > VEdges_good(V_good.rows());
-        std::vector<std::vector<int> > TEdges_good(F_good.rows());
-        for(int count =0; count <V_good.rows(); ++ count)
-        {
-            VEdges_good[count] = std::vector<int>();
-        }
-        for(int fcount = 0; fcount  < F_good.rows(); ++fcount)
-        {   
-            TEdges_good[fcount] = {-1, -1, -1};
-        }
-        // start with the nodes with largest valance and deal with the edge starting with this node in counter clock order
-        std::vector<int> total_silence_list; // store only the vertices on the path interior (head tail excluded)
 
-
-        json path_json;
-
-        // // before the main loop traverse the fame tree to trace a spanning tree first
+        // trace for mst
         for(auto frame_edge: frame_MST)
         {
             int edge_idx = frame_edge.first;
 
             if(!trace_for_edge(
-                V_bad,
-                F_bad, 
-                edge_list, 
-                node_list_good, 
-                node_image_dict, 
-                node_edge_dict, 
-                edge_idx, 
-                V_good, 
-                F_good,
-                FL_good,
-                VV_good, 
-                VEdges_good, 
-                TEdges_good, 
-                total_silence_list,
-                node_edge_visit_dict, 
-                edge_path_map, 
+                cg,
+                tc,
+                edge_idx,
+                node_edge_visit_dict,
                 path_json,
-                param)) return false;
+                param 
+            )) return false;
         }
-
-
         std::cout << "tracing mst done" << std::endl;
-        
-        for(auto nd: node_list_bad)
+        // trace of remaining edges
+
+        for(auto item: cg._node_edge_dict)
         {
             // Main loop for tracing
-            for (auto edge_idx: node_edge_dict[nd]){
+            int nd = item.first;
+            for (auto edge_idx: cg._node_edge_dict.at(nd)){
                 if(node_edge_visit_dict[nd][edge_idx])
                 {
                     continue;
                 }
                 if(!trace_for_edge(
-                V_bad,
-                F_bad, 
-                edge_list, 
-                node_list_good, 
-                node_image_dict, 
-                node_edge_dict, 
-                edge_idx, 
-                V_good, 
-                F_good,
-                FL_good,
-                VV_good, 
-                VEdges_good, 
-                TEdges_good, 
-                total_silence_list,
-                node_edge_visit_dict, 
-                edge_path_map, 
-                path_json,
-                param)) return false;
+                    cg,
+                    tc,
+                    edge_idx,
+                    node_edge_visit_dict,
+                    path_json,
+                    param 
+                )) return false;
             }
-            // silence_vertices(VV_good,{node_image_dict[nd]});
-            // // total_silence_list.push_back(nd);
         }
-        std::vector<std::vector<int> > finalVF, finalVFi;
-        FL_good = Eigen::VectorXi::Constant(F_good.rows(),-1);
-        igl::vertex_triangle_adjacency(V_good, F_good, finalVF, finalVFi);
-        for(auto item: patch_edge_dict)
+
+        for(auto item: cg._patch_edge_dict)
         {
-            int lb = item.first;
-            int edge_idx = item.second[0];
-            bool correct_direction = patch_edge_direction_dict[lb][0];
-            int va = edge_path_map[edge_idx][0];
-            int vb = edge_path_map[edge_idx][1];
-            std::vector<int> fas = finalVF.at(va);
-            std::vector<int> fbs = finalVF.at(vb);
-            std::vector<int> inter(10);
-            std::vector<int>::iterator it;
-            it=std::set_intersection (fas.begin(),fas.end(), fbs.begin(), fbs.end(), inter.begin());
-            inter.resize(it-inter.begin());
-            int fa = inter[0];
-            int fb = inter[1];
-            bool fa_on_left = false;
-            int seed_face = -1;
-            for(auto feidx:{0,1,2})
-            {
-                if(F_good(fa,feidx) == va && F_good(fa, (feidx +1)% 3) == vb)
-                {
-                    fa_on_left = true;
-                    break;
-                }
-            }
-            if(correct_direction != fa_on_left)
-            {
-                seed_face = fa;
-            }
-            else 
-            {
-                seed_face = fb;
-            }
-            loop_colorize(V_good, F_good, TEdges_good, seed_face, lb, FL_good);
+            int patch_idx = item.first;
+
+            int ff_in = _locate_seed_face(cg, tc, patch_idx);
+            loop_colorize(tc._V, tc._F, tc._TEdges,ff_in, patch_idx, tc._FL);
         }
-        igl::writeDMAT(param.data_root+"/FL_tree.dmat", FL_good);
-        
-        return true; 
+        if(param.debug)
+        {
+            igl::writeOBJ(param.data_root+"/debug_mesh_tree.obj", tc._V, tc._F);
+            igl::writeDMAT(param.data_root+"/FL_tree.dmat", tc._FL);
+        }
+        F_good = tc._F;
+        V_good = tc._V;
+        FL_good = tc._FL;
+        return true;
+
     }
+
+
+
+
+
 }
 }

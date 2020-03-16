@@ -5,6 +5,7 @@ namespace bcclean{
     class params{
         public:
         std::string data_root;
+        std::string tracing;
         bool debug;
         bool iden;
         double edge_len_r;
@@ -16,6 +17,7 @@ namespace bcclean{
         int upsp; 
         params(){
             data_root = ".";
+            tracing = "tree";
             debug = true;
             iden = false;
             edge_len_r = 0.01;

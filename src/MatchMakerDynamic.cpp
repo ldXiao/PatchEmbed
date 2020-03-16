@@ -276,37 +276,11 @@ namespace MatchMaker{
             file.open(param.data_root+"/debug_path_bad.json");
             file << path_json_bad;
         }
-        std::vector<std::pair<int, std::pair<int, int> > > dual_frame_graph, dfg;
-        // CellularGraph cg = CellularGraph::GenCellularGraph(V_bad, F_bad, FL_bad);
-        build_dual_frame_graph(cg._edge_list, dual_frame_graph);
-        // std::vector<std::pair<int, std::pair<int, int> > > dual_frame_MST
-        //  = Algo::Kruskal_MST(dual_frame_graph);
-        // std::vector<int> patch_order = Algo::MST_BFS(dual_frame_MST);
-        std::vector<int> patch_order = Algo::Graph_BFS(dual_frame_graph, largest_patch);
-        std::map<int, std::vector<int> > patch_node_dict;
-        // std::vector<int> problematic_patches;
-        {
-            for(auto item: cg._patch_edge_dict)
-            {
-                int ptidx = item.first;
-                patch_node_dict[ptidx] = std::vector<int>();
-                for(auto edgidx: cg._patch_edge_dict.at(ptidx))
-                {
-                    int head = cg._edge_list[edgidx].head;
-                    int tail = cg._edge_list[edgidx].tail;
-                    if(std::find(patch_node_dict[ptidx].begin(), patch_node_dict[ptidx].end(), head)== patch_node_dict[ptidx].end())
-                    {
-                        patch_node_dict[ptidx].push_back(head);
-                    }
-                    if(std::find(patch_node_dict[ptidx].begin(), patch_node_dict[ptidx].end(), tail)== patch_node_dict[ptidx].end())
-                    {
-                        patch_node_dict[ptidx].push_back(tail);
-                    }
-                }
-            }
-        
-        }
+        std::vector<std::pair<int, std::pair<int, int> > > dual_frame_graph;
 
+        build_dual_frame_graph(cg._edge_list, dual_frame_graph);
+
+        std::vector<int> patch_order = Algo::Graph_BFS(dual_frame_graph, largest_patch);
 
 
         TraceComplex tc;

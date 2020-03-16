@@ -243,8 +243,15 @@ int main(int argc, char *argv[]){
         bcclean::params param_copy = param;
         param_copy.data_root = CC_work_dir;
         bcclean::CellularGraph cg;
+        cg = bcclean::CellularGraph::GenCellularGraph(bcclean::patch::Vbase, bcclean::patch::Fbase, bcclean::patch::FL_mod);
+        if(cg._nodes.size()==0)
+        {
+            result_json["succeed"] = true;
+            result_json["maxerr"] = -1;
+            o3 << result_json;
+            continue;
+        }
         if(tracing=="loop"){
-            cg = bcclean::CellularGraph::GenCellularGraph(bcclean::patch::Vbase, bcclean::patch::Fbase, bcclean::patch::FL_mod);
             try{
                 succeed = bcclean::MatchMaker::BTCMM1(cg,CCV_good, CCF_good, CCFL_good, param_copy);
             }
@@ -256,7 +263,7 @@ int main(int argc, char *argv[]){
         } else if (tracing == "tree")
         {
             try{
-            succeed=bcclean::MatchMaker::trace_and_label(bcclean::patch::Vbase, bcclean::patch::Fbase, bcclean::patch::FL_mod, CCV_good, CCF_good, CCFL_good, param_copy); 
+            succeed=bcclean::MatchMaker::MatchMakerTree(cg,CCV_good, CCF_good, CCFL_good, param_copy); 
             }
             catch(...)
             {

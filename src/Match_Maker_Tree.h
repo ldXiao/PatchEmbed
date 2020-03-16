@@ -17,6 +17,7 @@
 #include <functional>
 #include <cmath>
 #include "params.h"
+#include "CellularGraph.h"
 
 namespace bcclean{
 namespace MatchMaker{
@@ -121,7 +122,13 @@ namespace MatchMaker{
         const params param
     );
 
-    
+    bool MatchMakerTree(
+        const CellularGraph & cg,
+        Eigen::MatrixXd & V_good,
+        Eigen::MatrixXi & F_good,
+        Eigen::VectorXi & FL_good,
+        const params param
+    ); 
 }
 }
 
