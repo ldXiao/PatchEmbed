@@ -1,7 +1,7 @@
 #include "loop_colorize.h"
 namespace bcclean
 {
-    void loop_colorize(
+    double loop_colorize(
     const Eigen::MatrixXd& V, 
     const Eigen::MatrixXi & F, 
     const std::vector<std::vector<int> > & TEdges,
@@ -9,6 +9,7 @@ namespace bcclean
     const int lb,
     Eigen::VectorXi & FL)
     {
+        // return a dble area of the the total colored region
         // for unlabeled faced FL should be -1
         //label the faces encompassed by the loop with lb in FL
         assert(FL.rows() == F.rows());
@@ -20,6 +21,10 @@ namespace bcclean
         // start with face 0 use TT and TTi info to get connected components
         // traverse all faces connected to face_seed and do not cross cuts label them to be lb;
         int root_face = face_seed;
+        double DblA = 0;
+        Eigen::RowVector3d a_ = V.row(F(root_face,1)) - V.row(F(root_face,0));
+        Eigen::RowVector3d b_ = V.row(F(root_face,2)) - V.row(F(root_face,0));
+        DblA += (a_.cross(b_)).norm();
         std::queue<int> search_queue;
         search_queue.push(face_seed);
         std::map<int, bool> visit_dict;
@@ -48,9 +53,14 @@ namespace bcclean
                         search_queue.push(face_j);
                         visit_dict[face_j] = true;
                         FL(cur_face) = lb;
+                        Eigen::RowVector3d a__ = V.row(F(face_j,1)) - V.row(F(face_j, 0));
+                        Eigen::RowVector3d b__ = V.row(F(face_j,2)) - V.row(F(face_j,0));
+                        DblA += (a__.cross(b__)).norm();
                     }
                 }
             }
         }
+
+        return DblA;
     }
 }

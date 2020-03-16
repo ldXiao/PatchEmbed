@@ -23,6 +23,7 @@ namespace bcclean{
         std::map<int, int> _vmap;
         std::map<int, int> _ivmap;
         std::map<int, std::vector<int> > _node_edge_dict; // counter clock wise
+        std::map<int, double> _patch_area_dict;
         static CellularGraph GenCellularGraph(
             const Eigen::MatrixXd & V, 
             const Eigen::MatrixXi & F, 

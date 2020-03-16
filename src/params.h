@@ -12,6 +12,7 @@ namespace bcclean{
         double stop_eng;
         double merge_threshold;
         double backtrack_threshold;
+        double area_threshold;
         int upsp; 
         params(){
             data_root = ".";
@@ -22,6 +23,7 @@ namespace bcclean{
             stop_eng = 10;
             upsp = 0;
             backtrack_threshold = 1.0;
+            area_threshold = 2.0;
             merge_threshold = 0.01;
         }
     };

@@ -4,6 +4,7 @@
 #include <igl/adjacency_list.h>
 #include <igl/barycentric_to_global.h>
 #include <algorithm>
+#include <igl/doublearea.h>
 namespace bcclean
 {
 namespace MatchMaker
@@ -74,6 +75,7 @@ namespace MatchMaker
         this->_V = Vin;
         this->_F = Fin;
         this->_FL = Eigen::VectorXi::Constant(Fin.rows(),-1);
+        igl::doublearea(Vin, Fin, _DblA);
         igl::triangle_triangle_adjacency(Fin, _TT);
         igl::adjacency_list(Fin, _VV);
         {
@@ -102,13 +104,14 @@ namespace MatchMaker
         int v2 = _F(fidx,2);
         assert(fidx != -1);
         assert(baryentry.rows()==1);
-        Eigen::MatrixXd nVentry = igl::barycentric_to_global(_V, _F, baryentry);
-        Eigen::MatrixXd nV = Eigen::MatrixXd::Zero(_V.rows()+1, 3);
+        Eigen::RowVector3d nVentry = igl::barycentric_to_global(_V, _F, baryentry).row(0);
+        Eigen::MatrixX3d nV = Eigen::MatrixXd::Zero(_V.rows()+1, 3);
         nV.block(0,0, _V.rows(), 3) = _V;
         nV.row(_V.rows()) = nVentry;
         int nvidx = _V.rows();
         Eigen::MatrixXi nF = Eigen::MatrixXi::Zero(_F.rows()+2,3);
         _FL.conservativeResize(_F.rows()+2);
+        _DblA.conservativeResize(_F.rows()+2);
         
         
         nF.block(0,0,_F.rows(),3) = _F;
@@ -124,6 +127,17 @@ namespace MatchMaker
         nF.row(_F.rows()+1) = Eigen::RowVector3i(v2, v0, nvidx);
         _FL(_F.rows()) = _FL(fidx);
         _FL(_F.rows()+1) = _FL(fidx);
+        
+
+        // update _DblA
+
+        double a0, a1,a2;
+        a0 = ((nV.row(v0)-nVentry).cross(nV.row(v1)-nVentry)).norm();
+        a1 = ((nV.row(v1)-nVentry).cross(nV.row(v2)-nVentry)).norm();
+        a2 = ((nV.row(v2)-nVentry).cross(nV.row(v0)-nVentry)).norm();
+        _DblA(fidx) = a0;
+        _DblA(_F.rows()) = a1;
+        _DblA(_F.rows()+1) = a2;
 
         // update TT
         _TT.conservativeResize(_F.rows()+2,3);
@@ -300,7 +314,7 @@ namespace MatchMaker
         const int oldF_num = _F.rows();
         const int oldV_num = _V.rows();
         // preallocate all the memory
-        Eigen::MatrixXd nV = Eigen::MatrixXd::Zero(nV_num , 3); // raw mesh
+        Eigen::MatrixX3d nV = Eigen::MatrixXd::Zero(nV_num , 3); // raw mesh
         nV.block(0, 0, oldV_num, 3) = _V;
         Eigen::MatrixXi nF = Eigen::MatrixXi::Zero(nF_num, 3);
         nF.block(0, 0, oldF_num, 3) = _F;
@@ -411,6 +425,7 @@ namespace MatchMaker
         _FL(f1idx) =_FL(f0idx); 
         _FL(f3idx) =_FL(f2idx);
 
+
          // update _F the faces with correct orientation
         nF.row(f0idx) = Eigen::RowVector3i(widx, vidx, vupidx);
         nF.row(f1idx) = Eigen::RowVector3i(widx, vupidx, uidx);
@@ -421,6 +436,13 @@ namespace MatchMaker
         Eigen::RowVector3d  wpos = (_V.row(uidx)+_V.row(vidx))/2;
         nV.row(widx) = wpos;
         _V = nV;
+
+        // update _DblA;
+        _DblA.conservativeResize(nF_num);
+        _DblA(f0idx) = ((nV.row(vupidx)-wpos).cross(nV.row(vidx)-wpos)).norm();
+        _DblA(f1idx) = ((nV.row(vupidx)-wpos).cross(nV.row(uidx)-wpos)).norm();
+        _DblA(f2idx) = ((nV.row(vdownidx)-wpos).cross(nV.row(uidx)-wpos)).norm();
+        _DblA(f3idx) = ((nV.row(vdownidx)-wpos).cross(nV.row(vidx)-wpos)).norm(); 
         
         /*  only have to deal with f1 f3 becase they are new faces
                 vup

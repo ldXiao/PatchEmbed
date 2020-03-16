@@ -16,6 +16,7 @@ namespace MatchMaker{
         Eigen::MatrixXi _F;
         Eigen::MatrixXd _V;
         Eigen::VectorXi _FL;
+        Eigen::VectorXd _DblA;
         std::map<int, std::vector<int> > _edge_path_map;
         std::map<int, int> _node_image_map;
         std::vector<int> _total_silence_list;

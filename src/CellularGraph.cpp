@@ -228,7 +228,24 @@ namespace bcclean{
         CellularGraph cg;
         cg.V =  V;
         cg.F = F;
-        cg.FL = FL; 
+        cg.FL = FL;
+        // initiliaze the patch_area_dict
+        for(int fidx =0 ; fidx < cg.FL.rows(); fidx++)
+        {
+            int lb = cg.FL(fidx);
+            Eigen::RowVector3d a_ = V.row(F(fidx,1)) - V.row(F(fidx,0));
+            Eigen::RowVector3d b_ = V.row(F(fidx,2)) - V.row(F(fidx,0));
+            double area = (a_.cross(b_)).norm();
+            if(cg._patch_area_dict.find(lb) == cg._patch_area_dict.end())
+            {
+                cg._patch_area_dict[lb] = area;
+            }
+            else
+            {
+                cg._patch_area_dict[lb] += area;
+            }
+            
+        } 
         cg.label_num = FL.maxCoeff()+1;
         std::vector<std::vector<int>> VF; // vertex - face index list
         {

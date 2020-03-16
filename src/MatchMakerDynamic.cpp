@@ -6,7 +6,6 @@
 #include "loop_colorize.h"
 #include "params.h"
 #include <igl/Timer.h>
-#include <igl/facet_components.h>
 #include <climits>
 #include <list>
 #include <deque>
@@ -335,6 +334,7 @@ namespace MatchMaker{
         std::list<int> recycle;
         int switch_count  = 0;
         double bcthreshold = param.backtrack_threshold;
+        double arthreshold = param.area_threshold;
         while(! patch_queue.empty())
         {
             bool curpatch_succ = true;  
@@ -448,18 +448,23 @@ namespace MatchMaker{
             
             bool withinthreshold= false; 
             if(curpatch_succ){
+                // if the current is traced successfully, we go on to compare the difference
+                int ff_in = locate_seed_face(cg, tc, patch_idx);
+                double newarea = loop_colorize(tc._V, tc._F, tc._TEdges, ff_in, patch_idx, tc._FL);
+                double target_area = cg._patch_area_dict.at(patch_idx);
+                bool area_withinthreshold = std::abs(newarea/target_area) < arthreshold;
                 withinthreshold=backtrack_diff(
                     tc._V,
                     cg,
                     patch_idx,
                     tc._edge_path_map,
                     bcthreshold
-                );
+                ) && area_withinthreshold;
             }
             if(!withinthreshold && !(all_edge_traced))
             {
 
-
+                // if all_edge_traced, we don't care about the thresholds
                 // the traced patch error is larget than the backtrack_threshold
                 // abort the result in this loop
                 recycle.push_back(patch_idx);
@@ -475,8 +480,6 @@ namespace MatchMaker{
             }
             else
             {
-                int ff_in = locate_seed_face(cg, tc, patch_idx);
-                loop_colorize(tc._V, tc._F, tc._TEdges, ff_in, patch_idx, tc._FL);
                 if(param.debug)
                 {
                     igl::writeOBJ(param.data_root+"/debug_mesh.obj", tc._V, tc._F);
@@ -547,6 +550,7 @@ namespace MatchMaker{
                     recycle = patch_queue;
                     patch_queue = temp;
                     bcthreshold = 1.5 * bcthreshold;
+                    arthreshold = 1.5 * arthreshold;
                     switch_count +=1;
                 }
             }
