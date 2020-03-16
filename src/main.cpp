@@ -266,23 +266,19 @@ int main(int argc, char *argv[]){
                 succeed = false;
             }
         }
-        else if (tracing == "dyna")
-        {
-            cg = bcclean::CellularGraph::GenCellularGraph(bcclean::patch::Vbase, bcclean::patch::Fbase, bcclean::patch::FL_mod);
-            try{
-                succeed = bcclean::MatchMaker::BTCMM1(cg,CCV_good, CCF_good, CCFL_good, param_copy);
-            }
-            catch(...)
-            {
-                std::cout<< "failed" <<std::endl;
-                succeed = false;
-            }
-        }
         if(param.debug)
         {
             
-            
-            std::ifstream i1(CC_work_dir+"/debug_paths.json");
+            std::string path_file;
+            if(param.tracing == "tree")
+            {
+                path_file ="/debug_paths_tree.json";
+            }
+            else
+            {
+                path_file = "/debug_paths.json";
+            }
+            std::ifstream i1(CC_work_dir+path_file);
             std::ifstream i2(CC_work_dir+"/debug_path_bad.json");
             
             json path_good, path_bad;
