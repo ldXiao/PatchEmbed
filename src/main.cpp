@@ -179,7 +179,7 @@ int main(int argc, char *argv[]){
         {
             FL_bad(item.first) = item.second;
         } 
-        igl::writeDMAT(par_dir+"/feat.dmat", FL_bad);
+        igl::writeDMAT(param.data_root+"/feat.dmat", FL_bad);
     }
 
     std::map<int, VFL> vfls;
