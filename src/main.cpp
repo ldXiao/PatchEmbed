@@ -32,6 +32,7 @@
 #include <nlohmann/json.hpp>
 #include <unordered_map>
 #include <tuple>
+#include <yaml-cpp/yaml.h>
 using VFL = std::tuple<Eigen::MatrixXd, Eigen::MatrixXi, Eigen::VectorXi>;
 
 int Betti(const Eigen::MatrixXd & V, const Eigen::MatrixXi & F)
@@ -132,12 +133,17 @@ int main(int argc, char *argv[]){
     }
     std::string bad_mesh_file, face_label_dmat, face_label_yml;
     std::regex r(".*trimesh.*\\.obj");
+    std::regex yr(".*features.*\\.yml");
     for (const auto & entry : std::filesystem::directory_iterator(param.data_root))
     {
         if(std::regex_match(entry.path().c_str(), r))
         {
             bad_mesh_file = entry.path().c_str();
             std::printf("got bad mesh: %s\n",bad_mesh_file.c_str());
+        }
+        if(std::regex_match(entry.path().c_str(),yr))
+        {
+            face_label_yml = entry.path().c_str();   
         }
     }
     
@@ -154,8 +160,27 @@ int main(int argc, char *argv[]){
     // {
     //     igl::read_triangle_mesh(good_mesh_file, V_good, F_good);
     // }
+    {
+        std::unordered_map<int, int> face_label_dict; 
+        YAML::Node conf = YAML::LoadFile(face_label_yml);
+        int lb =0;
+        int count = 0;
+        for( auto surf: conf["surfaces"])
+        {
+            for(auto fidx: surf["face_indices"])
+            {
+                face_label_dict[fidx.as<int>()] = lb;
+                count +=1;
+            }
+            lb +=1;
+        }
+        Eigen::VectorXi FL_bad = Eigen::VectorXi::Constant(count, 0);
+        for(auto item: face_label_dict)
+        {
+            FL_bad(item.first) = item.second;
+        } 
+    }
 
-    igl::readDMAT(face_label_dmat, FL_bad);
     std::map<int, VFL> vfls;
     std::map<int, std::map<int, int> > ComponentsLabelMaps;
     decomposeVFL(V_bad, F_bad, FL_bad, vfls, ComponentsLabelMaps);

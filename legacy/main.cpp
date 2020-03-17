@@ -30,6 +30,7 @@
 #include <nanoflann.hpp>
 #include <cxxopts.hpp>
 #include <nlohmann/json.hpp>
+#include <yaml-cpp/yaml.h>
 namespace py = pybind11;
 using json = nlohmann::json;
 igl::opengl::glfw::Viewer viewer;
