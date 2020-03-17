@@ -103,8 +103,18 @@ download_project(
         GIT_REPOSITORY https://github.com/jarro2783/cxxopts.git
         GIT_TAG        v2.2.0)
 
-#cxxopts
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/external/cxxopts)
+#cxxopts
+
+# # yaml
+download_project(
+        PROJ         yaml-cpp
+        SOURCE_DIR   ${CMAKE_CURRENT_SOURCE_DIR}/external/yaml-cpp
+        DOWNLOAD_DIR ${CMAKE_CURRENT_SOURCE_DIR}/external/.cache/yaml-cpp
+        GIT_REPOSITORY https://github.com/jbeder/yaml-cpp.git
+        GIT_TAG        master)
+
+add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/external/yaml-cpp)
 
 
 set(SOURCES
@@ -158,6 +168,7 @@ target_link_libraries(bcclean PUBLIC
         igl::cgal
         igl::embree
         cxxopts
+        yaml-cpp
         nanoflann
         FloatTetwild
         )
@@ -165,3 +176,7 @@ target_link_libraries(bcclean PUBLIC
 add_executable(btcmm src/main.cpp)
 target_link_libraries(btcmm bcclean)
 set_target_properties(btcmm PROPERTIES CXX_STANDARD 17)
+
+add_executable(gen_feat src/gen_feat.cpp)
+target_link_libraries(gen_feat bcclean)
+set_target_properties(gen_feat PROPERTIES CXX_STANDARD 17)
