@@ -174,11 +174,12 @@ int main(int argc, char *argv[]){
             }
             lb +=1;
         }
-        Eigen::VectorXi FL_bad = Eigen::VectorXi::Constant(count, 0);
+        FL_bad = Eigen::VectorXi::Constant(count, 0);
         for(auto item: face_label_dict)
         {
             FL_bad(item.first) = item.second;
         } 
+        igl::writeDMAT(par_dir+"/feat.dmat", FL_bad);
     }
 
     std::map<int, VFL> vfls;
