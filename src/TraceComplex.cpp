@@ -112,8 +112,9 @@ namespace MatchMaker
         Eigen::MatrixXi nF = Eigen::MatrixXi::Zero(_F.rows()+2,3);
         _FL.conservativeResize(_F.rows()+2);
         _DblA.conservativeResize(_F.rows()+2);
-        
-        
+        // update splits_record
+        std::vector<double> record = {_V(v0,0), _V(v0,1), _V(v0,2), _V(v1,0), _V(v1,1), _V(v1,2), _V(v2,0),_V(v2,1),_V(v2,2)};
+        _splits_record.push_back(record);
         nF.block(0,0,_F.rows(),3) = _F;
         /*
             v0
@@ -188,57 +189,6 @@ namespace MatchMaker
         
     }
 
-    bool TraceComplex::split_detect(std::pair<int, int> & split)
-    {
-        bool add = false;
-        for(int fidx=0; fidx < _F.rows(); ++fidx){
-            for(int edge_idx=0; edge_idx < 3; ++ edge_idx){
-                int v0 = _F(fidx, edge_idx);
-                int v1 = _F(fidx, (edge_idx+1) % 3);
-                bool nodefind0 = (std::find(_node_list.begin(), _node_list.end(), v0)!= _node_list.end());
-                bool nodefind1 = (std::find(_node_list.begin(), _node_list.end(), v1)!= _node_list.end());
-
-                // if at both them are node and the connecting edge is not on the cut split them
-                if(nodefind0 && nodefind1 && (_TEdges[fidx][edge_idx]== -1))
-                {
-                    int cofidx = _TT(fidx, edge_idx);
-                    assert(cofidx != -1);
-                    if(cofidx != -1){
-                        add = true;
-                    }
-                }
-                // if one of them is node and the other is on cut
-                else if((nodefind0 && _VEdges[v1].size() !=0) ||(nodefind1 && _VEdges[v0].size()!=0))
-                {
-                    if(_TEdges[fidx][edge_idx]== -1)
-                    {
-                        int cofidx = _TT(fidx, edge_idx);
-                        assert(cofidx != -1);
-                        if(cofidx != -1){
-                            add = true;
-                        }
-                    }
-                }
-                // ff both of them are on cut and the line connecting them are not on cut
-                else if((_VEdges[v0].size() !=0) && (_VEdges[v1].size() !=0) && (_TEdges[fidx][edge_idx]== -1)){
-                    int cofidx = _TT(fidx, edge_idx);
-                    assert(cofidx != -1);
-                    if(cofidx != -1){
-                        add = true;
-                    }
-                    // make sure each pair of indices are only pushed once
-                }
-                if(add)
-                {
-                    int vl = std::min(v0, v1);
-                    int vg = std::max(v0, v1);
-                    split=std::make_pair(vl, vg);
-                    return true;
-                }
-            }
-        }
-        return false;
-    }
 
     void TraceComplex::splits_detect(std::vector<std::pair<int, int> >& splits)
     {
@@ -325,8 +275,8 @@ namespace MatchMaker
         int uidx = split.first;
         int vidx = split.second;
         int widx = oldV_num;
-        
-
+        std::vector<double> record = {_V(uidx,0), _V(uidx,1), _V(uidx,2), _V(vidx,0), _V(vidx,1), _V(vidx,2) };
+        _splits_record.push_back(record);
         // decide the adj configurations
         /* decide up and down faces vertices
             vup

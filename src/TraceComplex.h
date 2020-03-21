@@ -12,6 +12,7 @@ namespace MatchMaker{
         std::vector<std::vector<int> > _VF;
         std::vector<std::vector<int> > _VEdges;
         std::vector<std::vector<int> > _TEdges;
+        std::vector<std::vector<double> > _splits_record;
         Eigen::MatrixXi _TT;
         Eigen::MatrixXi _F;
         Eigen::MatrixXd _V;
@@ -23,7 +24,6 @@ namespace MatchMaker{
         std::vector<int> _node_list;
         void initialize(const Eigen::MatrixXd & Vin, const Eigen::MatrixXi & Fin);
         void insert_update(const Eigen::MatrixXd & baryentry);
-        bool split_detect(std::pair<int,int> & split);
         void splits_detect(std::vector<std::pair<int, int> > & splits);
         void split_update(const std::pair<int, int> & split);
     

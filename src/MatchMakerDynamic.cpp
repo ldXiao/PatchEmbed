@@ -9,6 +9,7 @@
 #include <list>
 #include <deque>
 #include <igl/bounding_box_diagonal.h>
+#include <spdlog/common.h>
 #include <algorithm>
 #include "Edge_Dijkstra.h"
 #include "CellularGraph.h"
@@ -382,7 +383,7 @@ namespace MatchMaker{
                 int ff_in = _locate_seed_face(cg, tc, patch_idx);
                 double newarea = loop_colorize(tc._V, tc._F, tc._TEdges, ff_in, patch_idx, tc._FL);
                 double target_area = cg._patch_area_dict.at(patch_idx);
-                bool area_withinthreshold = std::abs(newarea/target_area) < arthreshold;
+                bool area_withinthreshold = (std::abs(newarea/target_area) < arthreshold)|| (switch_count > 2);
                 withinthreshold=backtrack_diff(
                     tc._V,
                     cg,
@@ -489,7 +490,25 @@ namespace MatchMaker{
         F_good = tc._F;
         V_good = tc._V;
         FL_good = tc._FL;
-
+        if(param.debug)
+        { 
+            std::ofstream file;
+            file.open(param.data_root+"/debug_paths.json");
+            file << path_json;
+            igl::writeOBJ(param.data_root+"/debug_mesh.obj", tc._V, tc._F);
+            igl::writeDMAT(param.data_root+"/FL_loop.dmat", tc._FL);
+            std::ofstream split_file;
+            split_file.open(param.data_root+"/splits_record.txt");
+            for(auto & vec: tc._splits_record)
+            {
+                for(auto & val: vec)
+                {
+                    split_file << val;
+                    split_file << " ";
+                }
+                split_file << "\n";
+            }
+        }
         if(recycle.empty()) return true;
         else return false;
 

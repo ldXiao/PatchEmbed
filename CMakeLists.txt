@@ -50,6 +50,14 @@ option(LIBIGL_WITH_XML               "Use XML"            OFF)
 # set(PYBIND11_DIR ${CMAKE_CURRENT_SOURCE_DIR}/external/pybind11)
 # add_subdirectory(${PYBIND11_DIR}/ pybind11)
 
+download_project(
+PROJ         nanoflann
+SOURCE_DIR   ${CMAKE_CURRENT_SOURCE_DIR}/external/spdlog
+DOWNLOAD_DIR ${CMAKE_CURRENT_SOURCE_DIR}/external/.cache/spdlog
+GIT_REPOSITORY https://github.com/gabime/spdlog.git
+GIT_TAG        v1.5.0
+)
+add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/external/spdlog)
 
 # nanoflann
 
