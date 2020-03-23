@@ -20,14 +20,14 @@ addons:
 matrix:
   include:
   - os: linux
-    compiler: gcc-7
+    compiler: gcc-9
     env:
-    - MATRIX_EVAL="export CC=gcc-7 && CXX=g++-7 && CONFIG=Debug"
+    - MATRIX_EVAL="export CC=gcc-9 && CXX=g++-9 && CONFIG=Debug"
 
   - os: linux
-    compiler: gcc-7
+    compiler: gcc-9
     env:
-    - MATRIX_EVAL="export CC=gcc-7 && CXX=g++-7 && CONFIG=Release"
+    - MATRIX_EVAL="export CC=gcc-9 && CXX=g++-9 && CONFIG=Release"
 
   - os: osx
     osx_image: xcode10.2
