@@ -11,6 +11,7 @@ addons:
     - gcc-9
     - libglu1-mesa-dev
     - libgmp-dev
+    - libboost-dev
     - libmpfr-dev
     - xorg-dev
   homebrew:
