@@ -169,6 +169,10 @@ set(SOURCES
     src/TraceComplex.cpp
     src/MatchMakerDynamic.h 
     src/MatchMakerDynamic.cpp
+    src/Patch_Bijection.cpp 
+    src/Patch_Bijection.h
+    src/TransferCellGraph.h 
+    src/TransferCellGraph.cpp
 )
 add_library(bcclean ${SOURCES})
 target_link_libraries(bcclean PUBLIC

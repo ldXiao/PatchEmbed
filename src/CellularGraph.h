@@ -15,7 +15,7 @@ namespace bcclean{
         Eigen::VectorXi FL;
         std::vector<Eigen::RowVector3d> _vertices;
         std::vector<Eigen::RowVector3d> _normals;
-        std::vector<int> _nodes;
+        std::vector<int> _nodes; // indices into _vertices
         std::vector<edge> _edge_list;
         std::unordered_map<int, std::vector<int> >  _patch_edge_dict; // Counter clock wise
         std::unordered_map<int, std::vector<bool> > _patch_edge_direction_dict;

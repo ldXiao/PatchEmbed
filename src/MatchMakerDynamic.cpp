@@ -15,6 +15,8 @@
 #include "CellularGraph.h"
 #include "MatchMakerDynamic.h"
 #include "TraceComplex.h"
+#include "TransferCellGraph.h"
+#include "Patch_Bijection.h"
 /* BTCMM means backtracking cellular matchmaker */
 namespace bcclean{
 namespace MatchMaker{
@@ -509,7 +511,13 @@ namespace MatchMaker{
                 split_file << "\n";
             }
         }
-        if(recycle.empty()) return true;
+        if(recycle.empty()){
+            CellularGraph cgt;
+            Bijection::TransferCellGraph(cg, tc, cgt);
+            Eigen::MatrixXd M_s2t;
+            Bijection::BijGlobal(cg,cgt, M_s2t);
+            return true;
+        }
         else return false;
 
     }
