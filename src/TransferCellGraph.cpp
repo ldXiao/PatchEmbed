@@ -58,7 +58,6 @@ namespace Bijection{
                 cgt._vmap[vidx_raw] = vidx_cg;
                 cgt._ivmap[vidx_cg] = vidx_raw;
                 nedg._edge_vertices.push_back(vidx_cg);
-                count +=1;
             }
             nedg.head = nedg._edge_vertices[0];
             nedg.tail = nedg._edge_vertices[nedg._edge_vertices.size()-1];
