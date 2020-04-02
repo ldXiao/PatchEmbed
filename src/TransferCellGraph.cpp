@@ -27,12 +27,13 @@ namespace Bijection{
         cgt._node_edge_dict = cg._node_edge_dict; // copy
         cgt._vmap.clear();
         cgt._ivmap.clear();
-        cgt._edge_list.resize(cg._edge_list.size());
+        cgt._edge_list.clear();
         // cgt._patch_area_dict; preserve
         int edge_idx = 0; // indices into cgt._vertices
         std::map<int, int> node_record_raw;
         Eigen::MatrixXd N;
         igl::per_vertex_normals(tc._V, tc._F, N);
+        int count = 0;
         for(auto edg: cg._edge_list)
         {
             edge nedg;
@@ -40,9 +41,8 @@ namespace Bijection{
             nedg.total_label_num = cgt.label_num;
             nedg._label_pair = edg._label_pair;
             nedg._edge_vertices.clear();
-            edge_idx++;
             std::vector<int> path_raw = tc._edge_path_map.at(edge_idx);
-            int count = 0;
+            assert(path_raw.size()>1);
             for(int vidx_raw:path_raw)
             {
                 int vidx_cg = -1;
@@ -62,6 +62,7 @@ namespace Bijection{
             nedg.head = nedg._edge_vertices[0];
             nedg.tail = nedg._edge_vertices[nedg._edge_vertices.size()-1];
             cgt._edge_list.push_back(nedg);
+            edge_idx += 1;
         }
     
     }

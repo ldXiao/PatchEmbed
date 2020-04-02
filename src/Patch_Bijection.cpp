@@ -67,12 +67,12 @@ namespace Bijection{
         double shift = 0;
         int node_num = edge_len_dict.size();
         for(int idx =0 ; idx< bnd.size();++idx){
-            int curr_idx = bnd[(idx) % bnd.size()];
+            int curr_idx = bnd[(idx) % bnd.size()];// indicis into V
             int next_idx = bnd[(idx+1) % bnd.size()];
             double x, y;
             double e_len = (V.row(curr_idx)-V.row(next_idx)).norm();
-            shift+= e_len;
             double ratio = shift/ edge_len_dict.at(cur_arc);
+            shift+= e_len;
             double curr_theta = cur_arc *2 * PI/ node_num;
             double next_theta = (cur_arc+1)*2 * PI/node_num;
             x = (1-ratio)* std::cos(curr_theta) + ratio * std::cos(next_theta);
@@ -114,7 +114,7 @@ namespace Bijection{
             bool CC_dir = cg._patch_edge_direction_dict.at(pidx).at(count);
             count+= 1;
             edge_len_list.push_back(path_len(cg._vertices, edg._edge_vertices));
-            if(CC_dir)
+            if(!CC_dir)
             {
                 
                 for(int i=0 ;  i < edg._edge_vertices.size() -1; ++i)
@@ -193,12 +193,12 @@ namespace Bijection{
             igl::writeOBJ("../dbginfo/patchb.obj", Vb_uv, Fb_uv);
             mapping2polygon(cga, pidx, Va_uv, Fa_uv, nodesa_uv, VIa, FIa);
             igl::writeOBJ("../dbginfo/patcha.obj", Va_uv, Fa_uv);
-            BijLocal(Va_uv, Fa_uv, FIa, Vb_uv, Fb_uv, FIb, Phi_a2b);
-            for(int idx =0 ; idx< Phi_a2b.rows(); ++idx)
-            {
-                int fidx_raw = std::round(Phi_a2b(idx,0));
-                M_a2b.row(VIa(idx)) = Phi_a2b.row(idx);
-            }
+            // BijLocal(Va_uv, Fa_uv, FIa, Vb_uv, Fb_uv, FIb, Phi_a2b);
+            // for(int idx =0 ; idx< Phi_a2b.rows(); ++idx)
+            // {
+            //     int fidx_raw = std::round(Phi_a2b(idx,0));
+            //     M_a2b.row(VIa(idx)) = Phi_a2b.row(idx);
+            // }
         }
         return;
     }
