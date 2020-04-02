@@ -4,6 +4,7 @@
 #include <igl/embree/line_mesh_intersection.h>
 #include "patch.h"
 #include "CellularGraph.h"
+#include <igl/writeOBJ.h>
 #include <igl/list_to_matrix.h>
 #include <vector>
 namespace bcclean {
@@ -40,14 +41,14 @@ namespace Bijection{
         return true;
     }
 
-    double path_len(const Eigen::MatrixXd & V, 
+    double path_len(const std::vector<Eigen::RowVector3d> & V, 
                     const std::vector<int> & path
     )
     {
         double res=0;
         for(int p=0; p < path.size()-1; p++)
         {
-            double edgeln = (V.row(path[p])- V.row(path[p+1])).norm();
+            double edgeln = (V.at(path[p])- V.at(path[p+1])).norm();
             res += edgeln;
         }
         return res;
@@ -112,13 +113,14 @@ namespace Bijection{
             edge edg = cg._edge_list.at(edgidx);
             bool CC_dir = cg._patch_edge_direction_dict.at(pidx).at(count);
             count+= 1;
-            edge_len_list.push_back(path_len(cg.V, edg._edge_vertices));
+            edge_len_list.push_back(path_len(cg._vertices, edg._edge_vertices));
             if(CC_dir)
             {
                 
                 for(int i=0 ;  i < edg._edge_vertices.size() -1; ++i)
                 {
-                    int vidx_raw = edg._edge_vertices.at(i);
+                    int vidx_cg = edg._edge_vertices.at(i);
+                    int vidx_raw = cg._ivmap.at(vidx_cg);
                     int vidx = invIp.at(vidx_raw);
                     bnd.push_back(vidx);
                     bnd_nodes_dict[vidx] = (i==0);
@@ -127,7 +129,8 @@ namespace Bijection{
             else{
                 for(int i=edg._edge_vertices.size() -1 ;  i >0; --i)
                 {
-                    int vidx_raw = edg._edge_vertices.at(i);
+                    int vidx_cg = edg._edge_vertices.at(i);
+                    int vidx_raw = cg._ivmap.at(vidx_cg);
                     int vidx = invIp.at(vidx_raw);
                     bnd.push_back(vidx);
                     bnd_nodes_dict[vidx] = (i==edg._edge_vertices.size() -1);
@@ -154,7 +157,7 @@ namespace Bijection{
     {
         Eigen::MatrixXd Na = Eigen::MatrixXd::Constant(Va_uv.rows(), 3, 0);
         Eigen::MatrixXd Va_shift = Va_uv;
-        Eigen::MatrixXd Vb_large = Vb_uv * 1.00000001;
+        Eigen::MatrixXd Vb_large = Vb_uv * 1.00001;
         for(int i =0 ; i< Na.rows(); ++i)
         {
             Na(i,2) = -1;
@@ -187,7 +190,9 @@ namespace Bijection{
             int pidx = item.first;
             
             mapping2polygon(cgb, pidx, Vb_uv, Fb_uv, nodesb_uv, VIb, FIb);
+            igl::writeOBJ("../dbginfo/patchb.obj", Vb_uv, Fb_uv);
             mapping2polygon(cga, pidx, Va_uv, Fa_uv, nodesa_uv, VIa, FIa);
+            igl::writeOBJ("../dbginfo/patcha.obj", Va_uv, Fa_uv);
             BijLocal(Va_uv, Fa_uv, FIa, Vb_uv, Fb_uv, FIb, Phi_a2b);
             for(int idx =0 ; idx< Phi_a2b.rows(); ++idx)
             {

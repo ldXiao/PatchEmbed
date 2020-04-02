@@ -29,51 +29,42 @@ namespace Bijection{
         cgt._ivmap.clear();
         cgt._edge_list.resize(cg._edge_list.size());
         // cgt._patch_area_dict; preserve
-        int count = 0; // indices into cgt._vertices
+        int edge_idx = 0; // indices into cgt._vertices
         std::map<int, int> node_record_raw;
-        for(auto item: tc._edge_path_map)
+        Eigen::MatrixXd N;
+        igl::per_vertex_normals(tc._V, tc._F, N);
+        for(auto edg: cg._edge_list)
         {
-            edge nedg, edg;
-            int edge_idx = item.first;
-            std::vector<int> path_raw = item.second;
-            edg  = cg._edge_list.at(edge_idx);
-            nedg.head = tc._node_image_map.at(edg.head);
-            nedg.tail = tc._node_image_map.at(edg.tail);
+            edge nedg;
             nedg.matched = true;
             nedg.total_label_num = cgt.label_num;
             nedg._label_pair = edg._label_pair;
             nedg._edge_vertices.clear();
-            nedg._edge_vertices = path_raw;
-            int pos = 0;
-            Eigen::MatrixXd N;
-            igl::per_vertex_normals(tc._V, tc._F, N);
-            for(int vidx_raw: path_raw)
+            edge_idx++;
+            std::vector<int> path_raw = tc._edge_path_map.at(edge_idx);
+            int count = 0;
+            for(int vidx_raw:path_raw)
             {
-                if(pos == 0 || pos == path_raw.size()-1){
-                    // verify if it is a node
-                    if(node_record_raw.find(vidx_raw)== node_record_raw.end())
-                    {
-                        cgt._vertices.push_back(tc._V.row(vidx_raw));
-                        cgt._nodes.push_back(count);
-                        cgt._normals.push_back(N.row(vidx_raw));
-                        cgt._vmap[vidx_raw] = count;
-                        cgt._ivmap[count] = vidx_raw;
-                        node_record_raw[vidx_raw] = count;
-                        count += 1;
-                    }
+                int vidx_cg = -1;
+                if(node_record_raw.find(vidx_raw)== node_record_raw.end())
+                {
+                    node_record_raw[vidx_raw]= count;
+                    count += 1;
                 }
-                else{
-                    cgt._vertices.push_back(tc._V.row(vidx_raw));
-                    cgt._nodes.push_back(count);
-                    cgt._normals.push_back(N.row(vidx_raw));
-                    cgt._vmap[vidx_raw] = count;
-                    cgt._ivmap[count] = vidx_raw;
-                    count += 1; 
-                }
-                pos += 1;
+                vidx_cg = node_record_raw[vidx_raw];
+                cgt._vertices.push_back(tc._V.row(vidx_raw));
+                cgt._nodes.push_back(vidx_cg);
+                cgt._normals.push_back(N.row(vidx_raw));
+                cgt._vmap[vidx_raw] = vidx_cg;
+                cgt._ivmap[vidx_cg] = vidx_raw;
+                nedg._edge_vertices.push_back(vidx_cg);
+                count +=1;
             }
-            cgt._edge_list[edge_idx]=nedg;
+            nedg.head = nedg._edge_vertices[0];
+            nedg.tail = nedg._edge_vertices[nedg._edge_vertices.size()-1];
+            cgt._edge_list.push_back(nedg);
         }
+    
     }
 }
 }
