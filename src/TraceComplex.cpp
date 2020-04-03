@@ -5,6 +5,7 @@
 #include <igl/barycentric_to_global.h>
 #include <algorithm>
 #include <igl/doublearea.h>
+#include <igl/writeOBJ.h>
 namespace bcclean
 {
 namespace MatchMaker
@@ -113,7 +114,8 @@ namespace MatchMaker
         _FL.conservativeResize(_F.rows()+2);
         _DblA.conservativeResize(_F.rows()+2);
         // update splits_record
-        std::vector<double> record = {_V(v0,0), _V(v0,1), _V(v0,2), _V(v1,0), _V(v1,1), _V(v1,2), _V(v2,0),_V(v2,1),_V(v2,2)};
+        std::vector<double> record = {_V(v0,0), _V(v0,1), _V(v0,2), _V(v1,0), _V(v1,1), _V(v1,2), _V(v2,0),_V(v2,1),_V(v2,2), nVentry(0), nVentry(1), nVentry(2)};
+        
         _splits_record.push_back(record);
         nF.block(0,0,_F.rows(),3) = _F;
         /*
@@ -186,7 +188,32 @@ namespace MatchMaker
 
         _F = nF;
         _V = nV;
-        
+        // igl::writeOBJ("../dbginfo/operation"+std::to_string(this->operation_count)+".obj", _V, _F);
+        std::ofstream split_file;
+        split_file.open("../dbginfo/splits_record.txt");
+        for(auto & vec: this->_splits_record)
+        {
+            if(vec.size()==9)
+            {
+                // it is splits
+                split_file << 0;
+                split_file << " ";
+            }
+            else
+            {
+                // it is an insert
+                split_file << 1;
+                split_file << " ";
+            }
+            
+            for(auto & val: vec)
+            {
+                split_file << val;
+                split_file << " ";
+            }
+            split_file << "\n";
+        }
+        this->operation_count+=1;
     }
 
 
@@ -275,8 +302,7 @@ namespace MatchMaker
         int uidx = split.first;
         int vidx = split.second;
         int widx = oldV_num;
-        std::vector<double> record = {_V(uidx,0), _V(uidx,1), _V(uidx,2), _V(vidx,0), _V(vidx,1), _V(vidx,2) };
-        _splits_record.push_back(record);
+        
         // decide the adj configurations
         /* decide up and down faces vertices
             vup
@@ -386,7 +412,36 @@ namespace MatchMaker
         Eigen::RowVector3d  wpos = (_V.row(uidx)+_V.row(vidx))/2;
         nV.row(widx) = wpos;
         _V = nV;
-
+        std::vector<double> record = {_V(uidx,0), _V(uidx,1), _V(uidx,2), _V(vidx,0), _V(vidx,1), _V(vidx,2) ,_V(widx,0),_V(widx,1), _V(widx,2)};
+        _splits_record.push_back(record);
+        
+        // iglw::writeOBJ("../dbginfo/operation"+std::to_string(this->operation_count)+".obj", _V, _F);
+        std::ofstream split_file;
+        split_file.open("../dbginfo/splits_record.txt");
+        for(auto & vec: this->_splits_record)
+        {
+            if(vec.size()==9)
+            {
+                // it is splits
+                split_file << 0;
+                split_file << " ";
+            }
+            else
+            {
+                // it is an insert
+                split_file << 1;
+                split_file << " ";
+            }
+            
+            for(auto & val: vec)
+            {
+                split_file << val;
+                split_file << " ";
+            }
+            split_file << "\n";
+        }
+        this->operation_count++;
+        
         // update _DblA;
         _DblA.conservativeResize(nF_num);
         _DblA(f0idx) = ((nV.row(vupidx)-wpos).cross(nV.row(vidx)-wpos)).norm();
@@ -437,6 +492,7 @@ namespace MatchMaker
         _VV[uidx].erase(std::remove(_VV[uidx].begin(), _VV[uidx].end(), vidx), _VV[uidx].end());
 
         // the above two lines will do nothing if they find nothing
+        
         
     }
 }

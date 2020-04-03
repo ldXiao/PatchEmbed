@@ -22,6 +22,7 @@ namespace MatchMaker{
         std::map<int, int> _node_image_map;
         std::vector<int> _total_silence_list;
         std::vector<int> _node_list;
+        int operation_count = 0;
         void initialize(const Eigen::MatrixXd & Vin, const Eigen::MatrixXi & Fin);
         void insert_update(const Eigen::MatrixXd & baryentry);
         void splits_detect(std::vector<std::pair<int, int> > & splits);

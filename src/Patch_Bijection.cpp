@@ -119,6 +119,14 @@ namespace Bijection{
         int start_edg = edge_queue.front();
         edge_queue.pop_front();
         bnd_cg = cg._edge_list.at(start_edg)._edge_vertices;
+        edge_len_list.push_back(path_len(cg._vertices,cg._edge_list.at(start_edg)._edge_vertices));
+        std::vector< std::vector<int>> loops;
+        igl::boundary_loop(Fp, loops);
+        for(int i = 0; i < bnd_cg.size(); i ++)
+        {
+            int vidx_cg = bnd_cg.at(i);
+            bnd_nodes_dict[invIp.at(cg._ivmap.at(vidx_cg))] = (i ==0 || i == bnd_cg.size()-1);
+        }
         
         while(! edge_queue.empty())
         {
@@ -135,30 +143,35 @@ namespace Bijection{
                     {
                         int vidx_cg = edg._edge_vertices.at(i);
                         bnd_cg.push_back(vidx_cg);
-                        bnd_nodes_dict[invIp.at(cg._ivmap.at(vidx_cg))] = (i != edg._edge_vertices.size()-1);
+                        bnd_nodes_dict[invIp.at(cg._ivmap.at(vidx_cg))] = (i == edg._edge_vertices.size()-1);
                     }
+                    edge_len_list.push_back(path_len(cg._vertices, edg._edge_vertices));
+                    break;
                 }
                 else if(edg.tail == bnd_cg.at(bnd_cg.size()-1))
                 {
                     find_idx = edgidx;
                     bnd_nodes_dict[invIp.at(cg._ivmap.at(edg.tail))] = true;
-                    for(int i = edg._edge_vertices.size()-1; i > -1 ; i--)
+                    for(int i = edg._edge_vertices.size()-2; i > -1 ; i--)
                     {
                          int vidx_cg = edg._edge_vertices.at(i);
                         bnd_cg.push_back(vidx_cg);
                         bnd_nodes_dict[invIp.at(cg._ivmap.at(vidx_cg))] = (i == 0);
                     }
+                    edge_len_list.push_back(path_len(cg._vertices, edg._edge_vertices));
+                    break;
                 }
             }
             assert(find_idx != -1);
             edge_queue.remove(find_idx);
         }
+        bnd_cg.resize(bnd_cg.size()-1);
         for(auto vidx_cg: bnd_cg)
         {
             bnd.push_back(invIp.at(cg._ivmap.at(vidx_cg)));
         }
 
-
+        
         
         Eigen::MatrixXd bnd_uv;
         Eigen::VectorXi bndp;
@@ -202,7 +215,7 @@ namespace Bijection{
         const CellularGraph & cgb,
         Eigen::MatrixXd & M_a2b // #Va * 4 matrix
     ){
-        M_a2b = Eigen::MatrixXd::Constant(cga.V.rows(), 4,0);
+        M_a2b = Eigen::MatrixXd::Constant(cga.V.rows(), 3,0);
         for(auto item: cga._patch_edge_dict)
         {
             Eigen::MatrixXd Va_uv, Vb_uv,Phi_a2b;
@@ -216,12 +229,12 @@ namespace Bijection{
             igl::writeOBJ("../dbginfo/patchb.obj", Vb_uv, Fb_uv);
             mapping2polygon(cga, pidx, Va_uv, Fa_uv, nodesa_uv, VIa, FIa);
             igl::writeOBJ("../dbginfo/patcha.obj", Va_uv, Fa_uv);
-            // BijLocal(Va_uv, Fa_uv, FIa, Vb_uv, Fb_uv, FIb, Phi_a2b);
-            // for(int idx =0 ; idx< Phi_a2b.rows(); ++idx)
-            // {
-            //     int fidx_raw = std::round(Phi_a2b(idx,0));
-            //     M_a2b.row(VIa(idx)) = Phi_a2b.row(idx);
-            // }
+            BijLocal(Va_uv, Fa_uv, FIa, Vb_uv, Fb_uv, FIb, Phi_a2b);
+            for(int idx =0 ; idx< Phi_a2b.rows(); ++idx)
+            {
+                int fidx_raw = std::round(Phi_a2b(idx,0));
+                M_a2b.row(VIa(idx)) = Phi_a2b.row(idx);
+            }
         }
         return;
     }

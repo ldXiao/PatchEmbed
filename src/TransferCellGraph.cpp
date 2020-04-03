@@ -49,10 +49,11 @@ namespace Bijection{
                 if(node_record_raw.find(vidx_raw)== node_record_raw.end())
                 {
                     node_record_raw[vidx_raw]= count;
+                    cgt._vertices.push_back(tc._V.row(vidx_raw));
                     count += 1;
                 }
                 vidx_cg = node_record_raw[vidx_raw];
-                cgt._vertices.push_back(tc._V.row(vidx_raw));
+                
                 cgt._nodes.push_back(vidx_cg);
                 cgt._normals.push_back(N.row(vidx_raw));
                 cgt._vmap[vidx_raw] = vidx_cg;
