@@ -5,7 +5,9 @@
 #include "patch.h"
 #include "CellularGraph.h"
 #include <igl/writeOBJ.h>
+#include <igl/boundary_loop.h>
 #include <igl/list_to_matrix.h>
+#include <list>
 #include <vector>
 namespace bcclean {
 namespace Bijection{
@@ -104,39 +106,60 @@ namespace Bijection{
             int vidx_raw = VI(vidx);
             invIp[vidx_raw]= vidx;
         }
-        std::vector<int> bnd;
+        std::vector<int> bnd, bnd_cg;
         std::map<int, bool> bnd_nodes_dict;
         std::vector<double> edge_len_list;
-        int count =0;
+       
+        
+        std::list<int> edge_queue;
         for(int edgidx : cg._patch_edge_dict.at(pidx))
         {
-            edge edg = cg._edge_list.at(edgidx);
-            bool CC_dir = cg._patch_edge_direction_dict.at(pidx).at(count);
-            count+= 1;
-            edge_len_list.push_back(path_len(cg._vertices, edg._edge_vertices));
-            if(!CC_dir)
+            edge_queue.push_back(edgidx);
+        }
+        int start_edg = edge_queue.front();
+        edge_queue.pop_front();
+        bnd_cg = cg._edge_list.at(start_edg)._edge_vertices;
+        
+        while(! edge_queue.empty())
+        {
+            int end_raw = bnd_cg[bnd_cg.size()-1];
+            int find_idx = -1; 
+            for(int edgidx: edge_queue)
             {
-                
-                for(int i=0 ;  i < edg._edge_vertices.size() -1; ++i)
+                edge edg = cg._edge_list[edgidx];
+                if(edg.head == bnd_cg.at(bnd_cg.size()-1))
                 {
-                    int vidx_cg = edg._edge_vertices.at(i);
-                    int vidx_raw = cg._ivmap.at(vidx_cg);
-                    int vidx = invIp.at(vidx_raw);
-                    bnd.push_back(vidx);
-                    bnd_nodes_dict[vidx] = (i==0);
+                    find_idx = edgidx;
+                    bnd_nodes_dict[invIp.at(cg._ivmap.at(edg.head))] = true;
+                    for(int i = 1; i< edg._edge_vertices.size(); ++i)
+                    {
+                        int vidx_cg = edg._edge_vertices.at(i);
+                        bnd_cg.push_back(vidx_cg);
+                        bnd_nodes_dict[invIp.at(cg._ivmap.at(vidx_cg))] = (i != edg._edge_vertices.size()-1);
+                    }
+                }
+                else if(edg.tail == bnd_cg.at(bnd_cg.size()-1))
+                {
+                    find_idx = edgidx;
+                    bnd_nodes_dict[invIp.at(cg._ivmap.at(edg.tail))] = true;
+                    for(int i = edg._edge_vertices.size()-1; i > -1 ; i--)
+                    {
+                         int vidx_cg = edg._edge_vertices.at(i);
+                        bnd_cg.push_back(vidx_cg);
+                        bnd_nodes_dict[invIp.at(cg._ivmap.at(vidx_cg))] = (i == 0);
+                    }
                 }
             }
-            else{
-                for(int i=edg._edge_vertices.size() -1 ;  i >0; --i)
-                {
-                    int vidx_cg = edg._edge_vertices.at(i);
-                    int vidx_raw = cg._ivmap.at(vidx_cg);
-                    int vidx = invIp.at(vidx_raw);
-                    bnd.push_back(vidx);
-                    bnd_nodes_dict[vidx] = (i==edg._edge_vertices.size() -1);
-                } 
-            }
+            assert(find_idx != -1);
+            edge_queue.remove(find_idx);
         }
+        for(auto vidx_cg: bnd_cg)
+        {
+            bnd.push_back(invIp.at(cg._ivmap.at(vidx_cg)));
+        }
+
+
+        
         Eigen::MatrixXd bnd_uv;
         Eigen::VectorXi bndp;
         igl::list_to_matrix(bnd, bndp);
