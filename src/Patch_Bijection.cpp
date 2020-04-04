@@ -6,6 +6,7 @@
 #include "CellularGraph.h"
 #include <igl/writeOBJ.h>
 #include <igl/boundary_loop.h>
+#include <igl/barycentric_to_global.h>
 #include <igl/list_to_matrix.h>
 #include <list>
 #include <vector>
@@ -230,6 +231,8 @@ namespace Bijection{
             mapping2polygon(cga, pidx, Va_uv, Fa_uv, nodesa_uv, VIa, FIa);
             igl::writeOBJ("../dbginfo/patcha.obj", Va_uv, Fa_uv);
             BijLocal(Va_uv, Fa_uv, FIa, Vb_uv, Fb_uv, FIb, Phi_a2b);
+            // Eigen::MatrixXd Vmap = igl::barycentric_to_global(Vb_uv, Fb_uv, Phi_a2b);
+            // igl::writeOBJ("../dbginfo/map1.obj", Vmap, Fa_uv);
             for(int idx =0 ; idx< Phi_a2b.rows(); ++idx)
             {
                 int fidx_raw = std::round(Phi_a2b(idx,0));

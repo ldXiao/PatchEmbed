@@ -9,6 +9,7 @@
 #include <list>
 #include <deque>
 #include <igl/bounding_box_diagonal.h>
+#include <igl/barycentric_to_global.h>
 #include <spdlog/common.h>
 #include <algorithm>
 #include "Edge_Dijkstra.h"
@@ -529,6 +530,8 @@ namespace MatchMaker{
             Bijection::TransferCellGraph(cg, tc, cgt);
             Eigen::MatrixXd M_s2t;
             Bijection::BijGlobal(cg,cgt, M_s2t);
+            Eigen::MatrixXd Vmap=igl::barycentric_to_global(cgt.V, cgt.F, M_s2t);
+            igl::writeOBJ("../dbginfo/map.obj", Vmap, cg.F);
             return true;
         }
         else return false;
