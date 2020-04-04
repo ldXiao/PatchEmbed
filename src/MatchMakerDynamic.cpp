@@ -531,7 +531,7 @@ namespace MatchMaker{
             Eigen::MatrixXd M_s2t;
             Bijection::BijGlobal(cg,cgt, M_s2t);
             Eigen::MatrixXd Vmap=igl::barycentric_to_global(cgt.V, cgt.F, M_s2t);
-            igl::writeOBJ("../dbginfo/map.obj", Vmap, cg.F);
+            igl::writeOBJ(param.data_root+"/map.obj", Vmap, cg.F);
             return true;
         }
         else return false;

@@ -11,7 +11,9 @@
 #include "CellularGraph.h"
 #include "TraceComplex.h"
 #include "Edge_Dijkstra.h"
-
+#include "Patch_Bijection.h"
+#include "TransferCellGraph.h"
+#include <igl/barycentric_to_global.h>
 namespace bcclean {
 namespace MatchMaker{
     using json = nlohmann::json;
@@ -636,6 +638,12 @@ namespace MatchMaker{
         {
             igl::writeOBJ(param.data_root+"/debug_mesh_tree.obj", tc._V, tc._F);
             igl::writeDMAT(param.data_root+"/FL_tree.dmat", tc._FL);
+            CellularGraph cgt;
+            Bijection::TransferCellGraph(cg, tc, cgt);
+            Eigen::MatrixXd M_s2t;
+            Bijection::BijGlobal(cg,cgt, M_s2t);
+            Eigen::MatrixXd Vmap=igl::barycentric_to_global(cgt.V, cgt.F, M_s2t);
+            igl::writeOBJ(param.data_root+"/map.obj", Vmap, cg.F);
         }
         F_good = tc._F;
         V_good = tc._V;
