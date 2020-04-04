@@ -92,7 +92,7 @@ namespace MatchMaker{
         Eigen::SparseMatrix<double> SpWeight;
         Trace::setWeight1(tc._V, tc._F, cg._vertices,edg,SpWeight);
         std::vector<int> path;
-        Trace::Edge_Dijkstra(VV_temp1,source, target, SpWeight,path);
+        Trace::Edge_Dijkstra(VV_temp1, target, source, SpWeight,path);// because the path will be inverted, we switch the position of source and target
         // dijkstra_trace(VV_temp, source, target, Weights, path);
         if(param.debug)
         {

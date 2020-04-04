@@ -49,7 +49,7 @@ namespace MatchMaker{
             }
         }
         int ff_in;
-        if(ffa_coline != directionCC)
+        if(ffa_coline == directionCC)
         {
             ff_in = ffa;
         }
@@ -391,7 +391,7 @@ namespace MatchMaker{
         Eigen::SparseMatrix<double> SpWeight;
         Trace::setWeight1(tc._V, tc._F, cg._vertices,edg,SpWeight);
         std::vector<int> path;
-        Trace::Edge_Dijkstra(VV_temp1,source, target, SpWeight,path);
+        Trace::Edge_Dijkstra(VV_temp1, target, source, SpWeight,path); // switch the position of source and target to make sure path[0]= source and path[-1] = target
         // dijkstra_trace(VV_temp, source, target, Weights, path);
         if(param.debug)
         {

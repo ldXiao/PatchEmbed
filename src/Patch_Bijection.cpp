@@ -194,7 +194,7 @@ namespace Bijection{
     {
         Eigen::MatrixXd Na = Eigen::MatrixXd::Constant(Va_uv.rows(), 3, 0);
         Eigen::MatrixXd Va_shift = Va_uv;
-        Eigen::MatrixXd Vb_large = Vb_uv * 1.00001;
+        Eigen::MatrixXd Vb_large = Vb_uv * 1.00000000001;
         for(int i =0 ; i< Na.rows(); ++i)
         {
             Na(i,2) = -1;
@@ -205,7 +205,6 @@ namespace Bijection{
         for(int idx = 0; idx < Va_uv.rows(); ++idx)
         {
             int fidx = std::round(M_a2b(idx,0));
-            assert(fidx!= -1);
             M_a2b(idx,0) = FIb(fidx);
         }
         return;
