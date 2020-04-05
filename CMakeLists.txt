@@ -11,12 +11,12 @@ set_property(GLOBAL PROPERTY ALLOW_DUPLICATE_CUSTOM_TARGETS 1)
 
 
 include(DownloadProject)
-# download_project(
-    # PROJ         libigl
-    # SOURCE_DIR   ${CMAKE_CURRENT_SOURCE_DIR}/external/libigl
-    # DOWNLOAD_DIR ${CMAKE_CURRENT_SOURCE_DIR}/external/.cache/libigl
-    # GIT_REPOSITORY https://github.com/libigl/libigl.git
-    # GIT_TAG       master)
+download_project(
+    PROJ         libigl
+    SOURCE_DIR   ${CMAKE_CURRENT_SOURCE_DIR}/external/libigl
+    DOWNLOAD_DIR ${CMAKE_CURRENT_SOURCE_DIR}/external/.cache/libigl
+    GIT_REPOSITORY https://github.com/libigl/libigl.git
+    GIT_TAG       master)
 
 option(LIBIGL_USE_STATIC_LIBRARY "Use libigl as static library" OFF)
 option(LIBIGL_WITH_ANTTWEAKBAR       "Use AntTweakBar"    OFF)
@@ -173,6 +173,8 @@ set(SOURCES
     src/Patch_Bijection.h
     src/TransferCellGraph.h 
     src/TransferCellGraph.cpp
+    src/slim_hard_constr.h 
+    src/slim_hard_constr.cpp 
 )
 add_library(bcclean ${SOURCES})
 target_link_libraries(bcclean PUBLIC
