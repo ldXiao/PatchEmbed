@@ -384,7 +384,7 @@ namespace MatchMaker{
             if(curpatch_succ){
                 // if the current is traced successfully, we go on to compare the difference
                 int ff_in = _locate_seed_face(cg, tc, patch_idx);
-                double newarea = loop_colorize(tc._V, tc._F, tc._TEdges, ff_in, patch_idx, tc._FL);
+                double newarea = loop_colorize(tc._V, tc._F, tc._TEdges, ff_in, patch_idx, tc._FL).second();
                 double target_area = cg._patch_area_dict.at(patch_idx);
                 bool area_withinthreshold = (std::abs(newarea/target_area) < arthreshold)|| (switch_count > 2);
                 withinthreshold=backtrack_diff(

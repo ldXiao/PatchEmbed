@@ -1,7 +1,7 @@
 #include "loop_colorize.h"
 namespace bcclean
 {
-    double loop_colorize(
+    std::pair<int, double> loop_colorize(
     const Eigen::MatrixXd& V, 
     const Eigen::MatrixXi & F, 
     const std::vector<std::vector<int> > & TEdges,
@@ -27,6 +27,7 @@ namespace bcclean
         DblA += (a_.cross(b_)).norm();
         std::queue<int> search_queue;
         search_queue.push(face_seed);
+        int count = 1;
         std::map<int, bool> visit_dict;
         for(int fidx= 0 ; fidx < F.rows(); ++fidx)
         {
@@ -56,11 +57,12 @@ namespace bcclean
                         Eigen::RowVector3d a__ = V.row(F(face_j,1)) - V.row(F(face_j, 0));
                         Eigen::RowVector3d b__ = V.row(F(face_j,2)) - V.row(F(face_j,0));
                         DblA += (a__.cross(b__)).norm();
+                        count += 1;
                     }
                 }
             }
         }
 
-        return DblA;
+        return std::make_pair(visit_dict.size(),DblA);
     }
 }
