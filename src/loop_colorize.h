@@ -5,10 +5,11 @@
 #include <igl/vertex_triangle_adjacency.h> 
 #include <queue>
 #include <igl/triangle_triangle_adjacency.h>
+#include <utility>
 #include "TraceComplex.h"
 namespace bcclean
 {
-    double loop_colorize(
+    std::pair<int, double> loop_colorize(
     const Eigen::MatrixXd& V, 
     const Eigen::MatrixXi & F, 
     const std::vector<std::vector<int> > & TEdges,

@@ -607,6 +607,26 @@ namespace MatchMaker{
         std::cout << "tracing mst done" << std::endl;
         // trace of remaining edges
 
+        // for(auto item: cg._node_edge_dict)
+        // {
+        //     // Main loop for tracing
+        //     int nd = item.first;
+        //     for (auto edge_idx: cg._node_edge_dict.at(nd)){
+        //         if(node_edge_visit_dict[nd][edge_idx])
+        //         {
+        //             continue;
+        //         }
+        //         if(!trace_for_edge(
+        //             cg,
+        //             tc,
+        //             edge_idx,
+        //             node_edge_visit_dict,
+        //             path_json,
+        //             param 
+        //         )) return false;
+        //     }
+        // }
+        std::list<int> edge_queue;
         for(auto item: cg._node_edge_dict)
         {
             // Main loop for tracing
@@ -616,16 +636,33 @@ namespace MatchMaker{
                 {
                     continue;
                 }
-                if(!trace_for_edge(
-                    cg,
-                    tc,
-                    edge_idx,
-                    node_edge_visit_dict,
-                    path_json,
-                    param 
-                )) return false;
+                edge_queue.push_back(edge_idx); 
             }
         }
+        // dea with the the edges that will not separate region
+        std::list<int> recycle;
+        for(auto edge_idx: edge_queue)
+        {
+            TraceComplex tc_copy = tc;
+            json path_json_copy = path_json;
+            std::map<int , std::map<int, bool> > node_edge_visit_dict_copy = node_edge_visit_dict;
+            bool succ = trace_for_edge(cg, tc_copy, edge_idx, node_edge_visit_dict_copy, path_json_copy, param);
+            Eigen::VectorXi FL_temp = tc_copy._FL;
+            int fcount = (loop_colorize(tc_copy._V. tc_copy._F, tc_copy._TEdges, 0, 0, FL_temp)).first();
+            bool connected =(fcount == FL_temp.rows());
+            if(!connected)
+            {
+                recycle.push_back(edge_idx);
+                // do not update tc
+                continue;
+            }
+            else
+            {
+                // update tc
+            }
+            
+        }
+
 
         for(auto item: cg._patch_edge_dict)
         {
