@@ -11,14 +11,17 @@
 #include <utility>
 #include <nlohmann/json.hpp>
 #include <Eigen/Core>
+#include <spdlog/spdlog.h>
+#include <memory>
 namespace bcclean{
 namespace MatchMaker{
-    bool BTCMM1(
+    bool MatchMakerPatch(
         const CellularGraph & cg,
         Eigen::MatrixXd & V_good,
         Eigen::MatrixXi & F_good,
         Eigen::VectorXi & FL_good,
-        const params params
+        const params params,
+        std::unique_ptr<spdlog::logger> logger
     );
 }
 }

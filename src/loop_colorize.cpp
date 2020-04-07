@@ -63,6 +63,6 @@ namespace bcclean
             }
         }
 
-        return std::make_pair(visit_dict.size(),DblA);
+        return std::make_pair(count,DblA);
     }
 }

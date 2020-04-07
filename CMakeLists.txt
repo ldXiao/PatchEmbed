@@ -195,3 +195,8 @@ set_target_properties(btcmm PROPERTIES CXX_STANDARD 17)
 add_executable(gen_feat src/gen_feat.cpp)
 target_link_libraries(gen_feat bcclean)
 set_target_properties(gen_feat PROPERTIES CXX_STANDARD 17)
+
+
+add_executable(spdlog_test src/spdlog_test.cpp)
+target_link_libraries(spdlog_test bcclean)
+set_target_properties(spdlog_test PROPERTIES CXX_STANDARD 17)

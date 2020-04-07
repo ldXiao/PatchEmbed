@@ -17,6 +17,8 @@
 #include <igl/bounding_box_diagonal.h>
 #include <igl/edges.h>
 #include <Eigen/Core>
+#include <spdlog/spdlog.h>
+#include <spdlog/sinks/basic_file_sink.h>
 #include "bcclean.h"
 #include "edge.h"
 #include "graphcut_cgal.h"
@@ -203,6 +205,7 @@ int main(int argc, char *argv[]){
         output_file_bad = param.data_root + "/"+ "CC"+std::to_string(cc)+"-bad.obj";
         output_file_good = param.data_root +"/"+"CC"+std::to_string(cc)+"edg_len_r"+std::to_string(param.edge_len_r)+"-good.obj";
         output_label_good = param.data_root +"/"+"CC"+std::to_string(cc)+"edg_len_r"+std::to_string(param.edge_len_r); +"-label.dmat";
+        auto file_logger = spdlog::basic_logger_mt("basic_logger", param.data_root + "/"+ "CC"+std::to_string(cc)+"logs.txt",true);
         bool file_exists = false;
         for (const auto & entry : std::filesystem::directory_iterator(param.data_root))
         {
@@ -274,7 +277,7 @@ int main(int argc, char *argv[]){
         }
         if(tracing=="loop"){
             try{
-                succeed = bcclean::MatchMaker::BTCMM1(cg,CCV_good, CCF_good, CCFL_good, param_copy);
+                succeed = bcclean::MatchMaker::MatchMakerPatch(cg,CCV_good, CCF_good, CCFL_good, param_copy);
             }
             catch(...)
             {
@@ -284,7 +287,7 @@ int main(int argc, char *argv[]){
         } else if (tracing == "tree")
         {
             try{
-            succeed=bcclean::MatchMaker::MatchMakerTree(cg,CCV_good, CCF_good, CCFL_good, param_copy); 
+            succeed=bcclean::MatchMaker::MatchMakerTree(cg,CCV_good, CCF_good, CCFL_good, param_copy, file_logger); 
             }
             catch(...)
             {

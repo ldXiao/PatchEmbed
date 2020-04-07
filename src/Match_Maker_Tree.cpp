@@ -494,7 +494,8 @@ namespace MatchMaker{
         Eigen::MatrixXd & V_good,
         Eigen::MatrixXi & F_good,
         Eigen::VectorXi & FL_good,
-        const params param
+        const params param,
+        std::shared_ptr<spdlog::logger> logger
     )
     {
         int total_label_num = cg.label_num;
@@ -589,12 +590,14 @@ namespace MatchMaker{
             edge_visit_dict[kkk]= false;
             kkk++;
         }
-
+        logger->info("trace graph of size {}", cg._edge_list.size());
+        logger->info("trace mean spanning tree of size {}", frame_MST.size());
         // trace for mst
+        int traced_count = 1;
         for(auto frame_edge: frame_MST)
         {
             int edge_idx = frame_edge.first;
-
+            int old_split_count = tc.operation_count;
             if(!trace_for_edge(
                 cg,
                 tc,
@@ -603,40 +606,24 @@ namespace MatchMaker{
                 path_json,
                 param 
             )) return false;
+            edge_visit_dict[edge_idx]= true;
+            logger->info("edge {} traced, finished {}/{} of MST and {}/{} of Graph",edge_idx,traced_count, frame_MST.size(), traced_count, cg._edge_list.size());
+            int new_split =  tc.operation_count-old_split_count;
+            logger->info("{} new splits operated, total vertices {}", new_split, tc._V.rows());
+            logger->flush();
+            traced_count+=1;
         }
+        logger->info("trace mst done");
         std::cout << "tracing mst done" << std::endl;
-        // trace of remaining edges
 
-        // for(auto item: cg._node_edge_dict)
-        // {
-        //     // Main loop for tracing
-        //     int nd = item.first;
-        //     for (auto edge_idx: cg._node_edge_dict.at(nd)){
-        //         if(node_edge_visit_dict[nd][edge_idx])
-        //         {
-        //             continue;
-        //         }
-        //         if(!trace_for_edge(
-        //             cg,
-        //             tc,
-        //             edge_idx,
-        //             node_edge_visit_dict,
-        //             path_json,
-        //             param 
-        //         )) return false;
-        //     }
-        // }
+        logger->info("trace non-blocking edges");
+        // trace of remaining edges
         std::list<int> edge_queue;
-        for(auto item: cg._node_edge_dict)
+        for(auto item: edge_visit_dict)
         {
-            // Main loop for tracing
-            int nd = item.first;
-            for (auto edge_idx: cg._node_edge_dict.at(nd)){
-                if(node_edge_visit_dict[nd][edge_idx])
-                {
-                    continue;
-                }
-                edge_queue.push_back(edge_idx); 
+            if(! edge_visit_dict[item.first])
+            {
+                edge_queue.push_back(item.first);
             }
         }
         // dea with the the edges that will not separate region
@@ -660,6 +647,8 @@ namespace MatchMaker{
             {
                 recycle.push_back(edge_idx);
                 std::cout << "edge" << edge_idx << "postponed" << std::endl;
+                logger->critical("edge {} is potential blocking, postponed", edge_idx);
+                logger->flush();
                 // do not update tc
                 continue;
             }
@@ -669,6 +658,11 @@ namespace MatchMaker{
                 tc = tc_copy;
                 path_json = path_json_copy;
                 node_edge_visit_dict = node_edge_visit_dict_copy;
+                logger->info("edge {} is not blocking, {}/{} finished", edge_idx, traced_count, cg._edge_list.size());
+                int new_split = tc_copy.operation_count - tc.operation_count;
+                logger->info("{} new splits operated, total vertices {}", new_split, tc._V.rows());
+                logger->flush();
+                traced_count ++;
             }
             
         }
@@ -676,6 +670,7 @@ namespace MatchMaker{
         {
             for(auto edge_idx: recycle)
             {
+                int old_split_count = tc.operation_count;
                 if(!trace_for_edge(
                     cg,
                     tc,
@@ -683,10 +678,21 @@ namespace MatchMaker{
                     node_edge_visit_dict,
                     path_json,
                     param 
-                )) return false;
+                )) 
+                {return false;}
+                else
+                {
+                    logger->info("edge {} is traced, {}/{} finished", edge_idx, traced_count, cg._edge_list.size());
+                    int new_split =  tc.operation_count-old_split_count;
+                    logger->info("{} new splits operated, total vertices {}", new_split, tc._V.rows());
+                    logger->flush();
+                    traced_count++; 
+                }
+                
             }
         }
         else{
+            logger->critical("early break, bug exists");
             return false;
         }
 
@@ -696,7 +702,8 @@ namespace MatchMaker{
             int patch_idx = item.first;
 
             int ff_in = _locate_seed_face(cg, tc, patch_idx);
-            loop_colorize(tc._V, tc._F, tc._TEdges,ff_in, patch_idx, tc._FL);
+            std::pair<int, double> pair_temp=loop_colorize(tc._V, tc._F, tc._TEdges,ff_in, patch_idx, tc._FL);
+            assert(pair_temp.first != tc._F.rows());
         }
         if(param.debug)
         {

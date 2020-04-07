@@ -10,7 +10,6 @@
 #include <deque>
 #include <igl/bounding_box_diagonal.h>
 #include <igl/barycentric_to_global.h>
-#include <spdlog/common.h>
 #include <algorithm>
 #include "Edge_Dijkstra.h"
 #include "CellularGraph.h"
@@ -41,7 +40,7 @@ namespace MatchMaker{
     }
 
 
-    bool BTCMM1_for_edge(
+    bool MatchMakerPatch_for_edge(
         const CellularGraph & cg,
         TraceComplex & tc,
         const int edge_idx,
@@ -193,12 +192,13 @@ namespace MatchMaker{
 
 
 
-    bool BTCMM1(
+    bool MatchMakerPatch(
         const CellularGraph & cg,
         Eigen::MatrixXd & V_good,
         Eigen::MatrixXi & F_good,
         Eigen::VectorXi & FL_good,
-        const params param
+        const params param,
+        std::shared_ptr<spdlog::logger> logger
     )
     {
 
@@ -365,7 +365,7 @@ namespace MatchMaker{
 
 
                 //
-                if(!BTCMM1_for_edge(
+                if(!MatchMakerPatch_for_edge(
                     cg,
                     tc,
                     edge_idx, 

@@ -16,6 +16,8 @@
 #include <algorithm>
 #include <functional>
 #include <cmath>
+#include <spdlog/spdlog.h>
+#include <memory>
 #include "params.h"
 #include "CellularGraph.h"
 #include "TraceComplex.h"
@@ -48,7 +50,8 @@ namespace MatchMaker{
         Eigen::MatrixXd & V_good,
         Eigen::MatrixXi & F_good,
         Eigen::VectorXi & FL_good,
-        const params param
+        const params param,
+        std::shared_ptr<spdlog::logger> logger
     ); 
 }
 }
