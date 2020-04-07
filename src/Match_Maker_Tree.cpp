@@ -641,6 +641,7 @@ namespace MatchMaker{
         }
         // dea with the the edges that will not separate region
         std::list<int> recycle;
+        bool early_break = false;
         for(auto edge_idx: edge_queue)
         {
             TraceComplex tc_copy = tc;
@@ -648,19 +649,45 @@ namespace MatchMaker{
             std::map<int , std::map<int, bool> > node_edge_visit_dict_copy = node_edge_visit_dict;
             bool succ = trace_for_edge(cg, tc_copy, edge_idx, node_edge_visit_dict_copy, path_json_copy, param);
             Eigen::VectorXi FL_temp = tc_copy._FL;
-            int fcount = (loop_colorize(tc_copy._V. tc_copy._F, tc_copy._TEdges, 0, 0, FL_temp)).first();
+            int fcount = (loop_colorize(tc_copy._V, tc_copy._F, tc_copy._TEdges, 0, 0, FL_temp)).first;
             bool connected =(fcount == FL_temp.rows());
+            if(!succ)
+            {
+                early_break = true;
+                break;
+            }
             if(!connected)
             {
                 recycle.push_back(edge_idx);
+                std::cout << "edge" << edge_idx << "postponed" << std::endl;
                 // do not update tc
                 continue;
             }
             else
             {
                 // update tc
+                tc = tc_copy;
+                path_json = path_json_copy;
+                node_edge_visit_dict = node_edge_visit_dict_copy;
             }
             
+        }
+        if(! early_break)
+        {
+            for(auto edge_idx: recycle)
+            {
+                if(!trace_for_edge(
+                    cg,
+                    tc,
+                    edge_idx,
+                    node_edge_visit_dict,
+                    path_json,
+                    param 
+                )) return false;
+            }
+        }
+        else{
+            return false;
         }
 
 
