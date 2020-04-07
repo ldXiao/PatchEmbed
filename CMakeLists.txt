@@ -51,7 +51,7 @@ option(LIBIGL_WITH_XML               "Use XML"            OFF)
 # add_subdirectory(${PYBIND11_DIR}/ pybind11)
 
 download_project(
-PROJ         nanoflann
+PROJ         spdlog
 SOURCE_DIR   ${CMAKE_CURRENT_SOURCE_DIR}/external/spdlog
 DOWNLOAD_DIR ${CMAKE_CURRENT_SOURCE_DIR}/external/.cache/spdlog
 GIT_REPOSITORY https://github.com/gabime/spdlog.git
@@ -192,3 +192,7 @@ set_target_properties(btcmm PROPERTIES CXX_STANDARD 17)
 add_executable(gen_feat src/gen_feat.cpp)
 target_link_libraries(gen_feat bcclean)
 set_target_properties(gen_feat PROPERTIES CXX_STANDARD 17)
+
+add_executable(tetsplit src/tetsplit/main.cpp)
+target_link_libraries(tetsplit igl::core spdlog)
+set_target_properties(tetsplit PROPERTIES CXX_STANDARD 17)
