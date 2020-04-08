@@ -8,7 +8,7 @@
 #include <igl/triangle_triangle_adjacency.h>
 #include <Eigen/Sparse>
 #include <algorithm>
-#include "Match_Maker_Tree.h"
+#include "MatchMakerTree.h"
 #include <nlohmann/json.hpp>
 #include <igl/writeOBJ.h>
 #include <igl/writeDMAT.h>

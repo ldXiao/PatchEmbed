@@ -15,7 +15,7 @@ namespace bcclean
     const std::vector<std::vector<int> > & TEdges,
     const int face_seed,
     const int lb,
-    Eigen::VectorXi & FL);
+    std::vector<int> & FL);
 
 }
 #endif //BCCLEAN_LOOP_COLORIZE_H

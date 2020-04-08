@@ -145,8 +145,8 @@ set(SOURCES
     src/proj_node.cpp
     src/loop_colorize.h
     src/loop_colorize.cpp
-    src/Match_Maker_Tree.h 
-    src/Match_Maker_Tree.cpp 
+    src/MatchMakerTree.h 
+    src/MatchMakerTree.cpp 
     src/Kruskal.h
     src/Kruskal.cpp
     src/fTetwild.h 

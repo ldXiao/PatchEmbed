@@ -23,7 +23,7 @@
 #include "edge.h"
 #include "graphcut_cgal.h"
 #include "patch.h"
-#include "Match_Maker_Tree.h"
+#include "MatchMakerTree.h"
 #include "fTetwild.h"
 #include "polyline_distance.h"
 #include "params.h"
@@ -277,7 +277,7 @@ int main(int argc, char *argv[]){
         }
         if(tracing=="loop"){
             try{
-                succeed = bcclean::MatchMaker::MatchMakerPatch(cg,CCV_good, CCF_good, CCFL_good, param_copy);
+                succeed = bcclean::MatchMaker::MatchMakerPatch(cg,CCV_good, CCF_good, CCFL_good, param_copy, file_logger);
             }
             catch(...)
             {

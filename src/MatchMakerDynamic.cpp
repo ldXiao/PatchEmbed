@@ -1,4 +1,4 @@
-#include "Match_Maker_Tree.h"
+#include "MatchMakerTree.h"
 #include "Kruskal.h"
 #include "backtrack_diff.h"
 #include "polyline_distance.h"
@@ -9,6 +9,8 @@
 #include <list>
 #include <deque>
 #include <igl/bounding_box_diagonal.h>
+#include <igl/list_to_matrix.h>
+#include <igl/matrix_to_list.h>
 #include <igl/barycentric_to_global.h>
 #include <algorithm>
 #include "Edge_Dijkstra.h"
@@ -149,8 +151,8 @@ namespace MatchMaker{
             // there should be only one comman adjacent triangle for boundary vertices
             for(auto trg: inter){
                 for(int edgpos =0; edgpos < 3 ; ++edgpos){
-                    int uuidx = tc._F(trg, edgpos);
-                    int vvidx = tc._F(trg, (edgpos+1)% 3);
+                    int uuidx = tc._F[trg]( edgpos);
+                    int vvidx = tc._F[trg]( (edgpos+1)% 3);
                     if(uuidx == uidx && vvidx == vidx){
                         tc._TEdges[trg][edgpos] = edge_idx;
                     }
@@ -492,7 +494,7 @@ namespace MatchMaker{
         }
         F_good = tc._F;
         V_good = tc._V;
-        FL_good = tc._FL;
+        igl::list_to_matrix(tc._FL,FL_good);
         if(param.debug)
         { 
             std::ofstream file;

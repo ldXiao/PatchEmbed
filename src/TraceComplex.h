@@ -13,11 +13,11 @@ namespace MatchMaker{
         std::vector<std::vector<int> > _VEdges;
         std::vector<std::vector<int> > _TEdges;
         std::vector<std::vector<double> > _splits_record;
-        Eigen::MatrixXi _TT;
-        Eigen::MatrixXi _F;
+        std::vector<Eigen::RowVector3i> _TT;
+        std::vector<Eigen::RowVector3i> _F;
         Eigen::MatrixXd _V;
-        Eigen::VectorXi _FL;
-        Eigen::VectorXd _DblA;
+        std::vector<int> _FL;
+        std::vector<int> _DblA;
         std::map<int, std::vector<int> > _edge_path_map;
         std::map<int, int> _node_image_map;
         std::vector<int> _total_silence_list;

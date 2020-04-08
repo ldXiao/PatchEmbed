@@ -1,4 +1,4 @@
-#include "Match_Maker_Tree.h"
+#include "MatchMakerTree.h"
 #include "proj_node.h"
 #include "params.h"
 #include <igl/slice.h>

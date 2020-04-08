@@ -1,5 +1,5 @@
-#ifndef BCCLEAN_MATCH_MAKER_TREE_H
-#define BCCLEAN_MATCH_MAKER_TREE_H 
+#ifndef BCCLEAN_MatchMakerTree_H
+#define BCCLEAN_MatchMakerTree_H 
 #include <Eigen/Core>
 #include "patch.h"
 #include "node.h"
@@ -56,4 +56,4 @@ namespace MatchMaker{
 }
 }
 
-#endif // BCCLEAN_MATCH_MAKER_TREE_H
+#endif // BCCLEAN_MatchMakerTree_H

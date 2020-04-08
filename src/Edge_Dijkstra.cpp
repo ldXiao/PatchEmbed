@@ -100,7 +100,7 @@ namespace Trace{
 
     void setWeight1(
         const Eigen::MatrixXd & V,
-        const Eigen::MatrixXi & F,
+        const std::vector<Eigen::RowVector3i> & F,
         const std::vector<Eigen::RowVector3d> & V_bad,
         const edge & edg,
         Eigen::SparseMatrix<double> & Weights
@@ -108,7 +108,8 @@ namespace Trace{
     {
         std::vector<Eigen::Triplet<double>> ww;
         Eigen::MatrixXi Edges;
-        igl::edges(F, Edges);
+        Eigen::MatrixXi F_matrix = Eigen::MatrixXi::Constant(F.size(),3,0);
+        igl::edges(F_matrix, Edges);
         Weights.resize(V.rows(), V.rows());
         int upratio = 10;
         int power=1;

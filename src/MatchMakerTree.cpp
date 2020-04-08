@@ -6,7 +6,7 @@
 #include <igl/writeDMAT.h>
 #include <utility>
 #include <nlohmann/json.hpp>
-#include "Match_Maker_Tree.h"
+#include "MatchMakerTree.h"
 #include "params.h"
 #include "CellularGraph.h"
 #include "TraceComplex.h"
@@ -44,7 +44,7 @@ namespace MatchMaker{
         bool ffa_coline = false; 
         for(int j: {0,1,2})
         {
-            if(tc._F(ffa,j)==v0 && tc._F(ffa,(j+1)% 3)==v1)
+            if(tc._F[ffa](j)==v0 && tc._F[ffa]((j+1)% 3)==v1)
             {
                 ffa_coline=true;
                 break;
@@ -163,7 +163,7 @@ namespace MatchMaker{
     }
 
     void sector_silence_list(
-        const Eigen::MatrixXi & F,
+        const std::vector<Eigen::RowVector3i> & F,
         const std::map<int, std::vector<int> > & node_edge_dict,
         const std::map<int, std::map<int, bool> > & node_edge_visit_dict,
         const std::vector<std::vector<int> > & TEdges,
@@ -245,7 +245,7 @@ namespace MatchMaker{
                 int e_pos = -1;
                 for(auto v_pos: {0, 1, 2})
                 {
-                    if(F(fidx, v_pos) == source)
+                    if(F[fidx](v_pos) == source)
                     {
                         e_pos = v_pos;
                         break;
@@ -266,7 +266,7 @@ namespace MatchMaker{
                 int e_pos = -1;
                 for(auto v_pos: {0, 1, 2})
                 {
-                    if(F(CC_node_face_dict.at(source)[secface], v_pos) == source)
+                    if(F[CC_node_face_dict.at(source)[secface]](v_pos) == source)
                     {
                         e_pos = v_pos;
                         break;
@@ -277,7 +277,7 @@ namespace MatchMaker{
                     break;
                 }
            
-                temp_silence_list.push_back(F(CC_node_face_dict.at(source)[secface], (e_pos+2)%3));
+                temp_silence_list.push_back(F[CC_node_face_dict.at(source)[secface]]((e_pos+2)%3));
                 
                 
             }
@@ -285,7 +285,7 @@ namespace MatchMaker{
 
     void update_local_sector(
         const std::vector<std::vector<int> > & VV, 
-        const Eigen::MatrixXi & F,
+        const std::vector<RowVector3i> & F,
         const std::map<int , std::map<int, bool> > & node_edge_visit_dict,
         const std::map<int, std::vector<int> > & node_edge_dict,
         const std::vector<std::vector<int> > & TEdges,
@@ -451,8 +451,8 @@ namespace MatchMaker{
             // there should be only one comman adjacent triangle for boundary vertices
             for(auto trg: inter){
                 for(int edgpos =0; edgpos < 3 ; ++edgpos){
-                    int uuidx = tc._F(trg, edgpos);
-                    int vvidx = tc._F(trg, (edgpos+1)% 3);
+                    int uuidx = tc._F[trg]( edgpos);
+                    int vvidx = tc._F[trg]( (edgpos+1)% 3);
                     if(uuidx == uidx && vvidx == vidx){
                         tc._TEdges[trg][edgpos] = edge_idx;
                     }
@@ -635,9 +635,9 @@ namespace MatchMaker{
             json path_json_copy = path_json;
             std::map<int , std::map<int, bool> > node_edge_visit_dict_copy = node_edge_visit_dict;
             bool succ = trace_for_edge(cg, tc_copy, edge_idx, node_edge_visit_dict_copy, path_json_copy, param);
-            Eigen::VectorXi FL_temp = tc_copy._FL;
+            std::vector<int> FL_temp = tc_copy._FL;
             int fcount = (loop_colorize(tc_copy._V, tc_copy._F, tc_copy._TEdges, 0, 0, FL_temp)).first;
-            bool connected =(fcount == FL_temp.rows());
+            bool connected =(fcount == FL_temp.size());
             if(!succ)
             {
                 early_break = true;
@@ -703,7 +703,7 @@ namespace MatchMaker{
 
             int ff_in = _locate_seed_face(cg, tc, patch_idx);
             std::pair<int, double> pair_temp=loop_colorize(tc._V, tc._F, tc._TEdges,ff_in, patch_idx, tc._FL);
-            assert(pair_temp.first != tc._F.rows());
+            assert(pair_temp.first != tc._F.size());
         }
         if(param.debug)
         {
@@ -718,7 +718,7 @@ namespace MatchMaker{
         }
         F_good = tc._F;
         V_good = tc._V;
-        FL_good = tc._FL;
+        igl::list_to_matrix(tc._FL, FL_good);
         return true;
 
     }

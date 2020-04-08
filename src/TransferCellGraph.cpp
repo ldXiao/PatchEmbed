@@ -3,6 +3,8 @@
 #include "edge.h"
 #include <igl/per_vertex_normals.h>
 #include <igl/remove_unreferenced.h>
+#include <igl/matrix_to_list.h>
+#include <igl/list_to_matrix.h>
 namespace bcclean{
 namespace Bijection{
     
@@ -14,8 +16,12 @@ namespace Bijection{
     )
     {
         cgt.V = tc._V;
-        cgt.F = tc._F;
-        cgt.FL = tc._FL;
+        cgt.F = Eigen::MatrixXi::Constant(tc._F.size(),3,0);
+        for(int fidx= 0; fidx< tc._F.size(); ++fidx)
+        {
+            cgt.F.row(fidx) = tc._F[fidx];
+        }
+        igl::list_to_matrix(tc._FL, cgt.FL);
         cgt.root_cell = cg.root_cell;
         cgt.label_num = cg.label_num;
         cgt._vertices.clear();
@@ -32,7 +38,7 @@ namespace Bijection{
         int edge_idx = 0; // indices into cgt._vertices
         std::map<int, int> node_record_raw;
         Eigen::MatrixXd N;
-        igl::per_vertex_normals(tc._V, tc._F, N);
+        igl::per_vertex_normals(cgt.V, cgt.F, N);
         int count = 0;
         for(auto edg: cg._edge_list)
         {

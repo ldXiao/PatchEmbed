@@ -263,9 +263,9 @@ namespace bcclean {
         int fidx = std::round(baryentry(0,0));
         assert(fidx != -1);
         assert(baryentry.rows()==1);
-        int v0 = tc._F(fidx,0);
-        int v1 = tc._F(fidx,1);
-        int v2 = tc._F(fidx,2);
+        int v0 = tc._F[fidx](0);
+        int v1 = tc._F[fidx](1);
+        int v2 = tc._F[fidx](2);
         int nvidx = -1;
         double u,v,w, eps;
         u = baryentry(0,1);
@@ -292,7 +292,7 @@ namespace bcclean {
             {
                 contribute_dict[vcount] = false;
             }
-            int vvidx = tc._F(fidx, vcount);
+            int vvidx = tc._F[fidx]( vcount);
             node_map[vcount] = vvidx;
             if((std::find(tc._node_list.begin(), tc._node_list.end(), vvidx) == tc._node_list.end())&& tc._VEdges[vvidx].size()==0)
             {
@@ -314,7 +314,7 @@ namespace bcclean {
             if(contribute_dict[mvp] && available_dict[mvp])
             {
                 addnew = false;
-                nvidx = tc._F(fidx, mvp);
+                nvidx = tc._F[fidx]( mvp);
                 break;
             }
         }
@@ -708,7 +708,7 @@ namespace bcclean {
         Eigen::RowVector3d query = cg._vertices[node_bad];
         int nnidx= kd_tree_NN_Eigen(kdt, query);
         double d0 = std::max((query-tc._V.row(tc._F(nnidx,0))).norm(), 1e-7);
-        double d1 = std::max((query-tc._V.row(tc._F(nnidx,1))).norm(),1e-7);
+        double d1 = std::max((query-tc._V.row(tc._F[nnidx](1))).norm(),1e-7);
         double d2 = std::max((query-tc._V.row(tc._F(nnidx,2))).norm(),1e-7);
         double dnnbc = (query-Centers.row(nnidx)).norm();
         Eigen::MatrixXd nnbc = bc;
@@ -732,7 +732,7 @@ namespace bcclean {
                 bc = nnbc;
             }
         }
-        if(tc._FL(fidx)!= -1)
+        if(tc._FL[fidx]!= -1)
         {
             // triangle occupied
             // search for nonoccupied triangle and choose the nearset non-boundary vertice
@@ -741,7 +741,7 @@ namespace bcclean {
             std::queue<int> search_queue;
             search_queue.push(fidx);
             std::map<int, bool> visit_dict;
-            for(int fjdx=0; fjdx < tc._F.rows(); ++fjdx)
+            for(int fjdx=0; fjdx < tc._F.size(); ++fjdx)
             {
                 visit_dict[fjdx] = false;
             }
@@ -757,7 +757,7 @@ namespace bcclean {
                     if(face_j == -1) {
                         continue;
                     }
-                    if(tc._FL(face_j)!= -1)
+                    if(tc._FL[face_j]!= -1)
                     {
                         if(!visit_dict[face_j])
                         {

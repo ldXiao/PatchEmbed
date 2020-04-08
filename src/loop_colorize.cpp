@@ -7,14 +7,14 @@ namespace bcclean
     const std::vector<std::vector<int> > & TEdges,
     const int face_seed,
     const int lb,
-    Eigen::VectorXi & FL)
+    std::vector<int> & FL)
     {
         // return a dble area of the the total colored region
         // for unlabeled faced FL should be -1
         //label the faces encompassed by the loop with lb in FL
-        assert(FL.rows() == F.rows());
+        assert(FL.size() == F.rows());
         assert(TEdges.size() == F.rows());
-        assert(FL(face_seed)== -1); //the seed faces has to be uninitialized at first
+        assert(FL[face_seed]== -1); //the seed faces has to be uninitialized at first
         // use BFS to search over TTi starting with face_seed
         Eigen::MatrixXi TT, TTi;
         igl::triangle_triangle_adjacency(F, TT, TTi);
@@ -37,7 +37,7 @@ namespace bcclean
         while(search_queue.size()!=0){
             int cur_face = search_queue.front();
             search_queue.pop(); // remove head
-            FL(cur_face) = lb;
+            FL[cur_face] = lb;
             Eigen::RowVector3i adjs = TT.row(cur_face);
             for(int j =0 ; j <3 ; ++j){
                 int face_j = adjs(j);
@@ -49,11 +49,11 @@ namespace bcclean
                 // vidy  = Fraw(cur_face, (j+1)%3);
                 if(TEdges[cur_face][j] == -1){
                     // the edge is not in VCuts
-                    if(FL(face_j)== -1 && !(visit_dict[face_j])){
+                    if(FL[face_j]== -1 && !(visit_dict[face_j])){
                         // not visited before;
                         search_queue.push(face_j);
                         visit_dict[face_j] = true;
-                        FL(cur_face) = lb;
+                        FL[cur_face] = lb;
                         Eigen::RowVector3d a__ = V.row(F(face_j,1)) - V.row(F(face_j, 0));
                         Eigen::RowVector3d b__ = V.row(F(face_j,2)) - V.row(F(face_j,0));
                         DblA += (a__.cross(b__)).norm();
