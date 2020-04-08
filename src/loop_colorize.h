@@ -11,7 +11,7 @@ namespace bcclean
 {
     std::pair<int, double> loop_colorize(
     const Eigen::MatrixXd& V, 
-    const Eigen::MatrixXi & F, 
+    const std::vector<Eigen::RowVector3i> & F, 
     const std::vector<std::vector<int> > & TEdges,
     const int face_seed,
     const int lb,

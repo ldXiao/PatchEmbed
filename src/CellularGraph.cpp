@@ -26,7 +26,7 @@ namespace bcclean{
                 for(int j =0; j < 3; ++j)
                 {
                     // fi_list.push_back(F(fidx, j));
-                    if(F[fidx,](j) == nd){
+                    if(F[fidx](j) == nd){
                         nd_idx = j;
                         break;
                     }

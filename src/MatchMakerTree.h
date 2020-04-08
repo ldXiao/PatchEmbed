@@ -33,7 +33,7 @@ namespace MatchMaker{
 
     void update_local_sector(
         const std::vector<std::vector<int> > & VV, 
-        const Eigen::MatrixXi & F,
+        const std::vector<Eigen::RowVector3i> & F,
         const std::map<int , std::map<int, bool> > & node_edge_visit_dict,
         const std::map<int, std::vector<int> > & node_edge_dict,
         const std::vector<std::vector<int> > & TEdges,

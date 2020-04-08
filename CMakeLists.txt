@@ -176,6 +176,7 @@ set(SOURCES
     src/TransferCellGraph.cpp
     src/slim_hard_constr.h 
     src/slim_hard_constr.cpp 
+    src/helper.hpp
 )
 add_library(bcclean ${SOURCES})
 target_link_libraries(bcclean PUBLIC

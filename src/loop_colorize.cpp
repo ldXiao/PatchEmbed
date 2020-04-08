@@ -1,9 +1,10 @@
 #include "loop_colorize.h"
+#include "helper.hpp"
 namespace bcclean
 {
     std::pair<int, double> loop_colorize(
     const Eigen::MatrixXd& V, 
-    const Eigen::MatrixXi & F, 
+    const std::vector<Eigen::RowVector3i> & F, 
     const std::vector<std::vector<int> > & TEdges,
     const int face_seed,
     const int lb,
@@ -12,24 +13,28 @@ namespace bcclean
         // return a dble area of the the total colored region
         // for unlabeled faced FL should be -1
         //label the faces encompassed by the loop with lb in FL
-        assert(FL.size() == F.rows());
-        assert(TEdges.size() == F.rows());
+        assert(FL.size() == F.size());
+        assert(TEdges.size() == F.size());
         assert(FL[face_seed]== -1); //the seed faces has to be uninitialized at first
         // use BFS to search over TTi starting with face_seed
         Eigen::MatrixXi TT, TTi;
-        igl::triangle_triangle_adjacency(F, TT, TTi);
+        {
+            Eigen::MatrixXi F_temp;
+            Helper::to_matrix(F, F_temp);
+            igl::triangle_triangle_adjacency(F_temp, TT, TTi);
+        }
         // start with face 0 use TT and TTi info to get connected components
         // traverse all faces connected to face_seed and do not cross cuts label them to be lb;
         int root_face = face_seed;
         double DblA = 0;
-        Eigen::RowVector3d a_ = V.row(F(root_face,1)) - V.row(F(root_face,0));
-        Eigen::RowVector3d b_ = V.row(F(root_face,2)) - V.row(F(root_face,0));
+        Eigen::RowVector3d a_ = V.row(F[root_face](1)) - V.row(F[root_face](0));
+        Eigen::RowVector3d b_ = V.row(F[root_face](2)) - V.row(F[root_face](0));
         DblA += (a_.cross(b_)).norm();
         std::queue<int> search_queue;
         search_queue.push(face_seed);
         int count = 1;
         std::map<int, bool> visit_dict;
-        for(int fidx= 0 ; fidx < F.rows(); ++fidx)
+        for(int fidx= 0 ; fidx < F.size(); ++fidx)
         {
             visit_dict[fidx] = false;
         }
@@ -54,8 +59,8 @@ namespace bcclean
                         search_queue.push(face_j);
                         visit_dict[face_j] = true;
                         FL[cur_face] = lb;
-                        Eigen::RowVector3d a__ = V.row(F(face_j,1)) - V.row(F(face_j, 0));
-                        Eigen::RowVector3d b__ = V.row(F(face_j,2)) - V.row(F(face_j,0));
+                        Eigen::RowVector3d a__ = V.row(F[face_j](1)) - V.row(F[face_j]( 0));
+                        Eigen::RowVector3d b__ = V.row(F[face_j](2)) - V.row(F[face_j](0));
                         DblA += (a__.cross(b__)).norm();
                         count += 1;
                     }

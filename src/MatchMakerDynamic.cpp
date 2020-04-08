@@ -19,6 +19,7 @@
 #include "TraceComplex.h"
 #include "TransferCellGraph.h"
 #include "Patch_Bijection.h"
+#include "helper.hpp"
 /* BTCMM means backtracking cellular matchmaker */
 namespace bcclean{
 namespace MatchMaker{
@@ -180,7 +181,9 @@ namespace MatchMaker{
             std::ofstream file;
             file.open(param.data_root+"/debug_paths.json");
             file << path_json;
-            igl::writeOBJ(param.data_root+"/debug_mesh.obj", tc._V, tc._F);
+            Eigen::MatrixXi F;
+            Helper::to_matrix(tc._F, F);
+            igl::writeOBJ(param.data_root+"/debug_mesh.obj", tc._V, F);
             igl::writeDMAT(param.data_root+"/FL_loop.dmat", tc._FL);
         }
         // update visit_dict or loop condition update
@@ -418,7 +421,9 @@ namespace MatchMaker{
             {
                 if(param.debug)
                 {
-                    igl::writeOBJ(param.data_root+"/debug_mesh.obj", tc._V, tc._F);
+                    Eigen::MatrixXi F;
+                    Helper::to_matrix(tc._F, F);
+                    igl::writeOBJ(param.data_root+"/debug_mesh.obj", tc._V, F);
                     igl::writeDMAT(param.data_root+"/FL_loop.dmat", tc._FL);
                 }
 
@@ -492,7 +497,7 @@ namespace MatchMaker{
             }
 
         }
-        F_good = tc._F;
+        Helper::to_matrix(tc._F,F_good);
         V_good = tc._V;
         igl::list_to_matrix(tc._FL,FL_good);
         if(param.debug)
@@ -500,8 +505,9 @@ namespace MatchMaker{
             std::ofstream file;
             file.open(param.data_root+"/debug_paths.json");
             file << path_json;
-            igl::writeOBJ(param.data_root+"/debug_mesh.obj", tc._V, tc._F);
-            igl::writeDMAT(param.data_root+"/FL_loop.dmat", tc._FL);
+            Eigen::MatrixXi F;
+            igl::writeOBJ(param.data_root+"/debug_mesh.obj", V_good, F_good);
+            igl::writeDMAT(param.data_root+"/FL_loop.dmat", FL_good);
             std::ofstream split_file;
             split_file.open(param.data_root+"/splits_record.txt");
             for(auto & vec: tc._splits_record)

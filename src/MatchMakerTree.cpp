@@ -13,6 +13,7 @@
 #include "Edge_Dijkstra.h"
 #include "Patch_Bijection.h"
 #include "TransferCellGraph.h"
+#include "helper.hpp"
 #include <igl/barycentric_to_global.h>
 namespace bcclean {
 namespace MatchMaker{
@@ -480,7 +481,9 @@ namespace MatchMaker{
             std::ofstream file;
             file.open(param.data_root+"/debug_paths_"+param.tracing+".json");
             file << path_json;
-            igl::writeOBJ(param.data_root+"/debug_mesh_"+param.tracing+".obj", tc._V, tc._F);
+            Eigen::MatrixXi F;
+            Helper::to_matrix(tc._F, F);
+            igl::writeOBJ(param.data_root+"/debug_mesh_"+param.tracing+".obj", tc._V, F);
             igl::writeDMAT(param.data_root+"/FL_"+param.tracing+".dmat", tc._FL);
         }
         // update visit_dict or loop condition update
@@ -707,7 +710,9 @@ namespace MatchMaker{
         }
         if(param.debug)
         {
-            igl::writeOBJ(param.data_root+"/debug_mesh_tree.obj", tc._V, tc._F);
+            Eigen::MatrixXi F;
+            Helper::to_matrix(tc._F, F);
+            igl::writeOBJ(param.data_root+"/debug_mesh_tree.obj", tc._V, F);
             igl::writeDMAT(param.data_root+"/FL_tree.dmat", tc._FL);
             CellularGraph cgt;
             Bijection::TransferCellGraph(cg, tc, cgt);
@@ -716,7 +721,7 @@ namespace MatchMaker{
             Eigen::MatrixXd Vmap=igl::barycentric_to_global(cgt.V, cgt.F, M_s2t);
             igl::writeOBJ(param.data_root+"/map.obj", Vmap, cg.F);
         }
-        F_good = tc._F;
+        Helper::to_matrix(tc._F, F_good);
         V_good = tc._V;
         igl::list_to_matrix(tc._FL, FL_good);
         return true;
