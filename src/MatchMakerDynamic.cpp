@@ -19,7 +19,7 @@
 #include "TraceComplex.h"
 #include "TransferCellGraph.h"
 #include "Patch_Bijection.h"
-#include "helper.hpp"
+#include "helper.h"
 /* BTCMM means backtracking cellular matchmaker */
 namespace bcclean{
 namespace MatchMaker{

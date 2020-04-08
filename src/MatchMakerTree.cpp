@@ -13,7 +13,7 @@
 #include "Edge_Dijkstra.h"
 #include "Patch_Bijection.h"
 #include "TransferCellGraph.h"
-#include "helper.hpp"
+#include "helper.h"
 #include <igl/barycentric_to_global.h>
 namespace bcclean {
 namespace MatchMaker{

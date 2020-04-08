@@ -1,6 +1,4 @@
-#pragma once
-#include <Eigen/Dense>
-#include <vector>
+#include "helper.h"
 namespace bcclean{
 namespace Helper{
     void to_list(const Eigen::MatrixX3i & M, std::vector<Eigen::RowVector3i> & L)

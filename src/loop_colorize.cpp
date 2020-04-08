@@ -1,5 +1,5 @@
 #include "loop_colorize.h"
-#include "helper.hpp"
+#include "helper.h"
 namespace bcclean
 {
     std::pair<int, double> loop_colorize(

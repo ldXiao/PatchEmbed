@@ -5,7 +5,7 @@
 #include <vector>
 #include <algorithm>
 #include "kdtree_NN_Eigen.hpp"
-#include "helper.hpp"
+#include "helper.h"
 #include <igl/barycentric_to_global.h>
 #include <igl/triangle_triangle_adjacency.h>
 #include <igl/barycenter.h>

@@ -1,6 +1,7 @@
 #include "Edge_Dijkstra.h"
 #include "polyline_distance.h"
 #include "kdtree_NN_Eigen.hpp"
+#include "helper.h"
 #include <utility>
 #include <vector>
 #include <igl/edges.h>
@@ -108,7 +109,8 @@ namespace Trace{
     {
         std::vector<Eigen::Triplet<double>> ww;
         Eigen::MatrixXi Edges;
-        Eigen::MatrixXi F_matrix = Eigen::MatrixXi::Constant(F.size(),3,0);
+        Eigen::MatrixXi F_matrix;
+        Helper::to_matrix(F,F_matrix);
         igl::edges(F_matrix, Edges);
         Weights.resize(V.rows(), V.rows());
         int upratio = 10;
