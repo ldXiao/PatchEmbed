@@ -20,7 +20,7 @@ namespace MatchMaker{
     );
 
     bool backtrack_diff(
-        const Eigen::MatrixXd & V_good,
+        const std::vector<Eigen::RowVector3d> & V_good,
         const CellularGraph & cg,
         const int pidx,
         const std::map<int, std::vector<int> > & edge_path_map,

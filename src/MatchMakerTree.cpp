@@ -401,8 +401,8 @@ namespace MatchMaker{
             Eigen::VectorXd source_target=Eigen::VectorXd::Constant(6,0);
             for(int xx: {0,1,2})
             {
-                source_target(xx)=tc._V(source,xx);
-                source_target(xx+3)=tc._V(target,xx);
+                source_target(xx)=tc._V[source](xx);
+                source_target(xx+3)=tc._V[target](xx);
             }
             
             igl::writeDMAT(param.data_root+"/source_target_"+param.tracing+".dmat",source_target);
@@ -482,8 +482,10 @@ namespace MatchMaker{
             file.open(param.data_root+"/debug_paths_"+param.tracing+".json");
             file << path_json;
             Eigen::MatrixXi F;
+            Eigen::MatrixXd V;
             Helper::to_matrix(tc._F, F);
-            igl::writeOBJ(param.data_root+"/debug_mesh_"+param.tracing+".obj", tc._V, F);
+            Helper::to_matrix(tc._V, V);
+            igl::writeOBJ(param.data_root+"/debug_mesh_"+param.tracing+".obj", V, F);
             igl::writeDMAT(param.data_root+"/FL_"+param.tracing+".dmat", tc._FL);
         }
         // update visit_dict or loop condition update
@@ -612,7 +614,7 @@ namespace MatchMaker{
             edge_visit_dict[edge_idx]= true;
             logger->info("edge {} traced, finished {}/{} of MST and {}/{} of Graph",edge_idx,traced_count, frame_MST.size(), traced_count, cg._edge_list.size());
             int new_split =  tc.operation_count-old_split_count;
-            logger->info("{} new splits operated, total vertices {}", new_split, tc._V.rows());
+            logger->info("{} new splits operated, total vertices {}", new_split, tc._V.size());
             logger->flush();
             traced_count+=1;
         }
@@ -663,7 +665,7 @@ namespace MatchMaker{
                 node_edge_visit_dict = node_edge_visit_dict_copy;
                 logger->info("edge {} is not blocking, {}/{} finished", edge_idx, traced_count, cg._edge_list.size());
                 int new_split = tc_copy.operation_count - tc.operation_count;
-                logger->info("{} new splits operated, total vertices {}", new_split, tc._V.rows());
+                logger->info("{} new splits operated, total vertices {}", new_split, tc._V.size());
                 logger->flush();
                 traced_count ++;
             }
@@ -687,7 +689,7 @@ namespace MatchMaker{
                 {
                     logger->info("edge {} is traced, {}/{} finished", edge_idx, traced_count, cg._edge_list.size());
                     int new_split =  tc.operation_count-old_split_count;
-                    logger->info("{} new splits operated, total vertices {}", new_split, tc._V.rows());
+                    logger->info("{} new splits operated, total vertices {}", new_split, tc._V.size());
                     logger->flush();
                     traced_count++; 
                 }
@@ -712,7 +714,9 @@ namespace MatchMaker{
         {
             Eigen::MatrixXi F;
             Helper::to_matrix(tc._F, F);
-            igl::writeOBJ(param.data_root+"/debug_mesh_tree.obj", tc._V, F);
+            Eigen::MatrixXd V;
+            Helper::to_matrix(tc._V, V);
+            igl::writeOBJ(param.data_root+"/debug_mesh_tree.obj", V, F);
             igl::writeDMAT(param.data_root+"/FL_tree.dmat", tc._FL);
             CellularGraph cgt;
             Bijection::TransferCellGraph(cg, tc, cgt);
@@ -722,7 +726,7 @@ namespace MatchMaker{
             igl::writeOBJ(param.data_root+"/map.obj", Vmap, cg.F);
         }
         Helper::to_matrix(tc._F, F_good);
-        V_good = tc._V;
+        Helper::to_matrix(tc._V, V_good);
         igl::list_to_matrix(tc._FL, FL_good);
         return true;
 

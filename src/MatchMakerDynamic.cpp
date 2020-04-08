@@ -101,8 +101,8 @@ namespace MatchMaker{
             Eigen::VectorXd source_target=Eigen::VectorXd::Constant(6,0);
             for(int xx: {0,1,2})
             {
-                source_target(xx)=tc._V(source,xx);
-                source_target(xx+3)=tc._V(target,xx);
+                source_target(xx)=tc._V[source](xx);
+                source_target(xx+3)=tc._V[target](xx);
             }
             
             igl::writeDMAT(param.data_root+"/source_target.dmat",source_target);
@@ -182,8 +182,10 @@ namespace MatchMaker{
             file.open(param.data_root+"/debug_paths.json");
             file << path_json;
             Eigen::MatrixXi F;
+            Eigen::MatrixXd V;
             Helper::to_matrix(tc._F, F);
-            igl::writeOBJ(param.data_root+"/debug_mesh.obj", tc._V, F);
+            Helper::to_matrix(tc._V, V);
+            igl::writeOBJ(param.data_root+"/debug_mesh.obj", V, F);
             igl::writeDMAT(param.data_root+"/FL_loop.dmat", tc._FL);
         }
         // update visit_dict or loop condition update
@@ -423,7 +425,9 @@ namespace MatchMaker{
                 {
                     Eigen::MatrixXi F;
                     Helper::to_matrix(tc._F, F);
-                    igl::writeOBJ(param.data_root+"/debug_mesh.obj", tc._V, F);
+                    Eigen::MatrixXd V;
+                    Helper::to_matrix(tc._V, V);
+                    igl::writeOBJ(param.data_root+"/debug_mesh.obj", V, F);
                     igl::writeDMAT(param.data_root+"/FL_loop.dmat", tc._FL);
                 }
 
@@ -498,7 +502,7 @@ namespace MatchMaker{
 
         }
         Helper::to_matrix(tc._F,F_good);
-        V_good = tc._V;
+        Helper::to_matrix(tc._V, V_good);
         igl::list_to_matrix(tc._FL,FL_good);
         if(param.debug)
         { 

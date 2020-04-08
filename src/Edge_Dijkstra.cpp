@@ -100,7 +100,7 @@ namespace Trace{
     }
 
     void setWeight1(
-        const Eigen::MatrixXd & V,
+        const std::vector<Eigen::RowVector3d> & V,
         const std::vector<Eigen::RowVector3i> & F,
         const std::vector<Eigen::RowVector3d> & V_bad,
         const edge & edg,
@@ -112,7 +112,7 @@ namespace Trace{
         Eigen::MatrixXi F_matrix;
         Helper::to_matrix(F,F_matrix);
         igl::edges(F_matrix, Edges);
-        Weights.resize(V.rows(), V.rows());
+        Weights.resize(V.size(), V.size());
         int upratio = 10;
         int power=1;
         std::vector<int> Elist = edg._edge_vertices;
@@ -139,7 +139,7 @@ namespace Trace{
         {
             int x= Edges(eidx, 0);
             int y = Edges(eidx,1);
-            Eigen::RowVector3d query = (V.row(x) + V.row(y)) * 0.5 ;
+            Eigen::RowVector3d query = (V.at(x) + V.at(y)) * 0.5 ;
             int sample_idx= kd_tree_NN_Eigen(sample_kdt, query);
             double dis = pow((query - sample.row(sample_idx)).norm(), power);
             ww.emplace_back(std::min(x,y), std::max(x,y),dis);

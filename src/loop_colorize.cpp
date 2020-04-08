@@ -3,7 +3,7 @@
 namespace bcclean
 {
     std::pair<int, double> loop_colorize(
-    const Eigen::MatrixXd& V, 
+    const std::vector<Eigen::RowVector3d> & V, 
     const std::vector<Eigen::RowVector3i> & F, 
     const std::vector<std::vector<int> > & TEdges,
     const int face_seed,
@@ -27,8 +27,8 @@ namespace bcclean
         // traverse all faces connected to face_seed and do not cross cuts label them to be lb;
         int root_face = face_seed;
         double DblA = 0;
-        Eigen::RowVector3d a_ = V.row(F[root_face](1)) - V.row(F[root_face](0));
-        Eigen::RowVector3d b_ = V.row(F[root_face](2)) - V.row(F[root_face](0));
+        Eigen::RowVector3d a_ = V.at(F[root_face](1)) - V.at(F[root_face](0));
+        Eigen::RowVector3d b_ = V.at(F[root_face](2)) - V.at(F[root_face](0));
         DblA += (a_.cross(b_)).norm();
         std::queue<int> search_queue;
         search_queue.push(face_seed);
@@ -59,8 +59,8 @@ namespace bcclean
                         search_queue.push(face_j);
                         visit_dict[face_j] = true;
                         FL[cur_face] = lb;
-                        Eigen::RowVector3d a__ = V.row(F[face_j](1)) - V.row(F[face_j]( 0));
-                        Eigen::RowVector3d b__ = V.row(F[face_j](2)) - V.row(F[face_j](0));
+                        Eigen::RowVector3d a__ = V.at(F[face_j](1)) - V.at(F[face_j]( 0));
+                        Eigen::RowVector3d b__ = V.at(F[face_j](2)) - V.at(F[face_j](0));
                         DblA += (a__.cross(b__)).norm();
                         count += 1;
                     }

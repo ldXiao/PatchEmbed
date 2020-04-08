@@ -321,7 +321,7 @@ namespace bcclean {
         }
         if(addnew)
         {
-            nvidx = tc._V.rows();
+            nvidx = tc._V.size();
             tc.insert_update(baryentry);
         }
         return nvidx;
@@ -699,8 +699,10 @@ namespace bcclean {
         {
             Eigen::MatrixXi F;
             Helper::to_matrix(tc._F, F);
-            igl::barycenter(tc._V, F, Centers);
-            RR = igl::embree::line_mesh_intersection(node_v, node_normal, tc._V, F);
+            Eigen::MatrixXd V;
+            Helper::to_matrix(tc._V, V);
+            igl::barycenter(V, F, Centers);
+            RR = igl::embree::line_mesh_intersection(node_v, node_normal, V, F);
         }
       
         Eigen::MatrixXd bc = RR.row(0);
@@ -712,9 +714,9 @@ namespace bcclean {
 
         Eigen::RowVector3d query = cg._vertices[node_bad];
         int nnidx= kd_tree_NN_Eigen(kdt, query);
-        double d0 = std::max((query-tc._V.row(tc._F[nnidx](0))).norm(), 1e-7);
-        double d1 = std::max((query-tc._V.row(tc._F[nnidx](1))).norm(),1e-7);
-        double d2 = std::max((query-tc._V.row(tc._F[nnidx](2))).norm(),1e-7);
+        double d0 = std::max((query-tc._V[tc._F[nnidx](0)]).norm(), 1e-7);
+        double d1 = std::max((query-tc._V[tc._F[nnidx](1)]).norm(),1e-7);
+        double d2 = std::max((query-tc._V[tc._F[nnidx](2)]).norm(),1e-7);
         double dnnbc = (query-Centers.row(nnidx)).norm();
         Eigen::MatrixXd nnbc = bc;
         nnbc(0,0)= nnidx;

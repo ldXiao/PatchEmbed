@@ -15,7 +15,7 @@ namespace MatchMaker{
         std::vector<std::vector<double> > _splits_record;
         std::vector<Eigen::RowVector3i> _TT;
         std::vector<Eigen::RowVector3i> _F;
-        Eigen::MatrixXd _V;
+        std::vector<Eigen::RowVector3d> _V;
         std::vector<int> _FL;
         std::vector<int> _DblA;
         std::map<int, std::vector<int> > _edge_path_map;

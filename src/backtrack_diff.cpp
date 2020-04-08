@@ -13,6 +13,21 @@ namespace MatchMaker{
         }
         return res;
     }
+
+    double path_len(const std::vector<Eigen::RowVector3d> & V, 
+                    const std::vector<int> & path
+    )
+    {
+        double res=0;
+        for(int p=0; p < path.size()-1; p++)
+        {
+            double edgeln = (V.at(path[p])- V.at(path[p+1])).norm();
+            res += edgeln;
+        }
+        return res;
+    }
+
+    
     bool backtrack_diff(
         const Eigen::MatrixXd & V_good,
         const Eigen::MatrixXd & V_bad,
@@ -46,7 +61,7 @@ namespace MatchMaker{
     }
 
     bool backtrack_diff(
-        const Eigen::MatrixXd & V_good,
+        const std::vector<Eigen::RowVector3d> & V_good,
         const CellularGraph & cg,
         const int pidx,
         const std::map<int, std::vector<int> > & edge_path_map,
@@ -59,17 +74,13 @@ namespace MatchMaker{
         double max_rel_dif= -1;
         double total_len_good =0;
         double total_len_bad = 0;
-        Eigen::MatrixXd V_bad = Eigen::MatrixXd::Constant(cg._vertices.size(),3, -1);
-        for(int vidx= 0; vidx< V_bad.rows(); ++vidx)
-        {
-            V_bad.row(vidx) = cg._vertices.at(vidx);
-        }
+        
         for(auto edg_idx: edge_indices)
         {
             std::vector<int> path_good = edge_path_map.at(edg_idx);
             std::vector<int> path_bad = cg._edge_list.at(edg_idx)._edge_vertices;
             total_len_good += path_len(V_good, path_good);
-            total_len_bad += path_len(V_bad, path_bad);
+            total_len_bad += path_len(cg._vertices, path_bad);
         }
          max_rel_dif = std::max(max_rel_dif, std::abs(total_len_good/total_len_bad -1));
         if(max_rel_dif > threshold){

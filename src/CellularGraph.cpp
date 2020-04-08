@@ -4,7 +4,7 @@
 namespace bcclean{
 
     void CCfaces_per_node(
-        const Eigen::MatrixXd & V,
+        const std::vector<Eigen::RowVector3d> & V,
         const std::vector<Eigen::RowVector3i> & F,
         const std::vector<std::vector<int> > & VF,
         const std::vector<int> & node_list,

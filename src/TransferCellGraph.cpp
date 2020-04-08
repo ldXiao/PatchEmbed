@@ -1,6 +1,7 @@
 #include "CellularGraph.h"
 #include "TraceComplex.h"
 #include "edge.h"
+#include "helper.h"
 #include <igl/per_vertex_normals.h>
 #include <igl/remove_unreferenced.h>
 #include <igl/matrix_to_list.h>
@@ -15,12 +16,8 @@ namespace Bijection{
         CellularGraph & cgt
     )
     {
-        cgt.V = tc._V;
-        cgt.F = Eigen::MatrixXi::Constant(tc._F.size(),3,0);
-        for(int fidx= 0; fidx< tc._F.size(); ++fidx)
-        {
-            cgt.F.row(fidx) = tc._F[fidx];
-        }
+        Helper::to_matrix(tc._F,cgt.F);
+        Helper::to_matrix(tc._V, cgt.V);
         igl::list_to_matrix(tc._FL, cgt.FL);
         cgt.root_cell = cg.root_cell;
         cgt.label_num = cg.label_num;
@@ -55,7 +52,7 @@ namespace Bijection{
                 if(node_record_raw.find(vidx_raw)== node_record_raw.end())
                 {
                     node_record_raw[vidx_raw]= count;
-                    cgt._vertices.push_back(tc._V.row(vidx_raw));
+                    cgt._vertices.push_back(tc._V[vidx_raw]);
                     count += 1;
                 }
                 vidx_cg = node_record_raw[vidx_raw];

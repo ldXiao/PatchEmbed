@@ -1,4 +1,5 @@
 #include "TraceComplex.h"
+#include "helper.h"
 #include <igl/triangle_triangle_adjacency.h>
 #include <igl/vertex_triangle_adjacency.h>
 #include <igl/adjacency_list.h>
@@ -73,7 +74,7 @@ namespace MatchMaker
 
     void TraceComplex::initialize(const Eigen::MatrixXd & Vin, const Eigen::MatrixXi & Fin)
     {
-        this->_V = Vin;
+        Helper::to_list(Vin, this->_V);
         this->_F.resize(Fin.rows());
         Eigen::VectorXi DblA;
         igl::doublearea(Vin, Fin, DblA);
@@ -114,25 +115,27 @@ namespace MatchMaker
         int v2 = _F[fidx](2);
         assert(fidx != -1);
         assert(baryentry.rows()==1);
-        Eigen::MatrixXi F = Eigen::MatrixXi::Constant(_F.size(),3,0);
-        for(int fidx=0; fidx< _F.size();fidx++)
+        Eigen::RowVector3d nVentry;
         {
-            F.row(fidx) = _F[fidx];
+            Eigen::MatrixXi F;
+            Eigen::MatrixXd V;
+            Helper::to_matrix(_F, F);
+            Helper::to_matrix(_V, V);
+            nVentry = igl::barycentric_to_global(V, F, baryentry).row(0);
         }
-        
-        Eigen::RowVector3d nVentry = igl::barycentric_to_global(_V, F, baryentry).row(0);
-        Eigen::MatrixX3d nV = Eigen::MatrixXd::Zero(_V.rows()+1, 3);
-        nV.block(0,0, _V.rows(), 3) = _V;
-        nV.row(_V.rows()) = nVentry;
-        int nvidx = _V.rows();
+        std::vector<Eigen::RowVector3d> nV;
+        nV = _V;
+        nV.resize(_V.size()+1);
+        nV[_V.size()] = nVentry;
+        int nvidx = _V.size();
         _FL.resize(_F.size()+2);
         _DblA.resize(_F.size()+2);
         // update splits_record
-        std::vector<double> record = {_V(v0,0), _V(v0,1), _V(v0,2), _V(v1,0), _V(v1,1), _V(v1,2), _V(v2,0),_V(v2,1),_V(v2,2), nVentry(0), nVentry(1), nVentry(2)};
+        std::vector<double> record = {_V[v0](0), _V[v0](1), _V[v0](2), _V[v1](0), _V[v1](1), _V[v1](2), _V[v2](0),_V[v2](1),_V[v2](2), nVentry(0), nVentry(1), nVentry(2)};
         
         _splits_record.push_back(record);
         std::vector<Eigen::RowVector3i> nF = _F;
-        nF.resize(F.size()+2);
+        nF.resize(_F.size()+2);
         /*
             v0
 
@@ -150,9 +153,9 @@ namespace MatchMaker
         // update _DblA
 
         double a0, a1,a2;
-        a0 = ((nV.row(v0)-nVentry).cross(nV.row(v1)-nVentry)).norm();
-        a1 = ((nV.row(v1)-nVentry).cross(nV.row(v2)-nVentry)).norm();
-        a2 = ((nV.row(v2)-nVentry).cross(nV.row(v0)-nVentry)).norm();
+        a0 = ((nV[v0]-nVentry).cross(nV[v1]-nVentry)).norm();
+        a1 = ((nV[v1]-nVentry).cross(nV[v2]-nVentry)).norm();
+        a2 = ((nV[v2]-nVentry).cross(nV[v0]-nVentry)).norm();
         _DblA[fidx] = a0;
         _DblA[_F.size()] = a1;
         _DblA[_F.size()+1] = a2;
@@ -313,14 +316,14 @@ namespace MatchMaker
 
         // each split task will increace face num by 2 and vertices num by 1
         const int nF_num = 2 + _F.size();
-        const int nV_num = 1 + _V.rows();
+        const int nV_num = 1 + _V.size();
         const int oldF_num = _F.size();
-        const int oldV_num = _V.rows();
+        const int oldV_num = _V.size();
         // preallocate all the memory
-        Eigen::MatrixX3d nV = Eigen::MatrixXd::Zero(nV_num , 3); // raw mesh
-        nV.block(0, 0, oldV_num, 3) = _V;
-         std::vector<Eigen::RowVector3i> nF = _F;
-         nF.resize(_F.size()+2);
+        std::vector<Eigen::RowVector3d> nV = _V; // raw mesh
+        nV.resize(nV_num);
+        std::vector<Eigen::RowVector3i> nF = _F;
+        nF.resize(_F.size()+2);
         
 
 
@@ -435,10 +438,10 @@ namespace MatchMaker
         nF[f3idx] = Eigen::RowVector3i(widx, vdownidx, vidx);
         _F = nF;
         // update _V
-        Eigen::RowVector3d  wpos = (_V.row(uidx)+_V.row(vidx))/2;
-        nV.row(widx) = wpos;
+        Eigen::RowVector3d  wpos = (_V[uidx]+_V[vidx])/2;
+        nV[widx] = wpos;
         _V = nV;
-        std::vector<double> record = {_V(uidx,0), _V(uidx,1), _V(uidx,2), _V(vidx,0), _V(vidx,1), _V(vidx,2) ,_V(widx,0),_V(widx,1), _V(widx,2)};
+        std::vector<double> record = {_V[uidx](0), _V[uidx](1), _V[uidx](2), _V[vidx](0), _V[vidx](1), _V[vidx](2) ,_V[widx](0),_V[widx](1), _V[widx](2)};
         _splits_record.push_back(record);
         
         // iglw::writeOBJ("../dbginfo/operation"+std::to_string(this->operation_count)+".obj", _V, _F);
@@ -470,10 +473,10 @@ namespace MatchMaker
         
         // update _DblA;
         _DblA.resize(nF_num);
-        _DblA[f0idx] = ((nV.row(vupidx)-wpos).cross(nV.row(vidx)-wpos)).norm();
-        _DblA[f1idx] = ((nV.row(vupidx)-wpos).cross(nV.row(uidx)-wpos)).norm();
-        _DblA[f2idx] = ((nV.row(vdownidx)-wpos).cross(nV.row(uidx)-wpos)).norm();
-        _DblA[f3idx] = ((nV.row(vdownidx)-wpos).cross(nV.row(vidx)-wpos)).norm(); 
+        _DblA[f0idx] = ((nV[vupidx]-wpos).cross(nV[vidx]-wpos)).norm();
+        _DblA[f1idx] = ((nV[vupidx]-wpos).cross(nV[uidx]-wpos)).norm();
+        _DblA[f2idx] = ((nV[vdownidx]-wpos).cross(nV[uidx]-wpos)).norm();
+        _DblA[f3idx] = ((nV[vdownidx]-wpos).cross(nV[vidx]-wpos)).norm(); 
         
         /*  only have to deal with f1 f3 becase they are new faces
                 vup
