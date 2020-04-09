@@ -219,29 +219,20 @@ namespace MatchMaker
         _V = nV;
         // igl::writeOBJ("../dbginfo/operation"+std::to_string(this->operation_count)+".obj", _V, _F);
         std::ofstream split_file;
-        split_file.open("../dbginfo/splits_record.txt");
-        for(auto & vec: this->_splits_record)
-        {
-            if(vec.size()==9)
-            {
-                // it is splits
-                split_file << 0;
-                split_file << " ";
-            }
-            else
-            {
-                // it is an insert
-                split_file << 1;
-                split_file << " ";
-            }
+        split_file.open("../dbginfo/splits_record.txt", std::ios_base::app);
+        
+        // it is an insert
+        split_file << 1;
+        split_file << " ";
+    
             
-            for(auto & val: vec)
-            {
-                split_file << val;
-                split_file << " ";
-            }
-            split_file << "\n";
+        for(auto & val: record)
+        {
+            split_file << val;
+            split_file << " ";
         }
+        split_file << "\n";
+    
         this->operation_count+=1;
     }
 
@@ -446,29 +437,21 @@ namespace MatchMaker
         
         // iglw::writeOBJ("../dbginfo/operation"+std::to_string(this->operation_count)+".obj", _V, _F);
         std::ofstream split_file;
-        split_file.open("../dbginfo/splits_record.txt");
-        for(auto & vec: this->_splits_record)
-        {
-            if(vec.size()==9)
-            {
-                // it is splits
-                split_file << 0;
-                split_file << " ";
-            }
-            else
-            {
-                // it is an insert
-                split_file << 1;
-                split_file << " ";
-            }
+        split_file.open("../dbginfo/splits_record.txt", std::ios_base::app);
+        
+    
+        // it is splits
+        split_file << 0;
+        split_file << " ";
+    
             
-            for(auto & val: vec)
-            {
-                split_file << val;
-                split_file << " ";
-            }
-            split_file << "\n";
+        for(auto & val: record)
+        {
+            split_file << val;
+            split_file << " ";
         }
+        split_file << "\n";
+        
         this->operation_count++;
         
         // update _DblA;

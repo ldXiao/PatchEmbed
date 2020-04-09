@@ -560,22 +560,22 @@ namespace MatchMaker{
             }
 
             int source = -1;
-                int target  = -1;
+            int target  = -1;
 
-                
-                
-                if(tc._node_image_map.find(source_bad)==tc._node_image_map.end())
-                {
-                    proj_node_loop(cg, source_bad, tc, source); 
-                    // updated the tc._node_listd and tc._node_image_map;
-                    assert(source!= -1);               
-                }
-                if(tc._node_image_map.find(target_bad)==tc._node_image_map.end())
-                {
-        
-                    proj_node_loop(cg, target_bad, tc, target);
-                    assert(target!= -1);
-                }
+            
+            
+            if(tc._node_image_map.find(source_bad)==tc._node_image_map.end())
+            {
+                proj_node_loop(cg, source_bad, tc, source); 
+                // updated the tc._node_listd and tc._node_image_map;
+                assert(source!= -1);               
+            }
+            if(tc._node_image_map.find(target_bad)==tc._node_image_map.end())
+            {
+    
+                proj_node_loop(cg, target_bad, tc, target);
+                assert(target!= -1);
+            }
 
         }
 
@@ -718,12 +718,12 @@ namespace MatchMaker{
             Helper::to_matrix(tc._V, V);
             igl::writeOBJ(param.data_root+"/debug_mesh_tree.obj", V, F);
             igl::writeDMAT(param.data_root+"/FL_tree.dmat", tc._FL);
-            CellularGraph cgt;
-            Bijection::TransferCellGraph(cg, tc, cgt);
-            Eigen::MatrixXd M_s2t;
-            Bijection::BijGlobal(cg,cgt, M_s2t);
-            Eigen::MatrixXd Vmap=igl::barycentric_to_global(cgt.V, cgt.F, M_s2t);
-            igl::writeOBJ(param.data_root+"/map.obj", Vmap, cg.F);
+            // CellularGraph cgt;
+            // Bijection::TransferCellGraph(cg, tc, cgt);
+            // Eigen::MatrixXd M_s2t;
+            // Bijection::BijGlobal(cg,cgt, M_s2t);
+            // Eigen::MatrixXd Vmap=igl::barycentric_to_global(cgt.V, cgt.F, M_s2t);
+            // igl::writeOBJ(param.data_root+"/map.obj", Vmap, cg.F);
         }
         Helper::to_matrix(tc._F, F_good);
         Helper::to_matrix(tc._V, V_good);

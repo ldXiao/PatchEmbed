@@ -205,7 +205,7 @@ int main(int argc, char *argv[]){
         output_file_bad = param.data_root + "/"+ "CC"+std::to_string(cc)+"-bad.obj";
         output_file_good = param.data_root +"/"+"CC"+std::to_string(cc)+"edg_len_r"+std::to_string(param.edge_len_r)+"-good.obj";
         output_label_good = param.data_root +"/"+"CC"+std::to_string(cc)+"edg_len_r"+std::to_string(param.edge_len_r); +"-label.dmat";
-        auto file_logger = spdlog::basic_logger_mt("basic_logger", param.data_root + "/"+ "CC"+std::to_string(cc)+"logs.txt",true);
+        auto file_logger = spdlog::basic_logger_mt("basic_logger", param.data_root + "/"+ "CC"+std::to_string(cc)+"/logs.txt",true);
         bool file_exists = false;
         for (const auto & entry : std::filesystem::directory_iterator(param.data_root))
         {

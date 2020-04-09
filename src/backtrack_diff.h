@@ -26,6 +26,10 @@ namespace MatchMaker{
         const std::map<int, std::vector<int> > & edge_path_map,
         const double threshold
     );
+
+    double path_len(const std::vector<Eigen::RowVector3d> & V, 
+                    const std::vector<int> & path
+    );
 }
 }
 #endif 

@@ -265,6 +265,7 @@ namespace MatchMaker{
             }
         }
         std::map<int, bool> edge_visit_dict;
+        std::map<int, double> edge_len_dict;
         int kkk = 0;
         for(auto edg: cg._edge_list)
         {
@@ -283,9 +284,9 @@ namespace MatchMaker{
             TraceComplex tc_copy = tc;
             
             
-
-
+            
             std::map<int, bool> edge_visit_dict_copy = edge_visit_dict;
+            std::map<int, double> edge_len_dict_copy = edge_len_dict;
             std::map<int , std::map<int, bool> > node_edge_visit_dict_copy = node_edge_visit_dict; 
             
              
@@ -298,6 +299,12 @@ namespace MatchMaker{
 
             int patch_idx = patch_queue.front();
             patch_queue.pop_front();
+            double target_len =0;
+            double cur_len = 0;
+            for(auto edge_idx: cg._patch_edge_dict.at(patch_idx))
+            {
+                target_len += path_len(cg._vertices, cg._edge_list.at(edge_idx)._edge_vertices);
+            }
 
             if(param.debug)
             {
@@ -309,6 +316,7 @@ namespace MatchMaker{
             {
                 if(edge_visit_dict[edge_idx])
                 {
+                    cur_len += path_len(tc._V, tc._edge_path_map.at(edge_idx));
                     continue;
                 }
                 all_edge_traced = false;
@@ -384,6 +392,14 @@ namespace MatchMaker{
                         curpatch_succ = false;
                         break;
                     }
+                else {
+                    cur_len += path_len(tc._V, tc._edge_path_map.at(edge_idx));
+                    if(std::abs(cur_len/target_len -1) > bcthreshold || switch_count > 5)
+                    {
+                        curpatch_succ = false;
+                        break;
+                    }
+                }
             
             }
             
@@ -393,14 +409,14 @@ namespace MatchMaker{
                 int ff_in = _locate_seed_face(cg, tc, patch_idx);
                 double newarea = (loop_colorize(tc._V, tc._F, tc._TEdges, ff_in, patch_idx, tc._FL)).second;
                 double target_area = cg._patch_area_dict.at(patch_idx);
-                bool area_withinthreshold = (std::abs(newarea/target_area) < arthreshold)|| (switch_count > 2);
-                withinthreshold=backtrack_diff(
+                bool area_withinthreshold = (std::abs(newarea/target_area) < arthreshold);
+                withinthreshold=(backtrack_diff(
                     tc._V,
                     cg,
                     patch_idx,
                     tc._edge_path_map,
                     bcthreshold
-                ) && area_withinthreshold;
+                ) && area_withinthreshold) || (switch_count > 5);
             }
             if(!withinthreshold && !(all_edge_traced))
             {
@@ -489,13 +505,20 @@ namespace MatchMaker{
             {
                 // if it is still empty after relocation 
                 // switch recycle and patch_queue
-                if(switch_count < 8)
+                if(switch_count < 5)
                 {
                     std::list<int> temp = recycle;
                     recycle = patch_queue;
                     patch_queue = temp;
                     bcthreshold = 1.5 * bcthreshold;
                     arthreshold = 1.5 * arthreshold;
+                    switch_count +=1;
+                }
+                else if (switch_count < 10)
+                {
+                    std::list<int> temp = recycle;
+                    recycle = patch_queue;
+                    patch_queue = temp;
                     switch_count +=1;
                 }
             }
