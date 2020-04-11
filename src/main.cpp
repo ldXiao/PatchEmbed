@@ -9,6 +9,7 @@
 #include <igl/read_triangle_mesh.h>
 #include <igl/readDMAT.h>
 #include <igl/writeDMAT.h>
+#include <igl/writeMESH.h>
 #include <igl/writeOBJ.h>
 #include <igl/upsample.h>
 #include <igl/facet_components.h>
@@ -217,7 +218,9 @@ int main(int argc, char *argv[]){
         }
         
         if(!file_exists || re_tet){
-            bcclean::Tet::fTetwild(CCV_bad, CCF_bad, param.edge_len_r,stop_eng, CCV_good, CCF_good);
+
+            std::string out_tet_path= param.data_root+"/CC"+std::to_string(cc)+"/tet.mesh";
+            bcclean::Tet::fTetwild(CCV_bad, CCF_bad, param.edge_len_r,stop_eng, CCV_good, CCF_good, out_tet_path);
             igl::writeOBJ(output_file_good, CCV_good, CCF_good);
         }
         else{

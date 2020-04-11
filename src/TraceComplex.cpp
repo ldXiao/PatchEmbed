@@ -103,6 +103,7 @@ namespace MatchMaker
         {   
             _TEdges[fcount] = {-1, -1, -1};
         }
+        _splits_record.clear();
     }
 
     void TraceComplex::insert_update(
