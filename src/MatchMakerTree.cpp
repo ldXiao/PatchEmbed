@@ -634,46 +634,71 @@ namespace MatchMaker{
         // dea with the the edges that will not separate region
         std::list<int> recycle;
         bool early_break = false;
-        for(auto edge_idx: edge_queue)
+        while(!edge_queue.empty())
         {
-            TraceComplex tc_copy = tc;
-            json path_json_copy = path_json;
-            std::map<int , std::map<int, bool> > node_edge_visit_dict_copy = node_edge_visit_dict;
-            bool succ = trace_for_edge(cg, tc_copy, edge_idx, node_edge_visit_dict_copy, path_json_copy, param);
-            std::vector<int> FL_temp = tc_copy._FL;
-            int fcount = (loop_colorize(tc_copy._V, tc_copy._F, tc_copy._TEdges, 0, 0, FL_temp)).first;
-            bool connected =(fcount == FL_temp.size());
-            if(!succ)
+            bool find_non_blocking = false;
+            std::list<int> edge_queue_copy = edge_queue; // pop and rotate
+            for(auto edge_idx: edge_queue)
             {
-                early_break = true;
+                TraceComplex tc_copy = tc;
+                json path_json_copy = path_json;
+                
+                std::map<int , std::map<int, bool> > node_edge_visit_dict_copy = node_edge_visit_dict;
+                bool succ = trace_for_edge(cg, tc_copy, edge_idx, node_edge_visit_dict_copy, path_json_copy, param);
+                assert(edge_queue_copy.front()==edge_idx);
+                edge_queue_copy.pop_front();
+                std::vector<int> FL_temp = tc_copy._FL;
+                int fcount = (loop_colorize(tc_copy._V, tc_copy._F, tc_copy._TEdges, 0, 0, FL_temp)).first;
+                bool connected =(fcount == FL_temp.size());
+                if(!succ)
+                {
+                    early_break = true;
+                    break;
+                }
+                if(!connected)
+                {
+                    edge_queue_copy.push_back(edge_idx);
+                    std::cout << "edge" << edge_idx << "postponed" << std::endl;
+                    logger->critical("edge {} is potential blocking, postponed", edge_idx);
+                    logger->flush();
+                    // do not update tc
+                    continue;
+                }
+                else
+                {
+                    // the edge is not blocking
+                    // update tc
+                    tc = tc_copy;
+                    path_json = path_json_copy;
+                    node_edge_visit_dict = node_edge_visit_dict_copy;
+                    logger->info("edge {} is not blocking, {}/{} finished", edge_idx, traced_count, cg._edge_list.size());
+                    int new_split = tc_copy.operation_count - tc.operation_count;
+                    logger->info("{} new splits operated, total vertices {}", new_split, tc._V.size());
+                    logger->flush();
+                    traced_count ++;
+                    find_non_blocking = true;
+                    
+                    break;
+                }
+            }
+            if(early_break)
+            {
+                logger->info("early break happens");
+                logger->flush();
                 break;
             }
-            if(!connected)
+            else if(!find_non_blocking)
             {
-                recycle.push_back(edge_idx);
-                std::cout << "edge" << edge_idx << "postponed" << std::endl;
-                logger->critical("edge {} is potential blocking, postponed", edge_idx);
+                logger->info("can not find any non_blocking path");
                 logger->flush();
-                // do not update tc
-                continue;
+                edge_queue = edge_queue_copy;
+                break;
             }
-            else
-            {
-                // update tc
-                tc = tc_copy;
-                path_json = path_json_copy;
-                node_edge_visit_dict = node_edge_visit_dict_copy;
-                logger->info("edge {} is not blocking, {}/{} finished", edge_idx, traced_count, cg._edge_list.size());
-                int new_split = tc_copy.operation_count - tc.operation_count;
-                logger->info("{} new splits operated, total vertices {}", new_split, tc._V.size());
-                logger->flush();
-                traced_count ++;
-            }
-            
         }
+        
         if(! early_break)
         {
-            for(auto edge_idx: recycle)
+            for(auto edge_idx: edge_queue)
             {
                 int old_split_count = tc.operation_count;
                 if(!trace_for_edge(
