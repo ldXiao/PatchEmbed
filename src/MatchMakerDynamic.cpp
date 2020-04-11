@@ -535,6 +535,7 @@ namespace MatchMaker{
             Eigen::MatrixXi F;
             igl::writeOBJ(param.data_root+"/debug_mesh.obj", V_good, F_good);
             igl::writeDMAT(param.data_root+"/FL_loop.dmat", FL_good);
+            igl::writeDMAT(param.data_root+"/splits_record.dmat", tc._splits_record, false);
             std::ofstream split_file;
             split_file.open(param.data_root+"/splits_record.txt");
             for(auto & vec: tc._splits_record)

@@ -132,7 +132,7 @@ namespace MatchMaker
         _FL.resize(_F.size()+2);
         _DblA.resize(_F.size()+2);
         // update splits_record
-        std::vector<double> record = {_V[v0](0), _V[v0](1), _V[v0](2), _V[v1](0), _V[v1](1), _V[v1](2), _V[v2](0),_V[v2](1),_V[v2](2), nVentry(0), nVentry(1), nVentry(2)};
+        std::vector<double> record = {1, _V[v0](0), _V[v0](1), _V[v0](2), _V[v1](0), _V[v1](1), _V[v1](2), _V[v2](0),_V[v2](1),_V[v2](2), nVentry(0), nVentry(1), nVentry(2)};
         
         _splits_record.push_back(record);
         std::vector<Eigen::RowVector3i> nF = _F;
@@ -218,21 +218,21 @@ namespace MatchMaker
 
         _F = nF;
         _V = nV;
-        // igl::writeOBJ("../dbginfo/operation"+std::to_string(this->operation_count)+".obj", _V, _F);
-        std::ofstream split_file;
-        split_file.open("../dbginfo/splits_record.txt", std::ios_base::app);
+        // // igl::writeOBJ("../dbginfo/operation"+std::to_string(this->operation_count)+".obj", _V, _F);
+        // std::ofstream split_file;
+        // split_file.open("../dbginfo/splits_record.txt", std::ios_base::app);
         
-        // it is an insert
-        split_file << 1;
-        split_file << " ";
+        // // it is an insert
+        // split_file << 1;
+        // split_file << " ";
     
             
-        for(auto & val: record)
-        {
-            split_file << val;
-            split_file << " ";
-        }
-        split_file << "\n";
+        // for(auto & val: record)
+        // {
+        //     split_file << val;
+        //     split_file << " ";
+        // }
+        // split_file << "\n";
     
         this->operation_count+=1;
     }
@@ -433,25 +433,25 @@ namespace MatchMaker
         Eigen::RowVector3d  wpos = (_V[uidx]+_V[vidx])/2;
         nV[widx] = wpos;
         _V = nV;
-        std::vector<double> record = {_V[uidx](0), _V[uidx](1), _V[uidx](2), _V[vidx](0), _V[vidx](1), _V[vidx](2) ,_V[widx](0),_V[widx](1), _V[widx](2)};
+        std::vector<double> record = {0,_V[uidx](0), _V[uidx](1), _V[uidx](2), _V[vidx](0), _V[vidx](1), _V[vidx](2) ,_V[widx](0),_V[widx](1), _V[widx](2),0,0,0};
         _splits_record.push_back(record);
         
         // iglw::writeOBJ("../dbginfo/operation"+std::to_string(this->operation_count)+".obj", _V, _F);
-        std::ofstream split_file;
-        split_file.open("../dbginfo/splits_record.txt", std::ios_base::app);
+        // std::ofstream split_file;
+        // split_file.open("../dbginfo/splits_record.txt", std::ios_base::app);
         
     
-        // it is splits
-        split_file << 0;
-        split_file << " ";
+        // // it is splits
+        // split_file << 0;
+        // split_file << " ";
     
             
-        for(auto & val: record)
-        {
-            split_file << val;
-            split_file << " ";
-        }
-        split_file << "\n";
+        // for(auto & val: record)
+        // {
+        //     split_file << val;
+        //     split_file << " ";
+        // }
+        // split_file << "\n";
         
         this->operation_count++;
         
