@@ -196,6 +196,6 @@ add_executable(gen_feat src/gen_feat.cpp)
 target_link_libraries(gen_feat bcclean)
 set_target_properties(gen_feat PROPERTIES CXX_STANDARD 17)
 
-add_executable(tetsplit src/tetsplit/main.cpp)
+add_executable(tetsplit src/tetsplit/main.cpp src/tetsplit/edge_hash.cpp)
 target_link_libraries(tetsplit igl::core spdlog)
 set_target_properties(tetsplit PROPERTIES CXX_STANDARD 17)
