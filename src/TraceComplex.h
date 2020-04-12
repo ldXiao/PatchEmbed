@@ -13,16 +13,17 @@ namespace MatchMaker{
         std::vector<std::vector<int> > _VEdges;
         std::vector<std::vector<int> > _TEdges;
         std::vector<std::vector<double> > _splits_record;
-        Eigen::MatrixXi _TT;
-        Eigen::MatrixXi _F;
-        Eigen::MatrixXd _V;
-        Eigen::VectorXi _FL;
-        Eigen::VectorXd _DblA;
+        std::vector<Eigen::RowVector3i> _TT;
+        std::vector<Eigen::RowVector3i> _F;
+        std::vector<Eigen::RowVector3d> _V;
+        std::vector<int> _FL;
+        std::vector<int> _DblA;
         std::map<int, std::vector<int> > _edge_path_map;
         std::map<int, int> _node_image_map;
         std::vector<int> _total_silence_list;
         std::vector<int> _node_list;
         int operation_count = 0;
+        
         void initialize(const Eigen::MatrixXd & Vin, const Eigen::MatrixXi & Fin);
         void insert_update(const Eigen::MatrixXd & baryentry);
         void splits_detect(std::vector<std::pair<int, int> > & splits);

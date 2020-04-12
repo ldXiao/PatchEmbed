@@ -6,13 +6,14 @@
 #include <igl/writeDMAT.h>
 #include <utility>
 #include <nlohmann/json.hpp>
-#include "Match_Maker_Tree.h"
+#include "MatchMakerTree.h"
 #include "params.h"
 #include "CellularGraph.h"
 #include "TraceComplex.h"
 #include "Edge_Dijkstra.h"
 #include "Patch_Bijection.h"
 #include "TransferCellGraph.h"
+#include "helper.h"
 #include <igl/barycentric_to_global.h>
 namespace bcclean {
 namespace MatchMaker{
@@ -44,7 +45,7 @@ namespace MatchMaker{
         bool ffa_coline = false; 
         for(int j: {0,1,2})
         {
-            if(tc._F(ffa,j)==v0 && tc._F(ffa,(j+1)% 3)==v1)
+            if(tc._F[ffa](j)==v0 && tc._F[ffa]((j+1)% 3)==v1)
             {
                 ffa_coline=true;
                 break;
@@ -163,7 +164,7 @@ namespace MatchMaker{
     }
 
     void sector_silence_list(
-        const Eigen::MatrixXi & F,
+        const std::vector<Eigen::RowVector3i> & F,
         const std::map<int, std::vector<int> > & node_edge_dict,
         const std::map<int, std::map<int, bool> > & node_edge_visit_dict,
         const std::vector<std::vector<int> > & TEdges,
@@ -245,7 +246,7 @@ namespace MatchMaker{
                 int e_pos = -1;
                 for(auto v_pos: {0, 1, 2})
                 {
-                    if(F(fidx, v_pos) == source)
+                    if(F[fidx](v_pos) == source)
                     {
                         e_pos = v_pos;
                         break;
@@ -266,7 +267,7 @@ namespace MatchMaker{
                 int e_pos = -1;
                 for(auto v_pos: {0, 1, 2})
                 {
-                    if(F(CC_node_face_dict.at(source)[secface], v_pos) == source)
+                    if(F[CC_node_face_dict.at(source)[secface]](v_pos) == source)
                     {
                         e_pos = v_pos;
                         break;
@@ -277,7 +278,7 @@ namespace MatchMaker{
                     break;
                 }
            
-                temp_silence_list.push_back(F(CC_node_face_dict.at(source)[secface], (e_pos+2)%3));
+                temp_silence_list.push_back(F[CC_node_face_dict.at(source)[secface]]((e_pos+2)%3));
                 
                 
             }
@@ -285,7 +286,7 @@ namespace MatchMaker{
 
     void update_local_sector(
         const std::vector<std::vector<int> > & VV, 
-        const Eigen::MatrixXi & F,
+        const std::vector<RowVector3i> & F,
         const std::map<int , std::map<int, bool> > & node_edge_visit_dict,
         const std::map<int, std::vector<int> > & node_edge_dict,
         const std::vector<std::vector<int> > & TEdges,
@@ -400,8 +401,8 @@ namespace MatchMaker{
             Eigen::VectorXd source_target=Eigen::VectorXd::Constant(6,0);
             for(int xx: {0,1,2})
             {
-                source_target(xx)=tc._V(source,xx);
-                source_target(xx+3)=tc._V(target,xx);
+                source_target(xx)=tc._V[source](xx);
+                source_target(xx+3)=tc._V[target](xx);
             }
             
             igl::writeDMAT(param.data_root+"/source_target_"+param.tracing+".dmat",source_target);
@@ -451,8 +452,8 @@ namespace MatchMaker{
             // there should be only one comman adjacent triangle for boundary vertices
             for(auto trg: inter){
                 for(int edgpos =0; edgpos < 3 ; ++edgpos){
-                    int uuidx = tc._F(trg, edgpos);
-                    int vvidx = tc._F(trg, (edgpos+1)% 3);
+                    int uuidx = tc._F[trg]( edgpos);
+                    int vvidx = tc._F[trg]( (edgpos+1)% 3);
                     if(uuidx == uidx && vvidx == vidx){
                         tc._TEdges[trg][edgpos] = edge_idx;
                     }
@@ -480,7 +481,11 @@ namespace MatchMaker{
             std::ofstream file;
             file.open(param.data_root+"/debug_paths_"+param.tracing+".json");
             file << path_json;
-            igl::writeOBJ(param.data_root+"/debug_mesh_"+param.tracing+".obj", tc._V, tc._F);
+            Eigen::MatrixXi F;
+            Eigen::MatrixXd V;
+            Helper::to_matrix(tc._F, F);
+            Helper::to_matrix(tc._V, V);
+            igl::writeOBJ(param.data_root+"/debug_mesh_"+param.tracing+".obj", V, F);
             igl::writeDMAT(param.data_root+"/FL_"+param.tracing+".dmat", tc._FL);
         }
         // update visit_dict or loop condition update
@@ -494,7 +499,8 @@ namespace MatchMaker{
         Eigen::MatrixXd & V_good,
         Eigen::MatrixXi & F_good,
         Eigen::VectorXi & FL_good,
-        const params param
+        const params param,
+        std::shared_ptr<spdlog::logger> logger
     )
     {
         int total_label_num = cg.label_num;
@@ -554,22 +560,22 @@ namespace MatchMaker{
             }
 
             int source = -1;
-                int target  = -1;
+            int target  = -1;
 
-                
-                
-                if(tc._node_image_map.find(source_bad)==tc._node_image_map.end())
-                {
-                    proj_node_loop(cg, source_bad, tc, source); 
-                    // updated the tc._node_listd and tc._node_image_map;
-                    assert(source!= -1);               
-                }
-                if(tc._node_image_map.find(target_bad)==tc._node_image_map.end())
-                {
-        
-                    proj_node_loop(cg, target_bad, tc, target);
-                    assert(target!= -1);
-                }
+            
+            
+            if(tc._node_image_map.find(source_bad)==tc._node_image_map.end())
+            {
+                proj_node_loop(cg, source_bad, tc, source); 
+                // updated the tc._node_listd and tc._node_image_map;
+                assert(source!= -1);               
+            }
+            if(tc._node_image_map.find(target_bad)==tc._node_image_map.end())
+            {
+    
+                proj_node_loop(cg, target_bad, tc, target);
+                assert(target!= -1);
+            }
 
         }
 
@@ -589,12 +595,14 @@ namespace MatchMaker{
             edge_visit_dict[kkk]= false;
             kkk++;
         }
-
+        logger->info("trace graph of size {}", cg._edge_list.size());
+        logger->info("trace mean spanning tree of size {}", frame_MST.size());
         // trace for mst
+        int traced_count = 1;
         for(auto frame_edge: frame_MST)
         {
             int edge_idx = frame_edge.first;
-
+            int old_split_count = tc.operation_count;
             if(!trace_for_edge(
                 cg,
                 tc,
@@ -603,64 +611,119 @@ namespace MatchMaker{
                 path_json,
                 param 
             )) return false;
+            edge_visit_dict[edge_idx]= true;
+            logger->info("edge {} traced, finished {}/{} of MST and {}/{} of Graph",edge_idx,traced_count, frame_MST.size(), traced_count, cg._edge_list.size());
+            int new_split =  tc.operation_count-old_split_count;
+            logger->info("{} new splits operated, total vertices {}", new_split, tc._V.size());
+            logger->flush();
+            traced_count+=1;
         }
+        logger->info("trace mst done");
         std::cout << "tracing mst done" << std::endl;
-        // trace of remaining edges
 
-        // for(auto item: cg._node_edge_dict)
-        // {
-        //     // Main loop for tracing
-        //     int nd = item.first;
-        //     for (auto edge_idx: cg._node_edge_dict.at(nd)){
-        //         if(node_edge_visit_dict[nd][edge_idx])
-        //         {
-        //             continue;
-        //         }
-        //         if(!trace_for_edge(
-        //             cg,
-        //             tc,
-        //             edge_idx,
-        //             node_edge_visit_dict,
-        //             path_json,
-        //             param 
-        //         )) return false;
-        //     }
-        // }
+        logger->info("trace non-blocking edges");
+        // trace of remaining edges
         std::list<int> edge_queue;
-        for(auto item: cg._node_edge_dict)
+        for(auto item: edge_visit_dict)
         {
-            // Main loop for tracing
-            int nd = item.first;
-            for (auto edge_idx: cg._node_edge_dict.at(nd)){
-                if(node_edge_visit_dict[nd][edge_idx])
-                {
-                    continue;
-                }
-                edge_queue.push_back(edge_idx); 
+            if(! edge_visit_dict[item.first])
+            {
+                edge_queue.push_back(item.first);
             }
         }
         // dea with the the edges that will not separate region
         std::list<int> recycle;
-        for(auto edge_idx: edge_queue)
+        bool early_break = false;
+        while(!edge_queue.empty())
         {
-            TraceComplex tc_copy = tc;
-            json path_json_copy = path_json;
-            std::map<int , std::map<int, bool> > node_edge_visit_dict_copy = node_edge_visit_dict;
-            bool succ = trace_for_edge(cg, tc_copy, edge_idx, node_edge_visit_dict_copy, path_json_copy, param);
-            Eigen::VectorXi FL_temp = tc_copy._FL;
-            int fcount = (loop_colorize(tc_copy._V. tc_copy._F, tc_copy._TEdges, 0, 0, FL_temp)).first();
-            bool connected =(fcount == FL_temp.rows());
-            if(!connected)
+            bool find_non_blocking = false;
+            std::list<int> edge_queue_copy = edge_queue; // pop and rotate
+            for(auto edge_idx: edge_queue)
             {
-                recycle.push_back(edge_idx);
-                // do not update tc
-                continue;
+                TraceComplex tc_copy = tc;
+                json path_json_copy = path_json;
+                
+                std::map<int , std::map<int, bool> > node_edge_visit_dict_copy = node_edge_visit_dict;
+                bool succ = trace_for_edge(cg, tc_copy, edge_idx, node_edge_visit_dict_copy, path_json_copy, param);
+                assert(edge_queue_copy.front()==edge_idx);
+                edge_queue_copy.pop_front();
+                std::vector<int> FL_temp = tc_copy._FL;
+                int fcount = (loop_colorize(tc_copy._V, tc_copy._F, tc_copy._TEdges, 0, 0, FL_temp)).first;
+                bool connected =(fcount == FL_temp.size());
+                if(!succ)
+                {
+                    early_break = true;
+                    break;
+                }
+                if(!connected)
+                {
+                    edge_queue_copy.push_back(edge_idx);
+                    std::cout << "edge" << edge_idx << "postponed" << std::endl;
+                    logger->critical("edge {} is potential blocking, postponed", edge_idx);
+                    logger->flush();
+                    // do not update tc
+                    continue;
+                }
+                else
+                {
+                    // the edge is not blocking
+                    // update tc
+                    tc = tc_copy;
+                    path_json = path_json_copy;
+                    node_edge_visit_dict = node_edge_visit_dict_copy;
+                    logger->info("edge {} is not blocking, {}/{} finished", edge_idx, traced_count, cg._edge_list.size());
+                    int new_split = tc_copy.operation_count - tc.operation_count;
+                    logger->info("{} new splits operated, total vertices {}", new_split, tc._V.size());
+                    logger->flush();
+                    traced_count ++;
+                    find_non_blocking = true;
+                    
+                    break;
+                }
             }
-            else
+            if(early_break)
             {
-                // update tc
+                logger->info("early break happens");
+                logger->flush();
+                break;
             }
-            
+            else if(!find_non_blocking)
+            {
+                logger->info("can not find any non_blocking path");
+                logger->flush();
+                edge_queue = edge_queue_copy;
+                break;
+            }
+        }
+        
+        if(! early_break)
+        {
+            for(auto edge_idx: edge_queue)
+            {
+                int old_split_count = tc.operation_count;
+                if(!trace_for_edge(
+                    cg,
+                    tc,
+                    edge_idx,
+                    node_edge_visit_dict,
+                    path_json,
+                    param 
+                )) 
+                {return false;}
+                else
+                {
+                    logger->info("edge {} is traced, {}/{} finished", edge_idx, traced_count, cg._edge_list.size());
+                    int new_split =  tc.operation_count-old_split_count;
+                    logger->info("{} new splits operated, total vertices {}", new_split, tc._V.size());
+                    logger->flush();
+                    traced_count++; 
+                }
+                
+            }
+        }
+        else{
+            logger->critical("early break, bug exists");
+            return false;
         }
 
 
@@ -669,22 +732,27 @@ namespace MatchMaker{
             int patch_idx = item.first;
 
             int ff_in = _locate_seed_face(cg, tc, patch_idx);
-            loop_colorize(tc._V, tc._F, tc._TEdges,ff_in, patch_idx, tc._FL);
+            std::pair<int, double> pair_temp=loop_colorize(tc._V, tc._F, tc._TEdges,ff_in, patch_idx, tc._FL);
+            assert(pair_temp.first != tc._F.size());
         }
         if(param.debug)
         {
-            igl::writeOBJ(param.data_root+"/debug_mesh_tree.obj", tc._V, tc._F);
+            Eigen::MatrixXi F;
+            Helper::to_matrix(tc._F, F);
+            Eigen::MatrixXd V;
+            Helper::to_matrix(tc._V, V);
+            igl::writeOBJ(param.data_root+"/debug_mesh_tree.obj", V, F);
             igl::writeDMAT(param.data_root+"/FL_tree.dmat", tc._FL);
-            CellularGraph cgt;
-            Bijection::TransferCellGraph(cg, tc, cgt);
-            Eigen::MatrixXd M_s2t;
-            Bijection::BijGlobal(cg,cgt, M_s2t);
-            Eigen::MatrixXd Vmap=igl::barycentric_to_global(cgt.V, cgt.F, M_s2t);
-            igl::writeOBJ(param.data_root+"/map.obj", Vmap, cg.F);
+            // CellularGraph cgt;
+            // Bijection::TransferCellGraph(cg, tc, cgt);
+            // Eigen::MatrixXd M_s2t;
+            // Bijection::BijGlobal(cg,cgt, M_s2t);
+            // Eigen::MatrixXd Vmap=igl::barycentric_to_global(cgt.V, cgt.F, M_s2t);
+            // igl::writeOBJ(param.data_root+"/map.obj", Vmap, cg.F);
         }
-        F_good = tc._F;
-        V_good = tc._V;
-        FL_good = tc._FL;
+        Helper::to_matrix(tc._F, F_good);
+        Helper::to_matrix(tc._V, V_good);
+        igl::list_to_matrix(tc._FL, FL_good);
         return true;
 
     }

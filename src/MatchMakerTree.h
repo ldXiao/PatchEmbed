@@ -1,5 +1,5 @@
-#ifndef BCCLEAN_MATCH_MAKER_TREE_H
-#define BCCLEAN_MATCH_MAKER_TREE_H 
+#ifndef BCCLEAN_MatchMakerTree_H
+#define BCCLEAN_MatchMakerTree_H 
 #include <Eigen/Core>
 #include "patch.h"
 #include "node.h"
@@ -16,6 +16,8 @@
 #include <algorithm>
 #include <functional>
 #include <cmath>
+#include <spdlog/spdlog.h>
+#include <memory>
 #include "params.h"
 #include "CellularGraph.h"
 #include "TraceComplex.h"
@@ -31,7 +33,7 @@ namespace MatchMaker{
 
     void update_local_sector(
         const std::vector<std::vector<int> > & VV, 
-        const Eigen::MatrixXi & F,
+        const std::vector<Eigen::RowVector3i> & F,
         const std::map<int , std::map<int, bool> > & node_edge_visit_dict,
         const std::map<int, std::vector<int> > & node_edge_dict,
         const std::vector<std::vector<int> > & TEdges,
@@ -48,9 +50,10 @@ namespace MatchMaker{
         Eigen::MatrixXd & V_good,
         Eigen::MatrixXi & F_good,
         Eigen::VectorXi & FL_good,
-        const params param
+        const params param,
+        std::shared_ptr<spdlog::logger> logger
     ); 
 }
 }
 
-#endif // BCCLEAN_MATCH_MAKER_TREE_H
+#endif // BCCLEAN_MatchMakerTree_H

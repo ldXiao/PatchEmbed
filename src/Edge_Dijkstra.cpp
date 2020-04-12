@@ -1,6 +1,7 @@
 #include "Edge_Dijkstra.h"
 #include "polyline_distance.h"
 #include "kdtree_NN_Eigen.hpp"
+#include "helper.h"
 #include <utility>
 #include <vector>
 #include <igl/edges.h>
@@ -99,8 +100,8 @@ namespace Trace{
     }
 
     void setWeight1(
-        const Eigen::MatrixXd & V,
-        const Eigen::MatrixXi & F,
+        const std::vector<Eigen::RowVector3d> & V,
+        const std::vector<Eigen::RowVector3i> & F,
         const std::vector<Eigen::RowVector3d> & V_bad,
         const edge & edg,
         Eigen::SparseMatrix<double> & Weights
@@ -108,8 +109,10 @@ namespace Trace{
     {
         std::vector<Eigen::Triplet<double>> ww;
         Eigen::MatrixXi Edges;
-        igl::edges(F, Edges);
-        Weights.resize(V.rows(), V.rows());
+        Eigen::MatrixXi F_matrix;
+        Helper::to_matrix(F,F_matrix);
+        igl::edges(F_matrix, Edges);
+        Weights.resize(V.size(), V.size());
         int upratio = 10;
         int power=1;
         std::vector<int> Elist = edg._edge_vertices;
@@ -136,7 +139,7 @@ namespace Trace{
         {
             int x= Edges(eidx, 0);
             int y = Edges(eidx,1);
-            Eigen::RowVector3d query = (V.row(x) + V.row(y)) * 0.5 ;
+            Eigen::RowVector3d query = (V.at(x) + V.at(y)) * 0.5 ;
             int sample_idx= kd_tree_NN_Eigen(sample_kdt, query);
             double dis = pow((query - sample.row(sample_idx)).norm(), power);
             ww.emplace_back(std::min(x,y), std::max(x,y),dis);

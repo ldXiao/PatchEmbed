@@ -5,6 +5,7 @@
 #include <vector>
 #include <algorithm>
 #include "kdtree_NN_Eigen.hpp"
+#include "helper.h"
 #include <igl/barycentric_to_global.h>
 #include <igl/triangle_triangle_adjacency.h>
 #include <igl/barycenter.h>
@@ -263,9 +264,9 @@ namespace bcclean {
         int fidx = std::round(baryentry(0,0));
         assert(fidx != -1);
         assert(baryentry.rows()==1);
-        int v0 = tc._F(fidx,0);
-        int v1 = tc._F(fidx,1);
-        int v2 = tc._F(fidx,2);
+        int v0 = tc._F[fidx](0);
+        int v1 = tc._F[fidx](1);
+        int v2 = tc._F[fidx](2);
         int nvidx = -1;
         double u,v,w, eps;
         u = baryentry(0,1);
@@ -292,7 +293,7 @@ namespace bcclean {
             {
                 contribute_dict[vcount] = false;
             }
-            int vvidx = tc._F(fidx, vcount);
+            int vvidx = tc._F[fidx]( vcount);
             node_map[vcount] = vvidx;
             if((std::find(tc._node_list.begin(), tc._node_list.end(), vvidx) == tc._node_list.end())&& tc._VEdges[vvidx].size()==0)
             {
@@ -314,13 +315,13 @@ namespace bcclean {
             if(contribute_dict[mvp] && available_dict[mvp])
             {
                 addnew = false;
-                nvidx = tc._F(fidx, mvp);
+                nvidx = tc._F[fidx]( mvp);
                 break;
             }
         }
         if(addnew)
         {
-            nvidx = tc._V.rows();
+            nvidx = tc._V.size();
             tc.insert_update(baryentry);
         }
         return nvidx;
@@ -693,23 +694,29 @@ namespace bcclean {
             node_normal.row(0) = cg._normals[node_bad];
             node_v.row(0) = cg._vertices[node_bad];
         }
-        Eigen::MatrixXd Vgood_copy = tc._V;
-        Eigen::MatrixXd RR = igl::embree::line_mesh_intersection(node_v, node_normal, tc._V, tc._F);
-
+        Eigen::MatrixXd RR;
+        Eigen::MatrixXd Centers;
+        {
+            Eigen::MatrixXi F;
+            Helper::to_matrix(tc._F, F);
+            Eigen::MatrixXd V;
+            Helper::to_matrix(tc._V, V);
+            igl::barycenter(V, F, Centers);
+            RR = igl::embree::line_mesh_intersection(node_v, node_normal, V, F);
+        }
+      
         Eigen::MatrixXd bc = RR.row(0);
         int fidx = std::round(bc(0,0));
-        
         // build a kdtree 
-        Eigen::MatrixXd Centers;
-        igl::barycenter(tc._V, tc._F, Centers);
+        
         kd_tree_Eigen<double> kdt(Centers.cols(),std::cref(Centers),10);
         kdt.index->buildIndex();
 
         Eigen::RowVector3d query = cg._vertices[node_bad];
         int nnidx= kd_tree_NN_Eigen(kdt, query);
-        double d0 = std::max((query-tc._V.row(tc._F(nnidx,0))).norm(), 1e-7);
-        double d1 = std::max((query-tc._V.row(tc._F(nnidx,1))).norm(),1e-7);
-        double d2 = std::max((query-tc._V.row(tc._F(nnidx,2))).norm(),1e-7);
+        double d0 = std::max((query-tc._V[tc._F[nnidx](0)]).norm(), 1e-7);
+        double d1 = std::max((query-tc._V[tc._F[nnidx](1)]).norm(),1e-7);
+        double d2 = std::max((query-tc._V[tc._F[nnidx](2)]).norm(),1e-7);
         double dnnbc = (query-Centers.row(nnidx)).norm();
         Eigen::MatrixXd nnbc = bc;
         nnbc(0,0)= nnidx;
@@ -732,7 +739,7 @@ namespace bcclean {
                 bc = nnbc;
             }
         }
-        if(tc._FL(fidx)!= -1)
+        if(tc._FL[fidx]!= -1)
         {
             // triangle occupied
             // search for nonoccupied triangle and choose the nearset non-boundary vertice
@@ -741,23 +748,23 @@ namespace bcclean {
             std::queue<int> search_queue;
             search_queue.push(fidx);
             std::map<int, bool> visit_dict;
-            for(int fjdx=0; fjdx < tc._F.rows(); ++fjdx)
+            for(int fjdx=0; fjdx < tc._F.size(); ++fjdx)
             {
                 visit_dict[fjdx] = false;
             }
-            Eigen::MatrixXi TT;
-            igl::triangle_triangle_adjacency(tc._F, TT);
+            // Eigen::MatrixXi TT;
+            // igl::triangle_triangle_adjacency(tc._F, TT);
             visit_dict[fidx] = true;
             while(search_queue.size()!=0){
                 int cur_face = search_queue.front();
                 search_queue.pop(); // remove head
-                Eigen::RowVector3i adjs = TT.row(cur_face);
+                Eigen::RowVector3i adjs = tc._TT.at(cur_face);
                 for(int j =0 ; j <3 ; ++j){
                     int face_j = adjs(j);
                     if(face_j == -1) {
                         continue;
                     }
-                    if(tc._FL(face_j)!= -1)
+                    if(tc._FL[face_j]!= -1)
                     {
                         if(!visit_dict[face_j])
                         {
@@ -777,16 +784,16 @@ namespace bcclean {
             // we can assume at least one of the vertices in target_face is not on Cut
             for(auto vv: {0,1,2})
             {
-                int vvidx = tc._F(target_face,vv);
+                int vvidx = tc._F[target_face](vv);
                 bool not_path = tc._VEdges[vvidx].empty();
-                bool not_node = (std::find(tc._node_list.begin(), tc._node_list.end(),tc._F(target_face,vv))==tc._node_list.end());
+                bool not_node = (std::find(tc._node_list.begin(), tc._node_list.end(),tc._F[target_face](vv))==tc._node_list.end());
                 if(
                     not_path 
                     && 
                     not_node
                 )
                 {
-                    node_image = tc._F(target_face,vv);
+                    node_image = tc._F[target_face](vv);
                     break;
                 }
             }

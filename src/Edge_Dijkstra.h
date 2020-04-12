@@ -28,8 +28,8 @@ namespace Trace{
     );
 
     void setWeight1(
-        const Eigen::MatrixXd & V,
-        const Eigen::MatrixXi & F,
+        const std::vector<Eigen::RowVector3d> & V,
+        const std::vector<Eigen::RowVector3i> & F,
         const std::vector<Eigen::RowVector3d> & V_bad,
         const edge & edg,
         Eigen::SparseMatrix<double> & Weights

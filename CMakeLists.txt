@@ -145,8 +145,8 @@ set(SOURCES
     src/proj_node.cpp
     src/loop_colorize.h
     src/loop_colorize.cpp
-    src/Match_Maker_Tree.h 
-    src/Match_Maker_Tree.cpp 
+    src/MatchMakerTree.h 
+    src/MatchMakerTree.cpp 
     src/Kruskal.h
     src/Kruskal.cpp
     src/fTetwild.h 
@@ -176,6 +176,8 @@ set(SOURCES
     src/TransferCellGraph.cpp
     src/slim_hard_constr.h 
     src/slim_hard_constr.cpp 
+    src/helper.h
+    src/helper.cpp
 )
 add_library(bcclean ${SOURCES})
 target_link_libraries(bcclean PUBLIC
@@ -199,3 +201,7 @@ set_target_properties(gen_feat PROPERTIES CXX_STANDARD 17)
 add_executable(tetsplit src/tetsplit/main.cpp src/tetsplit/edge_hash.cpp)
 target_link_libraries(tetsplit igl::core spdlog)
 set_target_properties(tetsplit PROPERTIES CXX_STANDARD 17)
+
+add_executable(spdlog_test src/spdlog_test.cpp)
+target_link_libraries(spdlog_test bcclean)
+set_target_properties(spdlog_test PROPERTIES CXX_STANDARD 17)

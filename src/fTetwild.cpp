@@ -152,7 +152,7 @@ void extract_surface_mesh(const Mesh&                               mesh,
     igl::remove_unreferenced(VT, FS, VS, FS, I);
 }
 
-int fTetwild(const Eigen::MatrixXd & V, const Eigen::MatrixXi & F, const double edge_len_r, const int stop_eng, Eigen::MatrixXd & VS, Eigen::MatrixXi & FS) 
+int fTetwild(const Eigen::MatrixXd & V, const Eigen::MatrixXi & F, const double edge_len_r, const int stop_eng, Eigen::MatrixXd & VS, Eigen::MatrixXi & FS, std::string output_mesh_name) 
 {
 
 #ifndef WIN32
@@ -424,18 +424,18 @@ int fTetwild(const Eigen::MatrixXd & V, const Eigen::MatrixXi & F, const double 
 //        MeshIO::write_mesh(params.output_path + "_" + params.postfix + ".msh", mesh, false);
 
     //fortest
-    // std::vector<Scalar> colors(mesh.tets.size(), -1);
-    // for (int i = 0; i < mesh.tets.size(); i++) {
-    //     if (mesh.tets[i].is_removed)
-    //         continue;
-    //     colors[i] = mesh.tets[i].quality;
-    // }
+    std::vector<Scalar> colors(mesh.tets.size(), -1);
+    for (int i = 0; i < mesh.tets.size(); i++) {
+        if (mesh.tets[i].is_removed)
+            continue;
+        colors[i] = mesh.tets[i].quality;
+    }
     // //fortest
-    // MeshIO::write_mesh(output_mesh_name, mesh, false, colors);
+    MeshIO::write_mesh(output_mesh_name, mesh, false, colors);
     // MeshIO::write_surface_mesh(params.output_path + "_" + params.postfix + "_sf.obj", mesh, false);
     // MatrixXs        VT;
     // Eigen::MatrixXi TT;
-    // MeshIO::extract_volume_mesh(mesh, VT, TT,true);
+    // MeshIO::extract_volume_mesh(mesh, VT, T,true);
     // Eigen::VectorXi I;
 
     // igl::boundary_facets(TT, FS);

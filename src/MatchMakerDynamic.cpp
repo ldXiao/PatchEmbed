@@ -1,4 +1,4 @@
-#include "Match_Maker_Tree.h"
+#include "MatchMakerTree.h"
 #include "Kruskal.h"
 #include "backtrack_diff.h"
 #include "polyline_distance.h"
@@ -9,8 +9,9 @@
 #include <list>
 #include <deque>
 #include <igl/bounding_box_diagonal.h>
+#include <igl/list_to_matrix.h>
+#include <igl/matrix_to_list.h>
 #include <igl/barycentric_to_global.h>
-#include <spdlog/common.h>
 #include <algorithm>
 #include "Edge_Dijkstra.h"
 #include "CellularGraph.h"
@@ -18,6 +19,7 @@
 #include "TraceComplex.h"
 #include "TransferCellGraph.h"
 #include "Patch_Bijection.h"
+#include "helper.h"
 /* BTCMM means backtracking cellular matchmaker */
 namespace bcclean{
 namespace MatchMaker{
@@ -41,7 +43,7 @@ namespace MatchMaker{
     }
 
 
-    bool BTCMM1_for_edge(
+    bool MatchMakerPatch_for_edge(
         const CellularGraph & cg,
         TraceComplex & tc,
         const int edge_idx,
@@ -99,8 +101,8 @@ namespace MatchMaker{
             Eigen::VectorXd source_target=Eigen::VectorXd::Constant(6,0);
             for(int xx: {0,1,2})
             {
-                source_target(xx)=tc._V(source,xx);
-                source_target(xx+3)=tc._V(target,xx);
+                source_target(xx)=tc._V[source](xx);
+                source_target(xx+3)=tc._V[target](xx);
             }
             
             igl::writeDMAT(param.data_root+"/source_target.dmat",source_target);
@@ -150,8 +152,8 @@ namespace MatchMaker{
             // there should be only one comman adjacent triangle for boundary vertices
             for(auto trg: inter){
                 for(int edgpos =0; edgpos < 3 ; ++edgpos){
-                    int uuidx = tc._F(trg, edgpos);
-                    int vvidx = tc._F(trg, (edgpos+1)% 3);
+                    int uuidx = tc._F[trg]( edgpos);
+                    int vvidx = tc._F[trg]( (edgpos+1)% 3);
                     if(uuidx == uidx && vvidx == vidx){
                         tc._TEdges[trg][edgpos] = edge_idx;
                     }
@@ -179,7 +181,11 @@ namespace MatchMaker{
             std::ofstream file;
             file.open(param.data_root+"/debug_paths.json");
             file << path_json;
-            igl::writeOBJ(param.data_root+"/debug_mesh.obj", tc._V, tc._F);
+            Eigen::MatrixXi F;
+            Eigen::MatrixXd V;
+            Helper::to_matrix(tc._F, F);
+            Helper::to_matrix(tc._V, V);
+            igl::writeOBJ(param.data_root+"/debug_mesh.obj", V, F);
             igl::writeDMAT(param.data_root+"/FL_loop.dmat", tc._FL);
         }
         // update visit_dict or loop condition update
@@ -193,12 +199,13 @@ namespace MatchMaker{
 
 
 
-    bool BTCMM1(
+    bool MatchMakerPatch(
         const CellularGraph & cg,
         Eigen::MatrixXd & V_good,
         Eigen::MatrixXi & F_good,
         Eigen::VectorXi & FL_good,
-        const params param
+        const params param,
+        std::shared_ptr<spdlog::logger> logger
     )
     {
 
@@ -258,6 +265,7 @@ namespace MatchMaker{
             }
         }
         std::map<int, bool> edge_visit_dict;
+        std::map<int, double> edge_len_dict;
         int kkk = 0;
         for(auto edg: cg._edge_list)
         {
@@ -276,9 +284,9 @@ namespace MatchMaker{
             TraceComplex tc_copy = tc;
             
             
-
-
+            
             std::map<int, bool> edge_visit_dict_copy = edge_visit_dict;
+            std::map<int, double> edge_len_dict_copy = edge_len_dict;
             std::map<int , std::map<int, bool> > node_edge_visit_dict_copy = node_edge_visit_dict; 
             
              
@@ -291,6 +299,12 @@ namespace MatchMaker{
 
             int patch_idx = patch_queue.front();
             patch_queue.pop_front();
+            double target_len =0;
+            double cur_len = 0;
+            for(auto edge_idx: cg._patch_edge_dict.at(patch_idx))
+            {
+                target_len += path_len(cg._vertices, cg._edge_list.at(edge_idx)._edge_vertices);
+            }
 
             if(param.debug)
             {
@@ -302,6 +316,7 @@ namespace MatchMaker{
             {
                 if(edge_visit_dict[edge_idx])
                 {
+                    cur_len += path_len(tc._V, tc._edge_path_map.at(edge_idx));
                     continue;
                 }
                 all_edge_traced = false;
@@ -365,7 +380,7 @@ namespace MatchMaker{
 
 
                 //
-                if(!BTCMM1_for_edge(
+                if(!MatchMakerPatch_for_edge(
                     cg,
                     tc,
                     edge_idx, 
@@ -377,6 +392,14 @@ namespace MatchMaker{
                         curpatch_succ = false;
                         break;
                     }
+                else {
+                    cur_len += path_len(tc._V, tc._edge_path_map.at(edge_idx));
+                    if(std::abs(cur_len/target_len -1) > bcthreshold || switch_count > 5)
+                    {
+                        curpatch_succ = false;
+                        break;
+                    }
+                }
             
             }
             
@@ -384,16 +407,16 @@ namespace MatchMaker{
             if(curpatch_succ){
                 // if the current is traced successfully, we go on to compare the difference
                 int ff_in = _locate_seed_face(cg, tc, patch_idx);
-                double newarea = (loop_colorize(tc._V, tc._F, tc._TEdges, ff_in, patch_idx, tc._FL)).second();
+                double newarea = (loop_colorize(tc._V, tc._F, tc._TEdges, ff_in, patch_idx, tc._FL)).second;
                 double target_area = cg._patch_area_dict.at(patch_idx);
-                bool area_withinthreshold = (std::abs(newarea/target_area) < arthreshold)|| (switch_count > 2);
-                withinthreshold=backtrack_diff(
+                bool area_withinthreshold = (std::abs(newarea/target_area) < arthreshold);
+                withinthreshold=(backtrack_diff(
                     tc._V,
                     cg,
                     patch_idx,
                     tc._edge_path_map,
                     bcthreshold
-                ) && area_withinthreshold;
+                ) && area_withinthreshold) || (switch_count > 5);
             }
             if(!withinthreshold && !(all_edge_traced))
             {
@@ -416,7 +439,11 @@ namespace MatchMaker{
             {
                 if(param.debug)
                 {
-                    igl::writeOBJ(param.data_root+"/debug_mesh.obj", tc._V, tc._F);
+                    Eigen::MatrixXi F;
+                    Helper::to_matrix(tc._F, F);
+                    Eigen::MatrixXd V;
+                    Helper::to_matrix(tc._V, V);
+                    igl::writeOBJ(param.data_root+"/debug_mesh.obj", V, F);
                     igl::writeDMAT(param.data_root+"/FL_loop.dmat", tc._FL);
                 }
 
@@ -478,7 +505,7 @@ namespace MatchMaker{
             {
                 // if it is still empty after relocation 
                 // switch recycle and patch_queue
-                if(switch_count < 8)
+                if(switch_count < 5)
                 {
                     std::list<int> temp = recycle;
                     recycle = patch_queue;
@@ -487,19 +514,28 @@ namespace MatchMaker{
                     arthreshold = 1.5 * arthreshold;
                     switch_count +=1;
                 }
+                else if (switch_count < 10)
+                {
+                    std::list<int> temp = recycle;
+                    recycle = patch_queue;
+                    patch_queue = temp;
+                    switch_count +=1;
+                }
             }
 
         }
-        F_good = tc._F;
-        V_good = tc._V;
-        FL_good = tc._FL;
+        Helper::to_matrix(tc._F,F_good);
+        Helper::to_matrix(tc._V, V_good);
+        igl::list_to_matrix(tc._FL,FL_good);
         if(param.debug)
         { 
             std::ofstream file;
             file.open(param.data_root+"/debug_paths.json");
             file << path_json;
-            igl::writeOBJ(param.data_root+"/debug_mesh.obj", tc._V, tc._F);
-            igl::writeDMAT(param.data_root+"/FL_loop.dmat", tc._FL);
+            Eigen::MatrixXi F;
+            igl::writeOBJ(param.data_root+"/debug_mesh.obj", V_good, F_good);
+            igl::writeDMAT(param.data_root+"/FL_loop.dmat", FL_good);
+            igl::writeDMAT(param.data_root+"/splits_record.dmat", tc._splits_record, false);
             std::ofstream split_file;
             split_file.open(param.data_root+"/splits_record.txt");
             for(auto & vec: tc._splits_record)
@@ -526,12 +562,12 @@ namespace MatchMaker{
             }
         }
         if(recycle.empty()){
-            CellularGraph cgt;
-            Bijection::TransferCellGraph(cg, tc, cgt);
-            Eigen::MatrixXd M_s2t;
-            Bijection::BijGlobal(cg,cgt, M_s2t);
-            Eigen::MatrixXd Vmap=igl::barycentric_to_global(cgt.V, cgt.F, M_s2t);
-            igl::writeOBJ(param.data_root+"/map.obj", Vmap, cg.F);
+            // CellularGraph cgt;
+            // Bijection::TransferCellGraph(cg, tc, cgt);
+            // Eigen::MatrixXd M_s2t;
+            // Bijection::BijGlobal(cg,cgt, M_s2t);
+            // Eigen::MatrixXd Vmap=igl::barycentric_to_global(cgt.V, cgt.F, M_s2t);
+            // igl::writeOBJ(param.data_root+"/map.obj", Vmap, cg.F);
             return true;
         }
         else return false;

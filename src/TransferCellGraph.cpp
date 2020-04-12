@@ -1,8 +1,11 @@
 #include "CellularGraph.h"
 #include "TraceComplex.h"
 #include "edge.h"
+#include "helper.h"
 #include <igl/per_vertex_normals.h>
 #include <igl/remove_unreferenced.h>
+#include <igl/matrix_to_list.h>
+#include <igl/list_to_matrix.h>
 namespace bcclean{
 namespace Bijection{
     
@@ -13,9 +16,9 @@ namespace Bijection{
         CellularGraph & cgt
     )
     {
-        cgt.V = tc._V;
-        cgt.F = tc._F;
-        cgt.FL = tc._FL;
+        Helper::to_matrix(tc._F,cgt.F);
+        Helper::to_matrix(tc._V, cgt.V);
+        igl::list_to_matrix(tc._FL, cgt.FL);
         cgt.root_cell = cg.root_cell;
         cgt.label_num = cg.label_num;
         cgt._vertices.clear();
@@ -32,7 +35,7 @@ namespace Bijection{
         int edge_idx = 0; // indices into cgt._vertices
         std::map<int, int> node_record_raw;
         Eigen::MatrixXd N;
-        igl::per_vertex_normals(tc._V, tc._F, N);
+        igl::per_vertex_normals(cgt.V, cgt.F, N);
         int count = 0;
         for(auto edg: cg._edge_list)
         {
@@ -49,7 +52,7 @@ namespace Bijection{
                 if(node_record_raw.find(vidx_raw)== node_record_raw.end())
                 {
                     node_record_raw[vidx_raw]= count;
-                    cgt._vertices.push_back(tc._V.row(vidx_raw));
+                    cgt._vertices.push_back(tc._V[vidx_raw]);
                     count += 1;
                 }
                 vidx_cg = node_record_raw[vidx_raw];
