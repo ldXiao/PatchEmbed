@@ -40,7 +40,7 @@ cmake-build-debug/
 cmake-build-release/
 dbginfo/
 quicktest/
-data/
+# data/
 .vscode
 .idea
 .DS_Store
