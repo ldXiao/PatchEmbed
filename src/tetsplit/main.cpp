@@ -1,29 +1,16 @@
 #include <igl/boundary_facets.h>
+#include <igl/readDMAT.h>
 #include <igl/readMESH.h>
 #include <igl/writeMESH.h>
+#include <spdlog/spdlog.h>
+#include <numeric>
+#include "common.hpp"
+#include "edge_hash.hpp"
 #include "igl_dev/tet_split.h"
 #include "igl_dev/tetrahedron_tetrahedron_adjacency.h"
-#include <spdlog/spdlog.h>
-#define TEST_FILE "../data/0/good.mesh"
 
-using RowMatd = Eigen::Matrix<double, -1, -1, Eigen::RowMajor>;
-using RowMati = Eigen::Matrix<int, -1, -1, Eigen::RowMajor>;
-using Vec3d = Eigen::RowVector3d;
-using Vec3i = Eigen::RowVector3i;
-using Vec4i = Eigen::RowVector4i;
-
-inline constexpr auto vec2eigen = [](const auto& vec, auto& mat) {
-  mat.resize(vec.size(), vec[0].size());
-  for (int i = 0; i < mat.rows(); i++) {
-    for (int j = 0; j < mat.cols(); j++) mat(i, j) = vec[i][j];
-  }
-};
-
-constexpr auto eigen2vec = [](const auto& mat, auto& vec) {
-  vec.resize(mat.rows());
-  for (int i = 0; i < vec.size(); i++)
-    for (int j = 0; j < mat.cols(); j++) vec[i][j] = mat(i, j);
-};
+#define TEST_FILE "../data/2/CC0/tet.mesh"
+#define SPLIT_FILE "../data/2/CC0/splits_record.dmat"
 
 void reader(std::string filename, std::vector<Vec3d>& V, std::vector<Vec3i>& F,
             std::vector<Vec4i>& T, std::vector<int>& FT,
@@ -40,8 +27,10 @@ void reader(std::string filename, std::vector<Vec3d>& V, std::vector<Vec3i>& F,
   eigen2vec(mV, V);
   eigen2vec(mF, F);
   eigen2vec(mT, T);
-  FT.resize(mFT.size()); for (int i=0; i<mFT.size(); i++) FT[i] = mFT[i];
-  FTi.resize(mFTi.size()); for (int i=0; i<mFTi.size(); i++) FTi[i] = mFTi[i];
+  FT.resize(mFT.size());
+  for (int i = 0; i < mFT.size(); i++) FT[i] = mFT[i];
+  FTi.resize(mFTi.size());
+  for (int i = 0; i < mFTi.size(); i++) FTi[i] = mFTi[i];
 }
 
 void writer(std::string filename, const std::vector<Vec3d>& V,
@@ -53,6 +42,13 @@ void writer(std::string filename, const std::vector<Vec3d>& V,
   igl::writeMESH(filename, mV, mT, mF);
 }
 
+void record_reader(std::string filename, Eigen::MatrixXd& record_mat) {
+  igl::readDMAT(SPLIT_FILE, record_mat);
+  spdlog::trace("Read DMAT, {} {}", record_mat.rows(), record_mat.cols());
+  double sum = record_mat.col(0).sum();
+  spdlog::trace("sum first row = {}", sum);
+}
+
 int main() {
   spdlog::set_level(spdlog::level::trace);
 
@@ -61,15 +57,41 @@ int main() {
   std::vector<Vec4i> T, TT, TTif;
   std::vector<Eigen::Matrix<int, 4, 3>> TTie;
   std::vector<int> FT, FTi;
+
+  Eigen::MatrixXd record_mat;
+  record_reader(SPLIT_FILE, record_mat);
   reader(TEST_FILE, V, F, T, FT, FTi);
   igl::dev::tetrahedron_tetrahedron_adjacency(T, TT, TTif, TTie);
 
-  std::vector<int> newtets;
-  int fid = 10, eid = 0;
+  // create hashing structure.
+  edge2tuple hashtable;
+  double eps = 1e-10;
+  std::vector<int> alltets(T.size());
+  std::iota(alltets.begin(), alltets.end(), 0);
+  make_hash(V, T, TT, alltets, eps, hashtable);
 
-  int ti = FT[fid], fi = FTi[fid];
-  igl::dev::tet_tuple_edge_split(ti, fi, eid, true, V, T, TT, TTif, TTie,
-                                 newtets);
+  for (int i = 0; i < record_mat.rows(); i++) {
+    if (record_mat(i, 0) == 0) {  // edge split
+      std::array<double, 6> edge_pair;
+      for (int k = 0; k < 6; k++)
+        edge_pair[k] = std::round(record_mat(i, k + 1) / eps);
+      Vec3d newvert(record_mat(i, 7), record_mat(i, 8), record_mat(i, 9));
+      // auto key = edge_pair;
+      // spdlog::info("query {} {} {} {} {} {}",
+      // key[0],key[1],key[2],key[3],key[4], key[5]);
+      auto query = hashtable.find(edge_pair);
+      if (query == hashtable.end()) {
+        spdlog::error("Not found in table: i {}", i);
+        exit(1);
+      }
+      auto [ti, fi, ei, _] = query->second;
+      std::vector<int> newtets;
+      igl::dev::tet_tuple_edge_split(ti, fi, ei, true, V, T, TT, TTif, TTie,
+                                     newtets);
+      V.back() = newvert;
+      make_hash(V,T, TT, newtets, eps, hashtable);
+    }
+  }
   writer("temp.mesh", V, T);
   spdlog::info("Vert{}  Tets{}", V.size(), T.size());
   return 0;
