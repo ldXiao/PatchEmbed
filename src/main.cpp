@@ -32,6 +32,7 @@
 #include "CellularGraph.h"
 #include "MatchMakerDynamic.h"
 #include <cxxopts.hpp>
+#include <igl/writePLY.h>
 #include <nlohmann/json.hpp>
 #include <unordered_map>
 #include <tuple>
