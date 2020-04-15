@@ -209,3 +209,7 @@ set_target_properties(spdlog_test PROPERTIES CXX_STANDARD 17)
 add_executable(soupgen src/soupgen/soupgen.cpp)
 target_link_libraries(soupgen igl::core)
 set_target_properties(soupgen PROPERTIES CXX_STANDARD 17)
+
+add_executable(wiremesh src/wiremesh/wiremesh.cpp)
+target_link_libraries(wiremesh igl::core igl::cgal FloatTetwild)
+set_target_properties(wiremesh PROPERTIES CXX_STANDARD 17)
