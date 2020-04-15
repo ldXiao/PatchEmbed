@@ -691,8 +691,12 @@ namespace MatchMaker{
             {
                 logger->info("can not find any non_blocking path");
                 logger->flush();
-                edge_queue = edge_queue_copy;
+                
                 break;
+            }
+            else if(find_non_blocking)
+            {
+                edge_queue = edge_queue_copy;
             }
         }
         
@@ -743,6 +747,18 @@ namespace MatchMaker{
             Helper::to_matrix(tc._V, V);
             igl::writeOBJ(param.data_root+"/debug_mesh_tree.obj", V, F);
             igl::writeDMAT(param.data_root+"/FL_tree.dmat", tc._FL);
+            igl::writeDMAT(param.data_root+"/splits_record.dmat", tc._splits_record, false);
+            std::ofstream split_file;
+            split_file.open(param.data_root+"/splits_record.txt");
+            for(auto & vec: tc._splits_record)
+            { 
+                for(auto & val: vec)
+                {
+                    split_file << val;
+                    split_file << " ";
+                }
+                split_file << "\n";
+            }
             // CellularGraph cgt;
             // Bijection::TransferCellGraph(cg, tc, cgt);
             // Eigen::MatrixXd M_s2t;

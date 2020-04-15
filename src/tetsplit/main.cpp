@@ -91,6 +91,10 @@ int main() {
       V.back() = newvert;
       make_hash(V,T, TT, newtets, eps, hashtable);
     }
+    else if(record_mat(i,0)==1){// vertices insert
+      spdlog::error("unsupported yet");
+      return -1;
+    }
   }
   writer("temp.mesh", V, T);
   spdlog::info("Vert{}  Tets{}", V.size(), T.size());

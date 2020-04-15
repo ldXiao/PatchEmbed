@@ -539,20 +539,7 @@ namespace MatchMaker{
             std::ofstream split_file;
             split_file.open(param.data_root+"/splits_record.txt");
             for(auto & vec: tc._splits_record)
-            {
-                if(vec.size()==9)
-                {
-                    // it is splits
-                    split_file << 0;
-                    split_file << " ";
-                }
-                else
-                {
-                    // it is an insert
-                    split_file << 1;
-                    split_file << " ";
-                }
-                
+            { 
                 for(auto & val: vec)
                 {
                     split_file << val;

@@ -1,0 +1,1009 @@
+[2020-04-15 17:31:27.818] [basic_logger] [info] trace graph of size 402
+[2020-04-15 17:31:27.819] [basic_logger] [info] trace mean spanning tree of size 205
+[2020-04-15 17:31:28.124] [basic_logger] [info] edge 0 traced, finished 1/205 of MST and 1/402 of Graph
+[2020-04-15 17:31:28.124] [basic_logger] [info] 43 new splits operated, total vertices 28982
+[2020-04-15 17:31:28.387] [basic_logger] [info] edge 1 traced, finished 2/205 of MST and 2/402 of Graph
+[2020-04-15 17:31:28.387] [basic_logger] [info] 0 new splits operated, total vertices 28982
+[2020-04-15 17:31:28.664] [basic_logger] [info] edge 2 traced, finished 3/205 of MST and 3/402 of Graph
+[2020-04-15 17:31:28.664] [basic_logger] [info] 0 new splits operated, total vertices 28982
+[2020-04-15 17:31:28.919] [basic_logger] [info] edge 3 traced, finished 4/205 of MST and 4/402 of Graph
+[2020-04-15 17:31:28.919] [basic_logger] [info] 0 new splits operated, total vertices 28982
+[2020-04-15 17:31:29.161] [basic_logger] [info] edge 4 traced, finished 5/205 of MST and 5/402 of Graph
+[2020-04-15 17:31:29.161] [basic_logger] [info] 0 new splits operated, total vertices 28982
+[2020-04-15 17:31:29.408] [basic_logger] [info] edge 5 traced, finished 6/205 of MST and 6/402 of Graph
+[2020-04-15 17:31:29.408] [basic_logger] [info] 0 new splits operated, total vertices 28982
+[2020-04-15 17:31:29.656] [basic_logger] [info] edge 7 traced, finished 7/205 of MST and 7/402 of Graph
+[2020-04-15 17:31:29.656] [basic_logger] [info] 1 new splits operated, total vertices 28983
+[2020-04-15 17:31:29.912] [basic_logger] [info] edge 8 traced, finished 8/205 of MST and 8/402 of Graph
+[2020-04-15 17:31:29.912] [basic_logger] [info] 0 new splits operated, total vertices 28983
+[2020-04-15 17:31:30.164] [basic_logger] [info] edge 9 traced, finished 9/205 of MST and 9/402 of Graph
+[2020-04-15 17:31:30.164] [basic_logger] [info] 0 new splits operated, total vertices 28983
+[2020-04-15 17:31:30.424] [basic_logger] [info] edge 10 traced, finished 10/205 of MST and 10/402 of Graph
+[2020-04-15 17:31:30.424] [basic_logger] [info] 0 new splits operated, total vertices 28983
+[2020-04-15 17:31:30.682] [basic_logger] [info] edge 11 traced, finished 11/205 of MST and 11/402 of Graph
+[2020-04-15 17:31:30.682] [basic_logger] [info] 0 new splits operated, total vertices 28983
+[2020-04-15 17:31:30.947] [basic_logger] [info] edge 12 traced, finished 12/205 of MST and 12/402 of Graph
+[2020-04-15 17:31:30.947] [basic_logger] [info] 0 new splits operated, total vertices 28983
+[2020-04-15 17:31:31.200] [basic_logger] [info] edge 13 traced, finished 13/205 of MST and 13/402 of Graph
+[2020-04-15 17:31:31.200] [basic_logger] [info] 0 new splits operated, total vertices 28983
+[2020-04-15 17:31:31.453] [basic_logger] [info] edge 15 traced, finished 14/205 of MST and 14/402 of Graph
+[2020-04-15 17:31:31.453] [basic_logger] [info] 0 new splits operated, total vertices 28983
+[2020-04-15 17:31:31.714] [basic_logger] [info] edge 16 traced, finished 15/205 of MST and 15/402 of Graph
+[2020-04-15 17:31:31.714] [basic_logger] [info] 0 new splits operated, total vertices 28983
+[2020-04-15 17:31:31.967] [basic_logger] [info] edge 17 traced, finished 16/205 of MST and 16/402 of Graph
+[2020-04-15 17:31:31.967] [basic_logger] [info] 0 new splits operated, total vertices 28983
+[2020-04-15 17:31:32.226] [basic_logger] [info] edge 18 traced, finished 17/205 of MST and 17/402 of Graph
+[2020-04-15 17:31:32.226] [basic_logger] [info] 0 new splits operated, total vertices 28983
+[2020-04-15 17:31:32.481] [basic_logger] [info] edge 19 traced, finished 18/205 of MST and 18/402 of Graph
+[2020-04-15 17:31:32.481] [basic_logger] [info] 0 new splits operated, total vertices 28983
+[2020-04-15 17:31:32.726] [basic_logger] [info] edge 20 traced, finished 19/205 of MST and 19/402 of Graph
+[2020-04-15 17:31:32.726] [basic_logger] [info] 0 new splits operated, total vertices 28983
+[2020-04-15 17:31:32.987] [basic_logger] [info] edge 21 traced, finished 20/205 of MST and 20/402 of Graph
+[2020-04-15 17:31:32.987] [basic_logger] [info] 2 new splits operated, total vertices 28985
+[2020-04-15 17:31:33.253] [basic_logger] [info] edge 23 traced, finished 21/205 of MST and 21/402 of Graph
+[2020-04-15 17:31:33.253] [basic_logger] [info] 1 new splits operated, total vertices 28986
+[2020-04-15 17:31:33.513] [basic_logger] [info] edge 24 traced, finished 22/205 of MST and 22/402 of Graph
+[2020-04-15 17:31:33.513] [basic_logger] [info] 0 new splits operated, total vertices 28986
+[2020-04-15 17:31:33.771] [basic_logger] [info] edge 25 traced, finished 23/205 of MST and 23/402 of Graph
+[2020-04-15 17:31:33.771] [basic_logger] [info] 0 new splits operated, total vertices 28986
+[2020-04-15 17:31:34.042] [basic_logger] [info] edge 26 traced, finished 24/205 of MST and 24/402 of Graph
+[2020-04-15 17:31:34.042] [basic_logger] [info] 0 new splits operated, total vertices 28986
+[2020-04-15 17:31:34.298] [basic_logger] [info] edge 27 traced, finished 25/205 of MST and 25/402 of Graph
+[2020-04-15 17:31:34.298] [basic_logger] [info] 0 new splits operated, total vertices 28986
+[2020-04-15 17:31:34.560] [basic_logger] [info] edge 28 traced, finished 26/205 of MST and 26/402 of Graph
+[2020-04-15 17:31:34.560] [basic_logger] [info] 1 new splits operated, total vertices 28987
+[2020-04-15 17:31:34.811] [basic_logger] [info] edge 29 traced, finished 27/205 of MST and 27/402 of Graph
+[2020-04-15 17:31:34.811] [basic_logger] [info] 0 new splits operated, total vertices 28987
+[2020-04-15 17:31:35.084] [basic_logger] [info] edge 30 traced, finished 28/205 of MST and 28/402 of Graph
+[2020-04-15 17:31:35.084] [basic_logger] [info] 0 new splits operated, total vertices 28987
+[2020-04-15 17:31:35.336] [basic_logger] [info] edge 33 traced, finished 29/205 of MST and 29/402 of Graph
+[2020-04-15 17:31:35.336] [basic_logger] [info] 0 new splits operated, total vertices 28987
+[2020-04-15 17:31:35.592] [basic_logger] [info] edge 34 traced, finished 30/205 of MST and 30/402 of Graph
+[2020-04-15 17:31:35.592] [basic_logger] [info] 0 new splits operated, total vertices 28987
+[2020-04-15 17:31:35.855] [basic_logger] [info] edge 35 traced, finished 31/205 of MST and 31/402 of Graph
+[2020-04-15 17:31:35.855] [basic_logger] [info] 0 new splits operated, total vertices 28987
+[2020-04-15 17:31:36.118] [basic_logger] [info] edge 38 traced, finished 32/205 of MST and 32/402 of Graph
+[2020-04-15 17:31:36.118] [basic_logger] [info] 3 new splits operated, total vertices 28990
+[2020-04-15 17:31:36.426] [basic_logger] [info] edge 39 traced, finished 33/205 of MST and 33/402 of Graph
+[2020-04-15 17:31:36.426] [basic_logger] [info] 0 new splits operated, total vertices 28990
+[2020-04-15 17:31:36.726] [basic_logger] [info] edge 40 traced, finished 34/205 of MST and 34/402 of Graph
+[2020-04-15 17:31:36.726] [basic_logger] [info] 0 new splits operated, total vertices 28990
+[2020-04-15 17:31:36.999] [basic_logger] [info] edge 41 traced, finished 35/205 of MST and 35/402 of Graph
+[2020-04-15 17:31:36.999] [basic_logger] [info] 4 new splits operated, total vertices 28994
+[2020-04-15 17:31:37.257] [basic_logger] [info] edge 42 traced, finished 36/205 of MST and 36/402 of Graph
+[2020-04-15 17:31:37.257] [basic_logger] [info] 1 new splits operated, total vertices 28995
+[2020-04-15 17:31:37.518] [basic_logger] [info] edge 44 traced, finished 37/205 of MST and 37/402 of Graph
+[2020-04-15 17:31:37.518] [basic_logger] [info] 0 new splits operated, total vertices 28995
+[2020-04-15 17:31:37.769] [basic_logger] [info] edge 45 traced, finished 38/205 of MST and 38/402 of Graph
+[2020-04-15 17:31:37.769] [basic_logger] [info] 1 new splits operated, total vertices 28996
+[2020-04-15 17:31:38.043] [basic_logger] [info] edge 46 traced, finished 39/205 of MST and 39/402 of Graph
+[2020-04-15 17:31:38.043] [basic_logger] [info] 0 new splits operated, total vertices 28996
+[2020-04-15 17:31:38.306] [basic_logger] [info] edge 47 traced, finished 40/205 of MST and 40/402 of Graph
+[2020-04-15 17:31:38.306] [basic_logger] [info] 0 new splits operated, total vertices 28996
+[2020-04-15 17:31:38.573] [basic_logger] [info] edge 48 traced, finished 41/205 of MST and 41/402 of Graph
+[2020-04-15 17:31:38.573] [basic_logger] [info] 0 new splits operated, total vertices 28996
+[2020-04-15 17:31:38.827] [basic_logger] [info] edge 49 traced, finished 42/205 of MST and 42/402 of Graph
+[2020-04-15 17:31:38.827] [basic_logger] [info] 0 new splits operated, total vertices 28996
+[2020-04-15 17:31:39.161] [basic_logger] [info] edge 52 traced, finished 43/205 of MST and 43/402 of Graph
+[2020-04-15 17:31:39.161] [basic_logger] [info] 3 new splits operated, total vertices 28999
+[2020-04-15 17:31:39.483] [basic_logger] [info] edge 53 traced, finished 44/205 of MST and 44/402 of Graph
+[2020-04-15 17:31:39.483] [basic_logger] [info] 3 new splits operated, total vertices 29002
+[2020-04-15 17:31:39.765] [basic_logger] [info] edge 54 traced, finished 45/205 of MST and 45/402 of Graph
+[2020-04-15 17:31:39.765] [basic_logger] [info] 0 new splits operated, total vertices 29002
+[2020-04-15 17:31:40.046] [basic_logger] [info] edge 55 traced, finished 46/205 of MST and 46/402 of Graph
+[2020-04-15 17:31:40.046] [basic_logger] [info] 0 new splits operated, total vertices 29002
+[2020-04-15 17:31:40.304] [basic_logger] [info] edge 56 traced, finished 47/205 of MST and 47/402 of Graph
+[2020-04-15 17:31:40.304] [basic_logger] [info] 0 new splits operated, total vertices 29002
+[2020-04-15 17:31:40.599] [basic_logger] [info] edge 59 traced, finished 48/205 of MST and 48/402 of Graph
+[2020-04-15 17:31:40.599] [basic_logger] [info] 1 new splits operated, total vertices 29003
+[2020-04-15 17:31:40.865] [basic_logger] [info] edge 60 traced, finished 49/205 of MST and 49/402 of Graph
+[2020-04-15 17:31:40.865] [basic_logger] [info] 2 new splits operated, total vertices 29005
+[2020-04-15 17:31:41.122] [basic_logger] [info] edge 61 traced, finished 50/205 of MST and 50/402 of Graph
+[2020-04-15 17:31:41.122] [basic_logger] [info] 0 new splits operated, total vertices 29005
+[2020-04-15 17:31:41.415] [basic_logger] [info] edge 62 traced, finished 51/205 of MST and 51/402 of Graph
+[2020-04-15 17:31:41.415] [basic_logger] [info] 0 new splits operated, total vertices 29005
+[2020-04-15 17:31:41.752] [basic_logger] [info] edge 63 traced, finished 52/205 of MST and 52/402 of Graph
+[2020-04-15 17:31:41.752] [basic_logger] [info] 0 new splits operated, total vertices 29005
+[2020-04-15 17:31:42.079] [basic_logger] [info] edge 64 traced, finished 53/205 of MST and 53/402 of Graph
+[2020-04-15 17:31:42.079] [basic_logger] [info] 0 new splits operated, total vertices 29005
+[2020-04-15 17:31:42.547] [basic_logger] [info] edge 65 traced, finished 54/205 of MST and 54/402 of Graph
+[2020-04-15 17:31:42.547] [basic_logger] [info] 0 new splits operated, total vertices 29005
+[2020-04-15 17:31:42.832] [basic_logger] [info] edge 67 traced, finished 55/205 of MST and 55/402 of Graph
+[2020-04-15 17:31:42.832] [basic_logger] [info] 0 new splits operated, total vertices 29005
+[2020-04-15 17:31:43.142] [basic_logger] [info] edge 68 traced, finished 56/205 of MST and 56/402 of Graph
+[2020-04-15 17:31:43.143] [basic_logger] [info] 0 new splits operated, total vertices 29005
+[2020-04-15 17:31:43.427] [basic_logger] [info] edge 70 traced, finished 57/205 of MST and 57/402 of Graph
+[2020-04-15 17:31:43.427] [basic_logger] [info] 1 new splits operated, total vertices 29006
+[2020-04-15 17:31:43.728] [basic_logger] [info] edge 71 traced, finished 58/205 of MST and 58/402 of Graph
+[2020-04-15 17:31:43.728] [basic_logger] [info] 1 new splits operated, total vertices 29007
+[2020-04-15 17:31:44.021] [basic_logger] [info] edge 72 traced, finished 59/205 of MST and 59/402 of Graph
+[2020-04-15 17:31:44.021] [basic_logger] [info] 0 new splits operated, total vertices 29007
+[2020-04-15 17:31:44.305] [basic_logger] [info] edge 74 traced, finished 60/205 of MST and 60/402 of Graph
+[2020-04-15 17:31:44.305] [basic_logger] [info] 0 new splits operated, total vertices 29007
+[2020-04-15 17:31:44.569] [basic_logger] [info] edge 75 traced, finished 61/205 of MST and 61/402 of Graph
+[2020-04-15 17:31:44.569] [basic_logger] [info] 0 new splits operated, total vertices 29007
+[2020-04-15 17:31:44.825] [basic_logger] [info] edge 76 traced, finished 62/205 of MST and 62/402 of Graph
+[2020-04-15 17:31:44.825] [basic_logger] [info] 0 new splits operated, total vertices 29007
+[2020-04-15 17:31:45.119] [basic_logger] [info] edge 77 traced, finished 63/205 of MST and 63/402 of Graph
+[2020-04-15 17:31:45.119] [basic_logger] [info] 0 new splits operated, total vertices 29007
+[2020-04-15 17:31:45.389] [basic_logger] [info] edge 78 traced, finished 64/205 of MST and 64/402 of Graph
+[2020-04-15 17:31:45.389] [basic_logger] [info] 1 new splits operated, total vertices 29008
+[2020-04-15 17:31:45.677] [basic_logger] [info] edge 79 traced, finished 65/205 of MST and 65/402 of Graph
+[2020-04-15 17:31:45.677] [basic_logger] [info] 0 new splits operated, total vertices 29008
+[2020-04-15 17:31:45.963] [basic_logger] [info] edge 80 traced, finished 66/205 of MST and 66/402 of Graph
+[2020-04-15 17:31:45.963] [basic_logger] [info] 0 new splits operated, total vertices 29008
+[2020-04-15 17:31:46.272] [basic_logger] [info] edge 82 traced, finished 67/205 of MST and 67/402 of Graph
+[2020-04-15 17:31:46.272] [basic_logger] [info] 2 new splits operated, total vertices 29010
+[2020-04-15 17:31:46.576] [basic_logger] [info] edge 83 traced, finished 68/205 of MST and 68/402 of Graph
+[2020-04-15 17:31:46.576] [basic_logger] [info] 0 new splits operated, total vertices 29010
+[2020-04-15 17:31:46.889] [basic_logger] [info] edge 84 traced, finished 69/205 of MST and 69/402 of Graph
+[2020-04-15 17:31:46.889] [basic_logger] [info] 0 new splits operated, total vertices 29010
+[2020-04-15 17:31:47.161] [basic_logger] [info] edge 85 traced, finished 70/205 of MST and 70/402 of Graph
+[2020-04-15 17:31:47.161] [basic_logger] [info] 0 new splits operated, total vertices 29010
+[2020-04-15 17:31:47.480] [basic_logger] [info] edge 86 traced, finished 71/205 of MST and 71/402 of Graph
+[2020-04-15 17:31:47.480] [basic_logger] [info] 0 new splits operated, total vertices 29010
+[2020-04-15 17:31:47.766] [basic_logger] [info] edge 87 traced, finished 72/205 of MST and 72/402 of Graph
+[2020-04-15 17:31:47.766] [basic_logger] [info] 0 new splits operated, total vertices 29010
+[2020-04-15 17:31:48.091] [basic_logger] [info] edge 89 traced, finished 73/205 of MST and 73/402 of Graph
+[2020-04-15 17:31:48.091] [basic_logger] [info] 0 new splits operated, total vertices 29010
+[2020-04-15 17:31:48.370] [basic_logger] [info] edge 90 traced, finished 74/205 of MST and 74/402 of Graph
+[2020-04-15 17:31:48.370] [basic_logger] [info] 0 new splits operated, total vertices 29010
+[2020-04-15 17:31:48.642] [basic_logger] [info] edge 91 traced, finished 75/205 of MST and 75/402 of Graph
+[2020-04-15 17:31:48.642] [basic_logger] [info] 0 new splits operated, total vertices 29010
+[2020-04-15 17:31:48.924] [basic_logger] [info] edge 94 traced, finished 76/205 of MST and 76/402 of Graph
+[2020-04-15 17:31:48.924] [basic_logger] [info] 6 new splits operated, total vertices 29016
+[2020-04-15 17:31:49.237] [basic_logger] [info] edge 95 traced, finished 77/205 of MST and 77/402 of Graph
+[2020-04-15 17:31:49.237] [basic_logger] [info] 3 new splits operated, total vertices 29019
+[2020-04-15 17:31:49.532] [basic_logger] [info] edge 96 traced, finished 78/205 of MST and 78/402 of Graph
+[2020-04-15 17:31:49.532] [basic_logger] [info] 8 new splits operated, total vertices 29027
+[2020-04-15 17:31:49.791] [basic_logger] [info] edge 97 traced, finished 79/205 of MST and 79/402 of Graph
+[2020-04-15 17:31:49.791] [basic_logger] [info] 0 new splits operated, total vertices 29027
+[2020-04-15 17:31:50.076] [basic_logger] [info] edge 99 traced, finished 80/205 of MST and 80/402 of Graph
+[2020-04-15 17:31:50.076] [basic_logger] [info] 0 new splits operated, total vertices 29027
+[2020-04-15 17:31:50.341] [basic_logger] [info] edge 100 traced, finished 81/205 of MST and 81/402 of Graph
+[2020-04-15 17:31:50.341] [basic_logger] [info] 0 new splits operated, total vertices 29027
+[2020-04-15 17:31:50.624] [basic_logger] [info] edge 101 traced, finished 82/205 of MST and 82/402 of Graph
+[2020-04-15 17:31:50.624] [basic_logger] [info] 1 new splits operated, total vertices 29028
+[2020-04-15 17:31:50.885] [basic_logger] [info] edge 102 traced, finished 83/205 of MST and 83/402 of Graph
+[2020-04-15 17:31:50.885] [basic_logger] [info] 1 new splits operated, total vertices 29029
+[2020-04-15 17:31:51.150] [basic_logger] [info] edge 103 traced, finished 84/205 of MST and 84/402 of Graph
+[2020-04-15 17:31:51.150] [basic_logger] [info] 0 new splits operated, total vertices 29029
+[2020-04-15 17:31:51.417] [basic_logger] [info] edge 104 traced, finished 85/205 of MST and 85/402 of Graph
+[2020-04-15 17:31:51.417] [basic_logger] [info] 0 new splits operated, total vertices 29029
+[2020-04-15 17:31:51.694] [basic_logger] [info] edge 108 traced, finished 86/205 of MST and 86/402 of Graph
+[2020-04-15 17:31:51.694] [basic_logger] [info] 3 new splits operated, total vertices 29032
+[2020-04-15 17:31:51.989] [basic_logger] [info] edge 109 traced, finished 87/205 of MST and 87/402 of Graph
+[2020-04-15 17:31:51.989] [basic_logger] [info] 1 new splits operated, total vertices 29033
+[2020-04-15 17:31:52.250] [basic_logger] [info] edge 111 traced, finished 88/205 of MST and 88/402 of Graph
+[2020-04-15 17:31:52.250] [basic_logger] [info] 0 new splits operated, total vertices 29033
+[2020-04-15 17:31:52.523] [basic_logger] [info] edge 112 traced, finished 89/205 of MST and 89/402 of Graph
+[2020-04-15 17:31:52.523] [basic_logger] [info] 0 new splits operated, total vertices 29033
+[2020-04-15 17:31:52.821] [basic_logger] [info] edge 113 traced, finished 90/205 of MST and 90/402 of Graph
+[2020-04-15 17:31:52.821] [basic_logger] [info] 0 new splits operated, total vertices 29033
+[2020-04-15 17:31:53.111] [basic_logger] [info] edge 114 traced, finished 91/205 of MST and 91/402 of Graph
+[2020-04-15 17:31:53.111] [basic_logger] [info] 0 new splits operated, total vertices 29033
+[2020-04-15 17:31:53.427] [basic_logger] [info] edge 117 traced, finished 92/205 of MST and 92/402 of Graph
+[2020-04-15 17:31:53.427] [basic_logger] [info] 5 new splits operated, total vertices 29038
+[2020-04-15 17:31:53.690] [basic_logger] [info] edge 118 traced, finished 93/205 of MST and 93/402 of Graph
+[2020-04-15 17:31:53.690] [basic_logger] [info] 1 new splits operated, total vertices 29039
+[2020-04-15 17:31:53.993] [basic_logger] [info] edge 119 traced, finished 94/205 of MST and 94/402 of Graph
+[2020-04-15 17:31:53.993] [basic_logger] [info] 0 new splits operated, total vertices 29039
+[2020-04-15 17:31:54.298] [basic_logger] [info] edge 124 traced, finished 95/205 of MST and 95/402 of Graph
+[2020-04-15 17:31:54.298] [basic_logger] [info] 0 new splits operated, total vertices 29039
+[2020-04-15 17:31:54.571] [basic_logger] [info] edge 125 traced, finished 96/205 of MST and 96/402 of Graph
+[2020-04-15 17:31:54.571] [basic_logger] [info] 6 new splits operated, total vertices 29045
+[2020-04-15 17:31:54.847] [basic_logger] [info] edge 126 traced, finished 97/205 of MST and 97/402 of Graph
+[2020-04-15 17:31:54.847] [basic_logger] [info] 0 new splits operated, total vertices 29045
+[2020-04-15 17:31:55.113] [basic_logger] [info] edge 127 traced, finished 98/205 of MST and 98/402 of Graph
+[2020-04-15 17:31:55.113] [basic_logger] [info] 2 new splits operated, total vertices 29047
+[2020-04-15 17:31:55.432] [basic_logger] [info] edge 130 traced, finished 99/205 of MST and 99/402 of Graph
+[2020-04-15 17:31:55.432] [basic_logger] [info] 0 new splits operated, total vertices 29047
+[2020-04-15 17:31:55.722] [basic_logger] [info] edge 132 traced, finished 100/205 of MST and 100/402 of Graph
+[2020-04-15 17:31:55.722] [basic_logger] [info] 7 new splits operated, total vertices 29054
+[2020-04-15 17:31:56.044] [basic_logger] [info] edge 133 traced, finished 101/205 of MST and 101/402 of Graph
+[2020-04-15 17:31:56.044] [basic_logger] [info] 1 new splits operated, total vertices 29055
+[2020-04-15 17:31:56.342] [basic_logger] [info] edge 134 traced, finished 102/205 of MST and 102/402 of Graph
+[2020-04-15 17:31:56.342] [basic_logger] [info] 0 new splits operated, total vertices 29055
+[2020-04-15 17:31:56.599] [basic_logger] [info] edge 136 traced, finished 103/205 of MST and 103/402 of Graph
+[2020-04-15 17:31:56.599] [basic_logger] [info] 0 new splits operated, total vertices 29055
+[2020-04-15 17:31:56.857] [basic_logger] [info] edge 137 traced, finished 104/205 of MST and 104/402 of Graph
+[2020-04-15 17:31:56.857] [basic_logger] [info] 0 new splits operated, total vertices 29055
+[2020-04-15 17:31:57.119] [basic_logger] [info] edge 138 traced, finished 105/205 of MST and 105/402 of Graph
+[2020-04-15 17:31:57.119] [basic_logger] [info] 0 new splits operated, total vertices 29055
+[2020-04-15 17:31:57.382] [basic_logger] [info] edge 139 traced, finished 106/205 of MST and 106/402 of Graph
+[2020-04-15 17:31:57.382] [basic_logger] [info] 0 new splits operated, total vertices 29055
+[2020-04-15 17:31:57.653] [basic_logger] [info] edge 146 traced, finished 107/205 of MST and 107/402 of Graph
+[2020-04-15 17:31:57.653] [basic_logger] [info] 0 new splits operated, total vertices 29055
+[2020-04-15 17:31:57.904] [basic_logger] [info] edge 147 traced, finished 108/205 of MST and 108/402 of Graph
+[2020-04-15 17:31:57.904] [basic_logger] [info] 0 new splits operated, total vertices 29055
+[2020-04-15 17:31:58.172] [basic_logger] [info] edge 148 traced, finished 109/205 of MST and 109/402 of Graph
+[2020-04-15 17:31:58.172] [basic_logger] [info] 0 new splits operated, total vertices 29055
+[2020-04-15 17:31:58.433] [basic_logger] [info] edge 149 traced, finished 110/205 of MST and 110/402 of Graph
+[2020-04-15 17:31:58.433] [basic_logger] [info] 0 new splits operated, total vertices 29055
+[2020-04-15 17:31:58.711] [basic_logger] [info] edge 150 traced, finished 111/205 of MST and 111/402 of Graph
+[2020-04-15 17:31:58.711] [basic_logger] [info] 0 new splits operated, total vertices 29055
+[2020-04-15 17:31:58.976] [basic_logger] [info] edge 151 traced, finished 112/205 of MST and 112/402 of Graph
+[2020-04-15 17:31:58.976] [basic_logger] [info] 0 new splits operated, total vertices 29055
+[2020-04-15 17:31:59.261] [basic_logger] [info] edge 152 traced, finished 113/205 of MST and 113/402 of Graph
+[2020-04-15 17:31:59.261] [basic_logger] [info] 0 new splits operated, total vertices 29055
+[2020-04-15 17:31:59.531] [basic_logger] [info] edge 154 traced, finished 114/205 of MST and 114/402 of Graph
+[2020-04-15 17:31:59.531] [basic_logger] [info] 4 new splits operated, total vertices 29059
+[2020-04-15 17:31:59.786] [basic_logger] [info] edge 157 traced, finished 115/205 of MST and 115/402 of Graph
+[2020-04-15 17:31:59.786] [basic_logger] [info] 0 new splits operated, total vertices 29059
+[2020-04-15 17:32:00.068] [basic_logger] [info] edge 158 traced, finished 116/205 of MST and 116/402 of Graph
+[2020-04-15 17:32:00.068] [basic_logger] [info] 0 new splits operated, total vertices 29059
+[2020-04-15 17:32:00.369] [basic_logger] [info] edge 160 traced, finished 117/205 of MST and 117/402 of Graph
+[2020-04-15 17:32:00.369] [basic_logger] [info] 0 new splits operated, total vertices 29059
+[2020-04-15 17:32:00.653] [basic_logger] [info] edge 161 traced, finished 118/205 of MST and 118/402 of Graph
+[2020-04-15 17:32:00.653] [basic_logger] [info] 0 new splits operated, total vertices 29059
+[2020-04-15 17:32:00.953] [basic_logger] [info] edge 162 traced, finished 119/205 of MST and 119/402 of Graph
+[2020-04-15 17:32:00.953] [basic_logger] [info] 0 new splits operated, total vertices 29059
+[2020-04-15 17:32:01.240] [basic_logger] [info] edge 164 traced, finished 120/205 of MST and 120/402 of Graph
+[2020-04-15 17:32:01.240] [basic_logger] [info] 1 new splits operated, total vertices 29060
+[2020-04-15 17:32:01.502] [basic_logger] [info] edge 165 traced, finished 121/205 of MST and 121/402 of Graph
+[2020-04-15 17:32:01.502] [basic_logger] [info] 1 new splits operated, total vertices 29061
+[2020-04-15 17:32:01.811] [basic_logger] [info] edge 166 traced, finished 122/205 of MST and 122/402 of Graph
+[2020-04-15 17:32:01.811] [basic_logger] [info] 10 new splits operated, total vertices 29071
+[2020-04-15 17:32:02.096] [basic_logger] [info] edge 168 traced, finished 123/205 of MST and 123/402 of Graph
+[2020-04-15 17:32:02.096] [basic_logger] [info] 0 new splits operated, total vertices 29071
+[2020-04-15 17:32:02.361] [basic_logger] [info] edge 169 traced, finished 124/205 of MST and 124/402 of Graph
+[2020-04-15 17:32:02.361] [basic_logger] [info] 0 new splits operated, total vertices 29071
+[2020-04-15 17:32:02.641] [basic_logger] [info] edge 170 traced, finished 125/205 of MST and 125/402 of Graph
+[2020-04-15 17:32:02.641] [basic_logger] [info] 0 new splits operated, total vertices 29071
+[2020-04-15 17:32:02.907] [basic_logger] [info] edge 171 traced, finished 126/205 of MST and 126/402 of Graph
+[2020-04-15 17:32:02.907] [basic_logger] [info] 0 new splits operated, total vertices 29071
+[2020-04-15 17:32:03.219] [basic_logger] [info] edge 173 traced, finished 127/205 of MST and 127/402 of Graph
+[2020-04-15 17:32:03.219] [basic_logger] [info] 3 new splits operated, total vertices 29074
+[2020-04-15 17:32:03.518] [basic_logger] [info] edge 175 traced, finished 128/205 of MST and 128/402 of Graph
+[2020-04-15 17:32:03.518] [basic_logger] [info] 3 new splits operated, total vertices 29077
+[2020-04-15 17:32:03.781] [basic_logger] [info] edge 176 traced, finished 129/205 of MST and 129/402 of Graph
+[2020-04-15 17:32:03.781] [basic_logger] [info] 0 new splits operated, total vertices 29077
+[2020-04-15 17:32:04.099] [basic_logger] [info] edge 177 traced, finished 130/205 of MST and 130/402 of Graph
+[2020-04-15 17:32:04.099] [basic_logger] [info] 0 new splits operated, total vertices 29077
+[2020-04-15 17:32:04.419] [basic_logger] [info] edge 180 traced, finished 131/205 of MST and 131/402 of Graph
+[2020-04-15 17:32:04.419] [basic_logger] [info] 0 new splits operated, total vertices 29077
+[2020-04-15 17:32:04.680] [basic_logger] [info] edge 183 traced, finished 132/205 of MST and 132/402 of Graph
+[2020-04-15 17:32:04.680] [basic_logger] [info] 0 new splits operated, total vertices 29077
+[2020-04-15 17:32:04.940] [basic_logger] [info] edge 184 traced, finished 133/205 of MST and 133/402 of Graph
+[2020-04-15 17:32:04.940] [basic_logger] [info] 0 new splits operated, total vertices 29077
+[2020-04-15 17:32:05.210] [basic_logger] [info] edge 185 traced, finished 134/205 of MST and 134/402 of Graph
+[2020-04-15 17:32:05.210] [basic_logger] [info] 0 new splits operated, total vertices 29077
+[2020-04-15 17:32:05.470] [basic_logger] [info] edge 186 traced, finished 135/205 of MST and 135/402 of Graph
+[2020-04-15 17:32:05.470] [basic_logger] [info] 0 new splits operated, total vertices 29077
+[2020-04-15 17:32:05.733] [basic_logger] [info] edge 190 traced, finished 136/205 of MST and 136/402 of Graph
+[2020-04-15 17:32:05.733] [basic_logger] [info] 4 new splits operated, total vertices 29081
+[2020-04-15 17:32:06.005] [basic_logger] [info] edge 191 traced, finished 137/205 of MST and 137/402 of Graph
+[2020-04-15 17:32:06.005] [basic_logger] [info] 0 new splits operated, total vertices 29081
+[2020-04-15 17:32:06.284] [basic_logger] [info] edge 193 traced, finished 138/205 of MST and 138/402 of Graph
+[2020-04-15 17:32:06.284] [basic_logger] [info] 0 new splits operated, total vertices 29081
+[2020-04-15 17:32:06.558] [basic_logger] [info] edge 194 traced, finished 139/205 of MST and 139/402 of Graph
+[2020-04-15 17:32:06.558] [basic_logger] [info] 0 new splits operated, total vertices 29081
+[2020-04-15 17:32:06.835] [basic_logger] [info] edge 195 traced, finished 140/205 of MST and 140/402 of Graph
+[2020-04-15 17:32:06.835] [basic_logger] [info] 9 new splits operated, total vertices 29090
+[2020-04-15 17:32:07.109] [basic_logger] [info] edge 198 traced, finished 141/205 of MST and 141/402 of Graph
+[2020-04-15 17:32:07.109] [basic_logger] [info] 1 new splits operated, total vertices 29091
+[2020-04-15 17:32:07.386] [basic_logger] [info] edge 199 traced, finished 142/205 of MST and 142/402 of Graph
+[2020-04-15 17:32:07.386] [basic_logger] [info] 0 new splits operated, total vertices 29091
+[2020-04-15 17:32:07.671] [basic_logger] [info] edge 200 traced, finished 143/205 of MST and 143/402 of Graph
+[2020-04-15 17:32:07.671] [basic_logger] [info] 6 new splits operated, total vertices 29097
+[2020-04-15 17:32:07.935] [basic_logger] [info] edge 201 traced, finished 144/205 of MST and 144/402 of Graph
+[2020-04-15 17:32:07.935] [basic_logger] [info] 1 new splits operated, total vertices 29098
+[2020-04-15 17:32:08.195] [basic_logger] [info] edge 202 traced, finished 145/205 of MST and 145/402 of Graph
+[2020-04-15 17:32:08.195] [basic_logger] [info] 0 new splits operated, total vertices 29098
+[2020-04-15 17:32:08.473] [basic_logger] [info] edge 207 traced, finished 146/205 of MST and 146/402 of Graph
+[2020-04-15 17:32:08.473] [basic_logger] [info] 5 new splits operated, total vertices 29103
+[2020-04-15 17:32:08.765] [basic_logger] [info] edge 208 traced, finished 147/205 of MST and 147/402 of Graph
+[2020-04-15 17:32:08.765] [basic_logger] [info] 0 new splits operated, total vertices 29103
+[2020-04-15 17:32:09.052] [basic_logger] [info] edge 210 traced, finished 148/205 of MST and 148/402 of Graph
+[2020-04-15 17:32:09.052] [basic_logger] [info] 0 new splits operated, total vertices 29103
+[2020-04-15 17:32:09.308] [basic_logger] [info] edge 211 traced, finished 149/205 of MST and 149/402 of Graph
+[2020-04-15 17:32:09.308] [basic_logger] [info] 0 new splits operated, total vertices 29103
+[2020-04-15 17:32:09.587] [basic_logger] [info] edge 212 traced, finished 150/205 of MST and 150/402 of Graph
+[2020-04-15 17:32:09.587] [basic_logger] [info] 0 new splits operated, total vertices 29103
+[2020-04-15 17:32:09.857] [basic_logger] [info] edge 213 traced, finished 151/205 of MST and 151/402 of Graph
+[2020-04-15 17:32:09.857] [basic_logger] [info] 0 new splits operated, total vertices 29103
+[2020-04-15 17:32:10.131] [basic_logger] [info] edge 219 traced, finished 152/205 of MST and 152/402 of Graph
+[2020-04-15 17:32:10.131] [basic_logger] [info] 0 new splits operated, total vertices 29103
+[2020-04-15 17:32:10.410] [basic_logger] [info] edge 220 traced, finished 153/205 of MST and 153/402 of Graph
+[2020-04-15 17:32:10.410] [basic_logger] [info] 0 new splits operated, total vertices 29103
+[2020-04-15 17:32:10.714] [basic_logger] [info] edge 221 traced, finished 154/205 of MST and 154/402 of Graph
+[2020-04-15 17:32:10.714] [basic_logger] [info] 5 new splits operated, total vertices 29108
+[2020-04-15 17:32:10.974] [basic_logger] [info] edge 222 traced, finished 155/205 of MST and 155/402 of Graph
+[2020-04-15 17:32:10.974] [basic_logger] [info] 0 new splits operated, total vertices 29108
+[2020-04-15 17:32:11.242] [basic_logger] [info] edge 225 traced, finished 156/205 of MST and 156/402 of Graph
+[2020-04-15 17:32:11.242] [basic_logger] [info] 4 new splits operated, total vertices 29112
+[2020-04-15 17:32:11.518] [basic_logger] [info] edge 227 traced, finished 157/205 of MST and 157/402 of Graph
+[2020-04-15 17:32:11.518] [basic_logger] [info] 0 new splits operated, total vertices 29112
+[2020-04-15 17:32:11.782] [basic_logger] [info] edge 229 traced, finished 158/205 of MST and 158/402 of Graph
+[2020-04-15 17:32:11.782] [basic_logger] [info] 0 new splits operated, total vertices 29112
+[2020-04-15 17:32:12.111] [basic_logger] [info] edge 230 traced, finished 159/205 of MST and 159/402 of Graph
+[2020-04-15 17:32:12.111] [basic_logger] [info] 0 new splits operated, total vertices 29112
+[2020-04-15 17:32:12.431] [basic_logger] [info] edge 231 traced, finished 160/205 of MST and 160/402 of Graph
+[2020-04-15 17:32:12.431] [basic_logger] [info] 0 new splits operated, total vertices 29112
+[2020-04-15 17:32:12.711] [basic_logger] [info] edge 238 traced, finished 161/205 of MST and 161/402 of Graph
+[2020-04-15 17:32:12.711] [basic_logger] [info] 2 new splits operated, total vertices 29114
+[2020-04-15 17:32:12.969] [basic_logger] [info] edge 239 traced, finished 162/205 of MST and 162/402 of Graph
+[2020-04-15 17:32:12.969] [basic_logger] [info] 1 new splits operated, total vertices 29115
+[2020-04-15 17:32:13.245] [basic_logger] [info] edge 240 traced, finished 163/205 of MST and 163/402 of Graph
+[2020-04-15 17:32:13.245] [basic_logger] [info] 0 new splits operated, total vertices 29115
+[2020-04-15 17:32:13.511] [basic_logger] [info] edge 241 traced, finished 164/205 of MST and 164/402 of Graph
+[2020-04-15 17:32:13.511] [basic_logger] [info] 2 new splits operated, total vertices 29117
+[2020-04-15 17:32:13.779] [basic_logger] [info] edge 242 traced, finished 165/205 of MST and 165/402 of Graph
+[2020-04-15 17:32:13.779] [basic_logger] [info] 3 new splits operated, total vertices 29120
+[2020-04-15 17:32:14.042] [basic_logger] [info] edge 243 traced, finished 166/205 of MST and 166/402 of Graph
+[2020-04-15 17:32:14.042] [basic_logger] [info] 0 new splits operated, total vertices 29120
+[2020-04-15 17:32:14.321] [basic_logger] [info] edge 249 traced, finished 167/205 of MST and 167/402 of Graph
+[2020-04-15 17:32:14.321] [basic_logger] [info] 0 new splits operated, total vertices 29120
+[2020-04-15 17:32:14.626] [basic_logger] [info] edge 250 traced, finished 168/205 of MST and 168/402 of Graph
+[2020-04-15 17:32:14.626] [basic_logger] [info] 0 new splits operated, total vertices 29120
+[2020-04-15 17:32:14.914] [basic_logger] [info] edge 251 traced, finished 169/205 of MST and 169/402 of Graph
+[2020-04-15 17:32:14.914] [basic_logger] [info] 0 new splits operated, total vertices 29120
+[2020-04-15 17:32:15.179] [basic_logger] [info] edge 252 traced, finished 170/205 of MST and 170/402 of Graph
+[2020-04-15 17:32:15.179] [basic_logger] [info] 0 new splits operated, total vertices 29120
+[2020-04-15 17:32:15.455] [basic_logger] [info] edge 253 traced, finished 171/205 of MST and 171/402 of Graph
+[2020-04-15 17:32:15.455] [basic_logger] [info] 1 new splits operated, total vertices 29121
+[2020-04-15 17:32:15.780] [basic_logger] [info] edge 254 traced, finished 172/205 of MST and 172/402 of Graph
+[2020-04-15 17:32:15.780] [basic_logger] [info] 0 new splits operated, total vertices 29121
+[2020-04-15 17:32:16.069] [basic_logger] [info] edge 256 traced, finished 173/205 of MST and 173/402 of Graph
+[2020-04-15 17:32:16.069] [basic_logger] [info] 0 new splits operated, total vertices 29121
+[2020-04-15 17:32:16.348] [basic_logger] [info] edge 257 traced, finished 174/205 of MST and 174/402 of Graph
+[2020-04-15 17:32:16.348] [basic_logger] [info] 1 new splits operated, total vertices 29122
+[2020-04-15 17:32:16.630] [basic_logger] [info] edge 258 traced, finished 175/205 of MST and 175/402 of Graph
+[2020-04-15 17:32:16.630] [basic_logger] [info] 0 new splits operated, total vertices 29122
+[2020-04-15 17:32:16.893] [basic_logger] [info] edge 260 traced, finished 176/205 of MST and 176/402 of Graph
+[2020-04-15 17:32:16.893] [basic_logger] [info] 0 new splits operated, total vertices 29122
+[2020-04-15 17:32:17.153] [basic_logger] [info] edge 261 traced, finished 177/205 of MST and 177/402 of Graph
+[2020-04-15 17:32:17.153] [basic_logger] [info] 0 new splits operated, total vertices 29122
+[2020-04-15 17:32:17.469] [basic_logger] [info] edge 262 traced, finished 178/205 of MST and 178/402 of Graph
+[2020-04-15 17:32:17.469] [basic_logger] [info] 4 new splits operated, total vertices 29126
+[2020-04-15 17:32:17.739] [basic_logger] [info] edge 264 traced, finished 179/205 of MST and 179/402 of Graph
+[2020-04-15 17:32:17.739] [basic_logger] [info] 1 new splits operated, total vertices 29127
+[2020-04-15 17:32:18.012] [basic_logger] [info] edge 265 traced, finished 180/205 of MST and 180/402 of Graph
+[2020-04-15 17:32:18.012] [basic_logger] [info] 1 new splits operated, total vertices 29128
+[2020-04-15 17:32:18.280] [basic_logger] [info] edge 266 traced, finished 181/205 of MST and 181/402 of Graph
+[2020-04-15 17:32:18.280] [basic_logger] [info] 5 new splits operated, total vertices 29133
+[2020-04-15 17:32:18.572] [basic_logger] [info] edge 267 traced, finished 182/205 of MST and 182/402 of Graph
+[2020-04-15 17:32:18.572] [basic_logger] [info] 1 new splits operated, total vertices 29134
+[2020-04-15 17:32:18.841] [basic_logger] [info] edge 272 traced, finished 183/205 of MST and 183/402 of Graph
+[2020-04-15 17:32:18.841] [basic_logger] [info] 1 new splits operated, total vertices 29135
+[2020-04-15 17:32:19.112] [basic_logger] [info] edge 273 traced, finished 184/205 of MST and 184/402 of Graph
+[2020-04-15 17:32:19.112] [basic_logger] [info] 1 new splits operated, total vertices 29136
+[2020-04-15 17:32:19.403] [basic_logger] [info] edge 274 traced, finished 185/205 of MST and 185/402 of Graph
+[2020-04-15 17:32:19.403] [basic_logger] [info] 0 new splits operated, total vertices 29136
+[2020-04-15 17:32:19.655] [basic_logger] [info] edge 275 traced, finished 186/205 of MST and 186/402 of Graph
+[2020-04-15 17:32:19.655] [basic_logger] [info] 0 new splits operated, total vertices 29136
+[2020-04-15 17:32:19.947] [basic_logger] [info] edge 277 traced, finished 187/205 of MST and 187/402 of Graph
+[2020-04-15 17:32:19.947] [basic_logger] [info] 0 new splits operated, total vertices 29136
+[2020-04-15 17:32:20.206] [basic_logger] [info] edge 279 traced, finished 188/205 of MST and 188/402 of Graph
+[2020-04-15 17:32:20.206] [basic_logger] [info] 0 new splits operated, total vertices 29136
+[2020-04-15 17:32:20.490] [basic_logger] [info] edge 282 traced, finished 189/205 of MST and 189/402 of Graph
+[2020-04-15 17:32:20.490] [basic_logger] [info] 2 new splits operated, total vertices 29138
+[2020-04-15 17:32:20.761] [basic_logger] [info] edge 288 traced, finished 190/205 of MST and 190/402 of Graph
+[2020-04-15 17:32:20.761] [basic_logger] [info] 6 new splits operated, total vertices 29144
+[2020-04-15 17:32:21.084] [basic_logger] [info] edge 302 traced, finished 191/205 of MST and 191/402 of Graph
+[2020-04-15 17:32:21.084] [basic_logger] [info] 0 new splits operated, total vertices 29144
+[2020-04-15 17:32:21.358] [basic_logger] [info] edge 305 traced, finished 192/205 of MST and 192/402 of Graph
+[2020-04-15 17:32:21.358] [basic_logger] [info] 5 new splits operated, total vertices 29149
+[2020-04-15 17:32:21.608] [basic_logger] [info] edge 306 traced, finished 193/205 of MST and 193/402 of Graph
+[2020-04-15 17:32:21.608] [basic_logger] [info] 1 new splits operated, total vertices 29150
+[2020-04-15 17:32:21.922] [basic_logger] [info] edge 307 traced, finished 194/205 of MST and 194/402 of Graph
+[2020-04-15 17:32:21.922] [basic_logger] [info] 0 new splits operated, total vertices 29150
+[2020-04-15 17:32:22.196] [basic_logger] [info] edge 308 traced, finished 195/205 of MST and 195/402 of Graph
+[2020-04-15 17:32:22.196] [basic_logger] [info] 6 new splits operated, total vertices 29156
+[2020-04-15 17:32:22.472] [basic_logger] [info] edge 315 traced, finished 196/205 of MST and 196/402 of Graph
+[2020-04-15 17:32:22.472] [basic_logger] [info] 1 new splits operated, total vertices 29157
+[2020-04-15 17:32:22.754] [basic_logger] [info] edge 318 traced, finished 197/205 of MST and 197/402 of Graph
+[2020-04-15 17:32:22.754] [basic_logger] [info] 3 new splits operated, total vertices 29160
+[2020-04-15 17:32:23.033] [basic_logger] [info] edge 319 traced, finished 198/205 of MST and 198/402 of Graph
+[2020-04-15 17:32:23.033] [basic_logger] [info] 0 new splits operated, total vertices 29160
+[2020-04-15 17:32:23.311] [basic_logger] [info] edge 320 traced, finished 199/205 of MST and 199/402 of Graph
+[2020-04-15 17:32:23.311] [basic_logger] [info] 0 new splits operated, total vertices 29160
+[2020-04-15 17:32:23.597] [basic_logger] [info] edge 323 traced, finished 200/205 of MST and 200/402 of Graph
+[2020-04-15 17:32:23.597] [basic_logger] [info] 1 new splits operated, total vertices 29161
+[2020-04-15 17:32:23.889] [basic_logger] [info] edge 326 traced, finished 201/205 of MST and 201/402 of Graph
+[2020-04-15 17:32:23.889] [basic_logger] [info] 5 new splits operated, total vertices 29166
+[2020-04-15 17:32:24.152] [basic_logger] [info] edge 331 traced, finished 202/205 of MST and 202/402 of Graph
+[2020-04-15 17:32:24.152] [basic_logger] [info] 0 new splits operated, total vertices 29166
+[2020-04-15 17:32:24.416] [basic_logger] [info] edge 339 traced, finished 203/205 of MST and 203/402 of Graph
+[2020-04-15 17:32:24.416] [basic_logger] [info] 1 new splits operated, total vertices 29167
+[2020-04-15 17:32:24.687] [basic_logger] [info] edge 371 traced, finished 204/205 of MST and 204/402 of Graph
+[2020-04-15 17:32:24.687] [basic_logger] [info] 0 new splits operated, total vertices 29167
+[2020-04-15 17:32:24.992] [basic_logger] [info] edge 372 traced, finished 205/205 of MST and 205/402 of Graph
+[2020-04-15 17:32:24.992] [basic_logger] [info] 0 new splits operated, total vertices 29167
+[2020-04-15 17:32:24.993] [basic_logger] [info] trace mst done
+[2020-04-15 17:32:24.993] [basic_logger] [info] trace non-blocking edges
+[2020-04-15 17:32:25.391] [basic_logger] [critical] edge 6 is potential blocking, postponed
+[2020-04-15 17:32:25.750] [basic_logger] [critical] edge 14 is potential blocking, postponed
+[2020-04-15 17:32:26.159] [basic_logger] [critical] edge 22 is potential blocking, postponed
+[2020-04-15 17:32:26.515] [basic_logger] [critical] edge 31 is potential blocking, postponed
+[2020-04-15 17:32:26.864] [basic_logger] [info] edge 32 is not blocking, 206/402 finished
+[2020-04-15 17:32:26.864] [basic_logger] [info] 0 new splits operated, total vertices 29167
+[2020-04-15 17:32:27.200] [basic_logger] [info] edge 36 is not blocking, 207/402 finished
+[2020-04-15 17:32:27.200] [basic_logger] [info] 0 new splits operated, total vertices 29167
+[2020-04-15 17:32:27.561] [basic_logger] [critical] edge 37 is potential blocking, postponed
+[2020-04-15 17:32:27.913] [basic_logger] [critical] edge 43 is potential blocking, postponed
+[2020-04-15 17:32:28.259] [basic_logger] [info] edge 50 is not blocking, 208/402 finished
+[2020-04-15 17:32:28.259] [basic_logger] [info] 0 new splits operated, total vertices 29169
+[2020-04-15 17:32:28.637] [basic_logger] [critical] edge 51 is potential blocking, postponed
+[2020-04-15 17:32:29.014] [basic_logger] [info] edge 57 is not blocking, 209/402 finished
+[2020-04-15 17:32:29.014] [basic_logger] [info] 0 new splits operated, total vertices 29169
+[2020-04-15 17:32:29.392] [basic_logger] [critical] edge 58 is potential blocking, postponed
+[2020-04-15 17:32:29.744] [basic_logger] [critical] edge 66 is potential blocking, postponed
+[2020-04-15 17:32:30.145] [basic_logger] [info] edge 69 is not blocking, 210/402 finished
+[2020-04-15 17:32:30.145] [basic_logger] [info] 0 new splits operated, total vertices 29174
+[2020-04-15 17:32:30.509] [basic_logger] [critical] edge 73 is potential blocking, postponed
+[2020-04-15 17:32:30.868] [basic_logger] [critical] edge 81 is potential blocking, postponed
+[2020-04-15 17:32:31.263] [basic_logger] [critical] edge 88 is potential blocking, postponed
+[2020-04-15 17:32:31.617] [basic_logger] [info] edge 92 is not blocking, 211/402 finished
+[2020-04-15 17:32:31.617] [basic_logger] [info] 0 new splits operated, total vertices 29174
+[2020-04-15 17:32:31.967] [basic_logger] [critical] edge 93 is potential blocking, postponed
+[2020-04-15 17:32:32.322] [basic_logger] [critical] edge 98 is potential blocking, postponed
+[2020-04-15 17:32:32.688] [basic_logger] [critical] edge 105 is potential blocking, postponed
+[2020-04-15 17:32:33.072] [basic_logger] [info] edge 106 is not blocking, 212/402 finished
+[2020-04-15 17:32:33.072] [basic_logger] [info] 0 new splits operated, total vertices 29174
+[2020-04-15 17:32:33.450] [basic_logger] [info] edge 107 is not blocking, 213/402 finished
+[2020-04-15 17:32:33.450] [basic_logger] [info] 0 new splits operated, total vertices 29174
+[2020-04-15 17:32:33.822] [basic_logger] [critical] edge 110 is potential blocking, postponed
+[2020-04-15 17:32:34.192] [basic_logger] [info] edge 115 is not blocking, 214/402 finished
+[2020-04-15 17:32:34.192] [basic_logger] [info] 0 new splits operated, total vertices 29176
+[2020-04-15 17:32:34.816] [basic_logger] [critical] edge 116 is potential blocking, postponed
+[2020-04-15 17:32:35.393] [basic_logger] [info] edge 120 is not blocking, 215/402 finished
+[2020-04-15 17:32:35.393] [basic_logger] [info] 0 new splits operated, total vertices 29178
+[2020-04-15 17:32:35.863] [basic_logger] [info] edge 121 is not blocking, 216/402 finished
+[2020-04-15 17:32:35.863] [basic_logger] [info] 0 new splits operated, total vertices 29183
+[2020-04-15 17:32:36.280] [basic_logger] [critical] edge 122 is potential blocking, postponed
+[2020-04-15 17:32:36.700] [basic_logger] [info] edge 123 is not blocking, 217/402 finished
+[2020-04-15 17:32:36.700] [basic_logger] [info] 0 new splits operated, total vertices 29188
+[2020-04-15 17:32:37.097] [basic_logger] [critical] edge 128 is potential blocking, postponed
+[2020-04-15 17:32:37.524] [basic_logger] [info] edge 129 is not blocking, 218/402 finished
+[2020-04-15 17:32:37.524] [basic_logger] [info] 0 new splits operated, total vertices 29190
+[2020-04-15 17:32:37.943] [basic_logger] [info] edge 131 is not blocking, 219/402 finished
+[2020-04-15 17:32:37.943] [basic_logger] [info] 0 new splits operated, total vertices 29190
+[2020-04-15 17:32:38.622] [basic_logger] [critical] edge 135 is potential blocking, postponed
+[2020-04-15 17:32:39.230] [basic_logger] [info] edge 140 is not blocking, 220/402 finished
+[2020-04-15 17:32:39.230] [basic_logger] [info] 0 new splits operated, total vertices 29190
+[2020-04-15 17:32:39.607] [basic_logger] [critical] edge 141 is potential blocking, postponed
+[2020-04-15 17:32:39.984] [basic_logger] [info] edge 142 is not blocking, 221/402 finished
+[2020-04-15 17:32:39.984] [basic_logger] [info] 0 new splits operated, total vertices 29193
+[2020-04-15 17:32:40.360] [basic_logger] [info] edge 143 is not blocking, 222/402 finished
+[2020-04-15 17:32:40.360] [basic_logger] [info] 0 new splits operated, total vertices 29196
+[2020-04-15 17:32:40.886] [basic_logger] [info] edge 144 is not blocking, 223/402 finished
+[2020-04-15 17:32:40.886] [basic_logger] [info] 0 new splits operated, total vertices 29197
+[2020-04-15 17:32:41.368] [basic_logger] [critical] edge 145 is potential blocking, postponed
+[2020-04-15 17:32:41.789] [basic_logger] [critical] edge 153 is potential blocking, postponed
+[2020-04-15 17:32:42.540] [basic_logger] [info] edge 155 is not blocking, 224/402 finished
+[2020-04-15 17:32:42.540] [basic_logger] [info] 0 new splits operated, total vertices 29204
+[2020-04-15 17:32:43.570] [basic_logger] [info] edge 156 is not blocking, 225/402 finished
+[2020-04-15 17:32:43.570] [basic_logger] [info] 0 new splits operated, total vertices 29205
+[2020-04-15 17:32:44.596] [basic_logger] [critical] edge 159 is potential blocking, postponed
+[2020-04-15 17:32:45.203] [basic_logger] [info] edge 163 is not blocking, 226/402 finished
+[2020-04-15 17:32:45.203] [basic_logger] [info] 0 new splits operated, total vertices 29207
+[2020-04-15 17:32:45.646] [basic_logger] [critical] edge 167 is potential blocking, postponed
+[2020-04-15 17:32:46.052] [basic_logger] [info] edge 172 is not blocking, 227/402 finished
+[2020-04-15 17:32:46.052] [basic_logger] [info] 0 new splits operated, total vertices 29215
+[2020-04-15 17:32:46.439] [basic_logger] [critical] edge 174 is potential blocking, postponed
+[2020-04-15 17:32:46.822] [basic_logger] [info] edge 178 is not blocking, 228/402 finished
+[2020-04-15 17:32:46.822] [basic_logger] [info] 0 new splits operated, total vertices 29215
+[2020-04-15 17:32:47.235] [basic_logger] [info] edge 179 is not blocking, 229/402 finished
+[2020-04-15 17:32:47.235] [basic_logger] [info] 0 new splits operated, total vertices 29216
+[2020-04-15 17:32:47.659] [basic_logger] [critical] edge 181 is potential blocking, postponed
+[2020-04-15 17:32:48.030] [basic_logger] [info] edge 182 is not blocking, 230/402 finished
+[2020-04-15 17:32:48.030] [basic_logger] [info] 0 new splits operated, total vertices 29216
+[2020-04-15 17:32:48.403] [basic_logger] [critical] edge 187 is potential blocking, postponed
+[2020-04-15 17:32:48.778] [basic_logger] [info] edge 188 is not blocking, 231/402 finished
+[2020-04-15 17:32:48.778] [basic_logger] [info] 0 new splits operated, total vertices 29216
+[2020-04-15 17:32:49.151] [basic_logger] [info] edge 189 is not blocking, 232/402 finished
+[2020-04-15 17:32:49.151] [basic_logger] [info] 0 new splits operated, total vertices 29216
+[2020-04-15 17:32:49.526] [basic_logger] [critical] edge 192 is potential blocking, postponed
+[2020-04-15 17:32:49.898] [basic_logger] [info] edge 196 is not blocking, 233/402 finished
+[2020-04-15 17:32:49.898] [basic_logger] [info] 0 new splits operated, total vertices 29220
+[2020-04-15 17:32:50.257] [basic_logger] [critical] edge 197 is potential blocking, postponed
+[2020-04-15 17:32:50.626] [basic_logger] [info] edge 203 is not blocking, 234/402 finished
+[2020-04-15 17:32:50.626] [basic_logger] [info] 0 new splits operated, total vertices 29220
+[2020-04-15 17:32:50.992] [basic_logger] [critical] edge 204 is potential blocking, postponed
+[2020-04-15 17:32:51.377] [basic_logger] [info] edge 205 is not blocking, 235/402 finished
+[2020-04-15 17:32:51.377] [basic_logger] [info] 0 new splits operated, total vertices 29220
+[2020-04-15 17:32:51.752] [basic_logger] [info] edge 206 is not blocking, 236/402 finished
+[2020-04-15 17:32:51.752] [basic_logger] [info] 0 new splits operated, total vertices 29220
+[2020-04-15 17:32:52.126] [basic_logger] [critical] edge 209 is potential blocking, postponed
+[2020-04-15 17:32:52.504] [basic_logger] [info] edge 214 is not blocking, 237/402 finished
+[2020-04-15 17:32:52.504] [basic_logger] [info] 0 new splits operated, total vertices 29225
+[2020-04-15 17:32:52.882] [basic_logger] [critical] edge 215 is potential blocking, postponed
+[2020-04-15 17:32:53.255] [basic_logger] [info] edge 216 is not blocking, 238/402 finished
+[2020-04-15 17:32:53.255] [basic_logger] [info] 0 new splits operated, total vertices 29225
+[2020-04-15 17:32:53.649] [basic_logger] [info] edge 217 is not blocking, 239/402 finished
+[2020-04-15 17:32:53.649] [basic_logger] [info] 0 new splits operated, total vertices 29229
+[2020-04-15 17:32:54.036] [basic_logger] [info] edge 218 is not blocking, 240/402 finished
+[2020-04-15 17:32:54.036] [basic_logger] [info] 0 new splits operated, total vertices 29232
+[2020-04-15 17:32:54.403] [basic_logger] [critical] edge 223 is potential blocking, postponed
+[2020-04-15 17:32:54.782] [basic_logger] [info] edge 224 is not blocking, 241/402 finished
+[2020-04-15 17:32:54.782] [basic_logger] [info] 0 new splits operated, total vertices 29241
+[2020-04-15 17:32:55.164] [basic_logger] [info] edge 226 is not blocking, 242/402 finished
+[2020-04-15 17:32:55.164] [basic_logger] [info] 0 new splits operated, total vertices 29242
+[2020-04-15 17:32:55.510] [basic_logger] [critical] edge 228 is potential blocking, postponed
+[2020-04-15 17:32:55.897] [basic_logger] [info] edge 232 is not blocking, 243/402 finished
+[2020-04-15 17:32:55.897] [basic_logger] [info] 0 new splits operated, total vertices 29242
+[2020-04-15 17:32:56.257] [basic_logger] [info] edge 233 is not blocking, 244/402 finished
+[2020-04-15 17:32:56.257] [basic_logger] [info] 0 new splits operated, total vertices 29246
+[2020-04-15 17:32:56.651] [basic_logger] [critical] edge 234 is potential blocking, postponed
+[2020-04-15 17:32:57.008] [basic_logger] [info] edge 235 is not blocking, 245/402 finished
+[2020-04-15 17:32:57.008] [basic_logger] [info] 0 new splits operated, total vertices 29246
+[2020-04-15 17:32:57.392] [basic_logger] [info] edge 236 is not blocking, 246/402 finished
+[2020-04-15 17:32:57.392] [basic_logger] [info] 0 new splits operated, total vertices 29249
+[2020-04-15 17:32:57.772] [basic_logger] [critical] edge 237 is potential blocking, postponed
+[2020-04-15 17:32:58.140] [basic_logger] [info] edge 244 is not blocking, 247/402 finished
+[2020-04-15 17:32:58.140] [basic_logger] [info] 0 new splits operated, total vertices 29249
+[2020-04-15 17:32:58.488] [basic_logger] [critical] edge 245 is potential blocking, postponed
+[2020-04-15 17:32:58.843] [basic_logger] [info] edge 246 is not blocking, 248/402 finished
+[2020-04-15 17:32:58.843] [basic_logger] [info] 0 new splits operated, total vertices 29249
+[2020-04-15 17:32:59.209] [basic_logger] [info] edge 247 is not blocking, 249/402 finished
+[2020-04-15 17:32:59.209] [basic_logger] [info] 0 new splits operated, total vertices 29250
+[2020-04-15 17:32:59.552] [basic_logger] [critical] edge 248 is potential blocking, postponed
+[2020-04-15 17:32:59.924] [basic_logger] [critical] edge 255 is potential blocking, postponed
+[2020-04-15 17:33:00.302] [basic_logger] [info] edge 259 is not blocking, 250/402 finished
+[2020-04-15 17:33:00.302] [basic_logger] [info] 0 new splits operated, total vertices 29253
+[2020-04-15 17:33:00.665] [basic_logger] [critical] edge 263 is potential blocking, postponed
+[2020-04-15 17:33:01.038] [basic_logger] [info] edge 268 is not blocking, 251/402 finished
+[2020-04-15 17:33:01.038] [basic_logger] [info] 0 new splits operated, total vertices 29253
+[2020-04-15 17:33:01.413] [basic_logger] [critical] edge 269 is potential blocking, postponed
+[2020-04-15 17:33:01.812] [basic_logger] [info] edge 270 is not blocking, 252/402 finished
+[2020-04-15 17:33:01.812] [basic_logger] [info] 0 new splits operated, total vertices 29253
+[2020-04-15 17:33:02.221] [basic_logger] [info] edge 271 is not blocking, 253/402 finished
+[2020-04-15 17:33:02.221] [basic_logger] [info] 0 new splits operated, total vertices 29254
+[2020-04-15 17:33:02.615] [basic_logger] [critical] edge 276 is potential blocking, postponed
+[2020-04-15 17:33:02.977] [basic_logger] [info] edge 278 is not blocking, 254/402 finished
+[2020-04-15 17:33:02.977] [basic_logger] [info] 0 new splits operated, total vertices 29254
+[2020-04-15 17:33:03.370] [basic_logger] [info] edge 280 is not blocking, 255/402 finished
+[2020-04-15 17:33:03.370] [basic_logger] [info] 0 new splits operated, total vertices 29257
+[2020-04-15 17:33:03.738] [basic_logger] [critical] edge 281 is potential blocking, postponed
+[2020-04-15 17:33:04.082] [basic_logger] [info] edge 283 is not blocking, 256/402 finished
+[2020-04-15 17:33:04.082] [basic_logger] [info] 0 new splits operated, total vertices 29258
+[2020-04-15 17:33:04.451] [basic_logger] [info] edge 284 is not blocking, 257/402 finished
+[2020-04-15 17:33:04.451] [basic_logger] [info] 0 new splits operated, total vertices 29263
+[2020-04-15 17:33:04.821] [basic_logger] [info] edge 285 is not blocking, 258/402 finished
+[2020-04-15 17:33:04.821] [basic_logger] [info] 0 new splits operated, total vertices 29264
+[2020-04-15 17:33:05.175] [basic_logger] [critical] edge 286 is potential blocking, postponed
+[2020-04-15 17:33:05.547] [basic_logger] [info] edge 287 is not blocking, 259/402 finished
+[2020-04-15 17:33:05.547] [basic_logger] [info] 0 new splits operated, total vertices 29266
+[2020-04-15 17:33:05.916] [basic_logger] [info] edge 289 is not blocking, 260/402 finished
+[2020-04-15 17:33:05.916] [basic_logger] [info] 0 new splits operated, total vertices 29266
+[2020-04-15 17:33:06.297] [basic_logger] [critical] edge 290 is potential blocking, postponed
+[2020-04-15 17:33:06.663] [basic_logger] [info] edge 291 is not blocking, 261/402 finished
+[2020-04-15 17:33:06.663] [basic_logger] [info] 0 new splits operated, total vertices 29267
+[2020-04-15 17:33:07.019] [basic_logger] [info] edge 292 is not blocking, 262/402 finished
+[2020-04-15 17:33:07.019] [basic_logger] [info] 0 new splits operated, total vertices 29267
+[2020-04-15 17:33:07.382] [basic_logger] [info] edge 293 is not blocking, 263/402 finished
+[2020-04-15 17:33:07.382] [basic_logger] [info] 0 new splits operated, total vertices 29269
+[2020-04-15 17:33:07.737] [basic_logger] [info] edge 294 is not blocking, 264/402 finished
+[2020-04-15 17:33:07.737] [basic_logger] [info] 0 new splits operated, total vertices 29269
+[2020-04-15 17:33:08.090] [basic_logger] [info] edge 295 is not blocking, 265/402 finished
+[2020-04-15 17:33:08.090] [basic_logger] [info] 0 new splits operated, total vertices 29275
+[2020-04-15 17:33:08.447] [basic_logger] [critical] edge 296 is potential blocking, postponed
+[2020-04-15 17:33:08.811] [basic_logger] [info] edge 297 is not blocking, 266/402 finished
+[2020-04-15 17:33:08.811] [basic_logger] [info] 0 new splits operated, total vertices 29275
+[2020-04-15 17:33:09.176] [basic_logger] [critical] edge 298 is potential blocking, postponed
+[2020-04-15 17:33:09.527] [basic_logger] [info] edge 299 is not blocking, 267/402 finished
+[2020-04-15 17:33:09.527] [basic_logger] [info] 0 new splits operated, total vertices 29277
+[2020-04-15 17:33:09.904] [basic_logger] [info] edge 300 is not blocking, 268/402 finished
+[2020-04-15 17:33:09.904] [basic_logger] [info] 0 new splits operated, total vertices 29278
+[2020-04-15 17:33:10.276] [basic_logger] [info] edge 301 is not blocking, 269/402 finished
+[2020-04-15 17:33:10.276] [basic_logger] [info] 0 new splits operated, total vertices 29278
+[2020-04-15 17:33:10.631] [basic_logger] [info] edge 303 is not blocking, 270/402 finished
+[2020-04-15 17:33:10.631] [basic_logger] [info] 0 new splits operated, total vertices 29283
+[2020-04-15 17:33:11.046] [basic_logger] [critical] edge 304 is potential blocking, postponed
+[2020-04-15 17:33:11.422] [basic_logger] [info] edge 309 is not blocking, 271/402 finished
+[2020-04-15 17:33:11.422] [basic_logger] [info] 0 new splits operated, total vertices 29288
+[2020-04-15 17:33:11.796] [basic_logger] [info] edge 310 is not blocking, 272/402 finished
+[2020-04-15 17:33:11.796] [basic_logger] [info] 0 new splits operated, total vertices 29288
+[2020-04-15 17:33:12.166] [basic_logger] [critical] edge 311 is potential blocking, postponed
+[2020-04-15 17:33:12.535] [basic_logger] [info] edge 312 is not blocking, 273/402 finished
+[2020-04-15 17:33:12.535] [basic_logger] [info] 0 new splits operated, total vertices 29288
+[2020-04-15 17:33:12.932] [basic_logger] [info] edge 313 is not blocking, 274/402 finished
+[2020-04-15 17:33:12.932] [basic_logger] [info] 0 new splits operated, total vertices 29290
+[2020-04-15 17:33:13.297] [basic_logger] [info] edge 314 is not blocking, 275/402 finished
+[2020-04-15 17:33:13.297] [basic_logger] [info] 0 new splits operated, total vertices 29290
+[2020-04-15 17:33:13.651] [basic_logger] [info] edge 316 is not blocking, 276/402 finished
+[2020-04-15 17:33:13.651] [basic_logger] [info] 0 new splits operated, total vertices 29291
+[2020-04-15 17:33:14.021] [basic_logger] [critical] edge 317 is potential blocking, postponed
+[2020-04-15 17:33:14.386] [basic_logger] [critical] edge 321 is potential blocking, postponed
+[2020-04-15 17:33:14.771] [basic_logger] [info] edge 322 is not blocking, 277/402 finished
+[2020-04-15 17:33:14.771] [basic_logger] [info] 0 new splits operated, total vertices 29303
+[2020-04-15 17:33:15.141] [basic_logger] [info] edge 324 is not blocking, 278/402 finished
+[2020-04-15 17:33:15.141] [basic_logger] [info] 0 new splits operated, total vertices 29305
+[2020-04-15 17:33:15.503] [basic_logger] [critical] edge 325 is potential blocking, postponed
+[2020-04-15 17:33:15.919] [basic_logger] [info] edge 327 is not blocking, 279/402 finished
+[2020-04-15 17:33:15.919] [basic_logger] [info] 0 new splits operated, total vertices 29305
+[2020-04-15 17:33:16.287] [basic_logger] [critical] edge 328 is potential blocking, postponed
+[2020-04-15 17:33:16.643] [basic_logger] [critical] edge 329 is potential blocking, postponed
+[2020-04-15 17:33:16.995] [basic_logger] [critical] edge 330 is potential blocking, postponed
+[2020-04-15 17:33:17.357] [basic_logger] [critical] edge 332 is potential blocking, postponed
+[2020-04-15 17:33:17.713] [basic_logger] [info] edge 333 is not blocking, 280/402 finished
+[2020-04-15 17:33:17.713] [basic_logger] [info] 0 new splits operated, total vertices 29306
+[2020-04-15 17:33:18.079] [basic_logger] [critical] edge 334 is potential blocking, postponed
+[2020-04-15 17:33:18.444] [basic_logger] [critical] edge 335 is potential blocking, postponed
+[2020-04-15 17:33:18.815] [basic_logger] [info] edge 336 is not blocking, 281/402 finished
+[2020-04-15 17:33:18.815] [basic_logger] [info] 0 new splits operated, total vertices 29308
+[2020-04-15 17:33:19.216] [basic_logger] [critical] edge 337 is potential blocking, postponed
+[2020-04-15 17:33:19.577] [basic_logger] [info] edge 338 is not blocking, 282/402 finished
+[2020-04-15 17:33:19.577] [basic_logger] [info] 0 new splits operated, total vertices 29309
+[2020-04-15 17:33:19.934] [basic_logger] [info] edge 340 is not blocking, 283/402 finished
+[2020-04-15 17:33:19.934] [basic_logger] [info] 0 new splits operated, total vertices 29309
+[2020-04-15 17:33:20.288] [basic_logger] [critical] edge 341 is potential blocking, postponed
+[2020-04-15 17:33:20.671] [basic_logger] [info] edge 342 is not blocking, 284/402 finished
+[2020-04-15 17:33:20.671] [basic_logger] [info] 0 new splits operated, total vertices 29309
+[2020-04-15 17:33:21.058] [basic_logger] [info] edge 343 is not blocking, 285/402 finished
+[2020-04-15 17:33:21.058] [basic_logger] [info] 0 new splits operated, total vertices 29309
+[2020-04-15 17:33:21.433] [basic_logger] [critical] edge 344 is potential blocking, postponed
+[2020-04-15 17:33:21.798] [basic_logger] [info] edge 345 is not blocking, 286/402 finished
+[2020-04-15 17:33:21.798] [basic_logger] [info] 0 new splits operated, total vertices 29309
+[2020-04-15 17:33:22.172] [basic_logger] [critical] edge 346 is potential blocking, postponed
+[2020-04-15 17:33:22.613] [basic_logger] [info] edge 347 is not blocking, 287/402 finished
+[2020-04-15 17:33:22.613] [basic_logger] [info] 0 new splits operated, total vertices 29309
+[2020-04-15 17:33:23.001] [basic_logger] [critical] edge 348 is potential blocking, postponed
+[2020-04-15 17:33:23.419] [basic_logger] [info] edge 349 is not blocking, 288/402 finished
+[2020-04-15 17:33:23.419] [basic_logger] [info] 0 new splits operated, total vertices 29309
+[2020-04-15 17:33:23.828] [basic_logger] [critical] edge 350 is potential blocking, postponed
+[2020-04-15 17:33:24.977] [basic_logger] [info] edge 351 is not blocking, 289/402 finished
+[2020-04-15 17:33:24.977] [basic_logger] [info] 0 new splits operated, total vertices 29310
+[2020-04-15 17:33:25.497] [basic_logger] [info] edge 352 is not blocking, 290/402 finished
+[2020-04-15 17:33:25.497] [basic_logger] [info] 0 new splits operated, total vertices 29317
+[2020-04-15 17:33:25.905] [basic_logger] [critical] edge 353 is potential blocking, postponed
+[2020-04-15 17:33:26.397] [basic_logger] [info] edge 354 is not blocking, 291/402 finished
+[2020-04-15 17:33:26.397] [basic_logger] [info] 0 new splits operated, total vertices 29317
+[2020-04-15 17:33:26.866] [basic_logger] [critical] edge 355 is potential blocking, postponed
+[2020-04-15 17:33:27.237] [basic_logger] [critical] edge 356 is potential blocking, postponed
+[2020-04-15 17:33:27.778] [basic_logger] [info] edge 357 is not blocking, 292/402 finished
+[2020-04-15 17:33:27.778] [basic_logger] [info] 0 new splits operated, total vertices 29318
+[2020-04-15 17:33:28.273] [basic_logger] [critical] edge 358 is potential blocking, postponed
+[2020-04-15 17:33:28.655] [basic_logger] [critical] edge 359 is potential blocking, postponed
+[2020-04-15 17:33:29.074] [basic_logger] [critical] edge 360 is potential blocking, postponed
+[2020-04-15 17:33:29.607] [basic_logger] [info] edge 361 is not blocking, 293/402 finished
+[2020-04-15 17:33:29.607] [basic_logger] [info] 0 new splits operated, total vertices 29321
+[2020-04-15 17:33:30.137] [basic_logger] [critical] edge 362 is potential blocking, postponed
+[2020-04-15 17:33:30.708] [basic_logger] [critical] edge 363 is potential blocking, postponed
+[2020-04-15 17:33:31.179] [basic_logger] [critical] edge 364 is potential blocking, postponed
+[2020-04-15 17:33:31.705] [basic_logger] [info] edge 365 is not blocking, 294/402 finished
+[2020-04-15 17:33:31.705] [basic_logger] [info] 0 new splits operated, total vertices 29322
+[2020-04-15 17:33:32.155] [basic_logger] [critical] edge 366 is potential blocking, postponed
+[2020-04-15 17:33:32.537] [basic_logger] [critical] edge 367 is potential blocking, postponed
+[2020-04-15 17:33:33.074] [basic_logger] [critical] edge 368 is potential blocking, postponed
+[2020-04-15 17:33:33.659] [basic_logger] [critical] edge 369 is potential blocking, postponed
+[2020-04-15 17:33:34.161] [basic_logger] [critical] edge 370 is potential blocking, postponed
+[2020-04-15 17:33:34.648] [basic_logger] [critical] edge 373 is potential blocking, postponed
+[2020-04-15 17:33:35.015] [basic_logger] [info] edge 374 is not blocking, 295/402 finished
+[2020-04-15 17:33:35.015] [basic_logger] [info] 0 new splits operated, total vertices 29322
+[2020-04-15 17:33:35.432] [basic_logger] [critical] edge 375 is potential blocking, postponed
+[2020-04-15 17:33:35.824] [basic_logger] [info] edge 376 is not blocking, 296/402 finished
+[2020-04-15 17:33:35.824] [basic_logger] [info] 0 new splits operated, total vertices 29324
+[2020-04-15 17:33:36.199] [basic_logger] [critical] edge 377 is potential blocking, postponed
+[2020-04-15 17:33:36.629] [basic_logger] [info] edge 378 is not blocking, 297/402 finished
+[2020-04-15 17:33:36.629] [basic_logger] [info] 0 new splits operated, total vertices 29324
+[2020-04-15 17:33:37.143] [basic_logger] [critical] edge 379 is potential blocking, postponed
+[2020-04-15 17:33:37.551] [basic_logger] [critical] edge 380 is potential blocking, postponed
+[2020-04-15 17:33:37.914] [basic_logger] [critical] edge 381 is potential blocking, postponed
+[2020-04-15 17:33:38.284] [basic_logger] [info] edge 382 is not blocking, 298/402 finished
+[2020-04-15 17:33:38.284] [basic_logger] [info] 0 new splits operated, total vertices 29325
+[2020-04-15 17:33:38.876] [basic_logger] [critical] edge 383 is potential blocking, postponed
+[2020-04-15 17:33:39.269] [basic_logger] [critical] edge 384 is potential blocking, postponed
+[2020-04-15 17:33:39.767] [basic_logger] [critical] edge 385 is potential blocking, postponed
+[2020-04-15 17:33:40.278] [basic_logger] [critical] edge 386 is potential blocking, postponed
+[2020-04-15 17:33:40.713] [basic_logger] [critical] edge 387 is potential blocking, postponed
+[2020-04-15 17:33:41.135] [basic_logger] [critical] edge 388 is potential blocking, postponed
+[2020-04-15 17:33:41.552] [basic_logger] [critical] edge 389 is potential blocking, postponed
+[2020-04-15 17:33:42.006] [basic_logger] [critical] edge 390 is potential blocking, postponed
+[2020-04-15 17:33:42.471] [basic_logger] [critical] edge 391 is potential blocking, postponed
+[2020-04-15 17:33:42.872] [basic_logger] [info] edge 392 is not blocking, 299/402 finished
+[2020-04-15 17:33:42.872] [basic_logger] [info] 0 new splits operated, total vertices 29325
+[2020-04-15 17:33:43.249] [basic_logger] [critical] edge 393 is potential blocking, postponed
+[2020-04-15 17:33:43.660] [basic_logger] [critical] edge 394 is potential blocking, postponed
+[2020-04-15 17:33:44.041] [basic_logger] [info] edge 395 is not blocking, 300/402 finished
+[2020-04-15 17:33:44.041] [basic_logger] [info] 0 new splits operated, total vertices 29325
+[2020-04-15 17:33:44.440] [basic_logger] [critical] edge 396 is potential blocking, postponed
+[2020-04-15 17:33:44.810] [basic_logger] [critical] edge 397 is potential blocking, postponed
+[2020-04-15 17:33:45.248] [basic_logger] [critical] edge 398 is potential blocking, postponed
+[2020-04-15 17:33:45.623] [basic_logger] [info] edge 399 is not blocking, 301/402 finished
+[2020-04-15 17:33:45.623] [basic_logger] [info] 0 new splits operated, total vertices 29325
+[2020-04-15 17:33:46.085] [basic_logger] [critical] edge 400 is potential blocking, postponed
+[2020-04-15 17:33:46.681] [basic_logger] [critical] edge 401 is potential blocking, postponed
+[2020-04-15 17:33:47.279] [basic_logger] [critical] edge 6 is potential blocking, postponed
+[2020-04-15 17:33:47.794] [basic_logger] [critical] edge 14 is potential blocking, postponed
+[2020-04-15 17:33:48.309] [basic_logger] [critical] edge 22 is potential blocking, postponed
+[2020-04-15 17:33:48.994] [basic_logger] [critical] edge 31 is potential blocking, postponed
+[2020-04-15 17:33:49.485] [basic_logger] [critical] edge 37 is potential blocking, postponed
+[2020-04-15 17:33:49.849] [basic_logger] [critical] edge 43 is potential blocking, postponed
+[2020-04-15 17:33:50.249] [basic_logger] [critical] edge 51 is potential blocking, postponed
+[2020-04-15 17:33:50.652] [basic_logger] [critical] edge 58 is potential blocking, postponed
+[2020-04-15 17:33:51.044] [basic_logger] [critical] edge 66 is potential blocking, postponed
+[2020-04-15 17:33:51.447] [basic_logger] [critical] edge 73 is potential blocking, postponed
+[2020-04-15 17:33:51.806] [basic_logger] [critical] edge 81 is potential blocking, postponed
+[2020-04-15 17:33:52.219] [basic_logger] [critical] edge 88 is potential blocking, postponed
+[2020-04-15 17:33:52.585] [basic_logger] [critical] edge 93 is potential blocking, postponed
+[2020-04-15 17:33:52.958] [basic_logger] [critical] edge 98 is potential blocking, postponed
+[2020-04-15 17:33:53.319] [basic_logger] [critical] edge 105 is potential blocking, postponed
+[2020-04-15 17:33:53.700] [basic_logger] [critical] edge 110 is potential blocking, postponed
+[2020-04-15 17:33:54.096] [basic_logger] [critical] edge 116 is potential blocking, postponed
+[2020-04-15 17:33:54.499] [basic_logger] [critical] edge 122 is potential blocking, postponed
+[2020-04-15 17:33:54.874] [basic_logger] [critical] edge 128 is potential blocking, postponed
+[2020-04-15 17:33:55.258] [basic_logger] [critical] edge 135 is potential blocking, postponed
+[2020-04-15 17:33:55.628] [basic_logger] [critical] edge 141 is potential blocking, postponed
+[2020-04-15 17:33:56.007] [basic_logger] [critical] edge 145 is potential blocking, postponed
+[2020-04-15 17:33:56.463] [basic_logger] [critical] edge 153 is potential blocking, postponed
+[2020-04-15 17:33:56.837] [basic_logger] [critical] edge 159 is potential blocking, postponed
+[2020-04-15 17:33:57.328] [basic_logger] [critical] edge 167 is potential blocking, postponed
+[2020-04-15 17:33:57.742] [basic_logger] [critical] edge 174 is potential blocking, postponed
+[2020-04-15 17:33:58.165] [basic_logger] [critical] edge 181 is potential blocking, postponed
+[2020-04-15 17:33:58.527] [basic_logger] [critical] edge 187 is potential blocking, postponed
+[2020-04-15 17:33:58.889] [basic_logger] [critical] edge 192 is potential blocking, postponed
+[2020-04-15 17:33:59.258] [basic_logger] [critical] edge 197 is potential blocking, postponed
+[2020-04-15 17:33:59.615] [basic_logger] [critical] edge 204 is potential blocking, postponed
+[2020-04-15 17:33:59.985] [basic_logger] [critical] edge 209 is potential blocking, postponed
+[2020-04-15 17:34:00.363] [basic_logger] [critical] edge 215 is potential blocking, postponed
+[2020-04-15 17:34:00.776] [basic_logger] [critical] edge 223 is potential blocking, postponed
+[2020-04-15 17:34:01.142] [basic_logger] [critical] edge 228 is potential blocking, postponed
+[2020-04-15 17:34:01.535] [basic_logger] [critical] edge 234 is potential blocking, postponed
+[2020-04-15 17:34:01.901] [basic_logger] [critical] edge 237 is potential blocking, postponed
+[2020-04-15 17:34:02.259] [basic_logger] [critical] edge 245 is potential blocking, postponed
+[2020-04-15 17:34:02.635] [basic_logger] [critical] edge 248 is potential blocking, postponed
+[2020-04-15 17:34:03.002] [basic_logger] [critical] edge 255 is potential blocking, postponed
+[2020-04-15 17:34:03.370] [basic_logger] [critical] edge 263 is potential blocking, postponed
+[2020-04-15 17:34:03.787] [basic_logger] [critical] edge 269 is potential blocking, postponed
+[2020-04-15 17:34:04.189] [basic_logger] [critical] edge 276 is potential blocking, postponed
+[2020-04-15 17:34:04.566] [basic_logger] [critical] edge 281 is potential blocking, postponed
+[2020-04-15 17:34:04.918] [basic_logger] [critical] edge 286 is potential blocking, postponed
+[2020-04-15 17:34:05.301] [basic_logger] [critical] edge 290 is potential blocking, postponed
+[2020-04-15 17:34:05.691] [basic_logger] [critical] edge 296 is potential blocking, postponed
+[2020-04-15 17:34:06.077] [basic_logger] [critical] edge 298 is potential blocking, postponed
+[2020-04-15 17:34:06.500] [basic_logger] [critical] edge 304 is potential blocking, postponed
+[2020-04-15 17:34:06.885] [basic_logger] [critical] edge 311 is potential blocking, postponed
+[2020-04-15 17:34:07.291] [basic_logger] [critical] edge 317 is potential blocking, postponed
+[2020-04-15 17:34:07.668] [basic_logger] [critical] edge 321 is potential blocking, postponed
+[2020-04-15 17:34:08.032] [basic_logger] [critical] edge 325 is potential blocking, postponed
+[2020-04-15 17:34:08.396] [basic_logger] [critical] edge 328 is potential blocking, postponed
+[2020-04-15 17:34:08.754] [basic_logger] [critical] edge 329 is potential blocking, postponed
+[2020-04-15 17:34:09.136] [basic_logger] [critical] edge 330 is potential blocking, postponed
+[2020-04-15 17:34:09.499] [basic_logger] [critical] edge 332 is potential blocking, postponed
+[2020-04-15 17:34:09.842] [basic_logger] [critical] edge 334 is potential blocking, postponed
+[2020-04-15 17:34:10.231] [basic_logger] [critical] edge 335 is potential blocking, postponed
+[2020-04-15 17:34:10.686] [basic_logger] [critical] edge 337 is potential blocking, postponed
+[2020-04-15 17:34:11.079] [basic_logger] [critical] edge 341 is potential blocking, postponed
+[2020-04-15 17:34:11.472] [basic_logger] [critical] edge 344 is potential blocking, postponed
+[2020-04-15 17:34:11.816] [basic_logger] [critical] edge 346 is potential blocking, postponed
+[2020-04-15 17:34:12.198] [basic_logger] [critical] edge 348 is potential blocking, postponed
+[2020-04-15 17:34:12.597] [basic_logger] [critical] edge 350 is potential blocking, postponed
+[2020-04-15 17:34:12.957] [basic_logger] [critical] edge 353 is potential blocking, postponed
+[2020-04-15 17:34:13.361] [basic_logger] [critical] edge 355 is potential blocking, postponed
+[2020-04-15 17:34:13.727] [basic_logger] [critical] edge 356 is potential blocking, postponed
+[2020-04-15 17:34:14.122] [basic_logger] [critical] edge 358 is potential blocking, postponed
+[2020-04-15 17:34:14.509] [basic_logger] [critical] edge 359 is potential blocking, postponed
+[2020-04-15 17:34:14.887] [basic_logger] [critical] edge 360 is potential blocking, postponed
+[2020-04-15 17:34:15.260] [basic_logger] [critical] edge 362 is potential blocking, postponed
+[2020-04-15 17:34:15.642] [basic_logger] [critical] edge 363 is potential blocking, postponed
+[2020-04-15 17:34:16.003] [basic_logger] [critical] edge 364 is potential blocking, postponed
+[2020-04-15 17:34:16.346] [basic_logger] [critical] edge 366 is potential blocking, postponed
+[2020-04-15 17:34:16.709] [basic_logger] [critical] edge 367 is potential blocking, postponed
+[2020-04-15 17:34:17.109] [basic_logger] [critical] edge 368 is potential blocking, postponed
+[2020-04-15 17:34:17.524] [basic_logger] [critical] edge 369 is potential blocking, postponed
+[2020-04-15 17:34:17.947] [basic_logger] [critical] edge 370 is potential blocking, postponed
+[2020-04-15 17:34:18.298] [basic_logger] [critical] edge 373 is potential blocking, postponed
+[2020-04-15 17:34:18.686] [basic_logger] [critical] edge 375 is potential blocking, postponed
+[2020-04-15 17:34:19.051] [basic_logger] [critical] edge 377 is potential blocking, postponed
+[2020-04-15 17:34:19.463] [basic_logger] [critical] edge 379 is potential blocking, postponed
+[2020-04-15 17:34:19.821] [basic_logger] [critical] edge 380 is potential blocking, postponed
+[2020-04-15 17:34:20.172] [basic_logger] [critical] edge 381 is potential blocking, postponed
+[2020-04-15 17:34:20.515] [basic_logger] [critical] edge 383 is potential blocking, postponed
+[2020-04-15 17:34:20.874] [basic_logger] [critical] edge 384 is potential blocking, postponed
+[2020-04-15 17:34:21.315] [basic_logger] [critical] edge 385 is potential blocking, postponed
+[2020-04-15 17:34:21.736] [basic_logger] [critical] edge 386 is potential blocking, postponed
+[2020-04-15 17:34:22.103] [basic_logger] [critical] edge 387 is potential blocking, postponed
+[2020-04-15 17:34:22.463] [basic_logger] [critical] edge 388 is potential blocking, postponed
+[2020-04-15 17:34:22.856] [basic_logger] [critical] edge 389 is potential blocking, postponed
+[2020-04-15 17:34:23.249] [basic_logger] [critical] edge 390 is potential blocking, postponed
+[2020-04-15 17:34:23.639] [basic_logger] [critical] edge 391 is potential blocking, postponed
+[2020-04-15 17:34:24.001] [basic_logger] [critical] edge 393 is potential blocking, postponed
+[2020-04-15 17:34:24.374] [basic_logger] [critical] edge 394 is potential blocking, postponed
+[2020-04-15 17:34:24.764] [basic_logger] [critical] edge 396 is potential blocking, postponed
+[2020-04-15 17:34:25.139] [basic_logger] [critical] edge 397 is potential blocking, postponed
+[2020-04-15 17:34:25.537] [basic_logger] [critical] edge 398 is potential blocking, postponed
+[2020-04-15 17:34:25.552] [basic_logger] [info] can not find any non_blocking path
+[2020-04-15 17:34:25.838] [basic_logger] [info] edge 400 is traced, 302/402 finished
+[2020-04-15 17:34:25.838] [basic_logger] [info] 2 new splits operated, total vertices 29327
+[2020-04-15 17:34:26.148] [basic_logger] [info] edge 401 is traced, 303/402 finished
+[2020-04-15 17:34:26.148] [basic_logger] [info] 2 new splits operated, total vertices 29329
+[2020-04-15 17:34:26.481] [basic_logger] [info] edge 6 is traced, 304/402 finished
+[2020-04-15 17:34:26.481] [basic_logger] [info] 6 new splits operated, total vertices 29335
+[2020-04-15 17:34:26.763] [basic_logger] [info] edge 14 is traced, 305/402 finished
+[2020-04-15 17:34:26.763] [basic_logger] [info] 3 new splits operated, total vertices 29338
+[2020-04-15 17:34:27.049] [basic_logger] [info] edge 22 is traced, 306/402 finished
+[2020-04-15 17:34:27.049] [basic_logger] [info] 4 new splits operated, total vertices 29342
+[2020-04-15 17:34:27.322] [basic_logger] [info] edge 31 is traced, 307/402 finished
+[2020-04-15 17:34:27.322] [basic_logger] [info] 2 new splits operated, total vertices 29344
+[2020-04-15 17:34:27.586] [basic_logger] [info] edge 37 is traced, 308/402 finished
+[2020-04-15 17:34:27.586] [basic_logger] [info] 0 new splits operated, total vertices 29344
+[2020-04-15 17:34:27.855] [basic_logger] [info] edge 43 is traced, 309/402 finished
+[2020-04-15 17:34:27.855] [basic_logger] [info] 2 new splits operated, total vertices 29346
+[2020-04-15 17:34:28.159] [basic_logger] [info] edge 51 is traced, 310/402 finished
+[2020-04-15 17:34:28.159] [basic_logger] [info] 2 new splits operated, total vertices 29348
+[2020-04-15 17:34:28.443] [basic_logger] [info] edge 58 is traced, 311/402 finished
+[2020-04-15 17:34:28.443] [basic_logger] [info] 1 new splits operated, total vertices 29349
+[2020-04-15 17:34:28.719] [basic_logger] [info] edge 66 is traced, 312/402 finished
+[2020-04-15 17:34:28.719] [basic_logger] [info] 2 new splits operated, total vertices 29351
+[2020-04-15 17:34:28.994] [basic_logger] [info] edge 73 is traced, 313/402 finished
+[2020-04-15 17:34:28.994] [basic_logger] [info] 5 new splits operated, total vertices 29356
+[2020-04-15 17:34:29.267] [basic_logger] [info] edge 81 is traced, 314/402 finished
+[2020-04-15 17:34:29.267] [basic_logger] [info] 1 new splits operated, total vertices 29357
+[2020-04-15 17:34:29.595] [basic_logger] [info] edge 88 is traced, 315/402 finished
+[2020-04-15 17:34:29.595] [basic_logger] [info] 2 new splits operated, total vertices 29359
+[2020-04-15 17:34:29.867] [basic_logger] [info] edge 93 is traced, 316/402 finished
+[2020-04-15 17:34:29.867] [basic_logger] [info] 0 new splits operated, total vertices 29359
+[2020-04-15 17:34:30.147] [basic_logger] [info] edge 98 is traced, 317/402 finished
+[2020-04-15 17:34:30.147] [basic_logger] [info] 1 new splits operated, total vertices 29360
+[2020-04-15 17:34:30.414] [basic_logger] [info] edge 105 is traced, 318/402 finished
+[2020-04-15 17:34:30.414] [basic_logger] [info] 0 new splits operated, total vertices 29360
+[2020-04-15 17:34:30.704] [basic_logger] [info] edge 110 is traced, 319/402 finished
+[2020-04-15 17:34:30.704] [basic_logger] [info] 2 new splits operated, total vertices 29362
+[2020-04-15 17:34:30.979] [basic_logger] [info] edge 116 is traced, 320/402 finished
+[2020-04-15 17:34:30.979] [basic_logger] [info] 4 new splits operated, total vertices 29366
+[2020-04-15 17:34:31.299] [basic_logger] [info] edge 122 is traced, 321/402 finished
+[2020-04-15 17:34:31.299] [basic_logger] [info] 7 new splits operated, total vertices 29373
+[2020-04-15 17:34:31.616] [basic_logger] [info] edge 128 is traced, 322/402 finished
+[2020-04-15 17:34:31.616] [basic_logger] [info] 0 new splits operated, total vertices 29373
+[2020-04-15 17:34:31.918] [basic_logger] [info] edge 135 is traced, 323/402 finished
+[2020-04-15 17:34:31.918] [basic_logger] [info] 6 new splits operated, total vertices 29379
+[2020-04-15 17:34:32.196] [basic_logger] [info] edge 141 is traced, 324/402 finished
+[2020-04-15 17:34:32.196] [basic_logger] [info] 0 new splits operated, total vertices 29379
+[2020-04-15 17:34:32.476] [basic_logger] [info] edge 145 is traced, 325/402 finished
+[2020-04-15 17:34:32.476] [basic_logger] [info] 0 new splits operated, total vertices 29379
+[2020-04-15 17:34:32.745] [basic_logger] [info] edge 153 is traced, 326/402 finished
+[2020-04-15 17:34:32.745] [basic_logger] [info] 3 new splits operated, total vertices 29382
+[2020-04-15 17:34:33.015] [basic_logger] [info] edge 159 is traced, 327/402 finished
+[2020-04-15 17:34:33.015] [basic_logger] [info] 0 new splits operated, total vertices 29382
+[2020-04-15 17:34:33.298] [basic_logger] [info] edge 167 is traced, 328/402 finished
+[2020-04-15 17:34:33.298] [basic_logger] [info] 6 new splits operated, total vertices 29388
+[2020-04-15 17:34:33.628] [basic_logger] [info] edge 174 is traced, 329/402 finished
+[2020-04-15 17:34:33.628] [basic_logger] [info] 8 new splits operated, total vertices 29396
+[2020-04-15 17:34:34.121] [basic_logger] [info] edge 181 is traced, 330/402 finished
+[2020-04-15 17:34:34.121] [basic_logger] [info] 1 new splits operated, total vertices 29397
+[2020-04-15 17:34:34.530] [basic_logger] [info] edge 187 is traced, 331/402 finished
+[2020-04-15 17:34:34.530] [basic_logger] [info] 0 new splits operated, total vertices 29397
+[2020-04-15 17:34:34.860] [basic_logger] [info] edge 192 is traced, 332/402 finished
+[2020-04-15 17:34:34.860] [basic_logger] [info] 4 new splits operated, total vertices 29401
+[2020-04-15 17:34:35.231] [basic_logger] [info] edge 197 is traced, 333/402 finished
+[2020-04-15 17:34:35.231] [basic_logger] [info] 2 new splits operated, total vertices 29403
+[2020-04-15 17:34:35.555] [basic_logger] [info] edge 204 is traced, 334/402 finished
+[2020-04-15 17:34:35.555] [basic_logger] [info] 0 new splits operated, total vertices 29403
+[2020-04-15 17:34:35.892] [basic_logger] [info] edge 209 is traced, 335/402 finished
+[2020-04-15 17:34:35.892] [basic_logger] [info] 4 new splits operated, total vertices 29407
+[2020-04-15 17:34:36.255] [basic_logger] [info] edge 215 is traced, 336/402 finished
+[2020-04-15 17:34:36.255] [basic_logger] [info] 4 new splits operated, total vertices 29411
+[2020-04-15 17:34:36.599] [basic_logger] [info] edge 223 is traced, 337/402 finished
+[2020-04-15 17:34:36.599] [basic_logger] [info] 2 new splits operated, total vertices 29413
+[2020-04-15 17:34:36.928] [basic_logger] [info] edge 228 is traced, 338/402 finished
+[2020-04-15 17:34:36.928] [basic_logger] [info] 2 new splits operated, total vertices 29415
+[2020-04-15 17:34:37.395] [basic_logger] [info] edge 234 is traced, 339/402 finished
+[2020-04-15 17:34:37.395] [basic_logger] [info] 5 new splits operated, total vertices 29420
+[2020-04-15 17:34:37.835] [basic_logger] [info] edge 237 is traced, 340/402 finished
+[2020-04-15 17:34:37.835] [basic_logger] [info] 2 new splits operated, total vertices 29422
+[2020-04-15 17:34:38.262] [basic_logger] [info] edge 245 is traced, 341/402 finished
+[2020-04-15 17:34:38.262] [basic_logger] [info] 1 new splits operated, total vertices 29423
+[2020-04-15 17:34:38.687] [basic_logger] [info] edge 248 is traced, 342/402 finished
+[2020-04-15 17:34:38.687] [basic_logger] [info] 0 new splits operated, total vertices 29423
+[2020-04-15 17:34:39.104] [basic_logger] [info] edge 255 is traced, 343/402 finished
+[2020-04-15 17:34:39.104] [basic_logger] [info] 4 new splits operated, total vertices 29427
+[2020-04-15 17:34:39.537] [basic_logger] [info] edge 263 is traced, 344/402 finished
+[2020-04-15 17:34:39.537] [basic_logger] [info] 5 new splits operated, total vertices 29432
+[2020-04-15 17:34:39.875] [basic_logger] [info] edge 269 is traced, 345/402 finished
+[2020-04-15 17:34:39.875] [basic_logger] [info] 1 new splits operated, total vertices 29433
+[2020-04-15 17:34:40.238] [basic_logger] [info] edge 276 is traced, 346/402 finished
+[2020-04-15 17:34:40.238] [basic_logger] [info] 2 new splits operated, total vertices 29435
+[2020-04-15 17:34:40.594] [basic_logger] [info] edge 281 is traced, 347/402 finished
+[2020-04-15 17:34:40.594] [basic_logger] [info] 3 new splits operated, total vertices 29438
+[2020-04-15 17:34:40.946] [basic_logger] [info] edge 286 is traced, 348/402 finished
+[2020-04-15 17:34:40.946] [basic_logger] [info] 1 new splits operated, total vertices 29439
+[2020-04-15 17:34:41.315] [basic_logger] [info] edge 290 is traced, 349/402 finished
+[2020-04-15 17:34:41.315] [basic_logger] [info] 11 new splits operated, total vertices 29450
+[2020-04-15 17:34:41.667] [basic_logger] [info] edge 296 is traced, 350/402 finished
+[2020-04-15 17:34:41.667] [basic_logger] [info] 1 new splits operated, total vertices 29451
+[2020-04-15 17:34:42.220] [basic_logger] [info] edge 298 is traced, 351/402 finished
+[2020-04-15 17:34:42.220] [basic_logger] [info] 0 new splits operated, total vertices 29451
+[2020-04-15 17:34:42.691] [basic_logger] [info] edge 304 is traced, 352/402 finished
+[2020-04-15 17:34:42.691] [basic_logger] [info] 1 new splits operated, total vertices 29452
+[2020-04-15 17:34:43.031] [basic_logger] [info] edge 311 is traced, 353/402 finished
+[2020-04-15 17:34:43.031] [basic_logger] [info] 9 new splits operated, total vertices 29461
+[2020-04-15 17:34:43.342] [basic_logger] [info] edge 317 is traced, 354/402 finished
+[2020-04-15 17:34:43.342] [basic_logger] [info] 6 new splits operated, total vertices 29467
+[2020-04-15 17:34:43.644] [basic_logger] [info] edge 321 is traced, 355/402 finished
+[2020-04-15 17:34:43.644] [basic_logger] [info] 11 new splits operated, total vertices 29478
+[2020-04-15 17:34:43.943] [basic_logger] [info] edge 325 is traced, 356/402 finished
+[2020-04-15 17:34:43.943] [basic_logger] [info] 1 new splits operated, total vertices 29479
+[2020-04-15 17:34:44.251] [basic_logger] [info] edge 328 is traced, 357/402 finished
+[2020-04-15 17:34:44.251] [basic_logger] [info] 5 new splits operated, total vertices 29484
+[2020-04-15 17:34:44.596] [basic_logger] [info] edge 329 is traced, 358/402 finished
+[2020-04-15 17:34:44.596] [basic_logger] [info] 2 new splits operated, total vertices 29486
+[2020-04-15 17:34:45.036] [basic_logger] [info] edge 330 is traced, 359/402 finished
+[2020-04-15 17:34:45.036] [basic_logger] [info] 3 new splits operated, total vertices 29489
+[2020-04-15 17:34:45.337] [basic_logger] [info] edge 332 is traced, 360/402 finished
+[2020-04-15 17:34:45.337] [basic_logger] [info] 0 new splits operated, total vertices 29489
+[2020-04-15 17:34:45.645] [basic_logger] [info] edge 334 is traced, 361/402 finished
+[2020-04-15 17:34:45.645] [basic_logger] [info] 0 new splits operated, total vertices 29489
+[2020-04-15 17:34:45.980] [basic_logger] [info] edge 335 is traced, 362/402 finished
+[2020-04-15 17:34:45.980] [basic_logger] [info] 0 new splits operated, total vertices 29489
+[2020-04-15 17:34:46.496] [basic_logger] [info] edge 337 is traced, 363/402 finished
+[2020-04-15 17:34:46.496] [basic_logger] [info] 0 new splits operated, total vertices 29489
+[2020-04-15 17:34:46.851] [basic_logger] [info] edge 341 is traced, 364/402 finished
+[2020-04-15 17:34:46.851] [basic_logger] [info] 1 new splits operated, total vertices 29490
+[2020-04-15 17:34:47.132] [basic_logger] [info] edge 344 is traced, 365/402 finished
+[2020-04-15 17:34:47.132] [basic_logger] [info] 2 new splits operated, total vertices 29492
+[2020-04-15 17:34:47.443] [basic_logger] [info] edge 346 is traced, 366/402 finished
+[2020-04-15 17:34:47.443] [basic_logger] [info] 1 new splits operated, total vertices 29493
+[2020-04-15 17:34:47.796] [basic_logger] [info] edge 348 is traced, 367/402 finished
+[2020-04-15 17:34:47.796] [basic_logger] [info] 1 new splits operated, total vertices 29494
+[2020-04-15 17:34:48.128] [basic_logger] [info] edge 350 is traced, 368/402 finished
+[2020-04-15 17:34:48.128] [basic_logger] [info] 3 new splits operated, total vertices 29497
+[2020-04-15 17:34:48.428] [basic_logger] [info] edge 353 is traced, 369/402 finished
+[2020-04-15 17:34:48.428] [basic_logger] [info] 9 new splits operated, total vertices 29506
+[2020-04-15 17:34:48.781] [basic_logger] [info] edge 355 is traced, 370/402 finished
+[2020-04-15 17:34:48.781] [basic_logger] [info] 2 new splits operated, total vertices 29508
+[2020-04-15 17:34:49.087] [basic_logger] [info] edge 356 is traced, 371/402 finished
+[2020-04-15 17:34:49.087] [basic_logger] [info] 4 new splits operated, total vertices 29512
+[2020-04-15 17:34:49.409] [basic_logger] [info] edge 358 is traced, 372/402 finished
+[2020-04-15 17:34:49.409] [basic_logger] [info] 0 new splits operated, total vertices 29512
+[2020-04-15 17:34:49.720] [basic_logger] [info] edge 359 is traced, 373/402 finished
+[2020-04-15 17:34:49.720] [basic_logger] [info] 3 new splits operated, total vertices 29515
+[2020-04-15 17:34:50.089] [basic_logger] [info] edge 360 is traced, 374/402 finished
+[2020-04-15 17:34:50.089] [basic_logger] [info] 0 new splits operated, total vertices 29515
+[2020-04-15 17:34:50.457] [basic_logger] [info] edge 362 is traced, 375/402 finished
+[2020-04-15 17:34:50.457] [basic_logger] [info] 0 new splits operated, total vertices 29515
+[2020-04-15 17:34:50.888] [basic_logger] [info] edge 363 is traced, 376/402 finished
+[2020-04-15 17:34:50.888] [basic_logger] [info] 1 new splits operated, total vertices 29516
+[2020-04-15 17:34:51.297] [basic_logger] [info] edge 364 is traced, 377/402 finished
+[2020-04-15 17:34:51.297] [basic_logger] [info] 7 new splits operated, total vertices 29523
+[2020-04-15 17:34:51.692] [basic_logger] [info] edge 366 is traced, 378/402 finished
+[2020-04-15 17:34:51.692] [basic_logger] [info] 1 new splits operated, total vertices 29524
+[2020-04-15 17:34:52.133] [basic_logger] [info] edge 367 is traced, 379/402 finished
+[2020-04-15 17:34:52.133] [basic_logger] [info] 0 new splits operated, total vertices 29524
+[2020-04-15 17:34:52.580] [basic_logger] [info] edge 368 is traced, 380/402 finished
+[2020-04-15 17:34:52.580] [basic_logger] [info] 4 new splits operated, total vertices 29528
+[2020-04-15 17:34:53.050] [basic_logger] [info] edge 369 is traced, 381/402 finished
+[2020-04-15 17:34:53.050] [basic_logger] [info] 1 new splits operated, total vertices 29529
+[2020-04-15 17:34:53.498] [basic_logger] [info] edge 370 is traced, 382/402 finished
+[2020-04-15 17:34:53.498] [basic_logger] [info] 6 new splits operated, total vertices 29535
+[2020-04-15 17:34:53.800] [basic_logger] [info] edge 373 is traced, 383/402 finished
+[2020-04-15 17:34:53.800] [basic_logger] [info] 2 new splits operated, total vertices 29537
+[2020-04-15 17:34:54.116] [basic_logger] [info] edge 375 is traced, 384/402 finished
+[2020-04-15 17:34:54.116] [basic_logger] [info] 1 new splits operated, total vertices 29538
+[2020-04-15 17:34:54.422] [basic_logger] [info] edge 377 is traced, 385/402 finished
+[2020-04-15 17:34:54.422] [basic_logger] [info] 0 new splits operated, total vertices 29538
+[2020-04-15 17:34:54.755] [basic_logger] [info] edge 379 is traced, 386/402 finished
+[2020-04-15 17:34:54.755] [basic_logger] [info] 1 new splits operated, total vertices 29539
+[2020-04-15 17:34:55.050] [basic_logger] [info] edge 380 is traced, 387/402 finished
+[2020-04-15 17:34:55.050] [basic_logger] [info] 2 new splits operated, total vertices 29541
+[2020-04-15 17:34:55.338] [basic_logger] [info] edge 381 is traced, 388/402 finished
+[2020-04-15 17:34:55.338] [basic_logger] [info] 3 new splits operated, total vertices 29544
+[2020-04-15 17:34:55.616] [basic_logger] [info] edge 383 is traced, 389/402 finished
+[2020-04-15 17:34:55.616] [basic_logger] [info] 1 new splits operated, total vertices 29545
+[2020-04-15 17:34:55.908] [basic_logger] [info] edge 384 is traced, 390/402 finished
+[2020-04-15 17:34:55.908] [basic_logger] [info] 0 new splits operated, total vertices 29545
+[2020-04-15 17:34:56.331] [basic_logger] [info] edge 385 is traced, 391/402 finished
+[2020-04-15 17:34:56.331] [basic_logger] [info] 5 new splits operated, total vertices 29550
+[2020-04-15 17:34:56.750] [basic_logger] [info] edge 386 is traced, 392/402 finished
+[2020-04-15 17:34:56.750] [basic_logger] [info] 14 new splits operated, total vertices 29564
+[2020-04-15 17:34:57.069] [basic_logger] [info] edge 387 is traced, 393/402 finished
+[2020-04-15 17:34:57.069] [basic_logger] [info] 0 new splits operated, total vertices 29564
+[2020-04-15 17:34:57.363] [basic_logger] [info] edge 388 is traced, 394/402 finished
+[2020-04-15 17:34:57.363] [basic_logger] [info] 0 new splits operated, total vertices 29564
+[2020-04-15 17:34:57.699] [basic_logger] [info] edge 389 is traced, 395/402 finished
+[2020-04-15 17:34:57.699] [basic_logger] [info] 1 new splits operated, total vertices 29565
+[2020-04-15 17:34:58.038] [basic_logger] [info] edge 390 is traced, 396/402 finished
+[2020-04-15 17:34:58.038] [basic_logger] [info] 4 new splits operated, total vertices 29569
+[2020-04-15 17:34:58.368] [basic_logger] [info] edge 391 is traced, 397/402 finished
+[2020-04-15 17:34:58.368] [basic_logger] [info] 15 new splits operated, total vertices 29584
+[2020-04-15 17:34:58.638] [basic_logger] [info] edge 393 is traced, 398/402 finished
+[2020-04-15 17:34:58.638] [basic_logger] [info] 1 new splits operated, total vertices 29585
+[2020-04-15 17:34:58.944] [basic_logger] [info] edge 394 is traced, 399/402 finished
+[2020-04-15 17:34:58.944] [basic_logger] [info] 0 new splits operated, total vertices 29585
+[2020-04-15 17:34:59.211] [basic_logger] [info] edge 396 is traced, 400/402 finished
+[2020-04-15 17:34:59.211] [basic_logger] [info] 3 new splits operated, total vertices 29588
+[2020-04-15 17:34:59.508] [basic_logger] [info] edge 397 is traced, 401/402 finished
+[2020-04-15 17:34:59.508] [basic_logger] [info] 0 new splits operated, total vertices 29588
+[2020-04-15 17:34:59.891] [basic_logger] [info] edge 398 is traced, 402/402 finished
+[2020-04-15 17:34:59.891] [basic_logger] [info] 10 new splits operated, total vertices 29598
