@@ -211,5 +211,5 @@ target_link_libraries(soupgen igl::core)
 set_target_properties(soupgen PROPERTIES CXX_STANDARD 17)
 
 add_executable(wiremesh src/wiremesh/wiremesh.cpp)
-target_link_libraries(wiremesh igl::core igl::cgal FloatTetwild)
+target_link_libraries(wiremesh bcclean)
 set_target_properties(wiremesh PROPERTIES CXX_STANDARD 17)
