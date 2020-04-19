@@ -213,3 +213,7 @@ set_target_properties(soupgen PROPERTIES CXX_STANDARD 17)
 add_executable(wiremesh src/wiremesh/wiremesh.cpp)
 target_link_libraries(wiremesh bcclean)
 set_target_properties(wiremesh PROPERTIES CXX_STANDARD 17)
+
+add_executable(graphcut src/label_clean/graphcut_test.cpp src/label_clean/nn.hpp)
+target_link_libraries(graphcut bcclean)
+set_target_properties(graphcut PROPERTIES CXX_STANDARD 17)

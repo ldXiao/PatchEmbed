@@ -22,7 +22,6 @@
 #include <spdlog/sinks/basic_file_sink.h>
 #include "bcclean.h"
 #include "edge.h"
-#include "graphcut_cgal.h"
 #include "patch.h"
 #include "MatchMakerTree.h"
 #include "fTetwild.h"
