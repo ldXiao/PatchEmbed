@@ -108,14 +108,14 @@ using namespace std;
     igl::readDMAT(args["label"].as<std::string>(), FLs);
     igl::read_triangle_mesh(args["target"].as<std::string>(), Vt, Ft);
     nn_transfer(Vs, Fs, FLs, Vt,Ft, FLt, VL);
-    igl::writeOBJ("../../../blenders/nn.obj", Vt, Ft);
-    igl::writeDMAT("../../../blenders/nnfl.dmat", FLt);
+    igl::writeOBJ("../../blenders/nn.obj", Vt, Ft);
+    igl::writeDMAT("../../blenders/nnfl.dmat", FLt);
     int label_num = FLs.maxCoeff()+1;
     vertex_label_vote_face_label(label_num,VL,Ft,FLt,prob_mat);
-    igl::writeDMAT("../../../blenders/vote.dmat", FLt);
+    igl::writeDMAT("../../blenders/vote.dmat", FLt);
     Eigen::MatrixXi FLt_copy = FLt;
     bcclean::refine_labels_graph_cut(Vt,Ft, prob_mat.transpose(), FLt_copy,1);
-    igl::writeDMAT("../../../blenders/gcgl.dmat", FLt_copy);
+    igl::writeDMAT("../../blenders/gcgl.dmat", FLt_copy);
     return 0;
 
 }
