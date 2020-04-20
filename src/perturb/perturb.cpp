@@ -121,7 +121,7 @@ void perturb_vertices(
     vr.resize(vertices.size());
     for(int vidx = 0; vidx < vr.size(); ++vidx)
     {
-        vr[vidx] = offset.row(vidx);
+        vr[vidx] = offset.row(vidx) + vertices[vidx];
     }
 }
 
