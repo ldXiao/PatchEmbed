@@ -198,6 +198,7 @@ int fTetwild(const Eigen::MatrixXd & V, const Eigen::MatrixXi & F, const double 
     // command_line.add_option("-l,--lr", params.ideal_edge_length_rel,
     //                         "ideal_edge_length = diag_of_bbox * L. (double, optional, default: 0.05)");
     params.ideal_edge_length_rel = edge_len_r;
+    params.eps_rel = 1e-3   ;
     // command_line.add_option("-e,--epsr", params.eps_rel,
     //                         "epsilon = diag_of_bbox * EPS. (double, optional, default: 1e-3)");
 

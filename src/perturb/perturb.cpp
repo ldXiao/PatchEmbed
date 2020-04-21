@@ -147,7 +147,10 @@ int main(int argc, char *argv[]){
             ("p, perturbation", "perturbation on target mesh", cxxopts::value<double>())
             ("s, seed","seed for random perturbation", cxxopts::value<int>())
             ("d, data_root","data root", cxxopts::value<std::string>())
-            ("t, tracing", "tracing",cxxopts::value<std::string>());
+            ("t, tracing", "tracing",cxxopts::value<std::string>())
+            ("j, jump", "skip", cxxopts::value<int>())
+            ("r, rel_len","tetwild relen",cxxopts::value<double>())
+            ("x, stop_energy", "stoppging energy", cxxopts::value<double>());
 
     auto args = options.parse(argc, argv);
     // Load a mesh in OBJ format
@@ -164,10 +167,16 @@ int main(int argc, char *argv[]){
         param.debug = true;
         param.guard_len_r = 0;
         re_tet = false;
-        param.edge_len_r = 0.01;
+
+        if(args.count("rel_len")==0){
+            param.edge_len_r = 0.01;
+        }
+        else{
+            param.edge_len_r = args["rel_len"].as<double>();
+        }
         tracing = args["tracing"].as<std::string>();
         param.tracing = tracing;
-        param.stop_eng = 10;
+        param.stop_eng = args["stop_energy"].as<double>();
         param.merge_threshold = 0;
         param.backtrack_threshold = args["btthreshold"].as<double>();
     }
@@ -226,7 +235,14 @@ int main(int argc, char *argv[]){
     std::map<int, std::map<int, int> > ComponentsLabelMaps;
     decomposeVFL(V_bad, F_bad, FL_bad, vfls, ComponentsLabelMaps);
     for(int cc= 0; cc < vfls.size(); ++cc)
-    {
+    {   
+        if(args.count("jump")>0)
+        {
+            if(cc < args["jump"].as<int>())
+            {
+                continue;
+            }
+        }
         Eigen::MatrixXd CCV_bad = std::get<0>(vfls[cc]);
         Eigen::MatrixXi CCF_bad = std::get<1>(vfls[cc]);
         Eigen::VectorXi CCFL_bad = std::get<2>(vfls[cc]);
@@ -257,7 +273,7 @@ int main(int argc, char *argv[]){
         if(!file_exists || re_tet){
 
             std::string out_tet_path= param.data_root+"/CC"+std::to_string(cc)+"/tet.mesh";
-            bcclean::Tet::fTetwild(CCV_bad, CCF_bad, param.edge_len_r,stop_eng, CCV_good, CCF_good, out_tet_path);
+            bcclean::Tet::fTetwild(CCV_bad, CCF_bad, param.edge_len_r,param.stop_eng, CCV_good, CCF_good, out_tet_path);
             igl::writeOBJ(output_file_good, CCV_good, CCF_good);
         }
         else{
@@ -272,11 +288,12 @@ int main(int argc, char *argv[]){
         json result_json;
         int betti_bad=Betti(CCV_bad, CCF_bad);
         int betti_good=Betti(CCV_good, CCF_good);
+        result_json["consistant topology"] = true;
         if(betti_bad!= betti_good)
         {
             std::cout << "Inconsisitant topology, abort" << std::endl;
             result_json["consistant topology"] = false;
-            continue;
+            // continue;
         }
         {
             Eigen::VectorXi CCFC;
@@ -288,7 +305,7 @@ int main(int argc, char *argv[]){
                 continue;
             }
         }
-        result_json["consistant topology"] = true;
+        
 
         if(param.upsp> 0)
         {
