@@ -9,8 +9,8 @@
 #include "igl_dev/tet_split.h"
 #include "igl_dev/tetrahedron_tetrahedron_adjacency.h"
 
-#define TEST_FILE "../data/2/CC0/tet.mesh"
-#define SPLIT_FILE "../data/2/CC0/splits_record.dmat"
+#define TEST_FILE "/tet.mesh"
+#define SPLIT_FILE "/splits_record.dmat"
 
 void reader(std::string filename, std::vector<Vec3d>& V, std::vector<Vec3i>& F,
             std::vector<Vec4i>& T, std::vector<int>& FT,
@@ -49,7 +49,7 @@ void record_reader(std::string filename, Eigen::MatrixXd& record_mat) {
   spdlog::trace("sum first row = {}", sum);
 }
 
-int main() {
+int main(int argc, char * argv[]) {
   spdlog::set_level(spdlog::level::trace);
 
   std::vector<Vec3d> V;
@@ -57,10 +57,10 @@ int main() {
   std::vector<Vec4i> T, TT, TTif;
   std::vector<Eigen::Matrix<int, 4, 3>> TTie;
   std::vector<int> FT, FTi;
-
+  std::string dir = argv[1];
   Eigen::MatrixXd record_mat;
-  record_reader(SPLIT_FILE, record_mat);
-  reader(TEST_FILE, V, F, T, FT, FTi);
+  record_reader(dir+SPLIT_FILE, record_mat);
+  reader(dir+TEST_FILE, V, F, T, FT, FTi);
   igl::dev::tetrahedron_tetrahedron_adjacency(T, TT, TTif, TTie);
 
   // create hashing structure.
@@ -96,7 +96,7 @@ int main() {
       return -1;
     }
   }
-  writer("temp.mesh", V, T);
+  writer(dir+"/temp.mesh", V, T);
   spdlog::info("Vert{}  Tets{}", V.size(), T.size());
   return 0;
 }

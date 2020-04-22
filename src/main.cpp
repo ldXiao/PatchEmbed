@@ -239,7 +239,7 @@ int main(int argc, char *argv[]){
         {
             std::cout << "Inconsisitant topology, abort" << std::endl;
             result_json["consistant topology"] = false;
-            continue;
+            // continue;
         }
         {
             Eigen::VectorXi CCFC;
