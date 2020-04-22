@@ -51,7 +51,8 @@ namespace MatchMaker{
         Eigen::MatrixXi & F_good,
         Eigen::VectorXi & FL_good,
         const params param,
-        std::shared_ptr<spdlog::logger> logger
+        std::shared_ptr<spdlog::logger> logger,
+        result_measure & rm
     ); 
 }
 }

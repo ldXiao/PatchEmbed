@@ -29,5 +29,12 @@ namespace bcclean{
             merge_threshold = 0.01;
         }
     };
+
+    class result_measure{
+        public:
+        double area_rel_diff=-1;
+        double peri_rel_diff=-1;
+        int remain_patch_num=-1;
+    };
 }
 #endif // BCCLEAN_PARAM_H

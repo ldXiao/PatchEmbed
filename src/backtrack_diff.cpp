@@ -60,12 +60,11 @@ namespace MatchMaker{
         return true;
     }
 
-    bool backtrack_diff(
+    double backtrack_diff(
         const std::vector<Eigen::RowVector3d> & V_good,
         const CellularGraph & cg,
         const int pidx,
-        const std::map<int, std::vector<int> > & edge_path_map,
-        const double threshold
+        const std::map<int, std::vector<int> > & edge_path_map
     ){
         // the first step is to check wether the  orientation has been inverted.
         // postone 
@@ -82,11 +81,8 @@ namespace MatchMaker{
             total_len_good += path_len(V_good, path_good);
             total_len_bad += path_len(cg._vertices, path_bad);
         }
-         max_rel_dif = std::max(max_rel_dif, std::abs(total_len_good/total_len_bad -1));
-        if(max_rel_dif > threshold){
-            return false;
-        }
-        return true;
+        max_rel_dif = std::max(max_rel_dif, std::abs(total_len_good/total_len_bad -1));
+        return max_rel_dif;
     }
 }
 }

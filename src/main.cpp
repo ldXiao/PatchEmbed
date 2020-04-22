@@ -36,6 +36,7 @@
 #include <unordered_map>
 #include <tuple>
 #include <yaml-cpp/yaml.h>
+#include <chrono> 
 using VFL = std::tuple<Eigen::MatrixXd, Eigen::MatrixXi, Eigen::VectorXi>;
 
 int Betti(const Eigen::MatrixXd & V, const Eigen::MatrixXi & F)
@@ -269,7 +270,9 @@ int main(int argc, char *argv[]){
         bool succeed= false;
         bcclean::params param_copy = param;
         param_copy.data_root = CC_work_dir;
+        int vini = CCV_good.rows();
         bcclean::CellularGraph cg;
+        int remain_patch_num = -1;
         cg = bcclean::CellularGraph::GenCellularGraph(bcclean::patch::Vbase, bcclean::patch::Fbase, bcclean::patch::FL_mod);
         if(cg._nodes.size()==0)
         {
@@ -278,9 +281,12 @@ int main(int argc, char *argv[]){
             o3 << result_json;
             continue;
         }
+        bcclean::result_measure rm;
+        // / Get starting timepoint 
+        auto start = std::chrono::high_resolution_clock::now(); 
         if(tracing=="loop"){
             try{
-                succeed = bcclean::MatchMaker::MatchMakerPatch(cg,CCV_good, CCF_good, CCFL_good, param_copy, file_logger);
+                succeed = bcclean::MatchMaker::MatchMakerPatch(cg,CCV_good, CCF_good, CCFL_good, param_copy, file_logger, rm);
             }
             catch(...)
             {
@@ -290,7 +296,7 @@ int main(int argc, char *argv[]){
         } else if (tracing == "tree")
         {
             try{
-            succeed=bcclean::MatchMaker::MatchMakerTree(cg,CCV_good, CCF_good, CCFL_good, param_copy, file_logger); 
+            succeed=bcclean::MatchMaker::MatchMakerTree(cg,CCV_good, CCF_good, CCFL_good, param_copy, file_logger, rm); 
             }
             catch(...)
             {
@@ -298,6 +304,7 @@ int main(int argc, char *argv[]){
                 succeed = false;
             }
         }
+        auto stop = std::chrono::high_resolution_clock::now();
         if(param.debug)
         {
             
@@ -320,9 +327,13 @@ int main(int argc, char *argv[]){
             for(auto item: path_good.items())
             {
                 double err;
-                
-                err = bcclean::Eval::hausdorff1d(bcclean::patch::Vbase, path_bad[item.key()], CCV_good, item.value());
-                
+                try{
+                    err = bcclean::Eval::hausdorff1d(bcclean::patch::Vbase, path_bad[item.key()], CCV_good, item.value());
+                }
+                catch(...)
+                {
+                    continue;
+                }
                 if(max_error< err)
                 {
                     max_error = err;
@@ -332,6 +343,13 @@ int main(int argc, char *argv[]){
             std::cout<< "finished, maxerr:" << max_error/dd << std::endl; 
             result_json["succeed"]= succeed;
             result_json["maxerr"]= max_error/dd;
+            auto duration = std::chrono::duration_cast<std::chrono::minutes>(stop - start); 
+            result_json["duration"] = duration.count();
+            result_json["vnum_ini"] = vini;
+            result_json["vnum_fin"] = CCV_good.rows();
+            result_json["remain_patch_num"] =rm.remain_patch_num;
+            result_json["area_rel_diff"] = rm.area_rel_diff;
+            result_json["peri_rel_diff"] = rm.peri_rel_diff;
             o3 << result_json;
         }
 

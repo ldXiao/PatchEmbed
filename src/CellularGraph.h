@@ -27,6 +27,7 @@ namespace bcclean{
             const Eigen::MatrixXd & V, 
             const Eigen::MatrixXi & F, 
             const Eigen::VectorXi & FL);
+
     };
 
     void _gen_node_CCedges_dict(

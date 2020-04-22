@@ -349,10 +349,11 @@ int main(int argc, char *argv[]){
             o3 << result_json;
             continue;
         }
+        bcclean::result_measure rm;
         if(tracing=="loop"){
             try{
                 
-                succeed = bcclean::MatchMaker::MatchMakerPatch(cg,CCV_rand, CCF_good, CCFL_good, param_copy, file_logger);
+                succeed = bcclean::MatchMaker::MatchMakerPatch(cg,CCV_rand, CCF_good, CCFL_good, param_copy, file_logger, rm);
             }
             catch(...)
             {
@@ -364,7 +365,7 @@ int main(int argc, char *argv[]){
             try{
                 
                 
-                succeed=bcclean::MatchMaker::MatchMakerTree(cg,CCV_rand, CCF_good, CCFL_good, param_copy, file_logger); 
+                succeed=bcclean::MatchMaker::MatchMakerTree(cg,CCV_rand, CCF_good, CCFL_good, param_copy, file_logger, rm); 
             }
             catch(...)
             {

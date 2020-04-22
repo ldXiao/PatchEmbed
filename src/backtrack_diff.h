@@ -19,12 +19,11 @@ namespace MatchMaker{
         const double threshold
     );
 
-    bool backtrack_diff(
+    double backtrack_diff(
         const std::vector<Eigen::RowVector3d> & V_good,
         const CellularGraph & cg,
         const int pidx,
-        const std::map<int, std::vector<int> > & edge_path_map,
-        const double threshold
+        const std::map<int, std::vector<int> > & edge_path_map
     );
 
     double path_len(const std::vector<Eigen::RowVector3d> & V, 

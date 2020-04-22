@@ -205,7 +205,8 @@ namespace MatchMaker{
         Eigen::MatrixXi & F_good,
         Eigen::VectorXi & FL_good,
         const params param,
-        std::shared_ptr<spdlog::logger> logger
+        std::shared_ptr<spdlog::logger> logger,
+        result_measure & rm
     )
     {
 
@@ -248,7 +249,7 @@ namespace MatchMaker{
         build_dual_frame_graph(cg._edge_list, dual_frame_graph);
 
         std::vector<int> patch_order = Algo::Graph_BFS(dual_frame_graph, largest_patch);
-
+        rm.remain_patch_num = patch_order.size();
 
         TraceComplex tc;
         tc.initialize(V_good,F_good);
@@ -282,7 +283,7 @@ namespace MatchMaker{
             bool curpatch_succ = true;  
             /* copy part */
             TraceComplex tc_copy = tc;
-            
+            result_measure rm_copy = rm;
             
             
             std::map<int, bool> edge_visit_dict_copy = edge_visit_dict;
@@ -409,14 +410,18 @@ namespace MatchMaker{
                 int ff_in = _locate_seed_face(cg, tc, patch_idx);
                 double newarea = (loop_colorize(tc._V, tc._F, tc._TEdges, ff_in, patch_idx, tc._FL)).second;
                 double target_area = cg._patch_area_dict.at(patch_idx);
-                bool area_withinthreshold = (std::abs(newarea/target_area) < arthreshold);
-                withinthreshold=(backtrack_diff(
+                double area_rel_diff = std::abs(newarea/target_area-1);
+                bool area_withinthreshold = ( area_rel_diff< arthreshold);
+                double perimeter_rel_diff=backtrack_diff(
                     tc._V,
                     cg,
                     patch_idx,
-                    tc._edge_path_map,
-                    bcthreshold
-                ) && area_withinthreshold) || (switch_count > 5);
+                    tc._edge_path_map
+                );
+                rm.area_rel_diff = std::max(rm.area_rel_diff, area_rel_diff);
+                rm.peri_rel_diff = std::max(rm.peri_rel_diff, perimeter_rel_diff);
+                rm.remain_patch_num -= 1;
+                withinthreshold = ((perimeter_rel_diff < bcthreshold) && area_withinthreshold) || (switch_count > 5);
             }
             if(!withinthreshold && !(all_edge_traced))
             {
@@ -431,6 +436,7 @@ namespace MatchMaker{
                 /* copy part*/
                 /* copy part */
                 tc = tc_copy;
+                rm = rm_copy;
                 edge_visit_dict = edge_visit_dict_copy;
                 node_edge_visit_dict = node_edge_visit_dict_copy;
                 path_json = path_json_copy;
@@ -555,9 +561,13 @@ namespace MatchMaker{
             // Bijection::BijGlobal(cg,cgt, M_s2t);
             // Eigen::MatrixXd Vmap=igl::barycentric_to_global(cgt.V, cgt.F, M_s2t);
             // igl::writeOBJ(param.data_root+"/map.obj", Vmap, cg.F);
+            rm.remain_patch_num = 0;
             return true;
         }
-        else return false;
+        else {
+            return false;
+            rm.remain_patch_num = recycle.size();
+        }
 
     }
 

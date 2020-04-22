@@ -1,4 +1,5 @@
 #include "proj_node.h"
+#include "backtrack_diff.h"
 #include "loop_colorize.h"
 #include "Kruskal.h"
 #include <igl/slice.h>
@@ -500,7 +501,8 @@ namespace MatchMaker{
         Eigen::MatrixXi & F_good,
         Eigen::VectorXi & FL_good,
         const params param,
-        std::shared_ptr<spdlog::logger> logger
+        std::shared_ptr<spdlog::logger> logger,
+        result_measure & rm
     )
     {
         int total_label_num = cg.label_num;
@@ -730,13 +732,25 @@ namespace MatchMaker{
             return false;
         }
 
-
+        rm.remain_patch_num = cg._patch_area_dict.size();
         for(auto item: cg._patch_edge_dict)
         {
             int patch_idx = item.first;
 
             int ff_in = _locate_seed_face(cg, tc, patch_idx);
             std::pair<int, double> pair_temp=loop_colorize(tc._V, tc._F, tc._TEdges,ff_in, patch_idx, tc._FL);
+            double newarea = pair_temp.second;
+            double target_area = cg._patch_area_dict.at(patch_idx);
+            double area_rel_diff = std::abs(newarea/target_area-1);
+            double perimeter_rel_diff= backtrack_diff(
+                tc._V,
+                cg,
+                patch_idx,
+                tc._edge_path_map
+            );
+            rm.area_rel_diff = std::max(rm.area_rel_diff, area_rel_diff);
+            rm.peri_rel_diff = std::max(rm.peri_rel_diff, perimeter_rel_diff);
+            rm.remain_patch_num -= 1;
             assert(pair_temp.first != tc._F.size());
         }
         if(param.debug)
