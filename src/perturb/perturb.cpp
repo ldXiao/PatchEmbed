@@ -147,10 +147,7 @@ int main(int argc, char *argv[]){
             ("p, perturbation", "perturbation on target mesh", cxxopts::value<double>())
             ("s, seed","seed for random perturbation", cxxopts::value<int>())
             ("d, data_root","data root", cxxopts::value<std::string>())
-            ("t, tracing", "tracing",cxxopts::value<std::string>())
-            ("j, jump", "skip", cxxopts::value<int>())
-            ("r, rel_len","tetwild relen",cxxopts::value<double>())
-            ("x, stop_energy", "stoppging energy", cxxopts::value<double>());
+            ("t, tracing", "tracing",cxxopts::value<std::string>());
 
     auto args = options.parse(argc, argv);
     // Load a mesh in OBJ format
@@ -236,13 +233,6 @@ int main(int argc, char *argv[]){
     decomposeVFL(V_bad, F_bad, FL_bad, vfls, ComponentsLabelMaps);
     for(int cc= 0; cc < vfls.size(); ++cc)
     {   
-        if(args.count("jump")>0)
-        {
-            if(cc < args["jump"].as<int>())
-            {
-                continue;
-            }
-        }
         Eigen::MatrixXd CCV_bad = std::get<0>(vfls[cc]);
         Eigen::MatrixXi CCF_bad = std::get<1>(vfls[cc]);
         Eigen::VectorXi CCFL_bad = std::get<2>(vfls[cc]);

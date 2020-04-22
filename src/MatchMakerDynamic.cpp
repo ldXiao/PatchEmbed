@@ -12,6 +12,8 @@
 #include <igl/list_to_matrix.h>
 #include <igl/matrix_to_list.h>
 #include <igl/barycentric_to_global.h>
+#include <igl/writePLY.h>
+#include <igl/per_vertex_normals.h>
 #include <algorithm>
 #include "Edge_Dijkstra.h"
 #include "CellularGraph.h"
@@ -20,12 +22,52 @@
 #include "TransferCellGraph.h"
 #include "Patch_Bijection.h"
 #include "helper.h"
+
 /* BTCMM means backtracking cellular matchmaker */
 namespace bcclean{
 namespace MatchMaker{
     using json = nlohmann::json;
 
- 
+    void writePlyColor(std::string name,const Eigen::MatrixXd & Vsoup, const Eigen::MatrixXi & Fsoup, const Eigen::MatrixXd & Nsoup, const Eigen::MatrixXi Csoup)
+
+    {
+        std::ofstream file;
+        file.open(name);
+        file << "ply\n";
+        file << "format ascii 1.0\n";
+        file << "element vertex " <<Vsoup.rows() << "\n";
+        file << "property double x\n";
+        file <<"property double y\n";
+        file << "property double z\n";
+        file <<"property double nx\n";
+        file <<"property double ny\n";
+        file <<"property double nz\n";
+        file <<"property uchar red\n";
+        file <<"property uchar green\n";
+        file <<"property uchar blue\n";
+        file <<"element face " << Fsoup.rows() << "\n";
+        file <<"property list uchar int vertex_indices\n";
+        file <<"end_header\n";
+        for(int vidx =0 ; vidx < Vsoup.rows(); ++vidx)
+        {
+            file << Vsoup(vidx,0) <<" ";
+            file << Vsoup(vidx,1) <<" ";
+            file << Vsoup(vidx,2) <<" ";
+            file << Nsoup(vidx,0) <<" ";
+            file << Nsoup(vidx,1) <<" ";
+            file << Nsoup(vidx,2) <<" ";
+            file << Csoup(vidx,0) <<" ";
+            file << Csoup(vidx,1) <<" ";
+            file << Csoup(vidx,2) <<"\n";
+        }
+        for(int fidx = 0; fidx < Fsoup.rows(); ++fidx)
+        {
+            file << 3 << " ";
+            file << Fsoup(fidx,0) << " ";
+            file << Fsoup(fidx,1) << " ";
+            file << Fsoup(fidx,2) << "\n";
+        }
+    }
 
     void build_dual_frame_graph(
         const std::vector<bcclean::edge> edge_list,
@@ -395,7 +437,7 @@ namespace MatchMaker{
                     }
                 else {
                     cur_len += path_len(tc._V, tc._edge_path_map.at(edge_idx));
-                    if(std::abs(cur_len/target_len -1) > bcthreshold || switch_count > 5)
+                    if(cur_len/target_len -1 > bcthreshold && switch_count < 5)
                     {
                         curpatch_succ = false;
                         break;
@@ -555,12 +597,37 @@ namespace MatchMaker{
             }
         }
         if(recycle.empty()){
-            // CellularGraph cgt;
-            // Bijection::TransferCellGraph(cg, tc, cgt);
-            // Eigen::MatrixXd M_s2t;
-            // Bijection::BijGlobal(cg,cgt, M_s2t);
-            // Eigen::MatrixXd Vmap=igl::barycentric_to_global(cgt.V, cgt.F, M_s2t);
-            // igl::writeOBJ(param.data_root+"/map.obj", Vmap, cg.F);
+            try{
+                CellularGraph cgt;
+                Bijection::TransferCellGraph(cg, tc, cgt);
+                Eigen::MatrixXd M_t2s;
+                Bijection::BijGlobal(cgt,cg, M_t2s);
+                Eigen::MatrixXd textureC = Eigen::MatrixXd::Constant(cg.V.rows(),3,0);
+                Eigen::MatrixXd textureCt = Eigen::MatrixXd::Constant(cgt.V.rows(),3,0);
+                double h = igl::bounding_box_diagonal(cg.V);
+                int p = 20;
+                for(int vidx = 0; vidx < cg.V.rows(); ++ vidx)
+                {
+                    textureC.row(vidx) = 255 * Eigen::RowVector3d(std::pow(std::sin(p* cg.V(vidx,0)/h),2), std::pow(std::sin(p* cg.V(vidx,1)),2), std::pow(std::sin(p * cg.V(vidx, 2)),2));
+                }
+
+                textureCt = igl::barycentric_to_global(textureC, cg.F, M_t2s);
+                Eigen::MatrixXd Nt;
+                igl::per_vertex_normals(cgt.V,cgt.F, Nt);
+                Eigen::MatrixXi textureCtI = Eigen::MatrixXi::Constant(textureCt.rows(),3,0);
+                for(int vidx = 0 ; vidx < textureCtI.rows(); ++vidx)
+                {
+                    textureCtI.row(vidx) = Eigen::RowVector3i((int)textureCt(vidx,0), (int)textureCt(vidx,1),(int)textureCt(vidx,2));
+                }
+                writePlyColor(param.data_root+"/map.ply",cgt.V, cgt.F,Nt, textureCtI);
+                // Eigen::MatrixXd Vmap=igl::barycentric_to_global(cgt.V, cgt.F, M_s2t);
+                // igl::writeOBJ(param.data_root+"/map.obj", Vmap, cg.F);
+
+            }
+            catch(...)
+            {
+                std::cout << " textture gen failed" << std::endl;
+            }
             rm.remain_patch_num = 0;
             return true;
         }
