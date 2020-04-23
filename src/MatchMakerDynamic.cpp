@@ -22,11 +22,43 @@
 #include "TransferCellGraph.h"
 #include "Patch_Bijection.h"
 #include "helper.h"
+#include <igl/isolines.h>
 
 /* BTCMM means backtracking cellular matchmaker */
 namespace bcclean{
 namespace MatchMaker{
     using json = nlohmann::json;
+    void ShiftAdjacentLargestPatch(
+        const std::vector<std::pair<int, std::pair<int, int> > > & patch_graph, 
+        const std::map<int,bool> & finish_dict,
+        const std::map<int, double> & patch_area_dict,
+        std::list<int> & patch_list
+    )
+    {
+        // shift the the adjacent largest patch to the front
+        std::vector<int> adjacent_patch_list;
+        int target = -1;
+        double largest_area = -1;
+        for(auto item: patch_graph)
+        {
+            auto edg = item.second;
+            int another = -1;
+            if(!finish_dict.at(edg.first) && finish_dict.at(edg.second))
+            {
+                target = (patch_area_dict.at(edg.first) > largest_area)? edg.first : target;
+                largest_area = std::max(patch_area_dict.at(edg.first), largest_area);
+            }
+            if(!finish_dict.at(edg.second) && finish_dict.at(edg.first))
+            {
+                target = (patch_area_dict.at(edg.second) > largest_area)? edg.second : target;
+                largest_area = std::max(patch_area_dict.at(edg.second),largest_area);
+            }
+        }
+        if(target != -1){
+            patch_list.remove(target);
+            patch_list.push_front(target);
+        }
+    }
 
     void writePlyColor(std::string name,const Eigen::MatrixXd & Vsoup, const Eigen::MatrixXi & Fsoup, const Eigen::MatrixXd & Nsoup, const Eigen::MatrixXi Csoup)
 
@@ -317,6 +349,11 @@ namespace MatchMaker{
         }
         std::list<int> patch_queue(patch_order.begin(), patch_order.end());
         std::list<int> recycle;
+        std::map<int, bool> patch_finished_dict;
+        for(auto item : cg._patch_edge_dict)
+        {
+            patch_finished_dict[item.first] = false;
+        }
         int switch_count  = 0;
         double bcthreshold = param.backtrack_threshold;
         double arthreshold = param.area_threshold;
@@ -473,7 +510,16 @@ namespace MatchMaker{
                 // abort the result in this loop
                 recycle.push_back(patch_idx);
                 // reverse copy everything
-                std::cout << "patch" << patch_idx << "postponed" << std::endl;
+                if(param.debug)
+                {
+                    Eigen::MatrixXi F;
+                    Helper::to_matrix(tc._F, F);
+                    Eigen::MatrixXd V;
+                    Helper::to_matrix(tc._V, V);
+                    igl::writeOBJ(param.data_root+"/debug_mesh_postpone.obj", V, F);
+                    igl::writeDMAT(param.data_root+"/FL_loop_postpone.dmat", tc._FL);
+                }
+                std::cout<< "patch" << patch_idx << "postponed" << std::endl;
 
                 /* copy part*/
                 /* copy part */
@@ -485,6 +531,7 @@ namespace MatchMaker{
             }
             else
             {
+                // accept the traced patch
                 if(param.debug)
                 {
                     Eigen::MatrixXi F;
@@ -494,6 +541,9 @@ namespace MatchMaker{
                     igl::writeOBJ(param.data_root+"/debug_mesh.obj", V, F);
                     igl::writeDMAT(param.data_root+"/FL_loop.dmat", tc._FL);
                 }
+                patch_finished_dict[patch_idx] = true;
+                ShiftAdjacentLargestPatch(dual_frame_graph, patch_finished_dict, cg._patch_area_dict, patch_queue);
+                // first move the largest adjacent patch
 
                 // loop over patch_queue and  recycle to find patches that where all edges has been traced
                 // and place them at the front of patch_queue
