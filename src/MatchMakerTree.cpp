@@ -732,7 +732,7 @@ namespace MatchMaker{
             return false;
         }
 
-        rm.remain_patch_num = cg._patch_area_dict.size();
+        rm.remain_patch_num = cg._patch_edge_dict.size();
         for(auto item: cg._patch_edge_dict)
         {
             int patch_idx = item.first;
