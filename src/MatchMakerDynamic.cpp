@@ -648,10 +648,11 @@ namespace MatchMaker{
         }
         if(recycle.empty()){
             try{
-                // CellularGraph cgt;
-                // Bijection::TransferCellGraph(cg, tc, cgt);
-                // Eigen::MatrixXd M_t2s;
-                // Bijection::BijGlobal(cgt,cg, M_t2s);
+                CellularGraph cgt;
+                Bijection::TransferCellGraph(cg, tc, cgt);
+                Eigen::MatrixXd M_t2s;
+                Bijection::BijGlobal(cgt,cg, M_t2s);
+                igl::writeDMAT(param.data_root+"/mapt2s.dmat", M_t2s);
                 // Eigen::MatrixXd textureC = Eigen::MatrixXd::Constant(cg.V.rows(),3,0);
                 // Eigen::MatrixXd textureCt = Eigen::MatrixXd::Constant(cgt.V.rows(),3,0);
                 // double h = igl::bounding_box_diagonal(cg.V);
@@ -673,7 +674,7 @@ namespace MatchMaker{
                 // Eigen::MatrixXd Vmap=igl::barycentric_to_global(cgt.V, cgt.F, M_s2t);
                 // igl::writeOBJ(param.data_root+"/map.obj", Vmap, cg.F);
                 auto x = 1;
-                
+
 
             }
             catch(...)
