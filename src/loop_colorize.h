@@ -6,6 +6,7 @@
 #include <queue>
 #include <igl/triangle_triangle_adjacency.h>
 #include <utility>
+#include <tuple>
 #include "TraceComplex.h"
 namespace bcclean
 {
@@ -17,5 +18,12 @@ namespace bcclean
     const int lb,
     std::vector<int> & FL);
 
+    std::tuple<int, int, double> loop_colorize_top(
+    const std::vector<Eigen::RowVector3d> & V, 
+    const std::vector<Eigen::RowVector3i> & F, 
+    const std::vector<std::vector<int> > & TEdges,
+    const int face_seed,
+    const int lb,
+    std::vector<int> & FL);
 }
 #endif //BCCLEAN_LOOP_COLORIZE_H

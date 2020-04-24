@@ -487,7 +487,10 @@ namespace MatchMaker{
             if(curpatch_succ){
                 // if the current is traced successfully, we go on to compare the difference
                 int ff_in = _locate_seed_face(cg, tc, patch_idx);
-                double newarea = (loop_colorize(tc._V, tc._F, tc._TEdges, ff_in, patch_idx, tc._FL)).second;
+                std::tuple<int, int, double> Ctuple = loop_colorize_top(tc._V, tc._F, tc._TEdges, ff_in, patch_idx, tc._FL);
+                double newarea = std::get<2>(Ctuple);
+                int betti = std::get<1>(Ctuple); 
+
                 double target_area = cg._patch_area_dict.at(patch_idx);
                 double area_rel_diff = std::abs(newarea/target_area-1);
                 bool area_withinthreshold = ( area_rel_diff< arthreshold);
@@ -501,6 +504,10 @@ namespace MatchMaker{
                 rm.peri_rel_diff = std::max(rm.peri_rel_diff, perimeter_rel_diff);
                 rm.remain_patch_num -= 1;
                 withinthreshold = ((perimeter_rel_diff < bcthreshold) && area_withinthreshold) || (switch_count > 5);
+                if(betti!=1){
+                    // the patch region is not a disk
+                    withinthreshold = false;
+                }
             }
             if(!withinthreshold && !(all_edge_traced))
             {

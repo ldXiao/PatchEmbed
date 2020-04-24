@@ -1,6 +1,0 @@
-setup.py
-pybcclean.egg-info/PKG-INFO
-pybcclean.egg-info/SOURCES.txt
-pybcclean.egg-info/dependency_links.txt
-pybcclean.egg-info/not-zip-safe
-pybcclean.egg-info/top_level.txt

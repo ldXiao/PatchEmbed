@@ -178,6 +178,8 @@ set(SOURCES
     src/slim_hard_constr.cpp 
     src/helper.h
     src/helper.cpp
+    src/Betti.h
+    src/Betti.cpp 
 )
 add_library(bcclean ${SOURCES})
 target_link_libraries(bcclean PUBLIC

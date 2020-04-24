@@ -16,11 +16,11 @@
 #include <igl/boundary_facets.h>
 #include <igl/remove_unreferenced.h>
 #include <igl/bounding_box_diagonal.h>
-#include <igl/edges.h>
 #include <Eigen/Core>
 #include <spdlog/spdlog.h>
 #include <spdlog/sinks/basic_file_sink.h>
 #include "bcclean.h"
+#include "Betti.h"
 #include "edge.h"
 #include "patch.h"
 #include "MatchMakerTree.h"
@@ -38,13 +38,6 @@
 #include <yaml-cpp/yaml.h>
 #include <chrono> 
 using VFL = std::tuple<Eigen::MatrixXd, Eigen::MatrixXi, Eigen::VectorXi>;
-
-int Betti(const Eigen::MatrixXd & V, const Eigen::MatrixXi & F)
-{
-    Eigen::MatrixXi E;
-    igl::edges(F,E);
-    return V.rows() - E.rows() + F.rows();
-}
 
 void decomposeVFL(const Eigen::MatrixXd & V, const Eigen::MatrixXi & F, const Eigen::VectorXi & FL, std::map<int, VFL> & vfls, std::map<int, std::map<int, int> > & cc_label_map)
 {
@@ -234,8 +227,8 @@ int main(int argc, char *argv[]){
         std::filesystem::create_directories(CC_work_dir);
         std::ofstream o3(CC_work_dir+"/result"+tracing+".json");
         json result_json;
-        int betti_bad=Betti(CCV_bad, CCF_bad);
-        int betti_good=Betti(CCV_good, CCF_good);
+        int betti_bad=bcclean::Betti(CCV_bad, CCF_bad);
+        int betti_good=bcclean::Betti(CCV_good, CCF_good);
         if(betti_bad!= betti_good)
         {
             std::cout << "Inconsisitant topology, abort" << std::endl;

@@ -1,10 +1,3 @@
-// This file is part of libigl, a simple c++ geometry processing library.
-//
-// Copyright (C) 2017 Zhongshi Jiang <zhongshi@cims.nyu.edu>
-//
-// This Source Code Form is subject to the terms of the Mozilla Public License
-// v. 2.0. If a copy of the MPL was not distributed with this file, You can
-// obtain one at http://mozilla.org/MPL/2.0/.
 #include "tetrahedron_tetrahedron_adjacency.h"
 #include "igl/all_edges.h"
 #include "igl/unique_simplices.h"
