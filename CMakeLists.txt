@@ -216,9 +216,9 @@ add_executable(wiremesh src/wiremesh/wiremesh.cpp)
 target_link_libraries(wiremesh bcclean)
 set_target_properties(wiremesh PROPERTIES CXX_STANDARD 17)
 
-add_executable(difftop src/difftop/difftop.cpp)
-target_link_libraries(difftop bcclean)
-set_target_properties(difftop PROPERTIES CXX_STANDARD 17)
+add_executable(annotation src/annotation/annotation.cpp)
+target_link_libraries(annotation bcclean)
+set_target_properties(annotation PROPERTIES CXX_STANDARD 17)
 
 add_executable(graphcut src/label_clean/graphcut_test.cpp src/label_clean/nn.hpp)
 target_link_libraries(graphcut bcclean)

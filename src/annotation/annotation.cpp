@@ -208,7 +208,7 @@ int main(int argc, char *argv[]){
     std::map<int, VFL> vfls;
     std::map<int, std::map<int, int> > ComponentsLabelMaps;
     decomposeVFL(V_bad, F_bad, FL_bad, vfls, ComponentsLabelMaps);
-    for(int cc= 2; cc < vfls.size(); ++cc)
+    for(int cc= 0; cc < vfls.size(); ++cc)
     {   
         Eigen::MatrixXd CCV_bad = std::get<0>(vfls[cc]);
         Eigen::MatrixXi CCF_bad = std::get<1>(vfls[cc]);
@@ -236,9 +236,6 @@ int main(int argc, char *argv[]){
                 std::printf("good mesh exists for components %d\n", cc);
             }
         }
-        Eigen::MatrixXd CCV_good_copy = CCV_good;
-        perturb_mesh(CCV_good_copy, CCF_good, args["perturbation"].as<double>(), args["seed"].as<int>(), CCV_good);
-        
         
         if(!file_exists || re_tet){
 
