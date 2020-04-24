@@ -173,7 +173,6 @@ int main(int argc, char *argv[]){
         }
         tracing = args["tracing"].as<std::string>();
         param.tracing = tracing;
-        param.stop_eng = args["stop_energy"].as<double>();
         param.merge_threshold = 0;
         param.backtrack_threshold = args["btthreshold"].as<double>();
     }
