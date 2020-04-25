@@ -208,13 +208,13 @@ add_executable(spdlog_test src/spdlog_test.cpp)
 target_link_libraries(spdlog_test bcclean)
 set_target_properties(spdlog_test PROPERTIES CXX_STANDARD 17)
 
-add_executable(soupgen src/soupgen/soupgen.cpp)
-target_link_libraries(soupgen igl::core)
-set_target_properties(soupgen PROPERTIES CXX_STANDARD 17)
+# add_executable(soupgen src/soupgen/soupgen.cpp)
+# target_link_libraries(soupgen igl::core)
+# set_target_properties(soupgen PROPERTIES CXX_STANDARD 17)
 
-add_executable(wiremesh src/wiremesh/wiremesh.cpp)
-target_link_libraries(wiremesh bcclean)
-set_target_properties(wiremesh PROPERTIES CXX_STANDARD 17)
+# add_executable(wiremesh src/wiremesh/wiremesh.cpp)
+# target_link_libraries(wiremesh bcclean)
+# set_target_properties(wiremesh PROPERTIES CXX_STANDARD 17)
 
 add_executable(annotation src/annotation/annotation.cpp)
 target_link_libraries(annotation bcclean)
@@ -224,6 +224,9 @@ add_executable(graphcut src/label_clean/graphcut_test.cpp src/label_clean/nn.hpp
 target_link_libraries(graphcut bcclean)
 set_target_properties(graphcut PROPERTIES CXX_STANDARD 17)
 
+# add_executable(isolines src/isolines/isoline_visualize.cpp)
+# target_link_libraries(isolines bcclean)
+# set_target_properties(isolines PROPERTIES CXX_STANDARD 17)
 
 add_executable(perturb src/perturb/perturb.cpp)
 target_link_libraries(perturb bcclean)

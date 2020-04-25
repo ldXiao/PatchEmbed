@@ -202,6 +202,16 @@ int main(int argc, char *argv[]){
         output_label_good = param.data_root +"/"+"CC"+std::to_string(cc)+"edg_len_r"+std::to_string(param.edge_len_r); +"-label.dmat";
         auto file_logger = spdlog::basic_logger_mt("basic_logger", param.data_root + "/"+ "CC"+std::to_string(cc)+"/logs.txt",true);
         bool file_exists = false;
+        bool finished_before =true;
+        std::string out_FL  =  param.data_root + "/"+ "CC"+std::to_string(cc)+"/FL_"+param.tracing+".dmat";
+        if(std::filesystem::exists("helloworld.txt")){
+            Eigen::MatrixXi testFL;
+            igl::readDMAT(out_FL, testFL);
+            if(testFL.minCoeff()!=-1)
+            {
+                continue; //go to next component
+            }
+        }
         for (const auto & entry : std::filesystem::directory_iterator(param.data_root))
         {
             if(entry.path().string()==output_file_good)
