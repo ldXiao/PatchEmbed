@@ -13,15 +13,16 @@
 using json = nlohmann::json;
 int main(int argc, char * argv[]){
     std::string obj_s = argv[1]; // obj_in
-    std::string obj_t = argv[2];
-    std::string mapping = argv[3];
-    Eigen::MatrixXd Vs, Vt;
-    Eigen::MatrixXi Fs, Ft;
-    igl::readOBJ(obj_s, Vs, Fs);
-    igl::readOBJ(obj_t, Vt, Ft);
-    Eigen::MatrixXd M_t2s;
+    double r = std::stod(argv[2]);
     
-    // igl::exact_geodesic
-    // igl::writeOBJ("../../blenders/wiremesh.obj",VW,FW);
+    Eigen::MatrixXd Vs, Vt;
+    Eigen::MatrixXi Es, Ft;
+    
+    igl::readOBJ(obj_s, Vs, Es);
+    double h = igl::bounding_box_diagonal(Vs) * r;
+    Es.conservativeResize(Es.rows(),2);
+    Eigen::VectorXi J;
+    igl::copyleft::cgal::wire_mesh(Vs, Es, h,3,false,Vt,Ft,J);
+    igl::writeOBJ("../../blenders/isolines/ioslines_c.obj",Vt,Ft);
     return 0;
 }

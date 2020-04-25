@@ -224,9 +224,9 @@ add_executable(graphcut src/label_clean/graphcut_test.cpp src/label_clean/nn.hpp
 target_link_libraries(graphcut bcclean)
 set_target_properties(graphcut PROPERTIES CXX_STANDARD 17)
 
-# add_executable(isolines src/isolines/isoline_visualize.cpp)
-# target_link_libraries(isolines bcclean)
-# set_target_properties(isolines PROPERTIES CXX_STANDARD 17)
+add_executable(isolines src/isolines/isoline_visualize.cpp)
+target_link_libraries(isolines bcclean)
+set_target_properties(isolines PROPERTIES CXX_STANDARD 17)
 
 add_executable(perturb src/perturb/perturb.cpp)
 target_link_libraries(perturb bcclean)

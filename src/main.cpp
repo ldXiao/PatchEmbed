@@ -204,7 +204,7 @@ int main(int argc, char *argv[]){
         bool file_exists = false;
         bool finished_before =true;
         std::string out_FL  =  param.data_root + "/"+ "CC"+std::to_string(cc)+"/FL_"+param.tracing+".dmat";
-        if(std::filesystem::exists("helloworld.txt")){
+        if(std::filesystem::exists(out_FL)){
             Eigen::MatrixXi testFL;
             igl::readDMAT(out_FL, testFL);
             if(testFL.minCoeff()!=-1)
