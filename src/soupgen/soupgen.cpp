@@ -55,20 +55,6 @@ void to_soup(const Eigen::MatrixXd & V,
     Eigen::MatrixXd N,C;
     int label_num = FL.maxCoeff()+1;
     igl::jet(FL, 0, label_num-1, C);
-    if(FL.minCoeff()==-1)
-    {
-        Eigen::VectorXi  NFL = FL.unaryExpr([](int vl){return (vl>-1)? 1: -1;});
-        for(int fidx =0; fidx < FL.rows(); ++fidx){
-            if(NFL(fidx)>0)
-            {
-                C.row(fidx)=Eigen::RowVector3d(0.6,0.6,0.95);
-            }
-            else{
-                C.row(fidx)=Eigen::RowVector3d(0.95,0.3,0.23);
-            }
-        }
-
-    }
     igl::per_vertex_normals(V,F,N);
     Vsoup.resize(F.rows() * 3, 3);
     Fsoup.resize(F.rows(),3);
@@ -81,7 +67,8 @@ void to_soup(const Eigen::MatrixXd & V,
             int vj = F(fidx,j);
             Vsoup.row(fidx *3 +j) = V.row(vj);
             Nsoup.row(fidx * 3 +j) = N.row(vj);
-            Csoup.row(fidx*3+j) = C.row(fidx);
+            Eigen::RowVector3d whight = Eigen::RowVector3d(1,1,1);
+            Csoup.row(fidx*3+j) = (FL(fidx)>0)? C.row(fidx): whight;
             Fsoup(fidx, j) = fidx *3 +j;
         }
     }

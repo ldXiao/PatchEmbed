@@ -17,6 +17,7 @@
 #include <igl/facet_components.h>
 #include <igl/boundary_facets.h>
 #include <igl/remove_unreferenced.h>
+#include <igl/per_vertex_normals.h>
 #include <igl/bounding_box_diagonal.h>
 #include <igl/edges.h>
 #include <Eigen/Core>
@@ -103,7 +104,9 @@ void perturb_mesh(
 {
     double h = igl::bounding_box_diagonal(V);
     std::srand(seed);
-    Eigen::MatrixXd offset = Eigen::MatrixXd::Random(V.rows(), 3) * lambda* h;
+    Eigen::MatrixXd N;
+    igl::per_vertex_normals(V, F, N);
+    Eigen::MatrixXd offset = N * lambda* h;
     Vr = V + offset;
     return;
 }
@@ -177,8 +180,8 @@ int main(int argc, char *argv[]){
         param.backtrack_threshold = args["btthreshold"].as<double>();
     }
     std::string bad_mesh_file, face_label_dmat, face_label_yml;
-    std::regex r(".*trimesh.*\\.obj");
-    std::regex yr(".*features.*\\.yml");
+    std::regex r(".*air.*\\.obj");
+    // std::regex yr(".*features.*\\.yml");
     for (const auto & entry : std::filesystem::directory_iterator(param.data_root))
     {
         if(std::regex_match(entry.path().c_str(), r))
@@ -186,10 +189,11 @@ int main(int argc, char *argv[]){
             bad_mesh_file = entry.path().c_str();
             std::printf("got bad mesh: %s\n",bad_mesh_file.c_str());
         }
-        if(std::regex_match(entry.path().c_str(),yr))
-        {
-            face_label_yml = entry.path().c_str();   
-        }
+        // }
+        // if(std::regex_match(entry.path().c_str(),yr))
+        // {
+        //     face_label_yml = entry.path().c_str();   
+        // }
     }
     
     face_label_dmat = param.data_root + "/"+ "feat.dmat";
@@ -197,35 +201,9 @@ int main(int argc, char *argv[]){
     Eigen::MatrixXi F_bad, F_good;
     Eigen::VectorXi FL_bad, FL_good;
     igl::read_triangle_mesh(bad_mesh_file, V_bad, F_bad);
-    // if(iden)
-    // {
-    //     igl::read_triangle_mesh(bad_mesh_file, V_good, F_good);
-    // }
-    // else
-    // {
-    //     igl::read_triangle_mesh(good_mesh_file, V_good, F_good);
-    // }
-    {
-        std::unordered_map<int, int> face_label_dict; 
-        YAML::Node conf = YAML::LoadFile(face_label_yml);
-        int lb =0;
-        int count = 0;
-        for( auto surf: conf["surfaces"])
-        {
-            for(auto fidx: surf["face_indices"])
-            {
-                face_label_dict[fidx.as<int>()] = lb;
-                count +=1;
-            }
-            lb +=1;
-        }
-        FL_bad = Eigen::VectorXi::Constant(count, 0);
-        for(auto item: face_label_dict)
-        {
-            FL_bad(item.first) = item.second;
-        } 
-        igl::writeDMAT(param.data_root+"/feat.dmat", FL_bad);
-    }
+    
+    igl::readDMAT(param.data_root+"/feat.dmat", FL_bad);
+    
 
     std::map<int, VFL> vfls;
     std::map<int, std::map<int, int> > ComponentsLabelMaps;
@@ -258,6 +236,9 @@ int main(int argc, char *argv[]){
                 std::printf("good mesh exists for components %d\n", cc);
             }
         }
+        Eigen::MatrixXd CCV_good_copy = CCV_good;
+        perturb_mesh(CCV_good_copy, CCF_good, args["perturbation"].as<double>(), args["seed"].as<int>(), CCV_good);
+        
         
         if(!file_exists || re_tet){
 
@@ -320,17 +301,7 @@ int main(int argc, char *argv[]){
         Eigen::MatrixXd CCV_rand = CCV_good;
         bcclean::CellularGraph cg;
         cg = bcclean::CellularGraph::GenCellularGraph(bcclean::patch::Vbase, bcclean::patch::Fbase, bcclean::patch::FL_mod);
-        if(!args.count("vertices"))
-        {
-            perturb_mesh(CCV_good, CCF_good, args["perturbation"].as<double>(), args["seed"].as<int>(), CCV_rand);
-        }
-        else
-        {
-           double h = igl::bounding_box_diagonal(CCV_good);
-           std::vector<Eigen::RowVector3d> vertices_rand;
-           perturb_vertices(cg._vertices, args["perturbation"].as<double>(),h, args["seed"].as<int>(),vertices_rand);
-           cg._vertices = vertices_rand;
-        }
+        
         if(cg._nodes.size()==0)
         {
             result_json["succeed"] = true;

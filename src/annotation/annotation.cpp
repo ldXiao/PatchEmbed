@@ -150,6 +150,7 @@ int main(int argc, char *argv[]){
             ("p, perturbation", "perturbation on target mesh", cxxopts::value<double>())
             ("s, seed","seed for random perturbation", cxxopts::value<int>())
             ("d, data_root","data root", cxxopts::value<std::string>())
+            ("e,edge_len","",cxxopts::value<double>())
             ("t, tracing", "tracing",cxxopts::value<std::string>());
 
     auto args = options.parse(argc, argv);
@@ -168,11 +169,11 @@ int main(int argc, char *argv[]){
         param.guard_len_r = 0;
         re_tet = false;
 
-        if(args.count("rel_len")==0){
+        if(args.count("edge_len")==0){
             param.edge_len_r = 0.01;
         }
         else{
-            param.edge_len_r = args["rel_len"].as<double>();
+            param.edge_len_r = args["edge_len"].as<double>();
         }
         tracing = args["tracing"].as<std::string>();
         param.tracing = tracing;
@@ -201,9 +202,12 @@ int main(int argc, char *argv[]){
     Eigen::MatrixXi F_bad, F_good;
     Eigen::VectorXi FL_bad, FL_good;
     igl::read_triangle_mesh(bad_mesh_file, V_bad, F_bad);
-    
-    igl::readDMAT(param.data_root+"/feat.dmat", FL_bad);
-    
+    try{
+        igl::readDMAT(param.data_root+"/feat.dmat", FL_bad);
+    }
+    catch(...){
+        FL_bad = Eigen::VectorXi::Constant(F_bad.rows(),0);
+    }
 
     std::map<int, VFL> vfls;
     std::map<int, std::map<int, int> > ComponentsLabelMaps;
@@ -240,7 +244,7 @@ int main(int argc, char *argv[]){
         if(!file_exists || re_tet){
 
             std::string out_tet_path= param.data_root+"/CC"+std::to_string(cc)+"/tet.mesh";
-            bcclean::Tet::fTetwild(CCV_bad, CCF_bad, param.edge_len_r,param.stop_eng, CCV_good, CCF_good, out_tet_path);
+            bcclean::Tet::fTetwild(CCV_bad, CCF_bad, param.edge_len_r,10, CCV_good, CCF_good, out_tet_path);
             igl::writeOBJ(output_file_good, CCV_good, CCF_good);
         }
         else{
