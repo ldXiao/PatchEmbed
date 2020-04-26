@@ -206,14 +206,14 @@ int main(int argc, char *argv[]){
         bool file_exists = false;
         bool finished_before =true;
         std::string out_FL  =  param.data_root + "/"+ "CC"+std::to_string(cc)+"/FL_"+param.tracing+".dmat";
-        if(std::filesystem::exists(out_FL)){
-            Eigen::MatrixXi testFL;
-            igl::readDMAT(out_FL, testFL);
-            if(testFL.minCoeff()!=-1)
-            {
-                continue; //go to next component
-            }
-        }
+        // if(std::filesystem::exists(out_FL)){
+        //     Eigen::MatrixXi testFL;
+        //     igl::readDMAT(out_FL, testFL);
+        //     if(testFL.minCoeff()!=-1)
+        //     {
+        //         continue; //go to next component
+        //     }
+        // }
         for (const auto & entry : std::filesystem::directory_iterator(param.data_root))
         {
             if(entry.path().string()==output_file_good)
