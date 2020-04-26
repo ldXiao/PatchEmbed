@@ -188,6 +188,8 @@ int main(int argc, char *argv[]){
         Eigen::MatrixXi CCF_bad = std::get<1>(vfls[cc]);
         Eigen::VectorXi CCFL_bad = std::get<2>(vfls[cc]);
         int CClabel_num = CCFL_bad.maxCoeff()+1;
+        double dd1 = igl::bounding_box_diagonal(CCV_bad);
+        double dd0 = igl::bounding_box_diagonal(V_bad);
         bcclean::patch pat;
         Eigen::MatrixXi CCF_copy = CCF_bad;
         Eigen::VectorXi C;
@@ -200,7 +202,7 @@ int main(int argc, char *argv[]){
         output_file_bad = param.data_root + "/"+ "CC"+std::to_string(cc)+"-bad.obj";
         output_file_good = param.data_root +"/"+"CC"+std::to_string(cc)+"edg_len_r"+std::to_string(param.edge_len_r)+"-good.obj";
         output_label_good = param.data_root +"/"+"CC"+std::to_string(cc)+"edg_len_r"+std::to_string(param.edge_len_r); +"-label.dmat";
-        auto file_logger = spdlog::basic_logger_mt("basic_logger", param.data_root + "/"+ "CC"+std::to_string(cc)+"/logs.txt",true);
+        auto file_logger = spdlog::basic_logger_mt("basic_loggerCC"+std::to_string(cc), param.data_root + "/"+ "CC"+std::to_string(cc)+"/logs.txt",true);
         bool file_exists = false;
         bool finished_before =true;
         std::string out_FL  =  param.data_root + "/"+ "CC"+std::to_string(cc)+"/FL_"+param.tracing+".dmat";
@@ -230,6 +232,7 @@ int main(int argc, char *argv[]){
         else{
             igl::read_triangle_mesh(output_file_good, CCV_good, CCF_good); 
         }
+        double dd2 = igl::bounding_box_diagonal(CCV_good);
         bcclean::flip_orientation_ifnecessary( CCV_good, CCF_good, CCV_bad, CCF_bad);
         bcclean::patch::SetStatics(CCV_bad, CCF_bad, CCFL_bad, CClabel_num);
         bcclean::CollectPatches();
@@ -243,6 +246,8 @@ int main(int argc, char *argv[]){
         {
             std::cout << "Inconsisitant topology, abort" << std::endl;
             result_json["consistant topology"] = false;
+            o3 << result_json;
+            o3.close();
             continue;
         }
         {
@@ -252,6 +257,8 @@ int main(int argc, char *argv[]){
             {
                 std::cout << "Inconsisitant topology, abort" << std::endl;
                 result_json["consistant topology"] = false;
+                o3 << result_json;
+                o3.close();
                 continue;
             }
         }
