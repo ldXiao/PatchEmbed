@@ -504,7 +504,7 @@ namespace MatchMaker{
                 rm.peri_rel_diff = std::max(rm.peri_rel_diff, perimeter_rel_diff);
                 rm.remain_patch_num -= 1;
                 withinthreshold = ((perimeter_rel_diff < bcthreshold) && area_withinthreshold) || (switch_count > 5);
-                if(betti!=1){
+                if(betti!=1 && switch_count < 2){
                     // the patch region is not a disk
                     withinthreshold = false;
                 }

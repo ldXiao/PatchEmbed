@@ -242,13 +242,14 @@ int main(int argc, char *argv[]){
         json result_json;
         int betti_bad=bcclean::Betti(CCV_bad, CCF_bad);
         int betti_good=bcclean::Betti(CCV_good, CCF_good);
+        result_json["consistant topology"] = true;
         if(betti_bad!= betti_good)
         {
             std::cout << "Inconsisitant topology, abort" << std::endl;
             result_json["consistant topology"] = false;
             o3 << result_json;
-            o3.close();
-            continue;
+            // o3.close();
+            // continue;
         }
         {
             Eigen::VectorXi CCFC;
@@ -258,11 +259,11 @@ int main(int argc, char *argv[]){
                 std::cout << "Inconsisitant topology, abort" << std::endl;
                 result_json["consistant topology"] = false;
                 o3 << result_json;
-                o3.close();
-                continue;
+                // o3.close();
+                // continue;
             }
         }
-        result_json["consistant topology"] = true;
+        
 
         if(param.upsp> 0)
         {
@@ -274,8 +275,8 @@ int main(int argc, char *argv[]){
         {
             result_json["succeed"] = true;
             result_json["maxerr"] = -1;
-            o3 << result_json;
-            continue;
+            // o3 << result_json;
+            // continue;
         }
         bool succeed= false;
         bcclean::params param_copy = param;
