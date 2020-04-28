@@ -68,7 +68,7 @@ void to_soup(const Eigen::MatrixXd & V,
             Vsoup.row(fidx *3 +j) = V.row(vj);
             Nsoup.row(fidx * 3 +j) = N.row(vj);
             Eigen::RowVector3d whight = Eigen::RowVector3d(1,1,1);
-            Csoup.row(fidx*3+j) = (FL(fidx)>0)? C.row(fidx): whight;
+            Csoup.row(fidx*3+j) = (FL(fidx)>=0)? C.row(fidx): whight;
             Fsoup(fidx, j) = fidx *3 +j;
         }
     }
@@ -85,6 +85,9 @@ int main(int argc, char *argv[]){
     Eigen::MatrixXi Fsoup;
     to_soup(V, F, FL, Vsoup, Fsoup, Nsoup, Csoup);
     Eigen::MatrixXi CsoupI;
+    for(int fidx =0; fidx < FL.rows(); ++fidx){
+        FL(fidx) = std::max(FL(fidx),0);
+    }
     CsoupI.resizeLike(Csoup);
     for(int vidx = 0; vidx< Csoup.rows();++vidx)
     {

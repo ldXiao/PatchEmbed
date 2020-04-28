@@ -1,5 +1,5 @@
 //
-// Created by Lind Xiao on 6/11/19.
+// Created by Lind Xiao on 65/19.
 //
 
 #include <cxxopts.hpp>
@@ -97,6 +97,7 @@ using namespace std;
     options.add_options()
             ("m, mesh", "",cxxopts::value<std::string>())
             ("l, label", "",cxxopts::value<std::string>())
+            ("r, rval","", cxxopts::value<double>())
             ("t, target","", cxxopts::value<std::string>())
             ;
     auto args = options.parse(argc, argv);
@@ -111,10 +112,11 @@ using namespace std;
     igl::writeOBJ("../../blenders/nn.obj", Vt, Ft);
     igl::writeDMAT("../../blenders/nnfl.dmat", FLt);
     int label_num = FLs.maxCoeff()+1;
+    double r = args["rval"].as<double>();
     vertex_label_vote_face_label(label_num,VL,Ft,FLt,prob_mat);
     igl::writeDMAT("../../blenders/vote.dmat", FLt);
     Eigen::MatrixXi FLt_copy = FLt;
-    bcclean::refine_labels_graph_cut(Vt,Ft, prob_mat.transpose(), FLt_copy,1);
+    bcclean::refine_labels_graph_cut(Vt,Ft, prob_mat.transpose(), FLt_copy,r);
     igl::writeDMAT("../../blenders/gcgl.dmat", FLt_copy);
     return 0;
 
