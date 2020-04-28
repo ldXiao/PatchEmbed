@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.1)
-project(bcclean)
+project(PatchEmbed)
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
 set(THIRD_PARTY_DIR ${CMAKE_CURRENT_SOURCE_DIR}/external/)
 set_property(GLOBAL PROPERTY ALLOW_DUPLICATE_CUSTOM_TARGETS 1)
@@ -7,7 +7,7 @@ set_property(GLOBAL PROPERTY ALLOW_DUPLICATE_CUSTOM_TARGETS 1)
 # find_package(PythonLibs 3.6)
 # message(${PYTHON_LIBRARIES})
 # find_package(PythonInterp 3.6)
-# message(${PYTHON_INCLUDE_DIRS})
+# message(${PYTHON_INCLUDE_DIRS})~
 
 ## use libigl in ftwtwild
 
@@ -192,9 +192,9 @@ target_link_libraries(bcclean PUBLIC
         FloatTetwild
         )
 
-add_executable(btcmm src/main.cpp)
-target_link_libraries(btcmm bcclean)
-set_target_properties(btcmm PROPERTIES CXX_STANDARD 17)
+add_executable(PatchEmbed src/main.cpp)
+target_link_libraries(PatchEmbed bcclean)
+set_target_properties(PatchEmbed PROPERTIES CXX_STANDARD 17)
 
 add_executable(gen_feat src/gen_feat.cpp)
 target_link_libraries(gen_feat bcclean)
