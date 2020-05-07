@@ -1,6 +1,25 @@
 ## PatchEmbed
+This project try to solve a practical problem re-occuring in the field of geometry processing. How to generate strict correspondence before and after remeshing or how to embed the patch layout from a CAD model to a remeshed model. The tricky part is to make sure the input and output are geometrically similar and topologically identical.
+![](README/teaser.png)
+Our algorithm has the following features
+1. preserve topology
+2. robust
+3. will get meaningful results even if the input and target mesh have different surface topology.
 
-This project try to solve a practical problem many encounter when tring to do simulations over CAD models. It is ambiguous how to set the boundary condition after mesh repair/ mesh refine. This package provide a lib and UI to transport the boundary condition labels or the patchlayout which is gauranteed to preserve topology.
+Outperform traditional match-maker, nearest neighbor, and graph-cut algorithms.
+
+Compare with match-maker
+![](README/mmdiff.png)
+
+Compare with nearest neighbor
+![](README/nnfdiff.png)
+Compare with Graph cut
+![](README/gcdiff.png)
+
+
+Applications
+![](README/bijection.png)
+![](README/annotation.png)
 
 ### Installation
 To build the binary, run the following code
